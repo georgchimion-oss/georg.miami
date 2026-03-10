@@ -28,9 +28,12 @@
             --accent: #6366F1;
             --accent-2: #818CF8;
             --accent-glow: rgba(99,102,241,0.12);
-            --warm: #D4956A;
-            --warm-2: #E8B08A;
-            --warm-glow: rgba(212,149,106,0.10);
+            --warm: #F0845C;
+            --warm-2: #F7A87C;
+            --warm-glow: rgba(240,132,92,0.10);
+            --coral: #FF6B6B;
+            --teal: #00D2C8;
+            --teal-glow: rgba(0,210,200,0.10);
             --green: #10B981;
             --green-glow: rgba(16,185,129,0.10);
             --orange: #F59E0B;
@@ -52,11 +55,21 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
         }
 
-        /* Ambient glow behind hero */
+        /* Ambient glow behind hero — Miami sunset */
         .hero-glow {
-            position: absolute; top: -200px; right: -100px; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(212,149,106,0.06) 0%, rgba(99,102,241,0.04) 40%, transparent 70%);
-            pointer-events: none; filter: blur(80px);
+            position: absolute; top: -200px; right: -100px; width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(240,132,92,0.10) 0%, rgba(255,107,107,0.06) 25%, rgba(0,210,200,0.04) 50%, transparent 70%);
+            pointer-events: none; filter: blur(80px); animation: glowFloat 8s ease-in-out infinite;
+        }
+        .hero-glow-2 {
+            position: absolute; top: 100px; left: -200px; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0,210,200,0.05) 0%, rgba(99,102,241,0.03) 40%, transparent 70%);
+            pointer-events: none; filter: blur(100px); animation: glowFloat 10s ease-in-out infinite reverse;
+        }
+        @keyframes glowFloat {
+            0%,100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(20px, -15px) scale(1.05); }
+            66% { transform: translate(-15px, 10px) scale(0.97); }
         }
 
         /* Nav */
@@ -67,7 +80,7 @@
             border-bottom: 1px solid var(--border);
         }
         .nav-left { display: flex; align-items: center; gap: 12px; }
-        .nav-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+        .nav-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; line-height: 1.4; padding-bottom: 2px; }
         .nav-sep { color: var(--text-3); font-weight: 300; }
         .nav-role { font-size: 13px; color: var(--text-3); font-weight: 400; }
         .nav-links { display: flex; align-items: center; gap: 28px; }
@@ -87,7 +100,7 @@
         .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
         .hero-badge {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 6px 16px; background: var(--warm-glow); border: 1px solid rgba(212,149,106,0.18);
+            padding: 6px 16px; background: var(--warm-glow); border: 1px solid rgba(240,132,92,0.18);
             border-radius: 100px; font-size: 12px; color: var(--warm); font-weight: 500;
             letter-spacing: 0.03em; margin-bottom: 28px; font-family: 'DM Sans', sans-serif;
         }
@@ -99,8 +112,14 @@
             line-height: 1.05; margin-bottom: 22px;
         }
         .hero h1 .gradient {
-            background: linear-gradient(135deg, var(--warm), var(--warm-2), #f0c8a0);
+            background: linear-gradient(135deg, var(--warm), var(--coral), var(--warm-2), var(--teal));
+            background-size: 300% 300%;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: sunsetShift 6s ease infinite;
+        }
+        @keyframes sunsetShift {
+            0%,100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         .hero-sub {
             font-size: 17px; color: var(--text-2); line-height: 1.7; max-width: 460px;
@@ -133,7 +152,12 @@
         /* Terminal */
         .terminal {
             background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r);
-            overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+            overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 40px rgba(240,132,92,0.04);
+            animation: termFloat 6s ease-in-out infinite;
+        }
+        @keyframes termFloat {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
         .terminal-bar {
             padding: 12px 16px; display: flex; align-items: center; gap: 8px;
@@ -172,23 +196,29 @@
         }
         .event-section::before {
             content: ''; position: absolute; inset: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(212,149,106,0.03) 30%, rgba(99,102,241,0.03) 70%, transparent 100%);
+            background: linear-gradient(180deg, transparent 0%, rgba(240,132,92,0.03) 20%, rgba(0,210,200,0.02) 50%, rgba(99,102,241,0.02) 80%, transparent 100%);
             pointer-events: none;
         }
         .event-card {
             position: relative;
             padding: 56px; background: var(--bg-2);
-            border: 1px solid rgba(212,149,106,0.12); border-radius: 20px;
+            border: 1px solid rgba(240,132,92,0.12); border-radius: 20px;
             overflow: hidden;
         }
         .event-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--warm), var(--accent-2), var(--warm));
+            background: linear-gradient(90deg, var(--teal), var(--warm), var(--coral), var(--warm), var(--teal));
+            background-size: 300% 100%;
+            animation: gradientSlide 4s linear infinite;
+        }
+        @keyframes gradientSlide {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 300% 0%; }
         }
         .event-grid { display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: start; }
         .event-eyebrow {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 5px 14px; background: rgba(212,149,106,0.08); border: 1px solid rgba(212,149,106,0.15);
+            padding: 5px 14px; background: rgba(240,132,92,0.08); border: 1px solid rgba(240,132,92,0.15);
             border-radius: 100px; font-size: 11px; color: var(--warm); font-weight: 600;
             letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px;
             font-family: 'JetBrains Mono', monospace;
@@ -325,6 +355,61 @@
         .fade-in-3 { animation-delay: 0.3s; }
         .fade-in-4 { animation-delay: 0.4s; }
 
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1; transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.08s; }
+        .reveal-delay-2 { transition-delay: 0.16s; }
+        .reveal-delay-3 { transition-delay: 0.24s; }
+        .reveal-delay-4 { transition-delay: 0.32s; }
+        .reveal-delay-5 { transition-delay: 0.40s; }
+        .reveal-delay-6 { transition-delay: 0.48s; }
+
+        /* Card glow hover */
+        .cap-card::before, .project-card::before {
+            content: ''; position: absolute; inset: -1px; border-radius: inherit;
+            background: linear-gradient(135deg, transparent, transparent);
+            z-index: -1; transition: all 0.4s; opacity: 0;
+        }
+        .cap-card { position: relative; overflow: hidden; }
+        .cap-card::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(240,132,92,0.04), transparent);
+            transition: left 0.6s ease;
+        }
+        .cap-card:hover::after { left: 150%; }
+        .project-card::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,210,200,0.03), transparent);
+            transition: left 0.6s ease;
+        }
+        .project-card:hover::after { left: 150%; }
+
+        /* Stack item stagger */
+        .stack-item {
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .stack-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+
+        /* Contact card glow */
+        .contact-card:hover {
+            box-shadow: 0 0 24px rgba(240,132,92,0.06);
+        }
+
+        /* Smooth nav shadow on scroll */
+        nav.scrolled {
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+            border-bottom-color: rgba(255,255,255,0.04);
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             nav { padding: 14px 20px; }
@@ -363,6 +448,7 @@
 <!-- Hero -->
 <section class="hero">
     <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
     <div class="container">
         <div class="hero-grid">
             <div>
@@ -408,7 +494,7 @@
 <!-- Event — dedicated section -->
 <section id="event" class="event-section">
     <div class="container">
-        <div class="event-card">
+        <div class="event-card reveal">
             <div class="event-grid">
                 <div>
                     <div class="event-eyebrow">
@@ -472,36 +558,36 @@
 <!-- What I Do -->
 <section id="work">
     <div class="container">
-        <div class="section-label">// what I do</div>
-        <h2 class="section-title">Strategy meets shipping.</h2>
-        <p class="section-sub">From strategy to shipping — these are the problems I solve for clients. I don't just advise on AI, I build it into your workflows.</p>
+        <div class="section-label reveal">// what I do</div>
+        <h2 class="section-title reveal">Strategy meets shipping.</h2>
+        <p class="section-sub reveal">From strategy to shipping — these are the problems I solve for clients. I don't just advise on AI, I build it into your workflows.</p>
         <div class="capabilities-grid">
-            <div class="cap-card">
+            <div class="cap-card reveal reveal-delay-1">
                 <div class="cap-icon">&#9889;</div>
                 <div class="cap-title">Power Platform Dev</div>
                 <div class="cap-desc">Custom PowerApps, Power Automate flows, and Dataverse architectures. Canvas apps, model-driven apps, code components.</div>
             </div>
-            <div class="cap-card">
+            <div class="cap-card reveal reveal-delay-2">
                 <div class="cap-icon">&#129302;</div>
                 <div class="cap-title">AI-Powered Workflows</div>
                 <div class="cap-desc">Production AI workflows for document processing, classification, decision support, and intelligent routing — using Claude Code, Codex, and custom integrations.</div>
             </div>
-            <div class="cap-card">
+            <div class="cap-card reveal reveal-delay-3">
                 <div class="cap-icon">&#128202;</div>
                 <div class="cap-title">Business Intelligence</div>
                 <div class="cap-desc">Power BI dashboards, automated reporting, real-time KPI monitoring. Turning raw data into decisions that move the business.</div>
             </div>
-            <div class="cap-card">
+            <div class="cap-card reveal reveal-delay-4">
                 <div class="cap-icon">&#128736;</div>
                 <div class="cap-title">Process Automation</div>
                 <div class="cap-desc">End-to-end workflow automation: approvals, notifications, data sync, document generation, multi-system orchestration.</div>
             </div>
-            <div class="cap-card">
+            <div class="cap-card reveal reveal-delay-5">
                 <div class="cap-icon">&#127919;</div>
                 <div class="cap-title">AI Strategy</div>
                 <div class="cap-desc">AI readiness assessments, disruption mapping, technology roadmaps. Helping leadership understand what's real and what's hype.</div>
             </div>
-            <div class="cap-card">
+            <div class="cap-card reveal reveal-delay-6">
                 <div class="cap-icon">&#128640;</div>
                 <div class="cap-title">Community &amp; Events</div>
                 <div class="cap-desc">Organizing AI events in Miami, building the local enterprise AI community, and enabling teams to adopt AI with confidence.</div>
@@ -513,11 +599,11 @@
 <!-- Projects -->
 <section id="projects" style="padding-top: 40px;">
     <div class="container">
-        <div class="section-label">// projects</div>
-        <h2 class="section-title">Things I've shipped.</h2>
-        <p class="section-sub">Enterprise automation, AI integration, and product prototyping — all in production or active development.</p>
+        <div class="section-label reveal">// projects</div>
+        <h2 class="section-title reveal">Things I've shipped.</h2>
+        <p class="section-sub reveal">Enterprise automation, AI integration, and product prototyping — all in production or active development.</p>
         <div class="projects-grid">
-            <div class="project-card">
+            <div class="project-card reveal reveal-delay-1">
                 <div class="project-tag claude">AI-Powered</div>
                 <div class="project-title">AI-Enhanced Client Intake</div>
                 <div class="project-desc">Power Platform solution using AI to auto-classify client requests, extract structured data, assign urgency scores, and route to the right team — replacing a fully manual email triage process.</div>
@@ -528,7 +614,7 @@
                     <span class="tech-pill">Teams</span>
                 </div>
             </div>
-            <div class="project-card">
+            <div class="project-card reveal reveal-delay-2">
                 <div class="project-tag">Enterprise</div>
                 <div class="project-title">Project Governance Dashboard</div>
                 <div class="project-desc">React + Vite dashboard integrated with SharePoint for project portfolio management. Real-time status tracking, resource allocation, and automated reporting for leadership visibility.</div>
@@ -539,7 +625,7 @@
                     <span class="tech-pill">SharePoint</span>
                 </div>
             </div>
-            <div class="project-card">
+            <div class="project-card reveal reveal-delay-3">
                 <div class="project-tag">Enterprise</div>
                 <div class="project-title">Vendor Procurement Automation</div>
                 <div class="project-desc">PowerApp managing the full RFQ lifecycle: vendor scoring, automated bid comparison, multi-level approval routing, and contract generation. Reduced procurement cycle time by 40%.</div>
@@ -550,7 +636,7 @@
                     <span class="tech-pill">SharePoint</span>
                 </div>
             </div>
-            <div class="project-card">
+            <div class="project-card reveal reveal-delay-4">
                 <div class="project-tag claude">AI-Powered</div>
                 <div class="project-title">Insider Threat Detection</div>
                 <div class="project-desc">Databricks SQL rule engine for behavioral anomaly detection. AI-assisted pattern matching for identifying insider threats across enterprise data sources at scale.</div>
@@ -564,7 +650,7 @@
         </div>
 
         <!-- GitHub CTA -->
-        <div class="github-cta">
+        <div class="github-cta reveal">
             <div class="github-cta-text">
                 <strong>More on GitHub</strong> &mdash; open source work and experiments
             </div>
@@ -578,35 +664,35 @@
 <!-- Stack -->
 <section id="stack">
     <div class="container">
-        <div class="section-label">// stack</div>
-        <h2 class="section-title">Tools I build with.</h2>
-        <p class="section-sub" style="margin-bottom: 36px;">Enterprise platforms, AI models, and cloud services — in production daily.</p>
+        <div class="section-label reveal">// stack</div>
+        <h2 class="section-title reveal">Tools I build with.</h2>
+        <p class="section-sub reveal" style="margin-bottom: 36px;">Enterprise platforms, AI models, and cloud services — in production daily.</p>
 
-        <div class="stack-category">AI &amp; Intelligence</div>
-        <div class="stack-row">
+        <div class="stack-category reveal">AI &amp; Intelligence</div>
+        <div class="stack-row reveal">
             <div class="stack-item highlight">&#129302; Claude Code</div>
             <div class="stack-item highlight">&#128161; Codex</div>
             <div class="stack-item">&#128196; AI Document Intelligence</div>
             <div class="stack-item">&#128172; Copilot Studio</div>
         </div>
 
-        <div class="stack-category">Microsoft Power Platform</div>
-        <div class="stack-row">
+        <div class="stack-category reveal">Microsoft Power Platform</div>
+        <div class="stack-row reveal">
             <div class="stack-item">&#9889; PowerApps</div>
             <div class="stack-item">&#9881; Power Automate</div>
             <div class="stack-item">&#128202; Power BI</div>
             <div class="stack-item">&#128451; Dataverse</div>
         </div>
 
-        <div class="stack-category">Cloud &amp; Infrastructure</div>
-        <div class="stack-row">
+        <div class="stack-category reveal">Cloud &amp; Infrastructure</div>
+        <div class="stack-row reveal">
             <div class="stack-item">&#128231; SharePoint</div>
             <div class="stack-item">&#128209; Logic Apps</div>
             <div class="stack-item">&#128101; Teams</div>
         </div>
 
-        <div class="stack-category">Dev &amp; Data</div>
-        <div class="stack-row">
+        <div class="stack-category reveal">Dev &amp; Data</div>
+        <div class="stack-row reveal">
             <div class="stack-item">&#128187; TypeScript / React</div>
             <div class="stack-item">&#128013; Python / FastAPI</div>
             <div class="stack-item">&#128450; SQL / Databricks</div>
@@ -618,32 +704,32 @@
 <!-- Contact -->
 <section id="contact">
     <div class="container">
-        <div class="section-label">// work with me</div>
-        <h2 class="section-title">Let's work together.</h2>
-        <p class="section-sub">Open to consulting, contract work, and strategic partnerships. Whether you need an automation strategy, an AI integration, or want to collaborate on the Miami AI community.</p>
+        <div class="section-label reveal">// work with me</div>
+        <h2 class="section-title reveal">Let's work together.</h2>
+        <p class="section-sub reveal">Open to consulting, contract work, and strategic partnerships. Whether you need an automation strategy, an AI integration, or want to collaborate on the Miami AI community.</p>
         <div class="contact-grid">
-            <a href="mailto:georg.chimion@gmail.com" class="contact-card" style="text-decoration:none; color:inherit;">
+            <a href="mailto:georg.chimion@gmail.com" class="contact-card reveal reveal-delay-1" style="text-decoration:none; color:inherit;">
                 <div class="contact-icon">&#128231;</div>
                 <div>
                     <div class="contact-label">Email</div>
                     <div class="contact-value">georg.chimion@gmail.com</div>
                 </div>
             </a>
-            <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-card" style="text-decoration:none; color:inherit;">
+            <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-card reveal reveal-delay-2" style="text-decoration:none; color:inherit;">
                 <div class="contact-icon">&#128187;</div>
                 <div>
                     <div class="contact-label">GitHub</div>
                     <div class="contact-value">georgchimion-oss</div>
                 </div>
             </a>
-            <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-card" style="text-decoration:none; color:inherit;">
+            <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-card reveal reveal-delay-3" style="text-decoration:none; color:inherit;">
                 <div class="contact-icon">&#128100;</div>
                 <div>
                     <div class="contact-label">LinkedIn</div>
                     <div class="contact-value">Georg Chimion</div>
                 </div>
             </a>
-            <div class="contact-card">
+            <div class="contact-card reveal reveal-delay-4">
                 <div class="contact-icon">&#128205;</div>
                 <div>
                     <div class="contact-label">Location</div>
@@ -660,5 +746,34 @@
     </div>
 </footer>
 
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Nav scroll shadow
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+// Smooth anchor scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+</script>
 </body>
 </html>
