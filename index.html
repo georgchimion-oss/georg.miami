@@ -277,6 +277,9 @@
             border-radius: var(--r); transition: all 0.25s; position: relative; overflow: clip;
         }
         .project-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+        a.project-card { cursor: pointer; }
+        a.project-card .project-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 13px; color: var(--warm); font-weight: 500; font-family: 'DM Sans', sans-serif; opacity: 0.7; transition: opacity 0.2s; }
+        a.project-card:hover .project-link { opacity: 1; }
         .project-tag {
             display: inline-flex; padding: 4px 10px; background: var(--accent-glow);
             border: 1px solid rgba(99,102,241,0.15); border-radius: 6px;
@@ -699,17 +702,18 @@
         <h2 class="section-title reveal">Shipped to production.</h2>
         <p class="section-sub reveal">Recent enterprise work — anonymized for client confidentiality. All systems in active production use.</p>
         <div class="projects-grid">
-            <div class="project-card reveal reveal-delay-1">
+            <a href="https://georgchimion-oss.github.io/askpenny/" target="_blank" class="project-card reveal reveal-delay-1" style="text-decoration:none;color:inherit;display:block;">
                 <div class="project-tag claude">AI-Powered</div>
-                <div class="project-title">Intelligent Request Routing</div>
-                <div class="project-desc">AI-powered intake system that classifies incoming requests, extracts structured data, assigns urgency scores, and routes to the right team — replacing a fully manual triage process. Reduced response time from days to minutes.</div>
+                <div class="project-title">Penny — AI Finance Assistant</div>
+                <div class="project-desc">Personal finance AI powered by Claude. Connect your bank, ask anything about your spending, get smart budgets, morning summaries, and proactive alerts. Category learning with 49+ rules. Live on Telegram.</div>
                 <div class="project-tech">
-                    <span class="tech-pill">AI / LLM</span>
-                    <span class="tech-pill">PowerApps</span>
-                    <span class="tech-pill">Power Automate</span>
-                    <span class="tech-pill">Teams</span>
+                    <span class="tech-pill">Claude AI</span>
+                    <span class="tech-pill">Node.js</span>
+                    <span class="tech-pill">PostgreSQL</span>
+                    <span class="tech-pill">Telegram</span>
                 </div>
-            </div>
+                <div class="project-link">View project &#8594;</div>
+            </a>
             <div class="project-card reveal reveal-delay-2">
                 <div class="project-tag live">In Production</div>
                 <div class="project-title">Portfolio Governance Platform</div>
@@ -721,17 +725,18 @@
                     <span class="tech-pill">SharePoint</span>
                 </div>
             </div>
-            <div class="project-card reveal reveal-delay-3">
-                <div class="project-tag live">In Production</div>
-                <div class="project-title">Procurement Workflow Engine</div>
-                <div class="project-desc">End-to-end RFQ lifecycle management: vendor scoring, automated bid comparison, multi-level approval routing, and contract generation. Cut procurement cycle time by 40% for a professional services firm.</div>
+            <a href="https://georgchimion-oss.github.io/ai-doc-demo/" target="_blank" class="project-card reveal reveal-delay-3" style="text-decoration:none;color:inherit;display:block;">
+                <div class="project-tag claude">AI-Powered</div>
+                <div class="project-title">AI Document Intelligence</div>
+                <div class="project-desc">Drop a document, watch AI extract structured data in real-time. Live demo processing invoices, receipts, and contracts — turning messy PDFs into clean JSON with field-level confidence scores.</div>
                 <div class="project-tech">
-                    <span class="tech-pill">PowerApps</span>
-                    <span class="tech-pill">Dataverse</span>
-                    <span class="tech-pill">Power Automate</span>
-                    <span class="tech-pill">SharePoint</span>
+                    <span class="tech-pill">Claude AI</span>
+                    <span class="tech-pill">JavaScript</span>
+                    <span class="tech-pill">Document AI</span>
+                    <span class="tech-pill">JSON</span>
                 </div>
-            </div>
+                <div class="project-link">Try live demo &#8594;</div>
+            </a>
             <div class="project-card reveal reveal-delay-4">
                 <div class="project-tag claude">AI-Powered</div>
                 <div class="project-title">Behavioral Anomaly Detection</div>
