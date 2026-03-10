@@ -12,30 +12,8 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="preload" href="https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2BL9G78HEY.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* Syne self-hosted with descent-override — fixes Chrome clipping the "g" descender.
-           The Syne font's declared descent metric is too shallow for the weight-700+ "g" glyph,
-           causing Chrome to clip at the metric boundary. descent-override: 30% allocates enough space. */
-        @font-face {
-            font-family: 'Syne';
-            font-style: normal;
-            font-weight: 400 800;
-            font-display: swap;
-            src: url(https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2BL9G78HEY.woff2) format('woff2');
-            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-            descent-override: 30%;
-        }
-        @font-face {
-            font-family: 'Syne';
-            font-style: normal;
-            font-weight: 400 800;
-            font-display: swap;
-            src: url(https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm25L9G78HEZnMg.woff2) format('woff2');
-            unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-            descent-override: 30%;
-        }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
             --bg: #08080A;
@@ -68,7 +46,7 @@
             font-family: 'DM Sans', -apple-system, sans-serif;
             font-weight: 400; line-height: 1.65;
         }
-        /* NO overflow on html/body/page-wrap — it clips Syne descenders */
+        /* Clean body — no overflow restrictions */
         a { color: var(--accent-2); text-decoration: none; transition: color 0.2s; }
         a:hover { color: #a5b4fc; }
 
@@ -106,7 +84,7 @@
             background: rgba(8,8,10,0.88); backdrop-filter: blur(24px) saturate(1.3);
         }
         .nav-left { display: flex; align-items: center; gap: 12px; }
-        .nav-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; line-height: 1.8; padding-bottom: 0.15em; overflow: visible; }
+        .nav-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; line-height: 1.4; }
         .nav-sep { color: var(--text-3); font-weight: 300; }
         .nav-role { font-size: 13px; color: var(--text-3); font-weight: 400; }
         .nav-links { display: flex; align-items: center; gap: 28px; }
@@ -115,8 +93,7 @@
         .nav-cta {
             padding: 8px 20px; background: var(--warm); color: #0A0A0B; font-size: 13px; font-weight: 600;
             border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s;
-            font-family: 'Syne', sans-serif; letter-spacing: -0.01em; line-height: 1.4; overflow: visible;
-        }
+            font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; line-height: 1.4;        }
         .nav-cta:hover { background: var(--warm-2); color: #0A0A0B; transform: translateY(-1px); }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
@@ -133,9 +110,9 @@
         .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s ease infinite; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
         .hero h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(38px, 4.8vw, 58px); font-weight: 800; letter-spacing: -0.04em;
-            line-height: 1.35; margin-bottom: 22px; padding-bottom: 0.15em; overflow: visible;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(38px, 4.8vw, 58px); font-weight: 700; letter-spacing: -0.03em;
+            line-height: 1.2; margin-bottom: 22px;
         }
         .hero h1 .gradient {
             background: linear-gradient(135deg, var(--warm), var(--coral), var(--warm-2), var(--teal));
@@ -157,8 +134,7 @@
             display: inline-flex; align-items: center; gap: 8px;
             padding: 13px 26px; background: var(--warm); color: #0A0A0B; font-size: 14px; font-weight: 600;
             border-radius: var(--r-sm); border: none; cursor: pointer; transition: all 0.2s;
-            font-family: 'Syne', sans-serif; letter-spacing: -0.01em; line-height: 1.4; overflow: visible;
-        }
+            font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; line-height: 1.4;        }
         .btn-primary:hover { background: var(--warm-2); transform: translateY(-1px); box-shadow: 0 4px 24px rgba(212,149,106,0.25); color: #0A0A0B; }
         .btn-secondary {
             display: inline-flex; align-items: center; gap: 8px;
@@ -171,8 +147,7 @@
             display: inline-flex; align-items: center; gap: 8px;
             padding: 13px 26px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 600;
             border-radius: var(--r-sm); border: none; cursor: pointer; transition: all 0.2s;
-            font-family: 'Syne', sans-serif; letter-spacing: -0.01em; line-height: 1.4; overflow: visible;
-        }
+            font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; line-height: 1.4;        }
         .btn-accent:hover { background: #5558E6; transform: translateY(-1px); box-shadow: 0 4px 24px rgba(99,102,241,0.3); color: #fff; }
 
         /* Terminal */
@@ -210,9 +185,9 @@
             color: var(--warm); font-weight: 500; margin-bottom: 14px;
         }
         .section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; letter-spacing: -0.035em;
-            line-height: 1.4; margin-bottom: 16px; padding-bottom: 0.15em; overflow: visible;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 3.5vw, 42px); font-weight: 700; letter-spacing: -0.03em;
+            line-height: 1.2; margin-bottom: 16px;
         }
         .section-sub { font-size: 16px; color: var(--text-2); max-width: 560px; line-height: 1.65; margin-bottom: 48px; }
 
@@ -229,8 +204,7 @@
             position: relative;
             padding: 56px; background: var(--bg-2);
             border: 1px solid rgba(240,132,92,0.12); border-radius: 20px;
-            overflow: visible;
-        }
+                   }
         .event-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, var(--teal), var(--warm), var(--coral), var(--warm), var(--teal));
@@ -252,9 +226,8 @@
         }
         .event-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warm); animation: pulse 2s ease infinite; }
         .event-h2 {
-            font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
-            letter-spacing: -0.035em; line-height: 1.4; margin-bottom: 16px; padding-bottom: 0.15em; overflow: visible;
-        }
+            font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700;
+            letter-spacing: -0.035em; line-height: 1.4; margin-bottom: 16px;        }
         .event-h2 .warm { color: var(--warm); }
         .event-desc { font-size: 16px; color: var(--text-2); line-height: 1.7; margin-bottom: 28px; }
         .event-details { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
@@ -269,9 +242,8 @@
             border-radius: var(--r); position: relative;
         }
         .event-topics-title {
-            font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
-            letter-spacing: -0.01em; margin-bottom: 16px; color: var(--text); line-height: 1.4; overflow: visible;
-        }
+            font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700;
+            letter-spacing: -0.01em; margin-bottom: 16px; color: var(--text); line-height: 1.4;        }
         .event-topic {
             padding: 10px 0; border-bottom: 1px solid var(--border);
             font-size: 14px; color: var(--text-2); display: flex; align-items: center; gap: 10px;
@@ -295,7 +267,7 @@
         }
         .cap-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
         .cap-icon { font-size: 26px; margin-bottom: 16px; }
-        .cap-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; line-height: 1.4; overflow: visible; }
+        .cap-title { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; line-height: 1.4; overflow: visible; }
         .cap-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.6; }
 
         /* Projects */
@@ -314,7 +286,7 @@
         }
         .project-tag.live { background: var(--green-glow); border-color: rgba(16,185,129,0.2); color: var(--green); }
         .project-tag.claude { background: var(--warm-glow); border-color: rgba(212,149,106,0.2); color: var(--warm); }
-        .project-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.02em; line-height: 1.35; overflow: visible; }
+        .project-title { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.02em; line-height: 1.35; overflow: visible; }
         .project-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
         .project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
         .tech-pill {
@@ -359,13 +331,11 @@
             border-radius: var(--r); text-align: center; position: relative;
         }
         .how-num {
-            font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800;
-            color: var(--warm); opacity: 0.3; margin-bottom: 12px; line-height: 1.3; overflow: visible;
-        }
+            font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700;
+            color: var(--warm); opacity: 0.3; margin-bottom: 12px; line-height: 1.3;        }
         .how-title {
-            font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
-            margin-bottom: 8px; letter-spacing: -0.02em; line-height: 1.4; overflow: visible;
-        }
+            font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700;
+            margin-bottom: 8px; letter-spacing: -0.02em; line-height: 1.4;        }
         .how-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.6; }
 
         /* Social proof */
@@ -377,9 +347,8 @@
             display: flex; flex-direction: column; align-items: center; gap: 4px;
         }
         .proof-num {
-            font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800;
-            color: var(--warm); letter-spacing: -0.03em; line-height: 1.5; padding-bottom: 0.1em; overflow: visible;
-        }
+            font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700;
+            color: var(--warm); letter-spacing: -0.03em; line-height: 1.3;        }
         .proof-label { font-size: 12px; color: var(--text-3); letter-spacing: 0.05em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
         .proof-divider { width: 1px; height: 40px; background: var(--border); }
 
