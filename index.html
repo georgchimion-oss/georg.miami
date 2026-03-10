@@ -3,106 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Georg Chimion — AI Strategist & Enterprise Automation Builder</title>
-    <meta name="description" content="I help businesses transform operations with AI and enterprise automation. Power Platform specialist building intelligent systems in South Florida.">
+    <title>Georg Chimion — Building with Claude AI in Enterprise Miami</title>
+    <meta name="description" content="Enterprise automation architect building with Claude AI at PwC Miami. Hosting Claude AI in the Enterprise — April 2026 at PwC Wynwood.">
+    <meta property="og:title" content="Georg Chimion — Claude AI in Enterprise Miami">
+    <meta property="og:description" content="Enterprise automation architect. Hosting Claude AI in the Enterprise — April 2026 at PwC Wynwood, Miami.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://georg.miami">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-            --bg: #0A0A0B;
-            --bg-2: #111113;
-            --bg-3: #1A1A1F;
-            --surface: #1E1E24;
-            --border: rgba(255,255,255,0.08);
-            --border-hover: rgba(255,255,255,0.15);
-            --text: #E8E8ED;
-            --text-2: rgba(255,255,255,0.55);
-            --text-3: rgba(255,255,255,0.35);
+            --bg: #08080A;
+            --bg-2: #0F0F12;
+            --bg-3: #16161B;
+            --surface: #1C1C23;
+            --border: rgba(255,255,255,0.07);
+            --border-hover: rgba(255,255,255,0.14);
+            --text: #EAEAEF;
+            --text-2: rgba(255,255,255,0.52);
+            --text-3: rgba(255,255,255,0.30);
             --accent: #6366F1;
             --accent-2: #818CF8;
-            --accent-glow: rgba(99,102,241,0.15);
+            --accent-glow: rgba(99,102,241,0.12);
+            --warm: #D4956A;
+            --warm-2: #E8B08A;
+            --warm-glow: rgba(212,149,106,0.10);
             --green: #10B981;
-            --green-glow: rgba(16,185,129,0.12);
+            --green-glow: rgba(16,185,129,0.10);
             --orange: #F59E0B;
-            --r: 12px;
+            --r: 14px;
             --r-sm: 8px;
         }
         html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif; font-weight: 400; line-height: 1.6; overflow-x: hidden; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-weight: 400; line-height: 1.65; overflow-x: hidden;
+        }
         a { color: var(--accent-2); text-decoration: none; transition: color 0.2s; }
         a:hover { color: #a5b4fc; }
 
-        /* Grain overlay */
+        /* Grain */
         body::before {
             content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+        }
+
+        /* Ambient glow behind hero */
+        .hero-glow {
+            position: absolute; top: -200px; right: -100px; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(212,149,106,0.06) 0%, rgba(99,102,241,0.04) 40%, transparent 70%);
+            pointer-events: none; filter: blur(80px);
         }
 
         /* Nav */
         nav {
             position: fixed; top: 0; left: 0; right: 0; z-index: 100;
             padding: 16px 40px; display: flex; align-items: center; justify-content: space-between;
-            background: rgba(10,10,11,0.85); backdrop-filter: blur(20px) saturate(1.2);
+            background: rgba(8,8,10,0.88); backdrop-filter: blur(24px) saturate(1.3);
             border-bottom: 1px solid var(--border);
         }
         .nav-left { display: flex; align-items: center; gap: 12px; }
-        .nav-name { font-weight: 600; font-size: 15px; letter-spacing: -0.02em; }
-        .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-3); }
-        .nav-role { font-size: 13px; color: var(--text-2); font-weight: 400; }
+        .nav-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+        .nav-sep { color: var(--text-3); font-weight: 300; }
+        .nav-role { font-size: 13px; color: var(--text-3); font-weight: 400; }
         .nav-links { display: flex; align-items: center; gap: 28px; }
         .nav-links a { font-size: 13px; color: var(--text-2); font-weight: 400; transition: color 0.2s; }
         .nav-links a:hover { color: var(--text); }
         .nav-cta {
-            padding: 8px 18px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 500;
+            padding: 8px 20px; background: var(--warm); color: #0A0A0B; font-size: 13px; font-weight: 600;
             border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s;
+            font-family: 'Syne', sans-serif; letter-spacing: -0.01em;
         }
-        .nav-cta:hover { background: #5558E6; color: #fff; }
+        .nav-cta:hover { background: var(--warm-2); color: #0A0A0B; transform: translateY(-1px); }
 
-        /* Container */
         .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
 
         /* Hero */
-        .hero {
-            padding: 160px 0 100px; position: relative;
-        }
+        .hero { padding: 160px 0 100px; position: relative; }
         .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
         .hero-badge {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 6px 14px; background: var(--accent-glow); border: 1px solid rgba(99,102,241,0.2);
-            border-radius: 100px; font-size: 12px; color: var(--accent-2); font-weight: 500;
-            letter-spacing: 0.02em; margin-bottom: 24px;
+            padding: 6px 16px; background: var(--warm-glow); border: 1px solid rgba(212,149,106,0.18);
+            border-radius: 100px; font-size: 12px; color: var(--warm); font-weight: 500;
+            letter-spacing: 0.03em; margin-bottom: 28px; font-family: 'DM Sans', sans-serif;
         }
         .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s ease infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
         .hero h1 {
-            font-size: clamp(36px, 5vw, 56px); font-weight: 700; letter-spacing: -0.035em;
-            line-height: 1.08; margin-bottom: 20px;
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(38px, 4.8vw, 58px); font-weight: 800; letter-spacing: -0.04em;
+            line-height: 1.05; margin-bottom: 22px;
         }
         .hero h1 .gradient {
-            background: linear-gradient(135deg, var(--accent-2), #a78bfa, #c084fc);
+            background: linear-gradient(135deg, var(--warm), var(--warm-2), #f0c8a0);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .hero-sub { font-size: 17px; color: var(--text-2); line-height: 1.65; max-width: 460px; margin-bottom: 36px; font-weight: 300; }
+        .hero-sub {
+            font-size: 17px; color: var(--text-2); line-height: 1.7; max-width: 460px;
+            margin-bottom: 36px; font-weight: 300;
+        }
+        .hero-sub strong { color: var(--text); font-weight: 500; }
         .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
         .btn-primary {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 24px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 500;
-            border-radius: var(--r-sm); border: none; cursor: pointer; transition: all 0.2s; font-family: inherit;
+            padding: 13px 26px; background: var(--warm); color: #0A0A0B; font-size: 14px; font-weight: 600;
+            border-radius: var(--r-sm); border: none; cursor: pointer; transition: all 0.2s;
+            font-family: 'Syne', sans-serif; letter-spacing: -0.01em;
         }
-        .btn-primary:hover { background: #5558E6; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(99,102,241,0.3); color: #fff; }
+        .btn-primary:hover { background: var(--warm-2); transform: translateY(-1px); box-shadow: 0 4px 24px rgba(212,149,106,0.25); color: #0A0A0B; }
         .btn-secondary {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 24px; background: transparent; color: var(--text-2); font-size: 14px; font-weight: 500;
-            border-radius: var(--r-sm); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-family: inherit;
+            padding: 13px 26px; background: transparent; color: var(--text-2); font-size: 14px; font-weight: 500;
+            border-radius: var(--r-sm); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
         }
         .btn-secondary:hover { border-color: var(--border-hover); color: var(--text); }
+        .btn-accent {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 13px 26px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 600;
+            border-radius: var(--r-sm); border: none; cursor: pointer; transition: all 0.2s;
+            font-family: 'Syne', sans-serif; letter-spacing: -0.01em;
+        }
+        .btn-accent:hover { background: #5558E6; transform: translateY(-1px); box-shadow: 0 4px 24px rgba(99,102,241,0.3); color: #fff; }
 
-        /* Hero right — terminal */
+        /* Terminal */
         .terminal {
             background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r);
-            overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.5);
         }
         .terminal-bar {
             padding: 12px 16px; display: flex; align-items: center; gap: 8px;
@@ -113,37 +143,102 @@
         .terminal-dot.y { background: #FEBC2E; }
         .terminal-dot.g { background: #28C840; }
         .terminal-title { font-size: 12px; color: var(--text-3); margin-left: 8px; font-family: 'JetBrains Mono', monospace; }
-        .terminal-body {
-            padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8;
-        }
+        .terminal-body { padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.85; }
         .t-comment { color: var(--text-3); }
         .t-key { color: var(--accent-2); }
         .t-str { color: var(--green); }
         .t-num { color: var(--orange); }
         .t-bracket { color: var(--text-3); }
+        .t-warm { color: var(--warm); }
 
-        /* Section */
+        /* Sections */
         section { padding: 80px 0; }
         .section-label {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-            color: var(--accent-2); font-weight: 600; margin-bottom: 12px;
+            color: var(--warm); font-weight: 500; margin-bottom: 14px;
         }
         .section-title {
-            font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em;
-            line-height: 1.15; margin-bottom: 16px;
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; letter-spacing: -0.035em;
+            line-height: 1.12; margin-bottom: 16px;
         }
-        .section-sub { font-size: 16px; color: var(--text-2); max-width: 560px; line-height: 1.6; margin-bottom: 48px; }
+        .section-sub { font-size: 16px; color: var(--text-2); max-width: 560px; line-height: 1.65; margin-bottom: 48px; }
 
-        /* What I do */
+        /* Event — full featured section */
+        .event-section {
+            padding: 80px 0; position: relative; overflow: hidden;
+        }
+        .event-section::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(212,149,106,0.03) 30%, rgba(99,102,241,0.03) 70%, transparent 100%);
+            pointer-events: none;
+        }
+        .event-card {
+            position: relative;
+            padding: 56px; background: var(--bg-2);
+            border: 1px solid rgba(212,149,106,0.12); border-radius: 20px;
+            overflow: hidden;
+        }
+        .event-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--warm), var(--accent-2), var(--warm));
+        }
+        .event-grid { display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: start; }
+        .event-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 5px 14px; background: rgba(212,149,106,0.08); border: 1px solid rgba(212,149,106,0.15);
+            border-radius: 100px; font-size: 11px; color: var(--warm); font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .event-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warm); animation: pulse 2s ease infinite; }
+        .event-h2 {
+            font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+            letter-spacing: -0.035em; line-height: 1.1; margin-bottom: 16px;
+        }
+        .event-h2 .warm { color: var(--warm); }
+        .event-desc { font-size: 16px; color: var(--text-2); line-height: 1.7; margin-bottom: 28px; }
+        .event-details { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+        .event-detail {
+            display: flex; align-items: center; gap: 12px; font-size: 15px;
+        }
+        .event-detail-icon { font-size: 18px; width: 24px; text-align: center; }
+        .event-detail-label { color: var(--text-3); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; min-width: 70px; font-family: 'JetBrains Mono', monospace; }
+        .event-detail-value { color: var(--text); font-weight: 500; }
+        .event-topics {
+            padding: 32px; background: var(--bg-3); border: 1px solid var(--border);
+            border-radius: var(--r); position: relative;
+        }
+        .event-topics-title {
+            font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+            letter-spacing: -0.01em; margin-bottom: 16px; color: var(--text);
+        }
+        .event-topic {
+            padding: 10px 0; border-bottom: 1px solid var(--border);
+            font-size: 14px; color: var(--text-2); display: flex; align-items: center; gap: 10px;
+        }
+        .event-topic:last-child { border-bottom: none; }
+        .event-topic-num {
+            font-family: 'JetBrains Mono', monospace; font-size: 11px;
+            color: var(--warm); font-weight: 500; min-width: 20px;
+        }
+        .event-powered {
+            margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+            font-size: 12px; color: var(--text-3); display: flex; align-items: center; gap: 6px;
+        }
+        .event-powered strong { color: var(--warm); font-weight: 600; }
+
+        /* Capabilities */
         .capabilities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
         .cap-card {
             padding: 28px; background: var(--bg-2); border: 1px solid var(--border);
             border-radius: var(--r); transition: all 0.25s;
         }
         .cap-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
-        .cap-icon { font-size: 28px; margin-bottom: 16px; }
-        .cap-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
-        .cap-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+        .cap-icon { font-size: 26px; margin-bottom: 16px; }
+        .cap-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+        .cap-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.6; }
 
         /* Projects */
         .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -157,9 +252,11 @@
             border: 1px solid rgba(99,102,241,0.15); border-radius: 6px;
             font-size: 11px; color: var(--accent-2); font-weight: 500; letter-spacing: 0.04em;
             text-transform: uppercase; margin-bottom: 16px;
+            font-family: 'JetBrains Mono', monospace;
         }
         .project-tag.live { background: var(--green-glow); border-color: rgba(16,185,129,0.2); color: var(--green); }
-        .project-title { font-size: 20px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .project-tag.claude { background: var(--warm-glow); border-color: rgba(212,149,106,0.2); color: var(--warm); }
+        .project-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.02em; }
         .project-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
         .project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
         .tech-pill {
@@ -167,28 +264,35 @@
             border-radius: 6px; font-size: 11px; color: var(--text-3); font-weight: 500;
             font-family: 'JetBrains Mono', monospace;
         }
-
-        /* Event banner */
-        .event-banner {
-            padding: 40px; background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.08));
-            border: 1px solid rgba(99,102,241,0.15); border-radius: var(--r);
-            display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;
-            margin-top: 48px;
+        .project-link {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
+            font-size: 13px; color: var(--warm); font-weight: 500; transition: all 0.2s;
         }
-        .event-date { font-size: 13px; color: var(--accent-2); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
-        .event-title { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
-        .event-location { font-size: 14px; color: var(--text-2); }
-        .event-location strong { color: var(--text); font-weight: 500; }
+        .project-link:hover { color: var(--warm-2); gap: 8px; }
+
+        /* GitHub CTA */
+        .github-cta {
+            margin-top: 32px; padding: 24px 32px;
+            background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .github-cta-text { font-size: 15px; color: var(--text-2); }
+        .github-cta-text strong { color: var(--text); font-weight: 600; }
 
         /* Stack */
-        .stack-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .stack-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
         .stack-item {
             padding: 10px 18px; background: var(--bg-2); border: 1px solid var(--border);
             border-radius: var(--r-sm); font-size: 14px; color: var(--text-2); font-weight: 400;
             display: flex; align-items: center; gap: 8px; transition: all 0.2s;
         }
         .stack-item:hover { border-color: var(--border-hover); color: var(--text); }
-        .stack-category { font-size: 12px; color: var(--text-3); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+        .stack-item.highlight { border-color: rgba(212,149,106,0.2); background: var(--warm-glow); color: var(--warm); }
+        .stack-category {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; color: var(--text-3); font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
+        }
 
         /* Contact */
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -198,14 +302,27 @@
         }
         .contact-card:hover { border-color: var(--border-hover); }
         .contact-icon { font-size: 24px; }
-        .contact-label { font-size: 12px; color: var(--text-3); margin-bottom: 2px; }
+        .contact-label { font-size: 12px; color: var(--text-3); margin-bottom: 2px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em; }
         .contact-value { font-size: 15px; font-weight: 500; }
 
         /* Footer */
         footer {
             padding: 40px 0; border-top: 1px solid var(--border);
-            text-align: center; font-size: 13px; color: var(--text-3);
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            font-size: 13px; color: var(--text-3);
         }
+        footer .warm { color: var(--warm); }
+
+        /* Fade in animation */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeUp 0.6s ease both; }
+        .fade-in-1 { animation-delay: 0.1s; }
+        .fade-in-2 { animation-delay: 0.2s; }
+        .fade-in-3 { animation-delay: 0.3s; }
+        .fade-in-4 { animation-delay: 0.4s; }
 
         /* Mobile */
         @media (max-width: 768px) {
@@ -216,8 +333,10 @@
             .capabilities-grid { grid-template-columns: 1fr; }
             .projects-grid { grid-template-columns: 1fr; }
             .contact-grid { grid-template-columns: 1fr; }
-            .event-banner { grid-template-columns: 1fr; }
+            .event-grid { grid-template-columns: 1fr; }
+            .event-card { padding: 32px; }
             .nav-links { display: none; }
+            .github-cta { flex-direction: column; gap: 16px; text-align: center; }
         }
     </style>
 </head>
@@ -227,14 +346,14 @@
 <nav>
     <div class="nav-left">
         <span class="nav-name">Georg Chimion</span>
-        <span class="nav-dot"></span>
-        <span class="nav-role">AI & Enterprise Automation</span>
+        <span class="nav-sep">/</span>
+        <span class="nav-role">Miami</span>
     </div>
     <div class="nav-links">
+        <a href="#event">Event</a>
         <a href="#work">What I Do</a>
         <a href="#projects">Projects</a>
         <a href="#stack">Stack</a>
-        <a href="#contact">Contact</a>
         <a href="https://github.com/georgchimion-oss" target="_blank">GitHub</a>
         <a href="#contact" class="nav-cta" style="text-decoration:none;">Let's Talk</a>
     </div>
@@ -242,40 +361,107 @@
 
 <!-- Hero -->
 <section class="hero">
+    <div class="hero-glow"></div>
     <div class="container">
         <div class="hero-grid">
             <div>
-                <div class="hero-badge">
+                <div class="hero-badge fade-in fade-in-1">
                     <span class="hero-badge-dot"></span>
-                    Available for projects
+                    Building with Claude at PwC Miami
                 </div>
-                <h1>I build <span class="gradient">enterprise automations</span> that actually work.</h1>
-                <p class="hero-sub">Power Platform specialist helping businesses in South Florida eliminate manual processes, integrate AI, and scale operations — from strategy to production.</p>
-                <div class="hero-actions">
-                    <a href="#contact" class="btn-primary" style="text-decoration:none;">Get in Touch</a>
-                    <a href="#projects" class="btn-secondary" style="text-decoration:none;">View Projects</a>
+                <h1 class="fade-in fade-in-2">I bring <span class="gradient">Claude AI</span> to the enterprise.</h1>
+                <p class="hero-sub fade-in fade-in-3">
+                    Enterprise automation architect at <strong>PwC</strong> in Miami. I build production systems with <strong>Claude</strong>, Power Platform, and Azure — turning AI from a demo into a workflow.
+                </p>
+                <div class="hero-actions fade-in fade-in-4">
+                    <a href="#event" class="btn-primary" style="text-decoration:none;">Upcoming Event &#8594;</a>
+                    <a href="#projects" class="btn-secondary" style="text-decoration:none;">View Work</a>
                 </div>
             </div>
-            <div class="terminal">
+            <div class="terminal fade-in fade-in-3">
                 <div class="terminal-bar">
                     <div class="terminal-dot r"></div>
                     <div class="terminal-dot y"></div>
                     <div class="terminal-dot g"></div>
-                    <span class="terminal-title">georg.miami</span>
+                    <span class="terminal-title">claude &mdash; georg.miami</span>
                 </div>
                 <div class="terminal-body">
-                    <div class="t-comment">// what I build</div>
+                    <div class="t-comment">// building with claude in production</div>
                     <div><span class="t-key">const</span> georg = <span class="t-bracket">{</span></div>
-                    <div>&nbsp;&nbsp;role: <span class="t-str">"AI & Automation Architect"</span>,</div>
-                    <div>&nbsp;&nbsp;stack: <span class="t-bracket">[</span><span class="t-str">"PowerApps"</span>, <span class="t-str">"Power Automate"</span>,</div>
-                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Power BI"</span>, <span class="t-str">"Dataverse"</span>,</div>
-                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Claude AI"</span>, <span class="t-str">"Azure"</span><span class="t-bracket">]</span>,</div>
-                    <div>&nbsp;&nbsp;location: <span class="t-str">"Miami, FL"</span>,</div>
-                    <div>&nbsp;&nbsp;focus: <span class="t-str">"Enterprise automation + AI"</span>,</div>
-                    <div>&nbsp;&nbsp;projects: <span class="t-num">47</span>,</div>
-                    <div>&nbsp;&nbsp;automationsBuilt: <span class="t-num">200</span>+,</div>
-                    <div>&nbsp;&nbsp;hoursReclaimed: <span class="t-num">12000</span>+</div>
+                    <div>&nbsp;&nbsp;role: <span class="t-str">"Enterprise AI Architect"</span>,</div>
+                    <div>&nbsp;&nbsp;base: <span class="t-str">"PwC &mdash; Miami, FL"</span>,</div>
+                    <div>&nbsp;&nbsp;primaryAI: <span class="t-warm">"Claude (Anthropic)"</span>,</div>
+                    <div>&nbsp;&nbsp;stack: <span class="t-bracket">[</span><span class="t-str">"Power Platform"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Azure"</span>, <span class="t-str">"Dataverse"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"React"</span>, <span class="t-str">"Python"</span><span class="t-bracket">]</span>,</div>
+                    <div>&nbsp;&nbsp;automationsShipped: <span class="t-num">200</span>+,</div>
+                    <div>&nbsp;&nbsp;hoursReclaimed: <span class="t-num">12000</span>+,</div>
+                    <div>&nbsp;&nbsp;nextEvent: <span class="t-warm">"Claude AI @ PwC"</span></div>
                     <div><span class="t-bracket">}</span>;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Event — dedicated section -->
+<section id="event" class="event-section">
+    <div class="container">
+        <div class="event-card">
+            <div class="event-grid">
+                <div>
+                    <div class="event-eyebrow">
+                        <span class="event-eyebrow-dot"></span>
+                        Upcoming Event
+                    </div>
+                    <h2 class="event-h2">Claude AI in<br>the <span class="warm">Enterprise</span></h2>
+                    <p class="event-desc">
+                        A hands-on session for enterprise teams exploring how Claude transforms real workflows — from intelligent document processing to AI-powered automation in professional services. Live demos. Real production use cases. No fluff.
+                    </p>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <span class="event-detail-icon">&#128197;</span>
+                            <span class="event-detail-label">When</span>
+                            <span class="event-detail-value">April 2026</span>
+                        </div>
+                        <div class="event-detail">
+                            <span class="event-detail-icon">&#128205;</span>
+                            <span class="event-detail-label">Where</span>
+                            <span class="event-detail-value">PwC Quarters &mdash; Wynwood, Miami</span>
+                        </div>
+                        <div class="event-detail">
+                            <span class="event-detail-icon">&#127919;</span>
+                            <span class="event-detail-label">For</span>
+                            <span class="event-detail-value">Enterprise teams, builders, AI leaders</span>
+                        </div>
+                    </div>
+                    <a href="mailto:georg.chimion@gmail.com?subject=Claude AI Event — Register Interest" class="btn-primary" style="text-decoration:none;">Register Interest &#8594;</a>
+                </div>
+                <div class="event-topics">
+                    <div class="event-topics-title">What We'll Cover</div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">01</span>
+                        Claude for document processing & extraction
+                    </div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">02</span>
+                        Building AI-powered approval workflows
+                    </div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">03</span>
+                        Claude + Power Platform integration patterns
+                    </div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">04</span>
+                        Enterprise AI governance & safety
+                    </div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">05</span>
+                        Live build: production Claude workflow
+                    </div>
+                    <div class="event-powered">
+                        Powered by <strong>Anthropic</strong> &times; hosted at <strong>PwC</strong>
+                    </div>
                 </div>
             </div>
         </div>
@@ -285,24 +471,24 @@
 <!-- What I Do -->
 <section id="work">
     <div class="container">
-        <div class="section-label">What I Do</div>
-        <h2 class="section-title">Strategy meets execution.</h2>
-        <p class="section-sub">I don't just plan automations — I build them. From discovery to deployment, I design and deliver enterprise solutions that teams actually use.</p>
+        <div class="section-label">// what I do</div>
+        <h2 class="section-title">Strategy meets shipping.</h2>
+        <p class="section-sub">I don't just advise on AI — I build with it. From discovery to deployment, I design and deliver enterprise systems that teams actually use.</p>
         <div class="capabilities-grid">
             <div class="cap-card">
                 <div class="cap-icon">&#9889;</div>
-                <div class="cap-title">Power Platform Development</div>
-                <div class="cap-desc">Custom PowerApps, Power Automate flows, and Dataverse architectures for complex business processes. Canvas apps, model-driven apps, portals.</div>
+                <div class="cap-title">Power Platform Dev</div>
+                <div class="cap-desc">Custom PowerApps, Power Automate flows, and Dataverse architectures. Canvas apps, model-driven apps, code components.</div>
             </div>
             <div class="cap-card">
                 <div class="cap-icon">&#129302;</div>
-                <div class="cap-title">AI Integration</div>
-                <div class="cap-desc">Connecting Claude, GPT, and Azure AI to enterprise workflows. Intelligent document processing, automated classification, AI-powered decision support.</div>
+                <div class="cap-title">Claude AI Integration</div>
+                <div class="cap-desc">Production Claude workflows for document processing, classification, decision support, and intelligent routing in enterprise environments.</div>
             </div>
             <div class="cap-card">
                 <div class="cap-icon">&#128202;</div>
                 <div class="cap-title">Business Intelligence</div>
-                <div class="cap-desc">Power BI dashboards, automated reporting, real-time KPI monitoring. Turning raw data into decisions that move the business forward.</div>
+                <div class="cap-desc">Power BI dashboards, automated reporting, real-time KPI monitoring. Turning raw data into decisions that move the business.</div>
             </div>
             <div class="cap-card">
                 <div class="cap-icon">&#128736;</div>
@@ -311,13 +497,13 @@
             </div>
             <div class="cap-card">
                 <div class="cap-icon">&#127919;</div>
-                <div class="cap-title">AI Strategy & Consulting</div>
-                <div class="cap-desc">AI readiness assessments, disruption mapping, technology roadmaps. Helping leadership understand what AI can (and can't) do for their org.</div>
+                <div class="cap-title">AI Strategy</div>
+                <div class="cap-desc">AI readiness assessments, disruption mapping, technology roadmaps. Helping leadership understand what's real and what's hype.</div>
             </div>
             <div class="cap-card">
                 <div class="cap-icon">&#128640;</div>
-                <div class="cap-title">Citizen Developer Enablement</div>
-                <div class="cap-desc">Training teams to build their own automations. Governance frameworks, CoE setup, Power Platform adoption strategies.</div>
+                <div class="cap-title">Community & Events</div>
+                <div class="cap-desc">Organizing AI events in Miami, building the local Claude community, and enabling teams to adopt AI with confidence.</div>
             </div>
         </div>
     </div>
@@ -326,28 +512,30 @@
 <!-- Projects -->
 <section id="projects" style="padding-top: 40px;">
     <div class="container">
-        <div class="section-label">Projects</div>
-        <h2 class="section-title">Things I've built.</h2>
-        <p class="section-sub">A selection of recent work spanning enterprise automation, AI research, and product prototyping.</p>
+        <div class="section-label">// projects</div>
+        <h2 class="section-title">Things I've shipped.</h2>
+        <p class="section-sub">Enterprise automation, AI integration, and product prototyping — all in production or active development.</p>
         <div class="projects-grid">
             <div class="project-card">
-                <div class="project-tag">Research</div>
-                <div class="project-title">AI Disruption Index — South Florida</div>
-                <div class="project-desc">Comprehensive analysis of AI disruption potential across South Florida's tri-county area. Scored 9 industries across 6 dimensions to identify the highest-upside opportunities for AI adoption.</div>
+                <div class="project-tag claude">Claude-Powered</div>
+                <div class="project-title">AI-Enhanced Client Intake</div>
+                <div class="project-desc">Power Platform solution using Claude to auto-classify client requests, extract structured data, assign urgency scores, and route to the right team — replacing a fully manual email triage process.</div>
                 <div class="project-tech">
-                    <span class="tech-pill">Data Analysis</span>
-                    <span class="tech-pill">AI Strategy</span>
-                    <span class="tech-pill">Market Research</span>
+                    <span class="tech-pill">Claude API</span>
+                    <span class="tech-pill">PowerApps</span>
+                    <span class="tech-pill">Power Automate</span>
+                    <span class="tech-pill">Teams</span>
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-tag live">Prototype</div>
-                <div class="project-title">F&ecirc;te — Event Space Platform</div>
-                <div class="project-desc">AI-powered event booking platform for South Florida. Multi-step booking flow, venue matching, and automated event planning. Built as a full interactive prototype.</div>
+                <div class="project-tag">Enterprise</div>
+                <div class="project-title">Project Governance Dashboard</div>
+                <div class="project-desc">React + Vite dashboard integrated with SharePoint for project portfolio management. Real-time status tracking, resource allocation, and automated reporting for leadership visibility.</div>
                 <div class="project-tech">
-                    <span class="tech-pill">HTML/CSS/JS</span>
-                    <span class="tech-pill">AI Planning</span>
-                    <span class="tech-pill">UX Design</span>
+                    <span class="tech-pill">React</span>
+                    <span class="tech-pill">TypeScript</span>
+                    <span class="tech-pill">Vite</span>
+                    <span class="tech-pill">SharePoint</span>
                 </div>
             </div>
             <div class="project-card">
@@ -356,33 +544,32 @@
                 <div class="project-desc">PowerApp managing the full RFQ lifecycle: vendor scoring, automated bid comparison, multi-level approval routing, and contract generation. Reduced procurement cycle time by 40%.</div>
                 <div class="project-tech">
                     <span class="tech-pill">PowerApps</span>
-                    <span class="tech-pill">Power Automate</span>
                     <span class="tech-pill">Dataverse</span>
+                    <span class="tech-pill">Power Automate</span>
                     <span class="tech-pill">SharePoint</span>
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-tag">Enterprise</div>
-                <div class="project-title">AI-Enhanced Client Intake System</div>
-                <div class="project-desc">Power Platform solution that uses Claude AI to auto-classify incoming client requests, extract structured data, assign urgency scores, and route to the right team — replacing a fully manual email triage process.</div>
+                <div class="project-tag claude">Claude-Powered</div>
+                <div class="project-title">Insider Threat Detection</div>
+                <div class="project-desc">Databricks SQL rule engine for behavioral anomaly detection. AI-assisted pattern matching for identifying insider threats across enterprise data sources at scale.</div>
                 <div class="project-tech">
-                    <span class="tech-pill">PowerApps</span>
-                    <span class="tech-pill">Claude API</span>
-                    <span class="tech-pill">Power Automate</span>
-                    <span class="tech-pill">Teams</span>
+                    <span class="tech-pill">Databricks</span>
+                    <span class="tech-pill">SQL</span>
+                    <span class="tech-pill">Python</span>
+                    <span class="tech-pill">Claude</span>
                 </div>
             </div>
         </div>
 
-        <!-- Event Banner -->
-        <div class="event-banner">
-            <div>
-                <div class="event-date">April 2026</div>
-                <div class="event-title">Claude AI in the Enterprise</div>
-                <div class="event-location">Hosted at <strong>PwC</strong> — Miami, FL</div>
-                <p style="font-size: 14px; color: var(--text-2); margin-top: 8px; line-height: 1.6;">A hands-on session exploring how enterprise teams can leverage Claude for intelligent automation, document processing, and AI-assisted workflows in professional services.</p>
+        <!-- GitHub CTA -->
+        <div class="github-cta">
+            <div class="github-cta-text">
+                <strong>More on GitHub</strong> &mdash; open source work and experiments
             </div>
-            <a href="#contact" class="btn-primary" style="text-decoration:none; white-space:nowrap;">Register Interest</a>
+            <a href="https://github.com/georgchimion-oss" target="_blank" class="btn-secondary" style="text-decoration:none;">
+                View GitHub &#8594;
+            </a>
         </div>
     </div>
 </section>
@@ -390,9 +577,17 @@
 <!-- Stack -->
 <section id="stack">
     <div class="container">
-        <div class="section-label">Tech Stack</div>
-        <h2 class="section-title">Tools I work with.</h2>
-        <p class="section-sub" style="margin-bottom: 36px;">Enterprise-grade platforms, AI models, and cloud services.</p>
+        <div class="section-label">// stack</div>
+        <h2 class="section-title">Tools I build with.</h2>
+        <p class="section-sub" style="margin-bottom: 36px;">Enterprise platforms, AI models, and cloud services — in production daily.</p>
+
+        <div class="stack-category">AI & Intelligence</div>
+        <div class="stack-row">
+            <div class="stack-item highlight">&#129302; Claude (Anthropic)</div>
+            <div class="stack-item">&#128161; Azure AI Services</div>
+            <div class="stack-item">&#128196; AI Document Intelligence</div>
+            <div class="stack-item">&#128172; Copilot Studio</div>
+        </div>
 
         <div class="stack-category">Microsoft Power Platform</div>
         <div class="stack-row">
@@ -400,33 +595,23 @@
             <div class="stack-item">&#9881; Power Automate</div>
             <div class="stack-item">&#128202; Power BI</div>
             <div class="stack-item">&#128451; Dataverse</div>
-            <div class="stack-item">&#128172; Copilot Studio</div>
         </div>
 
-        <div class="stack-category">AI & Intelligence</div>
+        <div class="stack-category">Cloud & Infrastructure</div>
         <div class="stack-row">
-            <div class="stack-item">&#129302; Claude (Anthropic)</div>
-            <div class="stack-item">&#128161; Azure AI Services</div>
-            <div class="stack-item">&#128196; AI Document Intelligence</div>
-            <div class="stack-item">&#128640; OpenAI</div>
-        </div>
-
-        <div class="stack-category">Microsoft 365 & Cloud</div>
-        <div class="stack-row">
-            <div class="stack-item">&#128231; SharePoint</div>
-            <div class="stack-item">&#128101; Teams</div>
             <div class="stack-item">&#9729; Azure</div>
+            <div class="stack-item">&#128231; SharePoint</div>
             <div class="stack-item">&#128209; Logic Apps</div>
             <div class="stack-item">&#128187; Azure Functions</div>
+            <div class="stack-item">&#128101; Teams</div>
         </div>
 
         <div class="stack-category">Dev & Data</div>
         <div class="stack-row">
-            <div class="stack-item">&#128187; JavaScript / TypeScript</div>
-            <div class="stack-item">&#128013; Python</div>
-            <div class="stack-item">&#128450; SQL</div>
+            <div class="stack-item">&#128187; TypeScript / React</div>
+            <div class="stack-item">&#128013; Python / FastAPI</div>
+            <div class="stack-item">&#128450; SQL / Databricks</div>
             <div class="stack-item">&#128036; Git</div>
-            <div class="stack-item">&#9881; REST APIs</div>
         </div>
     </div>
 </section>
@@ -434,9 +619,9 @@
 <!-- Contact -->
 <section id="contact">
     <div class="container">
-        <div class="section-label">Get in Touch</div>
+        <div class="section-label">// contact</div>
         <h2 class="section-title">Let's build something.</h2>
-        <p class="section-sub">Whether you need an automation strategy, a Power Platform build, or want to explore AI integration — I'd love to hear from you.</p>
+        <p class="section-sub">Whether you need an automation strategy, a Claude integration, or want to collaborate on the Miami AI community.</p>
         <div class="contact-grid">
             <a href="mailto:georg.chimion@gmail.com" class="contact-card" style="text-decoration:none; color:inherit;">
                 <div class="contact-icon">&#128231;</div>
@@ -463,7 +648,7 @@
                 <div class="contact-icon">&#128205;</div>
                 <div>
                     <div class="contact-label">Location</div>
-                    <div class="contact-value">Miami, FL</div>
+                    <div class="contact-value">Wynwood, Miami FL</div>
                 </div>
             </div>
         </div>
@@ -471,8 +656,8 @@
 </section>
 
 <footer>
-    <div class="container">
-        &copy; 2026 Georg Chimion. Built with Claude.
+    <div class="container" style="display:flex; justify-content:center; align-items:center; gap:8px;">
+        &copy; 2026 Georg Chimion. Built with <span class="warm">Claude</span>.
     </div>
 </footer>
 
