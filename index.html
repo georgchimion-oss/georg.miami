@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Georg Chimion — Enterprise AI Automation | Miami</title>
-    <meta name="description" content="AI automation specialist based in Miami. I build production workflows with Claude Code, Codex, and Power Platform. Currently contracting at PwC. Open to new clients.">
-    <meta property="og:title" content="Georg Chimion — AI Automation Specialist | Miami">
-    <meta property="og:description" content="AI automation specialist based in Miami. Currently contracting at PwC. Building production AI workflows. Open to consulting and contract work.">
+    <meta name="description" content="AI automation specialist in Miami. I build production workflows with Claude Code, Codex, and Power Platform for enterprise teams. Currently delivering at PwC.">
+    <meta property="og:title" content="Georg Chimion — Enterprise AI Automation | Miami">
+    <meta property="og:description" content="Enterprise AI automation specialist in Miami. Production workflows with Claude Code and Power Platform. Currently delivering at PwC.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://georg.miami">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
@@ -325,6 +325,37 @@
             letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
         }
 
+        /* How I Work */
+        .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .how-card {
+            padding: 28px; background: var(--bg-2); border: 1px solid var(--border);
+            border-radius: var(--r); text-align: center; position: relative;
+        }
+        .how-num {
+            font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800;
+            color: var(--warm); opacity: 0.3; margin-bottom: 12px; line-height: 1;
+        }
+        .how-title {
+            font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+            margin-bottom: 8px; letter-spacing: -0.02em;
+        }
+        .how-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.6; }
+
+        /* Social proof */
+        .proof-bar {
+            display: flex; align-items: center; justify-content: center; gap: 40px;
+            padding: 32px 0; flex-wrap: wrap;
+        }
+        .proof-item {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+        }
+        .proof-num {
+            font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800;
+            color: var(--warm); letter-spacing: -0.03em;
+        }
+        .proof-label { font-size: 12px; color: var(--text-3); letter-spacing: 0.05em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+        .proof-divider { width: 1px; height: 40px; background: var(--border); }
+
         /* Contact */
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .contact-card {
@@ -419,6 +450,9 @@
             .capabilities-grid { grid-template-columns: 1fr; }
             .projects-grid { grid-template-columns: 1fr; }
             .contact-grid { grid-template-columns: 1fr; }
+            .how-grid { grid-template-columns: 1fr; }
+            .proof-bar { gap: 24px; }
+            .proof-divider { display: none; }
             .event-grid { grid-template-columns: 1fr; }
             .event-card { padding: 32px; }
             .nav-links { display: none; }
@@ -436,10 +470,10 @@
         <span class="nav-role">Miami</span>
     </div>
     <div class="nav-links">
-        <a href="#event">Event</a>
-        <a href="#work">What I Do</a>
+        <a href="#work">Services</a>
         <a href="#projects">Projects</a>
-        <a href="#stack">Stack</a>
+        <a href="#how">Process</a>
+        <a href="#event">Event</a>
         <a href="https://github.com/georgchimion-oss" target="_blank">GitHub</a>
         <a href="#contact" class="nav-cta" style="text-decoration:none;">Hire Me</a>
     </div>
@@ -454,11 +488,11 @@
             <div>
                 <div class="hero-badge fade-in fade-in-1">
                     <span class="hero-badge-dot"></span>
-                    Available for new clients
+                    Taking on select engagements
                 </div>
                 <h1 class="fade-in fade-in-2">I automate the <span class="gradient">enterprise.</span></h1>
                 <p class="hero-sub fade-in fade-in-3">
-                    AI automation specialist based in Miami. Currently contracting at <strong>PwC</strong>, I ship production workflows with <strong>Claude Code</strong>, <strong>Codex</strong>, and Power Platform — turning AI from a demo into a workflow.
+                    AI automation specialist in Miami. Currently delivering at <strong>PwC</strong>, I ship production workflows with <strong>Claude Code</strong>, Power Platform, and Codex — turning AI from a demo into a workflow.
                 </p>
                 <div class="hero-actions fade-in fade-in-4">
                     <a href="#contact" class="btn-primary" style="text-decoration:none;">Work With Me &#8594;</a>
@@ -478,77 +512,13 @@
                     <div>&nbsp;&nbsp;role: <span class="t-str">"AI Automation Specialist"</span>,</div>
                     <div>&nbsp;&nbsp;base: <span class="t-str">"Miami, FL"</span>,</div>
                     <div>&nbsp;&nbsp;currentClient: <span class="t-warm">"PwC"</span>,</div>
-                    <div>&nbsp;&nbsp;tools: <span class="t-bracket">[</span><span class="t-warm">"Claude Code"</span>, <span class="t-warm">"Codex"</span><span class="t-bracket">]</span>,</div>
-                    <div>&nbsp;&nbsp;stack: <span class="t-bracket">[</span><span class="t-str">"Power Platform"</span>,</div>
-                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Dataverse"</span>, <span class="t-str">"React"</span>,</div>
-                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Python"</span><span class="t-bracket">]</span>,</div>
-                    <div>&nbsp;&nbsp;automationsShipped: <span class="t-num">200</span>+,</div>
-                    <div>&nbsp;&nbsp;status: <span class="t-warm">"open to new clients"</span></div>
+                    <div>&nbsp;&nbsp;primary: <span class="t-warm">"Claude Code"</span>,</div>
+                    <div>&nbsp;&nbsp;tools: <span class="t-bracket">[</span><span class="t-str">"Power Platform"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Codex"</span>, <span class="t-str">"React"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Databricks"</span><span class="t-bracket">]</span>,</div>
+                    <div>&nbsp;&nbsp;shipped: <span class="t-num">200</span><span class="t-str">+</span> <span class="t-comment">// production workflows</span></div>
+                    <div>&nbsp;&nbsp;status: <span class="t-warm">"select engagements"</span></div>
                     <div><span class="t-bracket">}</span>;</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Event — dedicated section -->
-<section id="event" class="event-section">
-    <div class="container">
-        <div class="event-card reveal">
-            <div class="event-grid">
-                <div>
-                    <div class="event-eyebrow">
-                        <span class="event-eyebrow-dot"></span>
-                        Coming Soon
-                    </div>
-                    <h2 class="event-h2">AI in the<br><span class="warm">Enterprise</span></h2>
-                    <p class="event-desc">
-                        A hands-on session for enterprise teams exploring how AI transforms real workflows — from intelligent document processing to AI-powered automation in professional services. Live demos with Claude Code, Codex, and more. Real production use cases. No fluff.
-                    </p>
-                    <div class="event-details">
-                        <div class="event-detail">
-                            <span class="event-detail-icon">&#128197;</span>
-                            <span class="event-detail-label">When</span>
-                            <span class="event-detail-value">Spring 2026 &mdash; Date TBD</span>
-                        </div>
-                        <div class="event-detail">
-                            <span class="event-detail-icon">&#128205;</span>
-                            <span class="event-detail-label">Where</span>
-                            <span class="event-detail-value">Wynwood, Miami</span>
-                        </div>
-                        <div class="event-detail">
-                            <span class="event-detail-icon">&#127919;</span>
-                            <span class="event-detail-label">For</span>
-                            <span class="event-detail-value">Enterprise teams, builders, AI leaders</span>
-                        </div>
-                    </div>
-                    <a href="mailto:georg.chimion@gmail.com?subject=AI in the Enterprise — Stay Updated" class="btn-primary" style="text-decoration:none;">Get Notified &#8594;</a>
-                </div>
-                <div class="event-topics">
-                    <div class="event-topics-title">What We'll Cover</div>
-                    <div class="event-topic">
-                        <span class="event-topic-num">01</span>
-                        AI for document processing &amp; extraction
-                    </div>
-                    <div class="event-topic">
-                        <span class="event-topic-num">02</span>
-                        Building AI-powered approval workflows
-                    </div>
-                    <div class="event-topic">
-                        <span class="event-topic-num">03</span>
-                        Claude Code + Codex in enterprise workflows
-                    </div>
-                    <div class="event-topic">
-                        <span class="event-topic-num">04</span>
-                        Enterprise AI governance &amp; safety
-                    </div>
-                    <div class="event-topic">
-                        <span class="event-topic-num">05</span>
-                        Live build: production AI workflow
-                    </div>
-                    <div class="event-powered">
-                        Planned venue: <strong>PwC Quarters, Wynwood</strong>
-                    </div>
                 </div>
             </div>
         </div>
@@ -589,8 +559,125 @@
             </div>
             <div class="cap-card reveal reveal-delay-6">
                 <div class="cap-icon">&#128640;</div>
-                <div class="cap-title">Community &amp; Events</div>
-                <div class="cap-desc">Organizing AI events in Miami, building the local enterprise AI community, and enabling teams to adopt AI with confidence.</div>
+                <div class="cap-title">Integration Architecture</div>
+                <div class="cap-desc">Connecting enterprise systems — CRM, ERP, HRIS, document management. Multi-system orchestration, API design, and data sync across platforms.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Proof -->
+<section style="padding: 20px 0 0;">
+    <div class="container">
+        <div class="proof-bar reveal">
+            <div class="proof-item">
+                <div class="proof-num">200+</div>
+                <div class="proof-label">Workflows shipped</div>
+            </div>
+            <div class="proof-divider"></div>
+            <div class="proof-item">
+                <div class="proof-num">Big 4</div>
+                <div class="proof-label">Current client</div>
+            </div>
+            <div class="proof-divider"></div>
+            <div class="proof-item">
+                <div class="proof-num">3+</div>
+                <div class="proof-label">Years enterprise AI</div>
+            </div>
+            <div class="proof-divider"></div>
+            <div class="proof-item">
+                <div class="proof-num">Miami</div>
+                <div class="proof-label">Based &amp; available</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How I Work -->
+<section id="how" style="padding-top: 40px;">
+    <div class="container">
+        <div class="section-label reveal">// how I work</div>
+        <h2 class="section-title reveal">Engagement model.</h2>
+        <p class="section-sub reveal">I operate as an embedded specialist — joining your team for focused delivery, not giving slide decks from the sidelines.</p>
+        <div class="how-grid">
+            <div class="how-card reveal reveal-delay-1">
+                <div class="how-num">01</div>
+                <div class="how-title">Discovery</div>
+                <div class="how-desc">Understand your current workflows, pain points, and what "done" looks like. Map the opportunity. Typically 1 week.</div>
+            </div>
+            <div class="how-card reveal reveal-delay-2">
+                <div class="how-num">02</div>
+                <div class="how-title">Build &amp; Ship</div>
+                <div class="how-desc">Embedded in your team, building production workflows. Iterating weekly with your stakeholders. 2–12 week sprints.</div>
+            </div>
+            <div class="how-card reveal reveal-delay-3">
+                <div class="how-num">03</div>
+                <div class="how-title">Handoff</div>
+                <div class="how-desc">Complete documentation, training, and knowledge transfer. Your team owns it fully. Optional retainer for ongoing support.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Event -->
+<section id="event" class="event-section">
+    <div class="container">
+        <div class="event-card reveal">
+            <div class="event-grid">
+                <div>
+                    <div class="event-eyebrow">
+                        <span class="event-eyebrow-dot"></span>
+                        Coming Soon
+                    </div>
+                    <h2 class="event-h2">AI in the<br><span class="warm">Enterprise</span></h2>
+                    <p class="event-desc">
+                        A hands-on session for enterprise teams exploring how AI transforms real workflows — from intelligent document processing to AI-powered automation. Live demos with Claude Code and production use cases. No fluff.
+                    </p>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <span class="event-detail-icon">&#128197;</span>
+                            <span class="event-detail-label">When</span>
+                            <span class="event-detail-value">Spring 2026 &mdash; Date TBD</span>
+                        </div>
+                        <div class="event-detail">
+                            <span class="event-detail-icon">&#128205;</span>
+                            <span class="event-detail-label">Where</span>
+                            <span class="event-detail-value">Wynwood, Miami</span>
+                        </div>
+                        <div class="event-detail">
+                            <span class="event-detail-icon">&#127919;</span>
+                            <span class="event-detail-label">For</span>
+                            <span class="event-detail-value">Enterprise teams, builders, AI leaders</span>
+                        </div>
+                    </div>
+                    <a href="mailto:georg@georg.miami?subject=AI in the Enterprise — Stay Updated" class="btn-primary" style="text-decoration:none;">Get Notified &#8594;</a>
+                </div>
+                <div class="event-topics">
+                    <div class="event-topics-title">What We'll Cover</div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">01</span>
+                        AI for document processing &amp; extraction
+                    </div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">02</span>
+                        Building AI-powered approval workflows
+                    </div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">03</span>
+                        Claude Code in enterprise workflows
+                    </div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">04</span>
+                        Enterprise AI governance &amp; safety
+                    </div>
+                    <div class="event-topic">
+                        <span class="event-topic-num">05</span>
+                        Live build: production AI workflow
+                    </div>
+                    <div class="event-powered">
+                        Planned venue: <strong>PwC Quarters, Wynwood</strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -600,13 +687,13 @@
 <section id="projects" style="padding-top: 40px;">
     <div class="container">
         <div class="section-label reveal">// projects</div>
-        <h2 class="section-title reveal">Things I've shipped.</h2>
-        <p class="section-sub reveal">Enterprise automation, AI integration, and product prototyping — all in production or active development.</p>
+        <h2 class="section-title reveal">Shipped to production.</h2>
+        <p class="section-sub reveal">Recent enterprise work — anonymized for client confidentiality. All systems in active production use.</p>
         <div class="projects-grid">
             <div class="project-card reveal reveal-delay-1">
                 <div class="project-tag claude">AI-Powered</div>
-                <div class="project-title">AI-Enhanced Client Intake</div>
-                <div class="project-desc">Power Platform solution using AI to auto-classify client requests, extract structured data, assign urgency scores, and route to the right team — replacing a fully manual email triage process.</div>
+                <div class="project-title">Intelligent Request Routing</div>
+                <div class="project-desc">AI-powered intake system that classifies incoming requests, extracts structured data, assigns urgency scores, and routes to the right team — replacing a fully manual triage process. Reduced response time from days to minutes.</div>
                 <div class="project-tech">
                     <span class="tech-pill">AI / LLM</span>
                     <span class="tech-pill">PowerApps</span>
@@ -615,9 +702,9 @@
                 </div>
             </div>
             <div class="project-card reveal reveal-delay-2">
-                <div class="project-tag">Enterprise</div>
-                <div class="project-title">Project Governance Dashboard</div>
-                <div class="project-desc">React + Vite dashboard integrated with SharePoint for project portfolio management. Real-time status tracking, resource allocation, and automated reporting for leadership visibility.</div>
+                <div class="project-tag live">In Production</div>
+                <div class="project-title">Portfolio Governance Platform</div>
+                <div class="project-desc">Full-stack dashboard for project portfolio management — real-time status tracking, resource allocation, and automated reporting. Used daily by leadership for decision-making across 50+ active projects.</div>
                 <div class="project-tech">
                     <span class="tech-pill">React</span>
                     <span class="tech-pill">TypeScript</span>
@@ -626,9 +713,9 @@
                 </div>
             </div>
             <div class="project-card reveal reveal-delay-3">
-                <div class="project-tag">Enterprise</div>
-                <div class="project-title">Vendor Procurement Automation</div>
-                <div class="project-desc">PowerApp managing the full RFQ lifecycle: vendor scoring, automated bid comparison, multi-level approval routing, and contract generation. Reduced procurement cycle time by 40%.</div>
+                <div class="project-tag live">In Production</div>
+                <div class="project-title">Procurement Workflow Engine</div>
+                <div class="project-desc">End-to-end RFQ lifecycle management: vendor scoring, automated bid comparison, multi-level approval routing, and contract generation. Cut procurement cycle time by 40% for a professional services firm.</div>
                 <div class="project-tech">
                     <span class="tech-pill">PowerApps</span>
                     <span class="tech-pill">Dataverse</span>
@@ -638,8 +725,8 @@
             </div>
             <div class="project-card reveal reveal-delay-4">
                 <div class="project-tag claude">AI-Powered</div>
-                <div class="project-title">Insider Threat Detection</div>
-                <div class="project-desc">Databricks SQL rule engine for behavioral anomaly detection. AI-assisted pattern matching for identifying insider threats across enterprise data sources at scale.</div>
+                <div class="project-title">Behavioral Anomaly Detection</div>
+                <div class="project-desc">SQL-based rule engine for real-time behavioral pattern analysis across enterprise data. AI-assisted anomaly detection at scale — processing millions of events daily with sub-second alerting.</div>
                 <div class="project-tech">
                     <span class="tech-pill">Databricks</span>
                     <span class="tech-pill">SQL</span>
@@ -705,14 +792,14 @@
 <section id="contact">
     <div class="container">
         <div class="section-label reveal">// work with me</div>
-        <h2 class="section-title reveal">Let's work together.</h2>
-        <p class="section-sub reveal">Open to consulting, contract work, and strategic partnerships. Whether you need an automation strategy, an AI integration, or want to collaborate on the Miami AI community.</p>
+        <h2 class="section-title reveal">Start a conversation.</h2>
+        <p class="section-sub reveal">Taking on select consulting and contract engagements. If you need enterprise AI automation that actually ships, let's talk.</p>
         <div class="contact-grid">
-            <a href="mailto:georg.chimion@gmail.com" class="contact-card reveal reveal-delay-1" style="text-decoration:none; color:inherit;">
+            <a href="mailto:georg@georg.miami" class="contact-card reveal reveal-delay-1" style="text-decoration:none; color:inherit;">
                 <div class="contact-icon">&#128231;</div>
                 <div>
                     <div class="contact-label">Email</div>
-                    <div class="contact-value">georg.chimion@gmail.com</div>
+                    <div class="contact-value">georg@georg.miami</div>
                 </div>
             </a>
             <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-card reveal reveal-delay-2" style="text-decoration:none; color:inherit;">
