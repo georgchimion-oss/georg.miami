@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georg Chimion — AI Strategist & Enterprise Automation Builder</title>
+    <meta name="description" content="I help businesses transform operations with AI and enterprise automation. Power Platform specialist building intelligent systems in South Florida.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0A0A0B;
+            --bg-2: #111113;
+            --bg-3: #1A1A1F;
+            --surface: #1E1E24;
+            --border: rgba(255,255,255,0.08);
+            --border-hover: rgba(255,255,255,0.15);
+            --text: #E8E8ED;
+            --text-2: rgba(255,255,255,0.55);
+            --text-3: rgba(255,255,255,0.35);
+            --accent: #6366F1;
+            --accent-2: #818CF8;
+            --accent-glow: rgba(99,102,241,0.15);
+            --green: #10B981;
+            --green-glow: rgba(16,185,129,0.12);
+            --orange: #F59E0B;
+            --r: 12px;
+            --r-sm: 8px;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif; font-weight: 400; line-height: 1.6; overflow-x: hidden; }
+        a { color: var(--accent-2); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: #a5b4fc; }
+
+        /* Grain overlay */
+        body::before {
+            content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        /* Nav */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 40px; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(10,10,11,0.85); backdrop-filter: blur(20px) saturate(1.2);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-left { display: flex; align-items: center; gap: 12px; }
+        .nav-name { font-weight: 600; font-size: 15px; letter-spacing: -0.02em; }
+        .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-3); }
+        .nav-role { font-size: 13px; color: var(--text-2); font-weight: 400; }
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-links a { font-size: 13px; color: var(--text-2); font-weight: 400; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta {
+            padding: 8px 18px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 500;
+            border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s;
+        }
+        .nav-cta:hover { background: #5558E6; color: #fff; }
+
+        /* Container */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+        /* Hero */
+        .hero {
+            padding: 160px 0 100px; position: relative;
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 14px; background: var(--accent-glow); border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 100px; font-size: 12px; color: var(--accent-2); font-weight: 500;
+            letter-spacing: 0.02em; margin-bottom: 24px;
+        }
+        .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s ease infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 56px); font-weight: 700; letter-spacing: -0.035em;
+            line-height: 1.08; margin-bottom: 20px;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent-2), #a78bfa, #c084fc);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-sub { font-size: 17px; color: var(--text-2); line-height: 1.65; max-width: 460px; margin-bottom: 36px; font-weight: 300; }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 24px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 500;
+            border-radius: var(--r-sm); border: none; cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .btn-primary:hover { background: #5558E6; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(99,102,241,0.3); color: #fff; }
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 24px; background: transparent; color: var(--text-2); font-size: 14px; font-weight: 500;
+            border-radius: var(--r-sm); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .btn-secondary:hover { border-color: var(--border-hover); color: var(--text); }
+
+        /* Hero right — terminal */
+        .terminal {
+            background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r);
+            overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .terminal-bar {
+            padding: 12px 16px; display: flex; align-items: center; gap: 8px;
+            background: var(--bg-3); border-bottom: 1px solid var(--border);
+        }
+        .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .terminal-dot.r { background: #FF5F57; }
+        .terminal-dot.y { background: #FEBC2E; }
+        .terminal-dot.g { background: #28C840; }
+        .terminal-title { font-size: 12px; color: var(--text-3); margin-left: 8px; font-family: 'JetBrains Mono', monospace; }
+        .terminal-body {
+            padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8;
+        }
+        .t-comment { color: var(--text-3); }
+        .t-key { color: var(--accent-2); }
+        .t-str { color: var(--green); }
+        .t-num { color: var(--orange); }
+        .t-bracket { color: var(--text-3); }
+
+        /* Section */
+        section { padding: 80px 0; }
+        .section-label {
+            font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--accent-2); font-weight: 600; margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em;
+            line-height: 1.15; margin-bottom: 16px;
+        }
+        .section-sub { font-size: 16px; color: var(--text-2); max-width: 560px; line-height: 1.6; margin-bottom: 48px; }
+
+        /* What I do */
+        .capabilities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .cap-card {
+            padding: 28px; background: var(--bg-2); border: 1px solid var(--border);
+            border-radius: var(--r); transition: all 0.25s;
+        }
+        .cap-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+        .cap-icon { font-size: 28px; margin-bottom: 16px; }
+        .cap-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
+        .cap-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+
+        /* Projects */
+        .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .project-card {
+            padding: 32px; background: var(--bg-2); border: 1px solid var(--border);
+            border-radius: var(--r); transition: all 0.25s; position: relative; overflow: hidden;
+        }
+        .project-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+        .project-tag {
+            display: inline-flex; padding: 4px 10px; background: var(--accent-glow);
+            border: 1px solid rgba(99,102,241,0.15); border-radius: 6px;
+            font-size: 11px; color: var(--accent-2); font-weight: 500; letter-spacing: 0.04em;
+            text-transform: uppercase; margin-bottom: 16px;
+        }
+        .project-tag.live { background: var(--green-glow); border-color: rgba(16,185,129,0.2); color: var(--green); }
+        .project-title { font-size: 20px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .project-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
+        .project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tech-pill {
+            padding: 4px 10px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 6px; font-size: 11px; color: var(--text-3); font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Event banner */
+        .event-banner {
+            padding: 40px; background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.08));
+            border: 1px solid rgba(99,102,241,0.15); border-radius: var(--r);
+            display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;
+            margin-top: 48px;
+        }
+        .event-date { font-size: 13px; color: var(--accent-2); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+        .event-title { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .event-location { font-size: 14px; color: var(--text-2); }
+        .event-location strong { color: var(--text); font-weight: 500; }
+
+        /* Stack */
+        .stack-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .stack-item {
+            padding: 10px 18px; background: var(--bg-2); border: 1px solid var(--border);
+            border-radius: var(--r-sm); font-size: 14px; color: var(--text-2); font-weight: 400;
+            display: flex; align-items: center; gap: 8px; transition: all 0.2s;
+        }
+        .stack-item:hover { border-color: var(--border-hover); color: var(--text); }
+        .stack-category { font-size: 12px; color: var(--text-3); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+
+        /* Contact */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .contact-card {
+            padding: 28px; background: var(--bg-2); border: 1px solid var(--border);
+            border-radius: var(--r); transition: all 0.2s; display: flex; align-items: center; gap: 16px;
+        }
+        .contact-card:hover { border-color: var(--border-hover); }
+        .contact-icon { font-size: 24px; }
+        .contact-label { font-size: 12px; color: var(--text-3); margin-bottom: 2px; }
+        .contact-value { font-size: 15px; font-weight: 500; }
+
+        /* Footer */
+        footer {
+            padding: 40px 0; border-top: 1px solid var(--border);
+            text-align: center; font-size: 13px; color: var(--text-3);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav { padding: 14px 20px; }
+            .container { padding: 0 20px; }
+            .hero { padding: 120px 0 60px; }
+            .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+            .capabilities-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .event-banner { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+    <div class="nav-left">
+        <span class="nav-name">Georg Chimion</span>
+        <span class="nav-dot"></span>
+        <span class="nav-role">AI & Enterprise Automation</span>
+    </div>
+    <div class="nav-links">
+        <a href="#work">What I Do</a>
+        <a href="#projects">Projects</a>
+        <a href="#stack">Stack</a>
+        <a href="#contact">Contact</a>
+        <a href="https://github.com/georgchimion-oss" target="_blank">GitHub</a>
+        <a href="#contact" class="nav-cta" style="text-decoration:none;">Let's Talk</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-grid">
+            <div>
+                <div class="hero-badge">
+                    <span class="hero-badge-dot"></span>
+                    Available for projects
+                </div>
+                <h1>I build <span class="gradient">enterprise automations</span> that actually work.</h1>
+                <p class="hero-sub">Power Platform specialist helping businesses in South Florida eliminate manual processes, integrate AI, and scale operations — from strategy to production.</p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn-primary" style="text-decoration:none;">Get in Touch</a>
+                    <a href="#projects" class="btn-secondary" style="text-decoration:none;">View Projects</a>
+                </div>
+            </div>
+            <div class="terminal">
+                <div class="terminal-bar">
+                    <div class="terminal-dot r"></div>
+                    <div class="terminal-dot y"></div>
+                    <div class="terminal-dot g"></div>
+                    <span class="terminal-title">georg.miami</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="t-comment">// what I build</div>
+                    <div><span class="t-key">const</span> georg = <span class="t-bracket">{</span></div>
+                    <div>&nbsp;&nbsp;role: <span class="t-str">"AI & Automation Architect"</span>,</div>
+                    <div>&nbsp;&nbsp;stack: <span class="t-bracket">[</span><span class="t-str">"PowerApps"</span>, <span class="t-str">"Power Automate"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Power BI"</span>, <span class="t-str">"Dataverse"</span>,</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Claude AI"</span>, <span class="t-str">"Azure"</span><span class="t-bracket">]</span>,</div>
+                    <div>&nbsp;&nbsp;location: <span class="t-str">"Miami, FL"</span>,</div>
+                    <div>&nbsp;&nbsp;focus: <span class="t-str">"Enterprise automation + AI"</span>,</div>
+                    <div>&nbsp;&nbsp;projects: <span class="t-num">47</span>,</div>
+                    <div>&nbsp;&nbsp;automationsBuilt: <span class="t-num">200</span>+,</div>
+                    <div>&nbsp;&nbsp;hoursReclaimed: <span class="t-num">12000</span>+</div>
+                    <div><span class="t-bracket">}</span>;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What I Do -->
+<section id="work">
+    <div class="container">
+        <div class="section-label">What I Do</div>
+        <h2 class="section-title">Strategy meets execution.</h2>
+        <p class="section-sub">I don't just plan automations — I build them. From discovery to deployment, I design and deliver enterprise solutions that teams actually use.</p>
+        <div class="capabilities-grid">
+            <div class="cap-card">
+                <div class="cap-icon">&#9889;</div>
+                <div class="cap-title">Power Platform Development</div>
+                <div class="cap-desc">Custom PowerApps, Power Automate flows, and Dataverse architectures for complex business processes. Canvas apps, model-driven apps, portals.</div>
+            </div>
+            <div class="cap-card">
+                <div class="cap-icon">&#129302;</div>
+                <div class="cap-title">AI Integration</div>
+                <div class="cap-desc">Connecting Claude, GPT, and Azure AI to enterprise workflows. Intelligent document processing, automated classification, AI-powered decision support.</div>
+            </div>
+            <div class="cap-card">
+                <div class="cap-icon">&#128202;</div>
+                <div class="cap-title">Business Intelligence</div>
+                <div class="cap-desc">Power BI dashboards, automated reporting, real-time KPI monitoring. Turning raw data into decisions that move the business forward.</div>
+            </div>
+            <div class="cap-card">
+                <div class="cap-icon">&#128736;</div>
+                <div class="cap-title">Process Automation</div>
+                <div class="cap-desc">End-to-end workflow automation: approvals, notifications, data sync, document generation, multi-system orchestration.</div>
+            </div>
+            <div class="cap-card">
+                <div class="cap-icon">&#127919;</div>
+                <div class="cap-title">AI Strategy & Consulting</div>
+                <div class="cap-desc">AI readiness assessments, disruption mapping, technology roadmaps. Helping leadership understand what AI can (and can't) do for their org.</div>
+            </div>
+            <div class="cap-card">
+                <div class="cap-icon">&#128640;</div>
+                <div class="cap-title">Citizen Developer Enablement</div>
+                <div class="cap-desc">Training teams to build their own automations. Governance frameworks, CoE setup, Power Platform adoption strategies.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects -->
+<section id="projects" style="padding-top: 40px;">
+    <div class="container">
+        <div class="section-label">Projects</div>
+        <h2 class="section-title">Things I've built.</h2>
+        <p class="section-sub">A selection of recent work spanning enterprise automation, AI research, and product prototyping.</p>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-tag">Research</div>
+                <div class="project-title">AI Disruption Index — South Florida</div>
+                <div class="project-desc">Comprehensive analysis of AI disruption potential across South Florida's tri-county area. Scored 9 industries across 6 dimensions to identify the highest-upside opportunities for AI adoption.</div>
+                <div class="project-tech">
+                    <span class="tech-pill">Data Analysis</span>
+                    <span class="tech-pill">AI Strategy</span>
+                    <span class="tech-pill">Market Research</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-tag live">Prototype</div>
+                <div class="project-title">F&ecirc;te — Event Space Platform</div>
+                <div class="project-desc">AI-powered event booking platform for South Florida. Multi-step booking flow, venue matching, and automated event planning. Built as a full interactive prototype.</div>
+                <div class="project-tech">
+                    <span class="tech-pill">HTML/CSS/JS</span>
+                    <span class="tech-pill">AI Planning</span>
+                    <span class="tech-pill">UX Design</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-tag">Enterprise</div>
+                <div class="project-title">Vendor Procurement Automation</div>
+                <div class="project-desc">PowerApp managing the full RFQ lifecycle: vendor scoring, automated bid comparison, multi-level approval routing, and contract generation. Reduced procurement cycle time by 40%.</div>
+                <div class="project-tech">
+                    <span class="tech-pill">PowerApps</span>
+                    <span class="tech-pill">Power Automate</span>
+                    <span class="tech-pill">Dataverse</span>
+                    <span class="tech-pill">SharePoint</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-tag">Enterprise</div>
+                <div class="project-title">AI-Enhanced Client Intake System</div>
+                <div class="project-desc">Power Platform solution that uses Claude AI to auto-classify incoming client requests, extract structured data, assign urgency scores, and route to the right team — replacing a fully manual email triage process.</div>
+                <div class="project-tech">
+                    <span class="tech-pill">PowerApps</span>
+                    <span class="tech-pill">Claude API</span>
+                    <span class="tech-pill">Power Automate</span>
+                    <span class="tech-pill">Teams</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Banner -->
+        <div class="event-banner">
+            <div>
+                <div class="event-date">April 2026</div>
+                <div class="event-title">Claude AI in the Enterprise</div>
+                <div class="event-location">Hosted at <strong>PwC</strong> — Miami, FL</div>
+                <p style="font-size: 14px; color: var(--text-2); margin-top: 8px; line-height: 1.6;">A hands-on session exploring how enterprise teams can leverage Claude for intelligent automation, document processing, and AI-assisted workflows in professional services.</p>
+            </div>
+            <a href="#contact" class="btn-primary" style="text-decoration:none; white-space:nowrap;">Register Interest</a>
+        </div>
+    </div>
+</section>
+
+<!-- Stack -->
+<section id="stack">
+    <div class="container">
+        <div class="section-label">Tech Stack</div>
+        <h2 class="section-title">Tools I work with.</h2>
+        <p class="section-sub" style="margin-bottom: 36px;">Enterprise-grade platforms, AI models, and cloud services.</p>
+
+        <div class="stack-category">Microsoft Power Platform</div>
+        <div class="stack-row">
+            <div class="stack-item">&#9889; PowerApps</div>
+            <div class="stack-item">&#9881; Power Automate</div>
+            <div class="stack-item">&#128202; Power BI</div>
+            <div class="stack-item">&#128451; Dataverse</div>
+            <div class="stack-item">&#128172; Copilot Studio</div>
+        </div>
+
+        <div class="stack-category">AI & Intelligence</div>
+        <div class="stack-row">
+            <div class="stack-item">&#129302; Claude (Anthropic)</div>
+            <div class="stack-item">&#128161; Azure AI Services</div>
+            <div class="stack-item">&#128196; AI Document Intelligence</div>
+            <div class="stack-item">&#128640; OpenAI</div>
+        </div>
+
+        <div class="stack-category">Microsoft 365 & Cloud</div>
+        <div class="stack-row">
+            <div class="stack-item">&#128231; SharePoint</div>
+            <div class="stack-item">&#128101; Teams</div>
+            <div class="stack-item">&#9729; Azure</div>
+            <div class="stack-item">&#128209; Logic Apps</div>
+            <div class="stack-item">&#128187; Azure Functions</div>
+        </div>
+
+        <div class="stack-category">Dev & Data</div>
+        <div class="stack-row">
+            <div class="stack-item">&#128187; JavaScript / TypeScript</div>
+            <div class="stack-item">&#128013; Python</div>
+            <div class="stack-item">&#128450; SQL</div>
+            <div class="stack-item">&#128036; Git</div>
+            <div class="stack-item">&#9881; REST APIs</div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+    <div class="container">
+        <div class="section-label">Get in Touch</div>
+        <h2 class="section-title">Let's build something.</h2>
+        <p class="section-sub">Whether you need an automation strategy, a Power Platform build, or want to explore AI integration — I'd love to hear from you.</p>
+        <div class="contact-grid">
+            <a href="mailto:georg.chimion@gmail.com" class="contact-card" style="text-decoration:none; color:inherit;">
+                <div class="contact-icon">&#128231;</div>
+                <div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">georg.chimion@gmail.com</div>
+                </div>
+            </a>
+            <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-card" style="text-decoration:none; color:inherit;">
+                <div class="contact-icon">&#128187;</div>
+                <div>
+                    <div class="contact-label">GitHub</div>
+                    <div class="contact-value">georgchimion-oss</div>
+                </div>
+            </a>
+            <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-card" style="text-decoration:none; color:inherit;">
+                <div class="contact-icon">&#128100;</div>
+                <div>
+                    <div class="contact-label">LinkedIn</div>
+                    <div class="contact-value">Georg Chimion</div>
+                </div>
+            </a>
+            <div class="contact-card">
+                <div class="contact-icon">&#128205;</div>
+                <div>
+                    <div class="contact-label">Location</div>
+                    <div class="contact-value">Miami, FL</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        &copy; 2026 Georg Chimion. Built with Claude.
+    </div>
+</footer>
+
+</body>
+</html>
