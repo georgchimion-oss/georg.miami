@@ -272,6 +272,7 @@
 
         /* Projects */
         .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .projects-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
         .project-card {
             padding: 32px; background: var(--bg-2); border: 1px solid var(--border);
             border-radius: var(--r); transition: all 0.25s; position: relative; overflow: clip;
@@ -748,6 +749,18 @@
                     <span class="tech-pill">AI / ML</span>
                 </div>
             </div>
+            <a href="https://venue.georg.miami" target="_blank" class="project-card reveal reveal-delay-1" style="text-decoration:none;color:inherit;display:block;">
+                <div class="project-tag live">Product</div>
+                <div class="project-title">VENUE — Event Booking Platform</div>
+                <div class="project-desc">Premium on-demand private event booking. Step-by-step wizard for happy hours, private dinners, DJ lounges, full venue buyouts. Budget tiers, catering, bar packages, and instant quotes.</div>
+                <div class="project-tech">
+                    <span class="tech-pill">JavaScript</span>
+                    <span class="tech-pill">UX Design</span>
+                    <span class="tech-pill">Booking</span>
+                    <span class="tech-pill">Miami</span>
+                </div>
+                <div class="project-link">Try prototype &#8594;</div>
+            </a>
         </div>
 
         <!-- Tool CTAs -->
