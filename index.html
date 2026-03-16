@@ -558,6 +558,7 @@
 const products = {
     penny: {
         img: 'screenshots/askpenny.png',
+        video: 'videos/askpenny.mp4',
         title: 'Ask Penny — AI Finance Assistant',
         desc: 'Personal finance AI powered by Claude. Connect your bank via Teller.io or Plaid, ask anything about your spending, get smart budgets, morning summaries, and proactive alerts. Full web app with chat interface.',
         tech: ['Claude AI', 'Node.js', 'PostgreSQL', 'Express', 'Teller.io'],
@@ -565,6 +566,7 @@ const products = {
     },
     reconx: {
         img: 'screenshots/reconx.png',
+        video: 'videos/reconx.mp4',
         title: 'ReconX — Financial Reconciliation Engine',
         desc: 'Cloud-native reconciliation platform replacing legacy systems like IntelliMatch. Multi-pass matching engine (exact, tolerance, fuzzy, AI-suggested), nostro balance proof with daily sign-off, exception management with SLA tracking.',
         tech: ['React', 'TypeScript', 'Chart.js', 'Zustand'],
@@ -572,6 +574,7 @@ const products = {
     },
     venue: {
         img: 'screenshots/venue.png',
+        video: 'videos/venue.mp4',
         title: 'VENUE — Private Event Booking',
         desc: 'Premium on-demand private event booking platform. Step-by-step wizard for happy hours, private dinners, DJ lounges, full venue buyouts. Budget tiers, catering, bar packages, and instant quotes.',
         tech: ['JavaScript', 'UX Design', 'Booking', 'Miami'],
@@ -579,6 +582,7 @@ const products = {
     },
     docs: {
         img: 'screenshots/docai.png',
+        video: 'videos/docai.mp4',
         title: 'AI Document Intelligence',
         desc: 'Upload a PDF, invoice, or receipt — watch AI extract structured data in real-time. Live demo processing documents and turning messy PDFs into clean JSON with field-level confidence scores.',
         tech: ['Claude AI', 'JavaScript', 'Document AI', 'JSON'],
@@ -586,6 +590,7 @@ const products = {
     },
     factory: {
         img: 'screenshots/factory.png',
+        video: 'videos/factory.mp4',
         title: 'Agent Factory — Multi-Agent AI System',
         desc: 'Autonomous multi-agent system where specialized AI agents (PM, Coder, Reviewer, Deployer) collaborate to build and ship projects. Visual office UI showing agents working in real-time via SSE.',
         tech: ['Claude AI', 'Anthropic SDK', 'SSE', 'Multi-Agent'],
@@ -596,7 +601,12 @@ const products = {
 function openModal(id) {
     const p = products[id];
     if (!p) return;
-    document.getElementById('modalVideo').innerHTML = '<img src="' + p.img + '" alt="' + p.title + '" style="width:100%;border-radius:12px">';
+    var mediaEl = document.getElementById('modalVideo');
+    if (p.video) {
+        mediaEl.innerHTML = '<video src="' + p.video + '" autoplay muted loop playsinline style="width:100%;border-radius:12px"></video>';
+    } else {
+        mediaEl.innerHTML = '<img src="' + p.img + '" alt="' + p.title + '" style="width:100%;border-radius:12px">';
+    }
     document.getElementById('modalTitle').textContent = p.title;
     document.getElementById('modalDesc').textContent = p.desc;
     document.getElementById('modalTech').innerHTML = p.tech.map(function(t) { return '<span class="tech-pill">' + t + '</span>'; }).join('');
@@ -607,6 +617,8 @@ function openModal(id) {
 
 function closeModal(e) {
     if (e && e.target !== e.currentTarget) return;
+    var vid = document.querySelector('#modalVideo video');
+    if (vid) vid.pause();
     document.getElementById('modalOverlay').classList.remove('active');
     document.body.style.overflow = '';
 }
