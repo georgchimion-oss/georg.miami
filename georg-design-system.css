@@ -1,0 +1,115 @@
+/* Georg Design System — shared tokens for all *.georg.miami sites */
+/* Import this file in every sub-site: <link rel="stylesheet" href="georg-design-system.css"> */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* Dark mode (default) */
+:root {
+    --bg: #0B0B0F;
+    --bg-2: #10101A;
+    --surface: #14141A;
+    --surface-2: #1A1A22;
+    --border: rgba(255,255,255,0.06);
+    --border-hover: rgba(255,255,255,0.12);
+    --text: #E8E8ED;
+    --text-2: rgba(255,255,255,0.45);
+    --text-3: rgba(255,255,255,0.25);
+    --accent: #C4956A;
+    --accent-hover: #D4A57A;
+    --accent-glow: rgba(196,149,106,0.10);
+    --accent-text: #0B0B0F;
+    --status-green: #10B981;
+    --status-green-glow: rgba(16,185,129,0.10);
+    --r: 12px;
+    --r-sm: 6px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+/* Light mode */
+[data-theme="light"] {
+    --bg: #FAFAFA;
+    --bg-2: #F5F5F7;
+    --surface: #FFFFFF;
+    --surface-2: #F0F0F2;
+    --border: rgba(0,0,0,0.06);
+    --border-hover: rgba(0,0,0,0.12);
+    --text: #1A1A2E;
+    --text-2: rgba(0,0,0,0.55);
+    --text-3: rgba(0,0,0,0.35);
+    --accent: #B8702D;
+    --accent-hover: #A5632A;
+    --accent-glow: rgba(184,112,45,0.08);
+    --accent-text: #FFFFFF;
+    --status-green: #059669;
+    --status-green-glow: rgba(5,150,105,0.08);
+    --shadow: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+/* Base */
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-hover); }
+
+/* Typography */
+h1, h2, h3, h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+}
+
+code, .mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Layout */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+    .container { padding: 0 20px; }
+}
+
+/* Grain overlay */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+[data-theme="light"] body::before {
+    opacity: 0.4;
+}
+
+/* Scroll reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
