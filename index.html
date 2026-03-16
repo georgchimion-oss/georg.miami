@@ -352,7 +352,7 @@
         <p class="section-sub reveal">Each project built end-to-end — from architecture to live demo.</p>
         <div class="products-grid">
             <div class="product-card reveal reveal-delay-1" onclick="openModal('penny')">
-                <div class="product-thumb">💰</div>
+                <div class="product-thumb"><img src="screenshots/askpenny.png" alt="Ask Penny screenshot" loading="lazy"></div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
                     <div class="product-name">Ask Penny</div>
@@ -361,7 +361,7 @@
                 </div>
             </div>
             <div class="product-card reveal reveal-delay-2" onclick="openModal('reconx')">
-                <div class="product-thumb">⚖️</div>
+                <div class="product-thumb"><img src="screenshots/reconx.png" alt="ReconX screenshot" loading="lazy"></div>
                 <div class="product-info">
                     <div class="product-badge badge-live">Live</div>
                     <div class="product-name">ReconX</div>
@@ -370,7 +370,7 @@
                 </div>
             </div>
             <div class="product-card reveal reveal-delay-3" onclick="openModal('venue')">
-                <div class="product-thumb">🎉</div>
+                <div class="product-thumb"><img src="screenshots/venue.png" alt="VENUE screenshot" loading="lazy"></div>
                 <div class="product-info">
                     <div class="product-badge badge-live">Product</div>
                     <div class="product-name">VENUE</div>
@@ -379,7 +379,7 @@
                 </div>
             </div>
             <div class="product-card reveal reveal-delay-1" onclick="openModal('docs')">
-                <div class="product-thumb">📄</div>
+                <div class="product-thumb"><img src="screenshots/docai.png" alt="Doc Intelligence screenshot" loading="lazy"></div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
                     <div class="product-name">AI Document Intelligence</div>
@@ -388,7 +388,7 @@
                 </div>
             </div>
             <div class="product-card reveal reveal-delay-2" onclick="openModal('factory')">
-                <div class="product-thumb">🤖</div>
+                <div class="product-thumb"><img src="screenshots/factory.png" alt="Agent Factory screenshot" loading="lazy"></div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
                     <div class="product-name">Agent Factory</div>
@@ -397,7 +397,7 @@
                 </div>
             </div>
             <div class="product-card reveal reveal-delay-3" style="opacity:0.7; cursor:default;">
-                <div class="product-thumb">🏠</div>
+                <div class="product-thumb" style="font-size:36px">🏠</div>
                 <div class="product-info">
                     <div class="product-badge badge-new">Coming Soon</div>
                     <div class="product-name">PropAI</div>
@@ -557,35 +557,35 @@
 <script>
 const products = {
     penny: {
-        emoji: '💰',
+        img: 'screenshots/askpenny.png',
         title: 'Ask Penny — AI Finance Assistant',
         desc: 'Personal finance AI powered by Claude. Connect your bank via Teller.io or Plaid, ask anything about your spending, get smart budgets, morning summaries, and proactive alerts. Full web app with chat interface.',
         tech: ['Claude AI', 'Node.js', 'PostgreSQL', 'Express', 'Teller.io'],
         url: 'https://askpenny.georg.miami'
     },
     reconx: {
-        emoji: '⚖️',
+        img: 'screenshots/reconx.png',
         title: 'ReconX — Financial Reconciliation Engine',
         desc: 'Cloud-native reconciliation platform replacing legacy systems like IntelliMatch. Multi-pass matching engine (exact, tolerance, fuzzy, AI-suggested), nostro balance proof with daily sign-off, exception management with SLA tracking.',
         tech: ['React', 'TypeScript', 'Chart.js', 'Zustand'],
         url: 'https://reconx.georg.miami'
     },
     venue: {
-        emoji: '🎉',
+        img: 'screenshots/venue.png',
         title: 'VENUE — Private Event Booking',
         desc: 'Premium on-demand private event booking platform. Step-by-step wizard for happy hours, private dinners, DJ lounges, full venue buyouts. Budget tiers, catering, bar packages, and instant quotes.',
         tech: ['JavaScript', 'UX Design', 'Booking', 'Miami'],
         url: 'https://venue.georg.miami'
     },
     docs: {
-        emoji: '📄',
+        img: 'screenshots/docai.png',
         title: 'AI Document Intelligence',
         desc: 'Upload a PDF, invoice, or receipt — watch AI extract structured data in real-time. Live demo processing documents and turning messy PDFs into clean JSON with field-level confidence scores.',
         tech: ['Claude AI', 'JavaScript', 'Document AI', 'JSON'],
         url: 'https://docs.georg.miami'
     },
     factory: {
-        emoji: '🤖',
+        img: 'screenshots/factory.png',
         title: 'Agent Factory — Multi-Agent AI System',
         desc: 'Autonomous multi-agent system where specialized AI agents (PM, Coder, Reviewer, Deployer) collaborate to build and ship projects. Visual office UI showing agents working in real-time via SSE.',
         tech: ['Claude AI', 'Anthropic SDK', 'SSE', 'Multi-Agent'],
@@ -596,7 +596,7 @@ const products = {
 function openModal(id) {
     const p = products[id];
     if (!p) return;
-    document.getElementById('modalVideo').innerHTML = '<span style="font-size:64px">' + p.emoji + '</span>';
+    document.getElementById('modalVideo').innerHTML = '<img src="' + p.img + '" alt="' + p.title + '" style="width:100%;border-radius:12px">';
     document.getElementById('modalTitle').textContent = p.title;
     document.getElementById('modalDesc').textContent = p.desc;
     document.getElementById('modalTech').innerHTML = p.tech.map(function(t) { return '<span class="tech-pill">' + t + '</span>'; }).join('');
