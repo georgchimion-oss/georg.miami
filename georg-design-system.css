@@ -29,6 +29,14 @@ html { scroll-behavior: smooth; }
     --r-sm: 6px;
     --shadow: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+    /* Spacing scale */
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-section: 80px;
 }
 
 /* Light mode */
@@ -37,8 +45,8 @@ html { scroll-behavior: smooth; }
     --bg-2: #F5F5F7;
     --surface: #FFFFFF;
     --surface-2: #F0F0F2;
-    --border: rgba(0,0,0,0.06);
-    --border-hover: rgba(0,0,0,0.12);
+    --border: rgba(0,0,0,0.09);
+    --border-hover: rgba(0,0,0,0.16);
     --text: #1A1A2E;
     --text-2: rgba(0,0,0,0.55);
     --text-3: rgba(0,0,0,0.35);
