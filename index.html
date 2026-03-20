@@ -341,6 +341,7 @@
     <div class="nav-links" id="navLinks">
         <a href="#products">Products</a>
         <a href="#results">Work</a>
+        <a href="https://lab.georg.miami">Lab</a>
         <a href="#contact">About</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
         <a href="mailto:georg.chimion@gmail.com" class="btn-hire" style="text-decoration:none;">Hire Me</a>
@@ -404,31 +405,31 @@
                     <div class="product-cta">View demo &#8594;</div>
                 </div>
             </div>
-            <div class="product-card reveal reveal-delay-2" onclick="openModal('factory')">
-                <div class="product-thumb"><img src="screenshots/factory.png" alt="Agent Factory screenshot" loading="lazy"></div>
+            <div class="product-card reveal reveal-delay-2" onclick="openModal('roi')">
+                <div class="product-thumb"><img src="screenshots/roi.png" alt="ROI Calculator screenshot" loading="lazy"></div>
                 <div class="product-info">
-                    <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">Agent Factory</div>
-                    <div class="product-desc">Multi-agent system where AI agents collaborate to build and ship projects autonomously.</div>
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">ROI Calculator</div>
+                    <div class="product-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</div>
                     <div class="product-cta">View demo &#8594;</div>
                 </div>
             </div>
-            <a href="https://autopilot.georg.miami" target="_blank" class="product-card reveal reveal-delay-3" style="text-decoration:none;color:inherit;display:block;">
-                <div class="product-thumb" style="font-size:36px">🤖</div>
+            <div class="product-card reveal reveal-delay-3" style="opacity:0.7;cursor:default;">
+                <div class="product-thumb" style="font-size:36px">🏢</div>
                 <div class="product-info">
-                    <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">SocialPilot</div>
-                    <div class="product-desc">AI-powered automated commenting for LinkedIn and Twitter. Scale engagement on autopilot.</div>
-                    <div class="product-cta">View project &#8594;</div>
+                    <div class="product-badge" style="background:rgba(255,255,255,0.05);color:#888;">Coming Soon</div>
+                    <div class="product-name">PropAI</div>
+                    <div class="product-desc">AI-powered property management platform for South Florida's condo associations.</div>
+                    <div class="product-cta" style="color:#555;">In development</div>
                 </div>
-            </a>
+            </div>
         </div>
         <div class="roi-cta reveal">
             <div class="roi-cta-text">
-                <strong>ROI Calculator</strong><br>
-                <span>Estimate what AI automation could save your team</span>
+                <strong>The Lab</strong><br>
+                <span>Experiments, prototypes, and side projects</span>
             </div>
-            <a href="https://roi.georg.miami" target="_blank" class="btn-primary" style="text-decoration:none;">Try It &#8594;</a>
+            <a href="https://lab.georg.miami" class="btn-primary" style="text-decoration:none;">Explore &#8594;</a>
         </div>
     </div>
 </section>
@@ -606,13 +607,12 @@ const products = {
         tech: ['Claude AI', 'JavaScript', 'Document AI', 'JSON'],
         url: 'https://docs.georg.miami'
     },
-    factory: {
-        img: 'screenshots/factory.png',
-        video: 'videos/factory.mp4',
-        title: 'Agent Factory — Multi-Agent AI System',
-        desc: 'Autonomous multi-agent system where specialized AI agents (PM, Coder, Reviewer, Deployer) collaborate to build and ship projects. Visual office UI showing agents working in real-time via SSE.',
-        tech: ['Claude AI', 'Anthropic SDK', 'SSE', 'Multi-Agent'],
-        url: 'https://georg.miami/factory/'
+    roi: {
+        img: 'screenshots/roi.png',
+        title: 'ROI Calculator — AI Automation Value Estimator',
+        desc: 'Interactive single-page tool for enterprise leaders to estimate the ROI of AI automation. Input team size, process volume, and error rates — get projected savings, payback period, and a shareable report.',
+        tech: ['JavaScript', 'Interactive', 'Enterprise', 'Lead Gen'],
+        url: 'https://roi.georg.miami'
     }
 };
 
