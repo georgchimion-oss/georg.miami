@@ -414,15 +414,24 @@
                     <div class="product-cta">View demo &#8594;</div>
                 </div>
             </div>
-            <div class="product-card reveal reveal-delay-3" style="opacity:0.7;cursor:default;">
-                <div class="product-thumb" style="font-size:36px">🏢</div>
+            <div class="product-card reveal reveal-delay-3" onclick="openModal('vestia')">
+                <div class="product-thumb"><img src="screenshots/vestia.png" alt="Vestia screenshot" loading="lazy"></div>
                 <div class="product-info">
-                    <div class="product-badge" style="background:rgba(255,255,255,0.05);color:#888;">Coming Soon</div>
-                    <div class="product-name">PropAI</div>
-                    <div class="product-desc">AI-powered property management platform for South Florida's condo associations.</div>
-                    <div class="product-cta" style="color:#555;">In development</div>
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Vestia</div>
+                    <div class="product-desc">AI property management platform for South Florida condo associations. Six modules: triage, compliance, collections, screening, docs, vendors.</div>
+                    <div class="product-cta">View demo &#8594;</div>
                 </div>
             </div>
+            <a href="https://spacewalk.georg.miami" target="_blank" class="product-card reveal reveal-delay-3" style="text-decoration:none;color:inherit;">
+                <div class="product-thumb" style="font-size:36px">🏗️</div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI + 3D</div>
+                    <div class="product-name">SpaceWalk</div>
+                    <div class="product-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</div>
+                    <div class="product-cta">View project &#8594;</div>
+                </div>
+            </a>
         </div>
         <div class="roi-cta reveal">
             <div class="roi-cta-text">
@@ -613,6 +622,13 @@ const products = {
         desc: 'Interactive single-page tool for enterprise leaders to estimate the ROI of AI automation. Input team size, process volume, and error rates — get projected savings, payback period, and a shareable report.',
         tech: ['JavaScript', 'Interactive', 'Enterprise', 'Lead Gen'],
         url: 'https://roi.georg.miami'
+    },
+    vestia: {
+        img: 'screenshots/vestia.png',
+        title: 'Vestia — AI Property Management Platform',
+        desc: 'Six AI-powered modules purpose-built for South Florida condo associations. Maintenance triage with AI dispatch, SB 4-D compliance tracking, automated rent collection, tenant screening, lease document generation, and vendor bid comparison. Property management scores 27/30 on the AI Disruption Index for South Florida.',
+        tech: ['React', 'TypeScript', 'Tailwind CSS', 'AI-Native', 'Florida-First'],
+        url: 'https://vestia.georg.miami'
     }
 };
 
