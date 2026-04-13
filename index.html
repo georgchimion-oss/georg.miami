@@ -9,7 +9,7 @@
     <meta property="og:description" content="AI automation for the enterprise. Finance AI, intelligent products, and production-grade systems. Currently at PwC.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://georg.miami">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2306B6D4'/><text x='16' y='22' font-family='system-ui,sans-serif' font-size='18' font-weight='700' fill='%230C0C0C' text-anchor='middle'>GC</text></svg>">
     <link rel="stylesheet" href="georg-design-system.css">
 
     <!-- GSAP + ScrollTrigger -->
@@ -17,7 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
 
     <style>
         /* =============================================
@@ -1072,6 +1072,25 @@
     </style>
 </head>
 <body>
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;box-shadow:var(--shadow-lg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:var(--text-3);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html" selected>Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="premiere.html">Premiere</option>
+    <option value="maximal.html">Maximal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+
 
 <!-- =============================================
      NAV
@@ -1084,11 +1103,14 @@
         <a href="https://lab.georg.miami" target="_blank">Lab</a>
         <a href="#contact">About</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
-        <a href="mailto:georg.chimion@gmail.com" class="btn-hire">Hire Me</a>
+        <a href="#contact" class="btn-hire">Hire Me</a>
     </div>
-    <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">
-        <i data-lucide="menu" style="width:20px;height:20px;"></i>
-    </button>
+    <div style="display:flex;align-items:center;gap:10px;">
+      
+      <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">
+          <i data-lucide="menu" style="width:20px;height:20px;"></i>
+      </button>
+    </div>
 </nav>
 
 <!-- =============================================
@@ -1221,19 +1243,6 @@
                 </div>
             </div>
 
-            <!-- SpaceWalk — external link -->
-            <a href="https://spacewalk.georg.miami" target="_blank" class="product-card gsap-card" aria-label="SpaceWalk — AI 3D Walkthroughs">
-                <div class="product-thumb" style="background: var(--surface-2); display:flex; align-items:center; justify-content:center;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                </div>
-                <div class="product-info">
-                    <div class="product-badge badge-ai">AI + 3D</div>
-                    <div class="product-name">SpaceWalk</div>
-                    <div class="product-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</div>
-                    <div class="product-cta">View project &rarr;</div>
-                </div>
-            </a>
-
         </div>
 
         <!-- The Lab CTA bar -->
@@ -1281,7 +1290,7 @@
                     <i data-lucide="layers" style="width:24px;height:24px;"></i>
                 </div>
                 <div class="expertise-title">Full-Stack</div>
-                <div class="expertise-desc">React, TypeScript, Node.js, PostgreSQL, DigitalOcean. Architecture to deployment — end-to-end ownership with no handoff gaps.</div>
+                <div class="expertise-desc">React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</div>
                 <div class="expertise-context">Architecture to deployment</div>
             </div>
 
@@ -1354,21 +1363,21 @@
             <div>
                 <div class="event-eyebrow">
                     <span class="event-eyebrow-dot"></span>
-                    Coming Soon
+                    Community
                 </div>
-                <h2 style="font-size: clamp(22px, 2.5vw, 30px); margin-bottom: 14px; letter-spacing: -0.02em;">AI in the Enterprise</h2>
-                <p style="font-size: 15px; color: var(--text-2); line-height: 1.65; margin-bottom: 24px;">Hands-on session for enterprise teams exploring how AI transforms real workflows. Live demos with Claude Code. No fluff, no hype — just working systems.</p>
+                <h2 style="font-size: clamp(22px, 2.5vw, 30px); margin-bottom: 14px; letter-spacing: -0.02em;">Miami AI Community</h2>
+                <p style="font-size: 15px; color: var(--text-2); line-height: 1.65; margin-bottom: 24px;">Organizing hands-on sessions for enterprise teams exploring how AI transforms real workflows. Live demos with Claude Code. No fluff, no hype &mdash; just working systems.</p>
                 <div class="event-meta-row">
-                    <div class="event-meta-item">
-                        <span class="event-meta-label">When</span>
-                        <span class="event-meta-value">Spring 2026 &mdash; Date TBD</span>
-                    </div>
                     <div class="event-meta-item">
                         <span class="event-meta-label">Where</span>
                         <span class="event-meta-value">Wynwood, Miami</span>
                     </div>
+                    <div class="event-meta-item">
+                        <span class="event-meta-label">Format</span>
+                        <span class="event-meta-value">Live demos &amp; workshops</span>
+                    </div>
                 </div>
-                <a href="https://miami.georg.miami" target="_blank" class="btn-primary" style="text-decoration:none;">Miami AI Community &rarr;</a>
+                <a href="https://miami.georg.miami" target="_blank" class="btn-primary" style="text-decoration:none;">Join the Community &rarr;</a>
             </div>
             <div class="event-topics">
                 <div class="event-topics-header">What We'll Cover</div>
@@ -1429,7 +1438,7 @@
 <footer>
     <div class="container">
         <div class="footer-main">&copy; 2026 Georg Chimion. Miami, FL.</div>
-        <div class="footer-sub">Built with Claude</div>
+        <div class="footer-sub">Designed &amp; built by Georg Chimion</div>
     </div>
 </footer>
 
@@ -1470,7 +1479,7 @@ var products = {
         title: 'Ask Penny — AI Finance Assistant',
         desc: 'Personal finance AI powered by Claude. Connect your bank via Teller.io or Plaid, ask anything about your spending, get smart budgets, morning summaries, and proactive alerts. Full web app with chat interface.',
         tech: ['Claude AI', 'Node.js', 'PostgreSQL', 'Express', 'Teller.io'],
-        url: 'https://askpenny.georg.miami'
+        url: 'https://penny.georg.miami'
     },
     reconx: {
         img: 'screenshots/reconx.png',

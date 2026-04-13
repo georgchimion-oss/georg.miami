@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — AI Architect // Player HUD</title>
+<meta name="description" content="Georg Chimion's portfolio — RPG-styled game HUD showcasing AI products, skills, and achievements.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --hud-bg: #0a0e1a;
+    --hud-panel: rgba(12, 18, 40, 0.92);
+    --hud-border: #1e3a5f;
+    --hud-glow: #00d4ff;
+    --hud-glow-dim: rgba(0, 212, 255, 0.15);
+    --gold: #ffd700;
+    --legendary: #ff8000;
+    --epic: #a335ee;
+    --rare: #0070dd;
+    --uncommon: #1eff00;
+    --hp-red: #e74c3c;
+    --mp-blue: #3498db;
+    --xp-gold: #f1c40f;
+    --energy-green: #2ecc71;
+    --font-game: 'Press Start 2P', monospace;
+    --font-body: 'Inter', sans-serif;
+    --corner-size: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--hud-bg);
+    color: #c8d6e5;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ===== SCANLINE OVERLAY ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 212, 255, 0.015) 2px,
+      rgba(0, 212, 255, 0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ===== PIXEL BORDER MIXIN ===== */
+  .pixel-border {
+    border: 2px solid var(--hud-border);
+    box-shadow:
+      inset 0 0 30px rgba(0, 212, 255, 0.05),
+      0 0 15px rgba(0, 212, 255, 0.08);
+    position: relative;
+  }
+
+  .pixel-border::before,
+  .pixel-border::after {
+    content: '';
+    position: absolute;
+    width: var(--corner-size);
+    height: var(--corner-size);
+    border-color: var(--hud-glow);
+    border-style: solid;
+    border-width: 0;
+  }
+
+  .pixel-border::before {
+    top: -1px; left: -1px;
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+
+  .pixel-border::after {
+    bottom: -1px; right: -1px;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+  }
+
+  /* Extra corners via wrapper */
+  .corner-wrap { position: relative; }
+  .corner-wrap .corner-tr,
+  .corner-wrap .corner-bl {
+    position: absolute;
+    width: var(--corner-size);
+    height: var(--corner-size);
+    border-color: var(--hud-glow);
+    border-style: solid;
+    border-width: 0;
+    pointer-events: none;
+  }
+  .corner-wrap .corner-tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+  .corner-wrap .corner-bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+
+  /* ===== TOP HUD BAR ===== */
+  .top-hud {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 48px;
+    background: linear-gradient(180deg, rgba(10, 14, 26, 0.98), rgba(10, 14, 26, 0.85));
+    border-bottom: 1px solid var(--hud-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+  }
+
+  .top-hud .player-tag {
+    font-family: var(--font-game);
+    font-size: 10px;
+    color: var(--hud-glow);
+    letter-spacing: 1px;
+  }
+
+  .top-hud .hud-nav {
+    display: flex;
+    gap: 24px;
+  }
+
+  .top-hud .hud-nav a {
+    font-family: var(--font-game);
+    font-size: 8px;
+    color: #576574;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.2s, text-shadow 0.2s;
+    text-transform: uppercase;
+  }
+
+  .top-hud .hud-nav a:hover {
+    color: var(--hud-glow);
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
+
+  .top-hud .server-info {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: #576574;
+    letter-spacing: 1px;
+  }
+
+  /* ===== MAIN CONTAINER ===== */
+  .main-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 68px 20px 40px;
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-title {
+    font-family: var(--font-game);
+    font-size: 14px;
+    color: var(--hud-glow);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::before {
+    content: '>';
+    color: var(--gold);
+    animation: blink-cursor 1s steps(1) infinite;
+  }
+
+  .section-title .badge {
+    font-family: var(--font-body);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--hud-glow-dim);
+    border: 1px solid var(--hud-border);
+    color: var(--hud-glow);
+    font-weight: 600;
+  }
+
+  @keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ===== HERO / CHARACTER PANEL ===== */
+  .hero-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .char-panel {
+    background: var(--hud-panel);
+    padding: 24px;
+    display: flex;
+    gap: 20px;
+  }
+
+  .char-portrait {
+    width: 140px;
+    height: 170px;
+    flex-shrink: 0;
+    border: 2px solid var(--hud-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .char-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.05);
+  }
+
+  .char-portrait .level-badge {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(0, 0, 0, 0.85);
+    text-align: center;
+    padding: 3px 0;
+    font-family: var(--font-game);
+    font-size: 8px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    border-top: 1px solid var(--gold);
+  }
+
+  .char-info { flex: 1; }
+
+  .char-name {
+    font-family: var(--font-game);
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .char-class {
+    font-family: var(--font-game);
+    font-size: 9px;
+    color: var(--legendary);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  .char-title {
+    font-size: 13px;
+    color: #8395a7;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  /* Bars */
+  .bar-group { margin-bottom: 10px; }
+
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-game);
+    font-size: 7px;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+
+  .bar-track {
+    height: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    position: relative;
+    transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .bar-fill.hp { background: linear-gradient(90deg, #c0392b, var(--hp-red)); }
+  .bar-fill.mp { background: linear-gradient(90deg, #2471a3, var(--mp-blue)); }
+  .bar-fill.xp { background: linear-gradient(90deg, #d4ac0d, var(--xp-gold)); }
+  .bar-fill.energy { background: linear-gradient(90deg, #1e8449, var(--energy-green)); }
+
+  .bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.15), transparent);
+  }
+
+  /* ===== STATS PANEL ===== */
+  .stats-panel {
+    background: var(--hud-panel);
+    padding: 24px;
+  }
+
+  .stats-panel .panel-title {
+    font-family: var(--font-game);
+    font-size: 10px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .stat-row:last-child { border-bottom: none; }
+
+  .stat-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .stat-name {
+    font-family: var(--font-game);
+    font-size: 9px;
+    color: var(--hud-glow);
+    letter-spacing: 1px;
+    min-width: 50px;
+  }
+
+  .stat-desc {
+    font-size: 12px;
+    color: #8395a7;
+    flex: 1;
+  }
+
+  .stat-val {
+    font-family: var(--font-game);
+    font-size: 12px;
+    color: var(--gold);
+  }
+
+  .stat-bar-mini {
+    width: 80px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+  }
+
+  .stat-bar-mini .fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--hud-glow), var(--energy-green));
+    transition: width 1.5s ease;
+  }
+
+  /* ===== MINIMAP ===== */
+  .minimap-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 180px;
+    z-index: 100;
+  }
+
+  .minimap {
+    background: var(--hud-panel);
+    padding: 12px;
+    border: 2px solid var(--hud-border);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+  }
+
+  .minimap .map-title {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: var(--hud-glow);
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  .minimap .map-visual {
+    width: 100%;
+    aspect-ratio: 1;
+    background: #0d1526;
+    border: 1px solid var(--hud-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .minimap .map-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(0deg, transparent 49%, rgba(0,212,255,0.08) 50%, transparent 51%),
+      linear-gradient(90deg, transparent 49%, rgba(0,212,255,0.08) 50%, transparent 51%);
+    background-size: 20% 20%;
+  }
+
+  .map-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--hp-red);
+    border-radius: 50%;
+    top: 55%;
+    left: 65%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px var(--hp-red), 0 0 20px rgba(231, 76, 60, 0.4);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  .map-label-wynwood {
+    position: absolute;
+    font-family: var(--font-game);
+    font-size: 5px;
+    color: var(--hud-glow);
+    top: 48%;
+    left: 68%;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .map-label-miami {
+    position: absolute;
+    font-family: var(--font-game);
+    font-size: 6px;
+    color: rgba(255, 255, 255, 0.3);
+    bottom: 8px;
+    right: 8px;
+    letter-spacing: 2px;
+  }
+
+  /* coast line */
+  .map-coast {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+    background: linear-gradient(90deg, transparent, rgba(0, 100, 200, 0.12));
+    border-left: 1px solid rgba(0, 100, 200, 0.2);
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 10px var(--hp-red), 0 0 20px rgba(231, 76, 60, 0.4); }
+    50% { box-shadow: 0 0 15px var(--hp-red), 0 0 30px rgba(231, 76, 60, 0.6); }
+  }
+
+  .minimap .coords {
+    font-family: var(--font-game);
+    font-size: 6px;
+    color: #576574;
+    text-align: center;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== ACHIEVEMENTS ===== */
+  .achievements-section {
+    margin-bottom: 32px;
+  }
+
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+
+  .achievement {
+    background: var(--hud-panel);
+    border: 1px solid var(--hud-border);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .achievement:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+  }
+
+  .achievement .ach-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: rgba(255, 215, 0, 0.08);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    flex-shrink: 0;
+  }
+
+  .achievement .ach-text {
+    flex: 1;
+  }
+
+  .achievement .ach-title {
+    font-family: var(--font-game);
+    font-size: 8px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+  }
+
+  .achievement .ach-desc {
+    font-size: 12px;
+    color: #8395a7;
+  }
+
+  .achievement .ach-unlocked {
+    font-family: var(--font-game);
+    font-size: 6px;
+    color: var(--energy-green);
+    letter-spacing: 1px;
+  }
+
+  /* ===== INVENTORY / PRODUCTS ===== */
+  .inventory-section {
+    margin-bottom: 32px;
+  }
+
+  .inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .item-card {
+    background: var(--hud-panel);
+    border: 2px solid var(--hud-border);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .item-card:hover {
+    transform: translateY(-3px);
+    z-index: 10;
+  }
+
+  .item-card.legendary { border-color: var(--legendary); }
+  .item-card.legendary:hover { box-shadow: 0 0 30px rgba(255, 128, 0, 0.2), 0 8px 32px rgba(0,0,0,0.4); }
+  .item-card.epic { border-color: var(--epic); }
+  .item-card.epic:hover { box-shadow: 0 0 30px rgba(163, 53, 238, 0.2), 0 8px 32px rgba(0,0,0,0.4); }
+  .item-card.rare { border-color: var(--rare); }
+  .item-card.rare:hover { box-shadow: 0 0 30px rgba(0, 112, 221, 0.2), 0 8px 32px rgba(0,0,0,0.4); }
+  .item-card.uncommon { border-color: var(--uncommon); }
+  .item-card.uncommon:hover { box-shadow: 0 0 30px rgba(30, 255, 0, 0.15), 0 8px 32px rgba(0,0,0,0.4); }
+
+  .item-screenshot {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: filter 0.3s;
+  }
+
+  .item-card:hover .item-screenshot {
+    filter: brightness(1.1) contrast(1.05);
+  }
+
+  .item-body {
+    padding: 16px;
+  }
+
+  .item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .item-name {
+    font-family: var(--font-game);
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .item-card.legendary .item-name { color: var(--legendary); }
+  .item-card.epic .item-name { color: var(--epic); }
+  .item-card.rare .item-name { color: var(--rare); }
+  .item-card.uncommon .item-name { color: var(--uncommon); }
+
+  .rarity-badge {
+    font-family: var(--font-game);
+    font-size: 6px;
+    padding: 3px 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .rarity-badge.legendary { background: rgba(255, 128, 0, 0.15); color: var(--legendary); border: 1px solid rgba(255, 128, 0, 0.3); }
+  .rarity-badge.epic { background: rgba(163, 53, 238, 0.15); color: var(--epic); border: 1px solid rgba(163, 53, 238, 0.3); }
+  .rarity-badge.rare { background: rgba(0, 112, 221, 0.15); color: var(--rare); border: 1px solid rgba(0, 112, 221, 0.3); }
+  .rarity-badge.uncommon { background: rgba(30, 255, 0, 0.1); color: var(--uncommon); border: 1px solid rgba(30, 255, 0, 0.2); }
+
+  .item-desc {
+    font-size: 13px;
+    color: #8395a7;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .item-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    background: rgba(0, 212, 255, 0.06);
+    border: 1px solid rgba(0, 212, 255, 0.12);
+    color: var(--hud-glow);
+    font-weight: 500;
+  }
+
+  .item-equip {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: var(--energy-green);
+    letter-spacing: 1px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .item-equip::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--energy-green);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--energy-green);
+    display: inline-block;
+  }
+
+  /* ===== TOOLTIP ===== */
+  .item-card .tooltip-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(5, 8, 18, 0.96);
+    border: 2px solid;
+    padding: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 20;
+    backdrop-filter: blur(8px);
+  }
+
+  .item-card.legendary .tooltip-box { border-color: var(--legendary); }
+  .item-card.epic .tooltip-box { border-color: var(--epic); }
+  .item-card.rare .tooltip-box { border-color: var(--rare); }
+  .item-card.uncommon .tooltip-box { border-color: var(--uncommon); }
+
+  .item-card:hover .tooltip-box {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .tooltip-box .tt-name {
+    font-family: var(--font-game);
+    font-size: 10px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  .item-card.legendary .tt-name { color: var(--legendary); }
+  .item-card.epic .tt-name { color: var(--epic); }
+  .item-card.rare .tt-name { color: var(--rare); }
+  .item-card.uncommon .tt-name { color: var(--uncommon); }
+
+  .tooltip-box .tt-type {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: #576574;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .tooltip-box .tt-stats {
+    font-size: 12px;
+    color: var(--energy-green);
+    margin-bottom: 4px;
+  }
+
+  .tooltip-box .tt-flavor {
+    font-size: 11px;
+    color: var(--gold);
+    font-style: italic;
+    margin-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 8px;
+  }
+
+  .tooltip-box .tt-link {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: var(--hud-glow);
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== QUEST LOG / CONTACT ===== */
+  .contact-section {
+    margin-bottom: 80px;
+  }
+
+  .contact-panel {
+    background: var(--hud-panel);
+    border: 2px solid var(--hud-border);
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #c8d6e5;
+    padding: 10px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+  }
+
+  .contact-item:hover {
+    border-color: var(--hud-border);
+    background: rgba(0, 212, 255, 0.03);
+  }
+
+  .contact-item .c-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: rgba(0, 212, 255, 0.06);
+    border: 1px solid var(--hud-border);
+    flex-shrink: 0;
+  }
+
+  .contact-item .c-label {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: var(--hud-glow);
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+
+  .contact-item .c-value {
+    font-size: 13px;
+    color: #c8d6e5;
+  }
+
+  /* ===== SFX VISUAL CUES ===== */
+  .sfx-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-game);
+    font-size: 6px;
+    color: #576574;
+    letter-spacing: 1px;
+  }
+
+  .sfx-cue .wave {
+    display: flex;
+    gap: 1px;
+    align-items: flex-end;
+    height: 10px;
+  }
+
+  .sfx-cue .wave span {
+    width: 2px;
+    background: var(--hud-glow);
+    opacity: 0.4;
+    animation: wave-bar 0.8s ease-in-out infinite;
+  }
+
+  .sfx-cue .wave span:nth-child(1) { height: 4px; animation-delay: 0s; }
+  .sfx-cue .wave span:nth-child(2) { height: 8px; animation-delay: 0.1s; }
+  .sfx-cue .wave span:nth-child(3) { height: 5px; animation-delay: 0.2s; }
+  .sfx-cue .wave span:nth-child(4) { height: 10px; animation-delay: 0.3s; }
+  .sfx-cue .wave span:nth-child(5) { height: 3px; animation-delay: 0.4s; }
+
+  @keyframes wave-bar {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.4); }
+  }
+
+  /* ===== BOTTOM HUD ===== */
+  .bottom-hud {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 36px;
+    background: linear-gradient(0deg, rgba(10, 14, 26, 0.98), rgba(10, 14, 26, 0.85));
+    border-top: 1px solid var(--hud-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+  }
+
+  .bottom-hud .fps {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: var(--energy-green);
+    letter-spacing: 1px;
+  }
+
+  .bottom-hud .session-time {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: #576574;
+    letter-spacing: 1px;
+  }
+
+  .bottom-hud .zone {
+    font-family: var(--font-game);
+    font-size: 7px;
+    color: #576574;
+    letter-spacing: 1px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .hero-section {
+      grid-template-columns: 1fr;
+    }
+
+    .minimap-container {
+      display: none;
+    }
+
+    .top-hud .server-info { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .top-hud .hud-nav { gap: 12px; }
+    .top-hud .hud-nav a { font-size: 6px; }
+
+    .char-panel {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .char-portrait {
+      width: 120px;
+      height: 150px;
+    }
+
+    .inventory-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .achievements-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title {
+      font-size: 11px;
+    }
+
+    .contact-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .bottom-hud .zone { display: none; }
+  }
+
+  /* ===== SCROLL ANIMATION ===== */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== GLOW PULSE ON LEGENDARY ===== */
+  @keyframes legendary-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(255, 128, 0, 0.15); }
+    50% { box-shadow: 0 0 20px rgba(255, 128, 0, 0.3); }
+  }
+
+  .item-card.legendary {
+    animation: legendary-pulse 3s ease-in-out infinite;
+  }
+
+  /* ===== HERO BG IMAGE ===== */
+  .hero-bg {
+    position: relative;
+    margin-bottom: 32px;
+    height: 280px;
+    overflow: hidden;
+    border: 2px solid var(--hud-border);
+  }
+
+  .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    filter: brightness(0.4) contrast(1.1);
+  }
+
+  .hero-bg .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, var(--hud-bg) 0%, transparent 60%);
+  }
+
+  .hero-bg .hero-text {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+  }
+
+  .hero-bg .hero-text h1 {
+    font-family: var(--font-game);
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 8px;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .hero-bg .hero-text .subtitle {
+    font-family: var(--font-game);
+    font-size: 10px;
+    color: var(--hud-glow);
+    letter-spacing: 2px;
+  }
+
+  .hero-bg .sfx-corner {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .hero-bg { height: 200px; }
+    .hero-bg .hero-text h1 { font-size: 16px; }
+    .hero-bg .hero-text .subtitle { font-size: 8px; }
+  }
+</style>
+</head>
+<body>
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="premiere.html">Premiere</option>
+    <option value="maximal.html">Maximal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html" selected>Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+
+
+<!-- ===== TOP HUD BAR ===== -->
+<nav class="top-hud">
+  <div class="player-tag">GEORG.MIAMI</div>
+  <div class="hud-nav">
+    <a href="#expertise">Expertise</a>
+    <a href="#inventory">Products</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="server-info">MIAMI // ONLINE</div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div class="main-container">
+
+  <!-- HERO BANNER -->
+  <div class="hero-bg pixel-border fade-in">
+    <img src="georg-hero.jpeg" alt="Georg Chimion hero banner">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      <h1>AI automation for the enterprise.</h1>
+      <div class="subtitle">// AI AUTOMATION SPECIALIST &bull; MIAMI //</div>
+    </div>
+    <div class="sfx-corner">
+      <div class="sfx-cue">
+        <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
+        SFX: AMBIENT
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARACTER PANEL + STATS -->
+  <section class="hero-section" id="stats">
+    <div class="char-panel pixel-border corner-wrap fade-in">
+      <span class="corner-tr"></span>
+      <span class="corner-bl"></span>
+      <div class="char-portrait">
+        <img src="georg.jpeg" alt="Georg Chimion portrait">
+        <div class="level-badge">PwC</div>
+      </div>
+      <div class="char-info">
+        <div class="char-name">Georg Chimion</div>
+        <div class="char-class">AI Automation Specialist</div>
+        <div class="char-title">Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</div>
+
+        <div class="bar-group">
+          <div class="bar-label"><span style="color:var(--hp-red)">HP // STAMINA</span><span>920 / 1000</span></div>
+          <div class="bar-track"><div class="bar-fill hp" style="width:92%"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-label"><span style="color:var(--mp-blue)">MP // FOCUS</span><span>780 / 800</span></div>
+          <div class="bar-track"><div class="bar-fill mp" style="width:97.5%"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-label"><span style="color:var(--xp-gold)">XP // LEVEL 12</span><span>8,450 / 10,000</span></div>
+          <div class="bar-track"><div class="bar-fill xp" style="width:84.5%"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-label"><span style="color:var(--energy-green)">ENERGY // BUILD POWER</span><span>95 / 100</span></div>
+          <div class="bar-track"><div class="bar-fill energy" style="width:95%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-panel pixel-border corner-wrap fade-in" id="expertise">
+      <span class="corner-tr"></span>
+      <span class="corner-bl"></span>
+      <div class="panel-title">What I bring.</div>
+
+      <div class="stat-row">
+        <div class="stat-icon">&#9733;</div>
+        <div class="stat-name">AI</div>
+        <div class="stat-desc">Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-icon">&#128142;</div>
+        <div class="stat-name">FIN</div>
+        <div class="stat-desc">Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-icon">&#9876;</div>
+        <div class="stat-name">DEV</div>
+        <div class="stat-desc">React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment &mdash; end-to-end ownership with no handoff gaps.</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-icon">&#9889;</div>
+        <div class="stat-name">SPD</div>
+        <div class="stat-desc">From concept to working prototype in days, not months. Fast iteration with real users &mdash; six live products already in portfolio.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGAGEMENT MODEL -->
+  <section class="achievements-section" id="process">
+    <div class="section-title fade-in">Engagement model. <span class="badge">3 PHASES</span></div>
+    <div class="achievements-grid">
+      <div class="achievement pixel-border fade-in">
+        <div class="ach-icon">01</div>
+        <div class="ach-text">
+          <div class="ach-title">DISCOVERY</div>
+          <div class="ach-desc">Understand workflows, pain points, and what 'done' looks like. Map the opportunity, identify quick wins, define success criteria.</div>
+        </div>
+      </div>
+      <div class="achievement pixel-border fade-in">
+        <div class="ach-icon">02</div>
+        <div class="ach-text">
+          <div class="ach-title">BUILD &amp; SHIP</div>
+          <div class="ach-desc">Embedded in your team, building production systems. Weekly stakeholder iterations. Real users, real feedback.</div>
+        </div>
+      </div>
+      <div class="achievement pixel-border fade-in">
+        <div class="ach-icon">03</div>
+        <div class="ach-text">
+          <div class="ach-title">HANDOFF</div>
+          <div class="ach-desc">Documentation, training, knowledge transfer. Your team owns it. Optional retainer for ongoing support.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVENTORY / PRODUCTS -->
+  <section class="inventory-section" id="inventory">
+    <div class="section-title fade-in">From idea to deployment. <span class="badge">8 PRODUCTS</span></div>
+    <div class="inventory-grid">
+
+      <!-- Vestia -->
+      <a href="https://vestia.georg.miami" target="_blank" class="item-card legendary pixel-border fade-in">
+        <div class="tooltip-box">
+          <div class="tt-name">Vestia</div>
+          <div class="tt-type">AI-POWERED</div>
+          <div class="tt-flavor">AI property management for South Florida condos.</div>
+          <div class="tt-link">VIEW &rarr; vestia.georg.miami</div>
+        </div>
+        <img src="screenshots/vestia.png" alt="Vestia screenshot" class="item-screenshot">
+        <div class="item-body">
+          <div class="item-header">
+            <span class="item-name">Vestia</span>
+            <span class="rarity-badge legendary">AI-Powered</span>
+          </div>
+          <div class="item-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</div>
+          <div class="item-tags">
+            <span class="item-tag">AI</span>
+            <span class="item-tag">PropTech</span>
+            <span class="item-tag">Full-Stack</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Ask Penny -->
+      <a href="https://penny.georg.miami" target="_blank" class="item-card legendary pixel-border fade-in">
+        <div class="tooltip-box">
+          <div class="tt-name">Ask Penny</div>
+          <div class="tt-type">AI-POWERED</div>
+          <div class="tt-flavor">AI finance assistant powered by Claude.</div>
+          <div class="tt-link">VIEW &rarr; penny.georg.miami</div>
+        </div>
+        <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny screenshot" class="item-screenshot">
+        <div class="item-body">
+          <div class="item-header">
+            <span class="item-name">Ask Penny</span>
+            <span class="rarity-badge legendary">AI-Powered</span>
+          </div>
+          <div class="item-desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</div>
+          <div class="item-tags">
+            <span class="item-tag">AI</span>
+            <span class="item-tag">FinTech</span>
+            <span class="item-tag">Claude</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Agent Factory -->
+      <a href="https://factory.georg.miami" target="_blank" class="item-card epic pixel-border fade-in">
+        <div class="tooltip-box">
+          <div class="tt-name">Agent Factory</div>
+          <div class="tt-type">AI MULTI-AGENT</div>
+          <div class="tt-flavor">4 autonomous AI agents collaborate to build production websites from a brief.</div>
+          <div class="tt-link">VIEW &rarr; factory.georg.miami</div>
+        </div>
+        <img src="screenshots/factory.png" alt="Agent Factory screenshot" class="item-screenshot">
+        <div class="item-body">
+          <div class="item-header">
+            <span class="item-name">Agent Factory</span>
+            <span class="rarity-badge epic">AI Multi-Agent</span>
+          </div>
+          <div class="item-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</div>
+          <div class="item-tags">
+            <span class="item-tag">Agents</span>
+            <span class="item-tag">Multi-Agent</span>
+            <span class="item-tag">AI</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- VENUE -->
+      <a href="https://venue.georg.miami" target="_blank" class="item-card epic pixel-border fade-in">
+        <div class="tooltip-box">
+          <div class="tt-name">VENUE</div>
+          <div class="tt-type">PRODUCT</div>
+          <div class="tt-flavor">Premium private event booking.</div>
+          <div class="tt-link">VIEW &rarr; venue.georg.miami</div>
+        </div>
+        <img src="screenshots/venue.png" alt="VENUE screenshot" class="item-screenshot">
+        <div class="item-body">
+          <div class="item-header">
+            <span class="item-name">VENUE</span>
+            <span class="rarity-badge epic">Product</span>
+          </div>
+          <div class="item-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</div>
+          <div class="item-tags">
+            <span class="item-tag">Events</span>
+            <span class="item-tag">Booking</span>
+            <span class="item-tag">Product</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- ReconX -->
+      <a href="https://reconx.georg.miami" target="_blank" class="item-card rare pixel-border fade-in">
+        <div class="tooltip-box">
+          <div class="tt-name">ReconX</div>
+          <div class="tt-type">LIVE</div>
+          <div class="tt-flavor">Cloud-native reconciliation engine.</div>
+          <div class="tt-link">VIEW &rarr; reconx.georg.miami</div>
+        </div>
+        <img src="screenshots/reconx.png" alt="ReconX screenshot" class="item-screenshot">
+        <div class="item-body">
+          <div class="item-header">
+            <span class="item-name">ReconX</span>
+            <span class="rarity-badge rare">Live</span>
+          </div>
+          <div class="item-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</div>
+          <div class="item-tags">
+            <span class="item-tag">Finance</span>
+            <span class="item-tag">Reconciliation</span>
+            <span class="item-tag">Live</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- AI Document Intelligence -->
+      <a href="https://docs.georg.miami" target="_blank" class="item-card rare pixel-border fade-in">
+        <div class="tooltip-box">
+          <div class="tt-name">AI Document Intelligence</div>
+          <div class="tt-type">AI-POWERED</div>
+          <div class="tt-flavor">Upload a PDF, watch AI extract structured data in real-time.</div>
+          <div class="tt-link">VIEW &rarr; docs.georg.miami</div>
+        </div>
+        <img src="screenshots/docai.png" alt="AI Document Intelligence screenshot" class="item-screenshot">
+        <div class="item-body">
+          <div class="item-header">
+            <span class="item-name">AI Document Intelligence</span>
+            <span class="rarity-badge rare">AI-Powered</span>
+          </div>
+          <div class="item-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</div>
+          <div class="item-tags">
+            <span class="item-tag">AI</span>
+            <span class="item-tag">Documents</span>
+            <span class="item-tag">Extraction</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- ROI Calculator -->
+      <a href="https://roi.georg.miami" target="_blank" class="item-card uncommon pixel-border fade-in">
+        <div class="tooltip-box">
+          <div class="tt-name">ROI Calculator</div>
+          <div class="tt-type">LIVE</div>
+          <div class="tt-flavor">Interactive tool for enterprise leaders to estimate ROI of AI automation.</div>
+          <div class="tt-link">VIEW &rarr; roi.georg.miami</div>
+        </div>
+        <img src="screenshots/roi.png" alt="ROI Calculator screenshot" class="item-screenshot">
+        <div class="item-body">
+          <div class="item-header">
+            <span class="item-name">ROI Calculator</span>
+            <span class="rarity-badge uncommon">Live</span>
+          </div>
+          <div class="item-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</div>
+          <div class="item-tags">
+            <span class="item-tag">ROI</span>
+            <span class="item-tag">Enterprise</span>
+            <span class="item-tag">Live</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- SpaceWalk -->
+      <a href="https://spacewalk.georg.miami" target="_blank" class="item-card epic pixel-border fade-in">
+        <div class="tooltip-box">
+          <div class="tt-name">SpaceWalk</div>
+          <div class="tt-type">AI + 3D</div>
+          <div class="tt-flavor">Turn floor plan blueprints into interactive 3D walkthroughs.</div>
+          <div class="tt-link">VIEW &rarr; spacewalk.georg.miami</div>
+        </div>
+        <img src="screenshots/spacewalk.png" alt="SpaceWalk screenshot" class="item-screenshot">
+        <div class="item-body">
+          <div class="item-header">
+            <span class="item-name">SpaceWalk</span>
+            <span class="rarity-badge epic">AI + 3D</span>
+          </div>
+          <div class="item-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</div>
+          <div class="item-tags">
+            <span class="item-tag">AI</span>
+            <span class="item-tag">3D</span>
+            <span class="item-tag">Real Estate</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- CONTACT / QUEST BOARD -->
+  <section class="contact-section" id="contact">
+    <div class="section-title fade-in">Let's work together.</div>
+    <div class="contact-panel pixel-border corner-wrap fade-in">
+      <span class="corner-tr"></span>
+      <span class="corner-bl"></span>
+
+      <a href="mailto:georg.chimion@gmail.com" class="contact-item">
+        <div class="c-icon">&#9993;</div>
+        <div>
+          <div class="c-label">Mail</div>
+          <div class="c-value">georg.chimion@gmail.com</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-item">
+        <div class="c-icon">&#128187;</div>
+        <div>
+          <div class="c-label">GitHub</div>
+          <div class="c-value">georgchimion-oss</div>
+        </div>
+      </a>
+
+      <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-item">
+        <div class="c-icon">&#128101;</div>
+        <div>
+          <div class="c-label">LinkedIn</div>
+          <div class="c-value">georgchimion</div>
+        </div>
+      </a>
+
+      <div class="contact-item">
+        <div class="c-icon">&#128205;</div>
+        <div>
+          <div class="c-label">Location</div>
+          <div class="c-value">Wynwood, Miami FL</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- MINIMAP -->
+<div class="minimap-container">
+  <div class="minimap">
+    <div class="map-title">MINIMAP</div>
+    <div class="map-visual">
+      <div class="map-coast"></div>
+      <div class="map-dot"></div>
+      <div class="map-label-wynwood">WYNWOOD</div>
+      <div class="map-label-miami">MIAMI</div>
+    </div>
+    <div class="coords">25.7959N, 80.1998W</div>
+  </div>
+</div>
+
+<!-- BOTTOM HUD -->
+<div class="bottom-hud">
+  <div class="fps" id="fps-counter">60 FPS</div>
+  <div class="zone">&copy; 2026 Georg Chimion. Miami, FL. // Built with Claude</div>
+  <div class="session-time" id="session-timer">SESSION: 00:00</div>
+</div>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Session timer
+  const startTime = Date.now();
+  const timerEl = document.getElementById('session-timer');
+  setInterval(() => {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const mins = String(Math.floor(elapsed / 60)).padStart(2, '0');
+    const secs = String(elapsed % 60).padStart(2, '0');
+    timerEl.textContent = `SESSION: ${mins}:${secs}`;
+  }, 1000);
+
+  // Fake FPS counter with slight variation
+  const fpsEl = document.getElementById('fps-counter');
+  setInterval(() => {
+    const fps = 58 + Math.floor(Math.random() * 4);
+    fpsEl.textContent = `${fps} FPS`;
+  }, 800);
+
+  // Animate bars on load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.bar-fill').forEach(bar => {
+      const target = bar.style.width;
+      bar.style.width = '0%';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          bar.style.width = target;
+        });
+      });
+    });
+
+    document.querySelectorAll('.stat-bar-mini .fill').forEach(bar => {
+      const target = bar.style.width;
+      bar.style.width = '0%';
+      setTimeout(() => { bar.style.width = target; }, 300);
+    });
+  });
+</script>
+
+</body>
+</html>

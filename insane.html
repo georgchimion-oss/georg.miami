@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — AI Automation Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:#00e5ff33;border-radius:3px}
+
+/* ── SCENE 1: PARTICLE HERO ── */
+#hero{position:relative;width:100%;height:100vh;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#001a2233 0%,#000 70%)}
+#heroCanvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.hero-subtitle{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:clamp(12px,1.4vw,18px);color:#00e5ff;letter-spacing:4px;opacity:0;transition:opacity 1.5s ease;text-transform:uppercase;white-space:nowrap}
+.hero-subtitle.visible{opacity:1}
+.scroll-indicator{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeInUp 1s 3s forwards}
+.scroll-indicator span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;color:#ffffff55;text-transform:uppercase}
+.chevron{width:20px;height:20px;border-right:2px solid #00e5ff;border-bottom:2px solid #00e5ff;transform:rotate(45deg);animation:chevronBounce 2s infinite}
+@keyframes chevronBounce{0%,100%{transform:translateY(0) rotate(45deg);opacity:.3}50%{transform:translateY(8px) rotate(45deg);opacity:1}}
+@keyframes fadeInUp{to{opacity:1}}
+
+/* ── SCENE 2: LIQUID MORPH CARDS ── */
+#products{padding:120px 5vw;position:relative}
+#products h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,64px);font-weight:700;text-align:center;margin-bottom:16px}
+#products .section-sub{text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#00e5ff;letter-spacing:3px;margin-bottom:60px;text-transform:uppercase}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1400px;margin:0 auto}
+@media(max-width:1100px){.products-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.products-grid{grid-template-columns:1fr}}
+
+.product-card{position:relative;perspective:800px;opacity:0;transform:rotateY(90deg);transition:opacity .6s ease,transform .8s cubic-bezier(.23,1,.32,1)}
+.product-card.visible{opacity:1;transform:rotateY(0)}
+.product-card-inner{background:#0a0a0a;border:1px solid #ffffff12;border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .4s ease,box-shadow .4s ease;filter:url(#liquid)}
+.product-card-inner:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 20px 60px #00e5ff15}
+.product-card-inner img{width:100%;height:180px;object-fit:cover;display:block;transition:filter .3s}
+.product-card-info{padding:20px}
+.product-card-info h3{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;margin-bottom:6px}
+.product-card-info p{font-family:'JetBrains Mono',monospace;font-size:11px;color:#00e5ff;letter-spacing:1px}
+
+/* SVG filter for liquid effect - hidden */
+.svg-filters{position:absolute;width:0;height:0}
+
+/* ── SCENE 3: COUNTER EXPLOSION ── */
+#stats{padding:120px 5vw;position:relative}
+#statsCanvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+@media(max-width:800px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-item{text-align:center}
+.stat-number{font-family:'Space Grotesk',sans-serif;font-size:clamp(48px,8vw,96px);font-weight:700;color:#fff;line-height:1;transition:color .3s}
+.stat-number.active{color:#00e5ff}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:13px;color:#ffffff66;letter-spacing:2px;margin-top:12px;text-transform:uppercase}
+
+/* ── SCENE 4: MAGNETIC TEXT ── */
+#expertise{padding:120px 5vw;position:relative}
+#expertise h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,7vw,100px);font-weight:700;text-align:center;margin-bottom:80px;line-height:1.1}
+#expertise h2 span{display:inline-block;transition:transform .3s cubic-bezier(.25,.46,.45,.94);cursor:default}
+.expertise-list{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.expertise-item{font-family:'DM Sans',sans-serif;font-size:clamp(18px,2.5vw,28px);font-weight:300;padding:20px 0;border-bottom:1px solid #ffffff12;opacity:0;transform:translateX(-60px);transition:opacity .6s ease,transform .8s cubic-bezier(.23,1,.32,1)}
+.expertise-item:nth-child(even){transform:translateX(60px)}
+.expertise-item.visible{opacity:1;transform:translateX(0)}
+.expertise-item .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:#00e5ff;letter-spacing:2px;display:block;margin-bottom:6px;text-transform:uppercase}
+
+/* ── SCENE 5: PHOTO PIXEL DISSOLVE ── */
+#about{padding:120px 5vw;position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.about-container{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+@media(max-width:800px){.about-container{grid-template-columns:1fr;text-align:center}}
+.photo-wrap{position:relative;width:100%;aspect-ratio:1;max-width:400px}
+#photoCanvas{width:100%;height:100%;border-radius:16px}
+.about-text h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:24px}
+.about-text p{font-size:18px;line-height:1.7;color:#ffffffbb;margin-bottom:16px}
+.about-text .highlight{color:#00e5ff;font-weight:500}
+
+/* ── SCENE 6: GRAVITY CARDS ── */
+#contact{padding:120px 5vw 80px;position:relative}
+#contact h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,64px);font-weight:700;text-align:center;margin-bottom:60px}
+.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1000px;margin:0 auto}
+@media(max-width:800px){.contact-grid{grid-template-columns:repeat(2,1fr)}}
+.gravity-card{background:#0a0a0a;border:1px solid #ffffff12;border-radius:16px;padding:32px 24px;text-align:center;transition:transform .15s ease-out;position:relative;cursor:pointer}
+.gravity-card::after{content:'';position:absolute;bottom:-10px;left:20%;right:20%;height:20px;background:radial-gradient(ellipse,#00e5ff22,transparent);filter:blur(8px);transition:transform .15s ease-out,opacity .3s}
+.gravity-card:hover{border-color:#00e5ff44}
+.gravity-card .icon{font-size:32px;margin-bottom:16px;display:block}
+.gravity-card h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;margin-bottom:8px}
+.gravity-card p{font-family:'JetBrains Mono',monospace;font-size:12px;color:#00e5ff;word-break:break-all}
+
+/* ── NOISE OVERLAY ── */
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ── SECTION DIVIDERS ── */
+.glow-divider{width:200px;height:1px;margin:0 auto;background:linear-gradient(90deg,transparent,#00e5ff44,transparent);position:relative}
+.glow-divider::after{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:60px;height:9px;background:radial-gradient(ellipse,#00e5ff33,transparent);filter:blur(4px)}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:40px 5vw;border-top:1px solid #ffffff08}
+footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:#ffffff33;letter-spacing:2px}
+</style>
+</head>
+<body>
+
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="cinematic-v2.html">Cinematic V2</option>
+    <option value="insane.html" selected>Insane</option>
+    <option value="holographic.html">Holographic</option>
+    <option value="terminal.html">Terminal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="blueprint.html">Blueprint</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+<!-- SVG Filters -->
+<svg class="svg-filters">
+  <defs>
+    <filter id="liquid">
+      <feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.00" numOctaves="3" result="noise" seed="2"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+
+
+<!-- SCENE 1: PARTICLE HERO -->
+<section id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-subtitle" id="heroSub">AI AUTOMATION SPECIALIST &middot; MIAMI</div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="chevron"></div>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- SCENE 2: LIQUID MORPH CARDS -->
+<section id="products">
+  <h2>From idea to deployment.</h2>
+  <p class="section-sub">Each project built end-to-end — from architecture to live demo.</p>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- SCENE 3: COUNTER EXPLOSION -->
+<section id="stats">
+  <canvas id="statsCanvas"></canvas>
+  <div class="stats-grid" id="statsGrid"></div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- SCENE 4: MAGNETIC TEXT -->
+<section id="expertise">
+  <h2 id="magneticTitle"></h2>
+  <div class="expertise-list" id="expertiseList"></div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- SCENE 5: PHOTO PIXEL DISSOLVE -->
+<section id="about">
+  <div class="about-container">
+    <div class="photo-wrap">
+      <canvas id="photoCanvas"></canvas>
+    </div>
+    <div class="about-text">
+      <h2>What I bring.</h2>
+      <p><span class="highlight">AI Systems</span> — Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</p>
+      <p><span class="highlight">Finance &amp; Risk</span> — Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</p>
+      <p><span class="highlight">Full-Stack</span> — React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</p>
+    </div>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- SCENE 6: GRAVITY CARDS -->
+<section id="contact">
+  <h2>Let's work together.</h2>
+  <div class="contact-grid" id="contactGrid"></div>
+</section>
+
+<footer><p>&copy; 2026 Georg Chimion. Miami, FL. &middot; Built with Claude</p></footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   SCENE 1: PARTICLE NAME
+   ═══════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouse = {x:-9999,y:-9999}, settled = false;
+  const PARTICLE_SIZE = 1.8;
+  const isMobile = window.innerWidth < 768;
+  const SAMPLE_GAP = isMobile ? 4 : 2;
+  let startTime = 0;
+  const CONVERGE_DURATION = 2000; // ms to fully converge
+
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    settled = false;
+    buildParticles();
+    startTime = performance.now();
+  }
+
+  function buildParticles(){
+    const offscreen = document.createElement('canvas');
+    offscreen.width = W; offscreen.height = H;
+    const octx = offscreen.getContext('2d');
+    const fontSize = Math.min(W * 0.13, 170);
+    octx.fillStyle = '#fff';
+    // Use multiple font fallbacks — system bold fonts guaranteed to work
+    octx.font = `800 ${fontSize}px "Space Grotesk", "Arial Black", "Helvetica Neue", Impact, sans-serif`;
+    octx.textAlign = 'center';
+    octx.textBaseline = 'middle';
+    octx.fillText('GEORG', W/2, H/2 - fontSize*0.58);
+    octx.fillText('CHIMION', W/2, H/2 + fontSize*0.58);
+    const data = octx.getImageData(0,0,W,H).data;
+    particles = [];
+    for(let y=0;y<H;y+=SAMPLE_GAP){
+      for(let x=0;x<W;x+=SAMPLE_GAP){
+        if(data[(y*W+x)*4+3]>128){
+          // Random start position — spread across entire screen
+          const angle = Math.random()*Math.PI*2;
+          const radius = Math.random()*Math.max(W,H)*0.8;
+          particles.push({
+            tx:x, ty:y,
+            sx: W/2 + Math.cos(angle)*radius, // start x
+            sy: H/2 + Math.sin(angle)*radius, // start y
+            x: W/2 + Math.cos(angle)*radius,
+            y: H/2 + Math.sin(angle)*radius,
+            vx:0, vy:0,
+            size: PARTICLE_SIZE + Math.random()*0.8,
+            wobbleX: Math.random()*Math.PI*2,
+            wobbleY: Math.random()*Math.PI*2,
+            wobbleSpeed: 0.008 + Math.random()*0.015,
+            delay: Math.random()*0.3 // stagger: 0-30% of duration
+          });
+        }
+      }
+    }
+  }
+
+  canvas.addEventListener('mousemove', e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+  canvas.addEventListener('mouseleave', ()=>{mouse.x=-9999;mouse.y=-9999});
+  canvas.addEventListener('touchmove', e=>{
+    e.preventDefault();
+    mouse.x=e.touches[0].clientX;mouse.y=e.touches[0].clientY;
+  },{passive:false});
+  canvas.addEventListener('touchend', ()=>{mouse.x=-9999;mouse.y=-9999});
+
+  // Easing: cubic ease-out
+  function easeOutCubic(t){ return 1 - Math.pow(1-t, 3); }
+
+  function animate(now){
+    ctx.clearRect(0,0,W,H);
+    const elapsed = now - startTime;
+    let allSettled = true;
+
+    for(let i=0;i<particles.length;i++){
+      const p = particles[i];
+
+      // Wobble (always active, subtle)
+      p.wobbleX += p.wobbleSpeed;
+      p.wobbleY += p.wobbleSpeed * 0.7;
+      const wobX = Math.sin(p.wobbleX)*0.6;
+      const wobY = Math.cos(p.wobbleY)*0.6;
+
+      // Phase 1: Time-based convergence (first CONVERGE_DURATION ms)
+      const delayedElapsed = elapsed - p.delay * CONVERGE_DURATION;
+      const convergence = Math.max(0, Math.min(1, delayedElapsed / (CONVERGE_DURATION * (1 - p.delay))));
+      const easedConvergence = easeOutCubic(convergence);
+
+      if(convergence < 1){
+        // Lerp from start to target
+        p.x = p.sx + (p.tx - p.sx) * easedConvergence + wobX * easedConvergence;
+        p.y = p.sy + (p.ty - p.sy) * easedConvergence + wobY * easedConvergence;
+        p.vx = 0; p.vy = 0;
+        allSettled = false;
+      } else {
+        // Phase 2: Spring physics (mouse interaction + wobble)
+        let targetX = p.tx + wobX;
+        let targetY = p.ty + wobY;
+
+        // Mouse repulsion
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if(dist < 120 && dist > 0){
+          const force = (120 - dist)/120;
+          p.vx += (dx/dist)*force*8;
+          p.vy += (dy/dist)*force*8;
+        }
+
+        // Spring back to target
+        p.vx += (targetX - p.x)*0.12;
+        p.vy += (targetY - p.y)*0.12;
+        p.vx *= 0.85;
+        p.vy *= 0.85;
+        p.x += p.vx;
+        p.y += p.vy;
+      }
+
+      // Color: fast-moving = cyan glow, settled = white-blue
+      const speed = Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+      const moveFactor = convergence < 1 ? (1 - easedConvergence) : Math.min(speed/5, 1);
+      if(moveFactor > 0.3){
+        ctx.fillStyle = `rgba(0,229,255,${0.55+moveFactor*0.45})`;
+      } else {
+        ctx.fillStyle = `rgba(220,230,255,${0.75+moveFactor*0.25})`;
+      }
+      ctx.fillRect(p.x, p.y, p.size, p.size);
+    }
+
+    if(allSettled && !settled){
+      settled = true;
+      document.getElementById('heroSub').classList.add('visible');
+    }
+    requestAnimationFrame(animate);
+  }
+
+  // Start immediately — don't wait for Google Fonts (system fallback handles it)
+  // But also try with fonts loaded
+  function init(){
+    resize();
+    startTime = performance.now();
+    requestAnimationFrame(animate);
+  }
+
+  // Try fonts first, but timeout after 500ms
+  let started = false;
+  document.fonts.ready.then(()=>{
+    if(!started){ started=true; init(); }
+  });
+  setTimeout(()=>{
+    if(!started){ started=true; init(); }
+  }, 500);
+
+  window.addEventListener('resize', ()=>{
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    settled = false;
+    buildParticles();
+    startTime = performance.now();
+  });
+})();
+
+
+/* ═══════════════════════════════════════════
+   SCENE 2: LIQUID MORPH CARDS
+   ═══════════════════════════════════════════ */
+(function(){
+  const products = [
+    {name:'Vestia', img:'screenshots/vestia.png', url:'https://vestia.georg.miami'},
+    {name:'Ask Penny', img:'screenshots/askpenny-dashboard.png', url:'https://penny.georg.miami'},
+    {name:'Agent Factory', img:'screenshots/factory.png', url:'https://factory.georg.miami'},
+    {name:'VENUE', img:'screenshots/venue.png', url:'https://venue.georg.miami'},
+    {name:'ReconX', img:'screenshots/reconx.png', url:'https://reconx.georg.miami'},
+    {name:'AI Document Intelligence', img:'screenshots/docai.png', url:'https://docs.georg.miami'},
+    {name:'ROI Calculator', img:'screenshots/roi.png', url:'https://roi.georg.miami'},
+    {name:'SpaceWalk', img:'screenshots/spacewalk.png', url:'https://spacewalk.georg.miami'},
+  ];
+  const grid = document.getElementById('productsGrid');
+  const turb = document.getElementById('turbulence');
+  const filter = document.querySelector('#liquid feDisplacementMap');
+
+  products.forEach((p,i)=>{
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.style.transitionDelay = `${i*100}ms`;
+    card.innerHTML = `
+      <a href="${p.url}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+        <div class="product-card-inner">
+          ${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : `<div style="width:100%;height:180px;background:#111;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-size:24px;color:#00e5ff">🚀</div>`}
+          <div class="product-card-info">
+            <h3>${p.name}</h3>
+            <p>${p.url.replace('https://','')}</p>
+          </div>
+        </div>
+      </a>`;
+    grid.appendChild(card);
+  });
+
+  // Liquid hover effect
+  let liquidAnim = null;
+  grid.addEventListener('mouseenter', function(e){
+    if(!e.target.closest('.product-card-inner')) return;
+    let t = 0;
+    cancelAnimationFrame(liquidAnim);
+    (function run(){
+      t += 0.02;
+      const freq = 0.015 + Math.sin(t)*0.01;
+      turb.setAttribute('baseFrequency', freq.toFixed(4));
+      filter.setAttribute('scale', Math.min(t*30, 12).toFixed(1));
+      if(t<1.5) liquidAnim = requestAnimationFrame(run);
+    })();
+  }, true);
+  grid.addEventListener('mouseleave', function(e){
+    if(!e.target.closest('.product-card-inner')) return;
+    cancelAnimationFrame(liquidAnim);
+    turb.setAttribute('baseFrequency', '0.00');
+    filter.setAttribute('scale', '0');
+  }, true);
+})();
+
+
+/* ═══════════════════════════════════════════
+   SCENE 3: COUNTER EXPLOSION
+   ═══════════════════════════════════════════ */
+(function(){
+  const stats = [
+    {value:8, suffix:'', label:'Live Systems'},
+    {value:6, suffix:'+', label:'Products'},
+    {value:0, suffix:'', label:'Currently at PwC'},
+  ];
+  const grid = document.getElementById('statsGrid');
+  const canvas = document.getElementById('statsCanvas');
+  const ctx = canvas.getContext('2d');
+  let sparks = [], triggered = false;
+
+  function resizeStats(){
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
+  }
+  resizeStats();
+  window.addEventListener('resize', resizeStats);
+
+  stats.forEach((s,i)=>{
+    const div = document.createElement('div');
+    div.className = 'stat-item';
+    div.innerHTML = `<div class="stat-number" data-target="${s.value}" data-suffix="${s.suffix}" id="stat${i}">0${s.suffix}</div><div class="stat-label">${s.label}</div>`;
+    grid.appendChild(div);
+  });
+
+  function countUp(el, target, suffix, delay, idx){
+    setTimeout(()=>{
+      const duration = 1200;
+      const start = performance.now();
+      el.classList.add('active');
+      function tick(now){
+        const elapsed = now - start;
+        const progress = Math.min(elapsed/duration, 1);
+        const eased = 1 - Math.pow(1-progress, 3);
+        const current = Math.round(eased * target);
+        el.textContent = (target>=1000 ? current.toLocaleString() : current) + suffix;
+        if(progress<1) requestAnimationFrame(tick);
+        else {
+          // EXPLODE sparks
+          const rect = el.getBoundingClientRect();
+          const section = canvas.parentElement.getBoundingClientRect();
+          const cx = rect.left + rect.width/2 - section.left;
+          const cy = rect.top + rect.height/2 - section.top;
+          for(let j=0;j<40;j++){
+            const angle = Math.random()*Math.PI*2;
+            const speed = 2 + Math.random()*6;
+            sparks.push({
+              x:cx, y:cy,
+              vx: Math.cos(angle)*speed,
+              vy: Math.sin(angle)*speed - 2,
+              life:1,
+              decay: 0.015+Math.random()*0.02,
+              size: 1.5+Math.random()*3,
+              color: Math.random()>0.5 ? '#00e5ff' : '#fff'
+            });
+          }
+          setTimeout(()=>el.classList.remove('active'), 600);
+        }
+      }
+      requestAnimationFrame(tick);
+    }, delay);
+  }
+
+  function animateSparks(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let i=sparks.length-1;i>=0;i--){
+      const s = sparks[i];
+      s.x += s.vx;
+      s.y += s.vy;
+      s.vy += 0.15; // gravity
+      s.life -= s.decay;
+      if(s.life<=0){sparks.splice(i,1);continue;}
+      ctx.globalAlpha = s.life;
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(animateSparks);
+  }
+  animateSparks();
+
+  // Intersection observer
+  const observer = new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting && !triggered){
+      triggered = true;
+      stats.forEach((s,i)=>{
+        const el = document.getElementById('stat'+i);
+        countUp(el, s.value, s.suffix, i*300, i);
+      });
+    }
+  },{threshold:0.5});
+  observer.observe(document.getElementById('stats'));
+})();
+
+
+/* ═══════════════════════════════════════════
+   SCENE 4: MAGNETIC TEXT DISTORTION
+   ═══════════════════════════════════════════ */
+(function(){
+  const title = document.getElementById('magneticTitle');
+  const text = 'What I bring.';
+  text.split('').forEach(ch=>{
+    const span = document.createElement('span');
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    title.appendChild(span);
+  });
+
+  const chars = title.querySelectorAll('span');
+  const RADIUS = 150;
+
+  document.addEventListener('mousemove', e=>{
+    chars.forEach(c=>{
+      const rect = c.getBoundingClientRect();
+      const cx = rect.left + rect.width/2;
+      const cy = rect.top + rect.height/2;
+      const dx = cx - e.clientX;
+      const dy = cy - e.clientY;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist < RADIUS){
+        const force = (RADIUS-dist)/RADIUS;
+        const moveX = (dx/dist)*force*30;
+        const moveY = (dy/dist)*force*20;
+        c.style.transform = `translate(${moveX}px,${moveY}px)`;
+        c.style.color = '#00e5ff';
+        c.style.transition = 'transform 0.1s ease-out, color 0.2s';
+      } else {
+        c.style.transform = 'translate(0,0)';
+        c.style.color = '';
+        c.style.transition = 'transform 0.6s cubic-bezier(.25,.46,.45,.94), color 0.4s';
+      }
+    });
+  });
+
+  const items = [
+    {tag:'AI Systems', text:'Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.'},
+    {tag:'Finance &amp; Risk', text:'Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.'},
+    {tag:'Full-Stack', text:'React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.'},
+    {tag:'Rapid Build', text:'From concept to working prototype in days, not months. Fast iteration with real users — six live products already in portfolio.'},
+  ];
+  const list = document.getElementById('expertiseList');
+  items.forEach(item=>{
+    const div = document.createElement('div');
+    div.className = 'expertise-item';
+    div.innerHTML = `<span class="tag">${item.tag}</span>${item.text}`;
+    list.appendChild(div);
+  });
+})();
+
+
+/* ═══════════════════════════════════════════
+   SCENE 5: PHOTO PIXEL DISSOLVE
+   ═══════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('photoCanvas');
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  img.src = 'georg-hero.jpeg';
+  let pixels = [], dissolved = false, dissolveProgress = 0;
+  const SAMPLE = 4;
+
+  img.onload = function(){
+    canvas.width = 400;
+    canvas.height = 400;
+    ctx.drawImage(img, 0, 0, 400, 400);
+    const data = ctx.getImageData(0,0,400,400).data;
+    for(let y=0;y<400;y+=SAMPLE){
+      for(let x=0;x<400;x+=SAMPLE){
+        const i = (y*400+x)*4;
+        if(data[i+3]>50){
+          pixels.push({
+            x, y, ox:x, oy:y,
+            r:data[i], g:data[i+1], b:data[i+2],
+            vx:(Math.random()-0.5)*0.5,
+            vy:-Math.random()*2-0.5,
+            delay: Math.random()
+          });
+        }
+      }
+    }
+    drawPhoto();
+  };
+
+  function drawPhoto(){
+    ctx.clearRect(0,0,400,400);
+    for(const p of pixels){
+      const t = Math.max(0, Math.min(1, (dissolveProgress - p.delay*0.5) * 2));
+      const cx = p.ox + (p.ox + p.vx*200 - p.ox)*t;
+      const cy = p.oy + (p.oy + p.vy*200 - p.oy)*t;
+      const alpha = 1 - t;
+      if(alpha <= 0) continue;
+      ctx.fillStyle = `rgba(${p.r},${p.g},${p.b},${alpha})`;
+      ctx.fillRect(cx, cy, SAMPLE, SAMPLE);
+    }
+    requestAnimationFrame(drawPhoto);
+  }
+
+  // Scroll-driven dissolve
+  window.addEventListener('scroll', ()=>{
+    const section = document.getElementById('about');
+    const rect = section.getBoundingClientRect();
+    const viewH = window.innerHeight;
+    // Start dissolving when section is 30% visible, complete when 80% visible
+    const progress = Math.max(0, Math.min(1, (viewH - rect.top) / (viewH * 1.2) - 0.2));
+    dissolveProgress = progress;
+  });
+})();
+
+
+/* ═══════════════════════════════════════════
+   SCENE 6: GRAVITY CARDS
+   ═══════════════════════════════════════════ */
+(function(){
+  const contacts = [
+    {icon:'✉', label:'Email', value:'georg.chimion@gmail.com', href:'mailto:georg.chimion@gmail.com', depth:1.5},
+    {icon:'⌘', label:'GitHub', value:'georgchimion-oss', href:'https://github.com/georgchimion-oss', depth:1},
+    {icon:'◉', label:'LinkedIn', value:'/in/georgchimion', href:'https://linkedin.com/in/georgchimion', depth:2},
+    {icon:'⊕', label:'Location', value:'Miami, FL', href:null, depth:0.7},
+  ];
+  const grid = document.getElementById('contactGrid');
+
+  contacts.forEach(c=>{
+    const card = document.createElement(c.href ? 'a' : 'div');
+    card.className = 'gravity-card';
+    card.dataset.depth = c.depth;
+    if(c.href){card.href=c.href;card.target='_blank';card.rel='noopener';card.style.textDecoration='none';card.style.color='inherit';}
+    card.innerHTML = `<span class="icon">${c.icon}</span><h3>${c.label}</h3><p>${c.value}</p>`;
+    grid.appendChild(card);
+  });
+
+  const cards = document.querySelectorAll('.gravity-card');
+  const centerX = window.innerWidth/2;
+  const centerY = window.innerHeight/2;
+
+  document.addEventListener('mousemove', e=>{
+    const dx = (e.clientX - centerX)/centerX;
+    const dy = (e.clientY - centerY)/centerY;
+    cards.forEach(card=>{
+      const depth = parseFloat(card.dataset.depth);
+      const moveX = dx * 20 * depth;
+      const moveY = dy * 15 * depth;
+      card.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      // Shift glow
+      const glow = card.querySelector('::after');
+      card.style.setProperty('--glow-x', `${moveX*0.5}px`);
+    });
+  });
+
+  // Mobile: device orientation
+  if(window.DeviceOrientationEvent){
+    window.addEventListener('deviceorientation', e=>{
+      const gamma = (e.gamma||0)/45; // -1 to 1
+      const beta = ((e.beta||0)-45)/45;
+      cards.forEach(card=>{
+        const depth = parseFloat(card.dataset.depth);
+        card.style.transform = `translate(${gamma*20*depth}px, ${beta*15*depth}px)`;
+      });
+    });
+  }
+})();
+
+
+/* ═══════════════════════════════════════════
+   SCROLL OBSERVER (for cards, expertise items)
+   ═══════════════════════════════════════════ */
+(function(){
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('visible');
+    });
+  },{threshold:0.15});
+
+  // Observe product cards
+  document.querySelectorAll('.product-card').forEach(c=>observer.observe(c));
+  // Observe expertise items
+  document.querySelectorAll('.expertise-item').forEach(c=>observer.observe(c));
+})();
+</script>
+</body>
+</html>

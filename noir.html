@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georg Chimion — Noir</title>
+    <meta name="description" content="Georg Chimion — AI Automation Specialist. Enterprise automation, finance AI, and intelligent products.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* =============================================
+           RESET & BASE
+        ============================================= */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --noir-black: #0a0a0a;
+            --noir-dark: #141414;
+            --noir-mid: #1e1e1e;
+            --noir-grey: #2a2a2a;
+            --noir-light: #3a3a3a;
+            --noir-text: #c8c0b0;
+            --noir-highlight: #e8e0d0;
+            --noir-accent: #d4a853;
+            --noir-manila: #c9b97b;
+            --noir-paper: #f0e6c8;
+            --noir-red: #8b2020;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-typewriter: 'Special Elite', 'Courier Prime', 'Courier New', monospace;
+            --font-body: 'Courier Prime', 'Courier New', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--noir-black);
+            color: var(--noir-text);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.7;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor-light {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 30%, transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+            mix-blend-mode: screen;
+        }
+
+        /* =============================================
+           RAIN EFFECT
+        ============================================= */
+        .rain {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .rain-drop {
+            position: absolute;
+            top: -100px;
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(transparent, rgba(200,192,176,0.15), transparent);
+            animation: rain-fall linear infinite;
+        }
+
+        @keyframes rain-fall {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(calc(100vh + 100px)); }
+        }
+
+        /* =============================================
+           FOG / SMOKE EFFECT
+        ============================================= */
+        .fog {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .fog-layer {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(200,192,176,0.04) 0%, transparent 60%);
+            animation: fog-drift linear infinite;
+        }
+
+        .fog-layer:nth-child(1) {
+            top: 10%;
+            animation-duration: 25s;
+            opacity: 0.6;
+        }
+        .fog-layer:nth-child(2) {
+            top: 40%;
+            animation-duration: 35s;
+            animation-delay: -10s;
+            opacity: 0.4;
+        }
+        .fog-layer:nth-child(3) {
+            top: 70%;
+            animation-duration: 30s;
+            animation-delay: -5s;
+            opacity: 0.3;
+        }
+
+        @keyframes fog-drift {
+            0% { transform: translateX(-50%); }
+            50% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* =============================================
+           NAVIGATION
+        ============================================= */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+            backdrop-filter: blur(4px);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--noir-highlight);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--noir-text);
+            text-decoration: none;
+            font-family: var(--font-typewriter);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            cursor: none;
+        }
+
+        .nav-links a:hover { color: var(--noir-accent); }
+
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: none;
+            padding: 8px;
+        }
+
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--noir-text);
+            transition: all 0.3s;
+        }
+
+        /* =============================================
+           HERO SECTION
+        ============================================= */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 80px;
+            z-index: 10;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            color: var(--noir-highlight);
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-text h1 span {
+            display: block;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 0.5em;
+            color: var(--noir-accent);
+            margin-top: 8px;
+        }
+
+        .hero-narrative {
+            font-family: var(--font-typewriter);
+            font-size: 1.05rem;
+            color: var(--noir-text);
+            line-height: 1.9;
+            margin-bottom: 32px;
+        }
+
+        .hero-narrative .first-line {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--noir-highlight);
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 32px;
+            background: transparent;
+            border: 1px solid var(--noir-accent);
+            color: var(--noir-accent);
+            font-family: var(--font-typewriter);
+            font-size: 0.9rem;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.4s;
+            cursor: none;
+        }
+
+        .hero-cta:hover {
+            background: var(--noir-accent);
+            color: var(--noir-black);
+        }
+
+        /* Hero photo with venetian blind effect */
+        .hero-photo-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-photo-frame {
+            position: relative;
+            width: 380px;
+            max-width: 100%;
+        }
+
+        .hero-photo-frame img {
+            width: 100%;
+            display: block;
+            filter: grayscale(100%) contrast(1.4) brightness(0.9);
+            transition: filter 0.6s;
+        }
+
+        .hero-photo-frame:hover img {
+            filter: grayscale(80%) contrast(1.2) brightness(1);
+        }
+
+        /* Venetian blind shadow overlay */
+        .venetian-blinds {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 18px,
+                rgba(0,0,0,0.55) 18px,
+                rgba(0,0,0,0.55) 30px
+            );
+            pointer-events: none;
+            animation: blinds-shift 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes blinds-shift {
+            0% { transform: skewY(-2deg) translateY(-5px); }
+            100% { transform: skewY(2deg) translateY(5px); }
+        }
+
+        .hero-photo-frame::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; right: -20px;
+            width: 100%; height: 100%;
+            border: 1px solid var(--noir-accent);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        /* =============================================
+           SECTION STYLING
+        ============================================= */
+        section {
+            position: relative;
+            z-index: 10;
+            padding: 100px 40px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--noir-highlight);
+            margin-bottom: 8px;
+        }
+
+        .section-header .section-sub {
+            font-family: var(--font-typewriter);
+            font-size: 0.85rem;
+            color: var(--noir-accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--noir-accent);
+            margin: 20px auto 0;
+        }
+
+        /* =============================================
+           EVIDENCE BOARD (Stats)
+        ============================================= */
+        .evidence-board {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            padding: 60px 0;
+        }
+
+        .evidence-board::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                linear-gradient(90deg, transparent 49.5%, rgba(200,192,176,0.06) 49.5%, rgba(200,192,176,0.06) 50.5%, transparent 50.5%),
+                linear-gradient(0deg, transparent 49.5%, rgba(200,192,176,0.06) 49.5%, rgba(200,192,176,0.06) 50.5%, transparent 50.5%);
+            background-size: 200px 200px;
+            pointer-events: none;
+        }
+
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            position: relative;
+        }
+
+        .evidence-item {
+            text-align: center;
+            padding: 32px 16px;
+            position: relative;
+            background: rgba(20,20,20,0.6);
+            border: 1px solid rgba(200,192,176,0.1);
+        }
+
+        .evidence-item::before {
+            content: '';
+            position: absolute;
+            top: -8px; left: 50%;
+            width: 16px; height: 16px;
+            background: var(--noir-red);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px rgba(139,32,32,0.6);
+        }
+
+        /* String connections */
+        .evidence-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -20px;
+            width: 40px;
+            height: 1px;
+            background: rgba(200,192,176,0.15);
+            transform-origin: left center;
+            transform: rotate(-5deg);
+        }
+
+        .evidence-number {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--noir-highlight);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .evidence-label {
+            font-family: var(--font-typewriter);
+            font-size: 0.8rem;
+            color: var(--noir-accent);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .evidence-note {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: rgba(200,192,176,0.5);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* =============================================
+           CASE FILES (Products)
+        ============================================= */
+        .case-files {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .case-files-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .case-file {
+            background: linear-gradient(135deg, #c9b97b 0%, #b8a868 20%, #d4c88a 50%, #c2b274 80%, #b0a060 100%);
+            border-radius: 2px;
+            padding: 3px;
+            position: relative;
+            transition: transform 0.4s, box-shadow 0.4s;
+            cursor: none;
+        }
+
+        .case-file:hover {
+            transform: translateY(-4px) rotate(-0.5deg);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+
+        .case-file-inner {
+            background: linear-gradient(145deg, #e8dbb8, #ddd0a8, #d4c89a);
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Tab on the folder */
+        .case-file::before {
+            content: '';
+            position: absolute;
+            top: -16px;
+            left: 20px;
+            width: 100px;
+            height: 20px;
+            background: linear-gradient(135deg, #c9b97b, #b8a868);
+            border-radius: 4px 4px 0 0;
+            z-index: 1;
+        }
+
+        /* Coffee ring stain */
+        .case-file:nth-child(3)::after {
+            content: '';
+            position: absolute;
+            top: 20px; right: 30px;
+            width: 60px; height: 60px;
+            border: 2px solid rgba(120,80,40,0.15);
+            border-radius: 50%;
+        }
+
+        .case-file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .case-file-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2a2218;
+        }
+
+        .case-file-number {
+            font-family: var(--font-typewriter);
+            font-size: 0.7rem;
+            color: #8b7355;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .case-file-desc {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: #4a3d2a;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .case-file-screenshot {
+            width: 100%;
+            border: 1px solid rgba(0,0,0,0.15);
+            border-radius: 2px;
+            margin-bottom: 16px;
+            filter: grayscale(40%) sepia(20%);
+            transition: filter 0.4s;
+        }
+
+        .case-file:hover .case-file-screenshot {
+            filter: grayscale(0%) sepia(0%);
+        }
+
+        .case-file-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-typewriter);
+            font-size: 0.8rem;
+            color: #2a2218;
+            text-decoration: none;
+            border-bottom: 1px solid #8b7355;
+            padding-bottom: 2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s, border-color 0.3s;
+            cursor: none;
+        }
+
+        .case-file-link:hover {
+            color: var(--noir-red);
+            border-color: var(--noir-red);
+        }
+
+        .case-file-stamp {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-family: var(--font-typewriter);
+            font-size: 0.65rem;
+            color: var(--noir-red);
+            border: 2px solid var(--noir-red);
+            padding: 4px 10px;
+            transform: rotate(12deg);
+            opacity: 0.7;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        /* No screenshot fallback */
+        .case-file-no-img {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,0,0,0.03));
+            border: 1px dashed rgba(0,0,0,0.15);
+            border-radius: 2px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-typewriter);
+            font-size: 0.8rem;
+            color: #8b7355;
+        }
+
+        /* =============================================
+           DOSSIER (About / Narrative)
+        ============================================= */
+        .dossier {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .dossier-text {
+            font-family: var(--font-typewriter);
+            font-size: 1rem;
+            line-height: 2;
+            color: var(--noir-text);
+        }
+
+        .dossier-text p {
+            margin-bottom: 24px;
+            text-indent: 2em;
+        }
+
+        .dossier-text .drop-cap::first-letter {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            float: left;
+            line-height: 1;
+            margin-right: 8px;
+            margin-top: 4px;
+            color: var(--noir-accent);
+        }
+
+        /* =============================================
+           CONTACT
+        ============================================= */
+        .contact-section {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .contact-photo {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 2px;
+            filter: grayscale(100%) contrast(1.3);
+            border: 2px solid var(--noir-light);
+            transition: filter 0.5s;
+        }
+
+        .contact-photo:hover {
+            filter: grayscale(60%) contrast(1.1);
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contact-line {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-family: var(--font-typewriter);
+            font-size: 0.9rem;
+        }
+
+        .contact-line a {
+            color: var(--noir-text);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(200,192,176,0.2);
+            transition: color 0.3s, border-color 0.3s;
+            cursor: none;
+        }
+
+        .contact-line a:hover {
+            color: var(--noir-accent);
+            border-color: var(--noir-accent);
+        }
+
+        .contact-label {
+            font-size: 0.7rem;
+            color: var(--noir-accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            min-width: 80px;
+        }
+
+        /* =============================================
+           FOOTER
+        ============================================= */
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 60px 40px 40px;
+            border-top: 1px solid rgba(200,192,176,0.08);
+        }
+
+        footer p {
+            font-family: var(--font-typewriter);
+            font-size: 0.75rem;
+            color: rgba(200,192,176,0.3);
+            letter-spacing: 2px;
+        }
+
+        /* =============================================
+           VIGNETTE OVERLAY
+        ============================================= */
+        .vignette {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.5) 100%);
+        }
+
+        /* Film grain */
+        .grain {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 4;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
+        }
+
+        /* =============================================
+           ANIMATIONS
+        ============================================= */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Typewriter flicker on hero */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.95; }
+            75% { opacity: 0.98; }
+        }
+
+        .hero-text { animation: flicker 4s ease-in-out infinite; }
+
+        /* =============================================
+           MOBILE RESPONSIVE
+        ============================================= */
+        @media (max-width: 900px) {
+            body { cursor: auto; }
+            .cursor-light { display: none; }
+            a, button, .case-file, .case-file-link, .hero-cta { cursor: auto; }
+
+            nav { padding: 12px 20px; }
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                background: rgba(10,10,10,0.97);
+                padding: 20px;
+                gap: 16px;
+            }
+            .nav-hamburger { display: flex; }
+
+            .hero { padding: 100px 20px 60px; }
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .hero-photo-wrapper { order: -1; }
+            .hero-photo-frame { width: 280px; margin: 0 auto; }
+
+            section { padding: 60px 20px; }
+
+            .evidence-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+            .evidence-item:not(:last-child)::after { display: none; }
+
+            .case-files-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 32px;
+            }
+            .contact-photo { margin: 0 auto; }
+            .contact-line { justify-content: center; flex-wrap: wrap; }
+        }
+
+        @media (max-width: 500px) {
+            .evidence-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .hero-text h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="premiere.html">Premiere</option>
+    <option value="maximal.html">Maximal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html" selected>Noir</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+
+
+<!-- Atmospheric effects -->
+<div class="rain" id="rain"></div>
+<div class="fog">
+    <div class="fog-layer"></div>
+    <div class="fog-layer"></div>
+    <div class="fog-layer"></div>
+</div>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div class="cursor-light" id="cursorLight"></div>
+
+<!-- Navigation -->
+<nav>
+    <div class="nav-logo">G. Chimion</div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- ==========================================
+     HERO
+========================================== -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-text">
+            <h1>
+                AI automation for the enterprise.
+                <span>AI AUTOMATION SPECIALIST &middot; MIAMI</span>
+            </h1>
+            <div class="hero-narrative">
+                <span class="first-line">Enterprise automation, finance AI, and intelligent products.</span>
+                Helping companies reduce operational costs with AI that actually works. Currently at PwC.
+            </div>
+            <a href="#products" class="hero-cta">View Products &darr;</a>
+            <a href="#contact" class="hero-cta" style="margin-left:12px;">Get in Touch &darr;</a>
+        </div>
+        <div class="hero-photo-wrapper">
+            <div class="hero-photo-frame">
+                <img src="georg-hero.jpeg" alt="Georg Chimion" loading="eager">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     EXPERTISE
+========================================== -->
+<section id="expertise" style="background: linear-gradient(to bottom, transparent, rgba(20,20,20,0.5), transparent);">
+    <div class="section-header fade-in">
+        <div class="section-sub">End-to-end &mdash; from system design to deployed product.</div>
+        <h2>What I bring.</h2>
+        <div class="section-divider"></div>
+    </div>
+    <div class="evidence-board fade-in">
+        <div class="evidence-grid">
+            <div class="evidence-item">
+                <span class="evidence-number">AI Systems</span>
+                <span class="evidence-label">Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</span>
+            </div>
+            <div class="evidence-item">
+                <span class="evidence-number">Finance &amp; Risk</span>
+                <span class="evidence-label">Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</span>
+            </div>
+            <div class="evidence-item">
+                <span class="evidence-number">Full-Stack</span>
+                <span class="evidence-label">React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment &mdash; end-to-end ownership with no handoff gaps.</span>
+            </div>
+            <div class="evidence-item">
+                <span class="evidence-number">Rapid Build</span>
+                <span class="evidence-label">From concept to working prototype in days, not months. Fast iteration with real users &mdash; six live products already in portfolio.</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     CASE FILES (Products)
+========================================== -->
+<section id="products">
+    <div class="section-header fade-in">
+        <div class="section-sub">Each project built end-to-end &mdash; from architecture to live demo.</div>
+        <h2>From idea to deployment.</h2>
+        <div class="section-divider"></div>
+    </div>
+    <div class="case-files">
+        <div class="case-files-grid">
+
+            <!-- Vestia -->
+            <div class="case-file fade-in">
+                <div class="case-file-inner">
+                    <div class="case-file-stamp">AI-Powered</div>
+                    <div class="case-file-header">
+                        <div class="case-file-title">Vestia</div>
+                    </div>
+                    <div class="case-file-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</div>
+                    <img src="screenshots/vestia.png" alt="Vestia" class="case-file-screenshot" loading="lazy">
+                    <a href="https://vestia.georg.miami" class="case-file-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Ask Penny -->
+            <div class="case-file fade-in">
+                <div class="case-file-inner">
+                    <div class="case-file-stamp">AI-Powered</div>
+                    <div class="case-file-header">
+                        <div class="case-file-title">Ask Penny</div>
+                    </div>
+                    <div class="case-file-desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</div>
+                    <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny" class="case-file-screenshot" loading="lazy">
+                    <a href="https://penny.georg.miami" class="case-file-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Agent Factory -->
+            <div class="case-file fade-in">
+                <div class="case-file-inner">
+                    <div class="case-file-stamp">AI Multi-Agent</div>
+                    <div class="case-file-header">
+                        <div class="case-file-title">Agent Factory</div>
+                    </div>
+                    <div class="case-file-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</div>
+                    <img src="screenshots/factory.png" alt="Agent Factory" class="case-file-screenshot" loading="lazy">
+                    <a href="https://factory.georg.miami" class="case-file-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+
+            <!-- VENUE -->
+            <div class="case-file fade-in">
+                <div class="case-file-inner">
+                    <div class="case-file-stamp">Product</div>
+                    <div class="case-file-header">
+                        <div class="case-file-title">VENUE</div>
+                    </div>
+                    <div class="case-file-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</div>
+                    <img src="screenshots/venue.png" alt="VENUE" class="case-file-screenshot" loading="lazy">
+                    <a href="https://venue.georg.miami" class="case-file-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+
+            <!-- ReconX -->
+            <div class="case-file fade-in">
+                <div class="case-file-inner">
+                    <div class="case-file-stamp">Live</div>
+                    <div class="case-file-header">
+                        <div class="case-file-title">ReconX</div>
+                    </div>
+                    <div class="case-file-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</div>
+                    <img src="screenshots/reconx.png" alt="ReconX" class="case-file-screenshot" loading="lazy">
+                    <a href="https://reconx.georg.miami" class="case-file-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+
+            <!-- AI Document Intelligence -->
+            <div class="case-file fade-in">
+                <div class="case-file-inner">
+                    <div class="case-file-stamp">AI-Powered</div>
+                    <div class="case-file-header">
+                        <div class="case-file-title">AI Document Intelligence</div>
+                    </div>
+                    <div class="case-file-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</div>
+                    <img src="screenshots/docai.png" alt="AI Document Intelligence" class="case-file-screenshot" loading="lazy">
+                    <a href="https://docs.georg.miami" class="case-file-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+
+            <!-- ROI Calculator -->
+            <div class="case-file fade-in">
+                <div class="case-file-inner">
+                    <div class="case-file-stamp">Live</div>
+                    <div class="case-file-header">
+                        <div class="case-file-title">ROI Calculator</div>
+                    </div>
+                    <div class="case-file-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</div>
+                    <img src="screenshots/roi.png" alt="ROI Calculator" class="case-file-screenshot" loading="lazy">
+                    <a href="https://roi.georg.miami" class="case-file-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+
+            <!-- SpaceWalk -->
+            <div class="case-file fade-in">
+                <div class="case-file-inner">
+                    <div class="case-file-stamp">AI + 3D</div>
+                    <div class="case-file-header">
+                        <div class="case-file-title">SpaceWalk</div>
+                    </div>
+                    <div class="case-file-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</div>
+                    <img src="screenshots/spacewalk.png" alt="SpaceWalk" class="case-file-screenshot" loading="lazy">
+                    <a href="https://spacewalk.georg.miami" class="case-file-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     CONTACT
+========================================== -->
+<section id="contact" style="background: linear-gradient(to bottom, transparent, rgba(20,20,20,0.5), transparent);">
+    <div class="section-header fade-in">
+        <div class="section-sub">Taking on select consulting and contract engagements. If you need AI automation that delivers, let's talk.</div>
+        <h2>Let's work together.</h2>
+        <div class="section-divider"></div>
+    </div>
+    <div class="contact-section fade-in">
+        <div class="contact-grid">
+            <img src="georg.jpeg" alt="Georg Chimion" class="contact-photo">
+            <div class="contact-details">
+                <div class="contact-line">
+                    <span class="contact-label">Email</span>
+                    <a href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a>
+                </div>
+                <div class="contact-line">
+                    <span class="contact-label">GitHub</span>
+                    <a href="https://github.com/georgchimion-oss" target="_blank">georgchimion-oss</a>
+                </div>
+                <div class="contact-line">
+                    <span class="contact-label">LinkedIn</span>
+                    <a href="https://linkedin.com/in/georgchimion" target="_blank">georgchimion</a>
+                </div>
+                <div class="contact-line">
+                    <span class="contact-label">Location</span>
+                    <span>Wynwood, Miami FL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2026 Georg Chimion. Miami, FL.</p>
+    <p style="margin-top:4px;font-size:0.8em;opacity:0.6;">Built with Claude</p>
+</footer>
+
+<script>
+    // =============================================
+    // RAIN EFFECT
+    // =============================================
+    (function createRain() {
+        const rain = document.getElementById('rain');
+        const count = 60;
+        for (let i = 0; i < count; i++) {
+            const drop = document.createElement('div');
+            drop.className = 'rain-drop';
+            drop.style.left = Math.random() * 100 + '%';
+            drop.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+            drop.style.animationDelay = Math.random() * 3 + 's';
+            drop.style.opacity = 0.2 + Math.random() * 0.3;
+            drop.style.height = (40 + Math.random() * 60) + 'px';
+            rain.appendChild(drop);
+        }
+    })();
+
+    // =============================================
+    // SPOTLIGHT CURSOR
+    // =============================================
+    (function setupCursor() {
+        const light = document.getElementById('cursorLight');
+        if (window.innerWidth <= 900) return;
+        document.addEventListener('mousemove', (e) => {
+            light.style.left = e.clientX + 'px';
+            light.style.top = e.clientY + 'px';
+        });
+    })();
+
+    // =============================================
+    // SCROLL FADE-IN
+    // =============================================
+    (function setupFadeIn() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    })();
+
+    // =============================================
+    // MOBILE NAV
+    // =============================================
+    (function setupNav() {
+        const toggle = document.getElementById('navToggle');
+        const links = document.getElementById('navLinks');
+        toggle.addEventListener('click', () => {
+            links.classList.toggle('open');
+        });
+        links.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => links.classList.remove('open'));
+        });
+    })();
+</script>
+</body>
+</html>

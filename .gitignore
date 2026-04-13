@@ -6,3 +6,7 @@ package-lock.json
 .DS_Store
 .claude/
 .playwright-mcp/
+
+# Environment variables
+.env
+.env.*

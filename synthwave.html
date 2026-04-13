@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion - AI Product Builder</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Press+Start+2P&display=swap');
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  :root{
+    --neon-pink:#ff2d95;
+    --neon-cyan:#00f0ff;
+    --deep-purple:#1a0533;
+    --dark-bg:#0d0221;
+    --sunset-orange:#ff6b35;
+    --sunset-pink:#ff2d95;
+    --sunset-purple:#7b2ff7;
+    --chrome-light:#f0f0f0;
+    --chrome-mid:#b0b0b0;
+    --chrome-dark:#606060;
+  }
+
+  html{scroll-behavior:smooth}
+
+  body{
+    background:var(--dark-bg);
+    color:#e0d0ff;
+    font-family:'Rajdhani',sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+
+  /* ===== VHS TRACKING LINES ===== */
+  .vhs-overlay{
+    pointer-events:none;
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
+    z-index:9999;
+    background:repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.03) 0px,
+      rgba(0,0,0,0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+  .vhs-overlay::after{
+    content:'';
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
+    background:linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255,45,149,0.015) 50%,
+      transparent 100%
+    );
+    animation:vhsScan 8s linear infinite;
+  }
+  @keyframes vhsScan{
+    0%{transform:translateY(-100%)}
+    100%{transform:translateY(100%)}
+  }
+
+  /* ===== SYNTHWAVE GRID ===== */
+  .grid-container{
+    position:fixed;
+    bottom:0;left:0;width:100%;height:45vh;
+    perspective:400px;
+    overflow:hidden;
+    z-index:0;
+    opacity:0.4;
+  }
+  .grid-plane{
+    position:absolute;
+    bottom:0;left:-50%;
+    width:200%;height:200%;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        var(--neon-pink) 0px,
+        transparent 1px,
+        transparent 80px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        var(--neon-cyan) 0px,
+        transparent 1px,
+        transparent 80px
+      );
+    transform:rotateX(70deg);
+    transform-origin:bottom center;
+    animation:gridMove 4s linear infinite;
+  }
+  @keyframes gridMove{
+    0%{transform:rotateX(70deg) translateY(0)}
+    100%{transform:rotateX(70deg) translateY(80px)}
+  }
+
+  /* ===== HERO SECTION ===== */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    z-index:1;
+  }
+
+  /* Sunset gradient */
+  .sunset{
+    position:absolute;
+    bottom:30%;left:50%;
+    transform:translateX(-50%);
+    width:600px;height:300px;
+    border-radius:300px 300px 0 0;
+    background:linear-gradient(
+      180deg,
+      #ff6b35 0%,
+      #ff2d95 35%,
+      #7b2ff7 70%,
+      #1a0533 100%
+    );
+    opacity:0.6;
+    filter:blur(2px);
+  }
+  .sunset::before{
+    content:'';
+    position:absolute;
+    width:100%;height:100%;
+    border-radius:inherit;
+    background:inherit;
+    filter:blur(40px);
+    opacity:0.5;
+  }
+  /* Sunset horizontal lines */
+  .sunset-lines{
+    position:absolute;
+    bottom:30%;left:50%;
+    transform:translateX(-50%);
+    width:600px;height:300px;
+    border-radius:300px 300px 0 0;
+    overflow:hidden;
+    opacity:0.8;
+  }
+  .sunset-lines span{
+    position:absolute;
+    width:100%;
+    height:6px;
+    background:var(--dark-bg);
+    left:0;
+  }
+  .sunset-lines span:nth-child(1){bottom:20%}
+  .sunset-lines span:nth-child(2){bottom:28%;height:8px}
+  .sunset-lines span:nth-child(3){bottom:38%;height:12px}
+  .sunset-lines span:nth-child(4){bottom:50%;height:18px}
+  .sunset-lines span:nth-child(5){bottom:65%;height:28px}
+
+  /* Palm trees */
+  .palm{
+    position:absolute;
+    bottom:28%;
+    z-index:2;
+  }
+  .palm-left{left:5%}
+  .palm-right{right:5%;transform:scaleX(-1)}
+  .palm svg{width:180px;height:320px;filter:drop-shadow(0 0 20px rgba(255,45,149,0.3))}
+
+  /* Hero photo */
+  .hero-photo-wrap{
+    position:relative;
+    z-index:3;
+    margin-bottom:2rem;
+  }
+  .hero-photo{
+    width:180px;height:180px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid var(--neon-cyan);
+    box-shadow:
+      0 0 20px var(--neon-cyan),
+      0 0 60px rgba(0,240,255,0.3),
+      inset 0 0 20px rgba(0,240,255,0.1);
+    animation:photoPulse 3s ease-in-out infinite;
+  }
+  @keyframes photoPulse{
+    0%,100%{box-shadow:0 0 20px var(--neon-cyan),0 0 60px rgba(0,240,255,0.3)}
+    50%{box-shadow:0 0 30px var(--neon-cyan),0 0 80px rgba(0,240,255,0.5)}
+  }
+
+  /* Chrome text */
+  .hero-name{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(2.5rem,7vw,5.5rem);
+    font-weight:900;
+    background:linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #e0e0e0 20%,
+      #a0a0a0 40%,
+      #ffffff 50%,
+      #c0c0c0 60%,
+      #808080 80%,
+      #d0d0d0 100%
+    );
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    -webkit-text-stroke:1px rgba(255,255,255,0.1);
+    filter:drop-shadow(0 0 30px rgba(255,45,149,0.5));
+    position:relative;
+    z-index:3;
+    letter-spacing:0.05em;
+    line-height:1.1;
+  }
+
+  .hero-tagline{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(1rem,2.5vw,1.6rem);
+    color:var(--neon-cyan);
+    text-shadow:
+      0 0 10px var(--neon-cyan),
+      0 0 40px rgba(0,240,255,0.4);
+    margin-top:0.8rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    z-index:3;
+    position:relative;
+  }
+
+  .hero-sub{
+    font-family:'Rajdhani',sans-serif;
+    font-size:clamp(1rem,2vw,1.3rem);
+    color:#c0a0e0;
+    margin-top:1rem;
+    z-index:3;
+    position:relative;
+    max-width:600px;
+    padding:0 1rem;
+  }
+
+  .hero-location{
+    font-family:'Press Start 2P',cursive;
+    font-size:0.65rem;
+    color:var(--neon-pink);
+    text-shadow:0 0 10px var(--neon-pink);
+    margin-top:1.2rem;
+    letter-spacing:0.1em;
+    z-index:3;
+    position:relative;
+  }
+
+  .hero-cta{
+    margin-top:2rem;
+    z-index:3;
+    position:relative;
+  }
+  .hero-cta a{
+    display:inline-block;
+    padding:14px 40px;
+    font-family:'Orbitron',sans-serif;
+    font-size:0.9rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.15em;
+    color:#fff;
+    text-decoration:none;
+    border:2px solid var(--neon-pink);
+    background:transparent;
+    position:relative;
+    transition:all 0.3s;
+    clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);
+  }
+  .hero-cta a:hover{
+    background:var(--neon-pink);
+    box-shadow:0 0 30px var(--neon-pink),0 0 60px rgba(255,45,149,0.4);
+  }
+
+  /* ===== SECTION STYLING ===== */
+  section{
+    position:relative;
+    z-index:1;
+    padding:5rem 1.5rem;
+  }
+
+  .section-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(1.8rem,4vw,2.8rem);
+    font-weight:900;
+    text-align:center;
+    margin-bottom:1rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--neon-pink);
+    text-shadow:
+      0 0 10px var(--neon-pink),
+      0 0 40px rgba(255,45,149,0.4),
+      0 0 80px rgba(255,45,149,0.2);
+  }
+  .section-subtitle{
+    text-align:center;
+    color:#a080c0;
+    font-size:1.1rem;
+    margin-bottom:3rem;
+    max-width:600px;
+    margin-left:auto;margin-right:auto;
+  }
+
+  /* Neon divider */
+  .neon-divider{
+    width:200px;height:2px;
+    margin:1rem auto 2rem;
+    background:linear-gradient(90deg,transparent,var(--neon-cyan),transparent);
+    box-shadow:0 0 10px var(--neon-cyan);
+  }
+
+  /* ===== STATS ===== */
+  .stats{
+    display:flex;
+    justify-content:center;
+    gap:3rem;
+    flex-wrap:wrap;
+    padding:3rem 1.5rem;
+    z-index:1;
+    position:relative;
+  }
+  .stat{
+    text-align:center;
+    min-width:140px;
+  }
+  .stat-number{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(2rem,4vw,3rem);
+    font-weight:900;
+    color:var(--neon-cyan);
+    text-shadow:0 0 15px var(--neon-cyan),0 0 40px rgba(0,240,255,0.3);
+  }
+  .stat-label{
+    font-family:'Rajdhani',sans-serif;
+    font-size:0.9rem;
+    text-transform:uppercase;
+    letter-spacing:0.15em;
+    color:#a080c0;
+    margin-top:0.3rem;
+  }
+
+  /* ===== PRODUCTS GRID ===== */
+  .products-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:2rem;
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  .product-card{
+    background:linear-gradient(135deg,rgba(26,5,51,0.9),rgba(13,2,33,0.95));
+    border:1px solid rgba(255,45,149,0.3);
+    border-radius:4px;
+    overflow:hidden;
+    transition:all 0.4s ease;
+    position:relative;
+  }
+  .product-card::before{
+    content:'';
+    position:absolute;
+    top:0;left:0;width:100%;height:100%;
+    background:linear-gradient(135deg,rgba(255,45,149,0.05),rgba(0,240,255,0.05));
+    opacity:0;
+    transition:opacity 0.4s;
+  }
+  .product-card:hover{
+    border-color:var(--neon-cyan);
+    transform:translateY(-6px);
+    box-shadow:
+      0 0 20px rgba(0,240,255,0.2),
+      0 0 40px rgba(0,240,255,0.1),
+      inset 0 0 30px rgba(0,240,255,0.05);
+  }
+  .product-card:hover::before{opacity:1}
+
+  .product-screenshot{
+    width:100%;
+    aspect-ratio:16/10;
+    object-fit:cover;
+    border-bottom:1px solid rgba(255,45,149,0.2);
+    display:block;
+  }
+
+  .product-info{
+    padding:1.5rem;
+  }
+
+  .product-name{
+    font-family:'Orbitron',sans-serif;
+    font-size:1.15rem;
+    font-weight:700;
+    color:#fff;
+    margin-bottom:0.5rem;
+    text-shadow:0 0 8px rgba(255,255,255,0.3);
+  }
+
+  .product-desc{
+    font-size:0.95rem;
+    color:#b090d0;
+    margin-bottom:1rem;
+    line-height:1.5;
+  }
+
+  .product-link{
+    display:inline-block;
+    font-family:'Orbitron',sans-serif;
+    font-size:0.7rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.15em;
+    color:var(--neon-cyan);
+    text-decoration:none;
+    padding:8px 20px;
+    border:1px solid var(--neon-cyan);
+    transition:all 0.3s;
+  }
+  .product-link:hover{
+    background:var(--neon-cyan);
+    color:var(--dark-bg);
+    box-shadow:0 0 20px var(--neon-cyan);
+  }
+
+  /* No-screenshot card (SpaceWalk) */
+  .product-placeholder{
+    width:100%;
+    aspect-ratio:16/10;
+    background:linear-gradient(135deg,#1a0533,#0d0221);
+    border-bottom:1px solid rgba(255,45,149,0.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Orbitron',sans-serif;
+    font-size:2.5rem;
+    color:var(--neon-pink);
+    text-shadow:0 0 20px var(--neon-pink);
+  }
+
+  /* ===== EXPERTISE ===== */
+  .expertise-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1.5rem;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .expertise-item{
+    padding:1.5rem;
+    border:1px solid rgba(0,240,255,0.15);
+    background:rgba(26,5,51,0.5);
+    text-align:center;
+    transition:all 0.3s;
+  }
+  .expertise-item:hover{
+    border-color:var(--neon-cyan);
+    box-shadow:0 0 20px rgba(0,240,255,0.15);
+  }
+  .expertise-icon{
+    font-size:2.2rem;
+    margin-bottom:0.8rem;
+  }
+  .expertise-label{
+    font-family:'Orbitron',sans-serif;
+    font-size:0.75rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--neon-cyan);
+    text-shadow:0 0 8px rgba(0,240,255,0.4);
+  }
+
+  /* ===== CONTACT ===== */
+  .contact-section{
+    text-align:center;
+    padding-bottom:8rem;
+  }
+  .contact-photo{
+    width:120px;height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--neon-pink);
+    box-shadow:0 0 20px rgba(255,45,149,0.4);
+    margin-bottom:1.5rem;
+  }
+  .contact-links{
+    display:flex;
+    justify-content:center;
+    gap:2rem;
+    flex-wrap:wrap;
+    margin-top:2rem;
+  }
+  .contact-link{
+    font-family:'Orbitron',sans-serif;
+    font-size:0.7rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--neon-pink);
+    text-decoration:none;
+    padding:10px 24px;
+    border:1px solid var(--neon-pink);
+    transition:all 0.3s;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+  }
+  .contact-link:hover{
+    background:var(--neon-pink);
+    color:#fff;
+    box-shadow:0 0 20px var(--neon-pink);
+  }
+  .contact-link svg{width:16px;height:16px;fill:currentColor}
+
+  /* ===== NAV ===== */
+  .nav{
+    position:fixed;
+    top:0;left:0;width:100%;
+    z-index:100;
+    padding:1rem 2rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(13,2,33,0.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,45,149,0.15);
+  }
+  .nav-logo{
+    font-family:'Orbitron',sans-serif;
+    font-size:0.9rem;
+    font-weight:900;
+    color:var(--neon-cyan);
+    text-shadow:0 0 10px var(--neon-cyan);
+    text-decoration:none;
+  }
+  .nav-links{display:flex;gap:1.5rem}
+  .nav-links a{
+    font-family:'Orbitron',sans-serif;
+    font-size:0.6rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:#b090d0;
+    text-decoration:none;
+    transition:color 0.3s;
+  }
+  .nav-links a:hover{color:var(--neon-pink);text-shadow:0 0 8px var(--neon-pink)}
+
+  /* ===== PIXEL DECORATIONS ===== */
+  .pixel-star{
+    position:absolute;
+    width:4px;height:4px;
+    background:var(--neon-cyan);
+    box-shadow:0 0 6px var(--neon-cyan);
+    animation:twinkle 2s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0.3}
+    50%{opacity:1}
+  }
+
+  /* ===== FOOTER ===== */
+  footer{
+    text-align:center;
+    padding:2rem;
+    font-family:'Press Start 2P',cursive;
+    font-size:0.5rem;
+    color:#604080;
+    border-top:1px solid rgba(255,45,149,0.1);
+    position:relative;
+    z-index:1;
+  }
+
+  /* ===== MOBILE ===== */
+  @media(max-width:768px){
+    .nav-links{display:none}
+    .palm svg{width:100px;height:180px}
+    .sunset,.sunset-lines{width:300px;height:150px}
+    .stats{gap:1.5rem}
+    .products-grid{grid-template-columns:1fr}
+    .contact-links{flex-direction:column;align-items:center}
+    .hero{padding-top:80px}
+  }
+  @media(max-width:480px){
+    .palm{display:none}
+    .sunset,.sunset-lines{width:250px;height:125px}
+  }
+
+  /* ===== FLOATING NEON PARTICLES ===== */
+  .particle{
+    position:fixed;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:0;
+    opacity:0.15;
+    animation:floatUp linear infinite;
+  }
+  @keyframes floatUp{
+    0%{transform:translateY(100vh) scale(0);opacity:0}
+    10%{opacity:0.15}
+    90%{opacity:0.15}
+    100%{transform:translateY(-10vh) scale(1);opacity:0}
+  }
+</style>
+</head>
+<body>
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="premiere.html">Premiere</option>
+    <option value="maximal.html">Maximal</option>
+    <option value="synthwave.html" selected>Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+
+
+<div class="vhs-overlay"></div>
+
+<!-- Synthwave Grid -->
+<div class="grid-container">
+  <div class="grid-plane"></div>
+</div>
+
+<!-- Floating particles -->
+<div class="particle" style="left:10%;width:3px;height:3px;background:var(--neon-pink);animation-duration:12s;animation-delay:0s"></div>
+<div class="particle" style="left:25%;width:2px;height:2px;background:var(--neon-cyan);animation-duration:15s;animation-delay:2s"></div>
+<div class="particle" style="left:45%;width:4px;height:4px;background:var(--neon-pink);animation-duration:10s;animation-delay:4s"></div>
+<div class="particle" style="left:65%;width:2px;height:2px;background:var(--neon-cyan);animation-duration:14s;animation-delay:1s"></div>
+<div class="particle" style="left:80%;width:3px;height:3px;background:var(--neon-pink);animation-duration:11s;animation-delay:3s"></div>
+<div class="particle" style="left:90%;width:2px;height:2px;background:var(--neon-cyan);animation-duration:16s;animation-delay:5s"></div>
+<div class="particle" style="left:35%;width:3px;height:3px;background:var(--neon-cyan);animation-duration:13s;animation-delay:6s"></div>
+<div class="particle" style="left:55%;width:2px;height:2px;background:var(--neon-pink);animation-duration:17s;animation-delay:7s"></div>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="#" class="nav-logo">GC</a>
+  <div class="nav-links">
+    <a href="#products">Products</a>
+    <a href="#expertise">Expertise</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <!-- Pixel stars -->
+  <div class="pixel-star" style="top:15%;left:12%;animation-delay:0.5s"></div>
+  <div class="pixel-star" style="top:10%;left:30%;animation-delay:1.2s"></div>
+  <div class="pixel-star" style="top:20%;right:15%;animation-delay:0.8s"></div>
+  <div class="pixel-star" style="top:8%;right:35%;animation-delay:1.8s"></div>
+  <div class="pixel-star" style="top:25%;left:45%;animation-delay:0.3s"></div>
+  <div class="pixel-star" style="top:12%;left:70%;animation-delay:2.1s"></div>
+  <div class="pixel-star" style="top:18%;left:85%;animation-delay:1.5s"></div>
+  <div class="pixel-star" style="top:5%;left:55%;animation-delay:0.9s"></div>
+
+  <!-- Sunset -->
+  <div class="sunset"></div>
+  <div class="sunset-lines">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- Palm Trees -->
+  <div class="palm palm-left">
+    <svg viewBox="0 0 180 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M90 320 L90 120 Q85 110 60 80 Q30 50 5 60 Q25 40 55 45 Q70 48 85 65 Q80 40 65 15 Q60 5 50 0 Q70 5 80 20 Q90 40 90 65 Q95 35 110 15 Q120 0 135 0 Q125 10 115 25 Q100 50 95 70 Q110 50 130 45 Q155 40 175 55 Q150 45 125 55 Q100 70 95 90 Q100 75 120 65 Q140 58 160 65 Q140 60 125 68 Q105 80 95 100 L90 120Z" fill="#1a0533"/>
+      <rect x="86" y="120" width="8" height="200" fill="#1a0533" rx="2"/>
+    </svg>
+  </div>
+  <div class="palm palm-right">
+    <svg viewBox="0 0 180 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M90 320 L90 120 Q85 110 60 80 Q30 50 5 60 Q25 40 55 45 Q70 48 85 65 Q80 40 65 15 Q60 5 50 0 Q70 5 80 20 Q90 40 90 65 Q95 35 110 15 Q120 0 135 0 Q125 10 115 25 Q100 50 95 70 Q110 50 130 45 Q155 40 175 55 Q150 45 125 55 Q100 70 95 90 Q100 75 120 65 Q140 58 160 65 Q140 60 125 68 Q105 80 95 100 L90 120Z" fill="#1a0533"/>
+      <rect x="86" y="120" width="8" height="200" fill="#1a0533" rx="2"/>
+    </svg>
+  </div>
+
+  <div class="hero-photo-wrap">
+    <img src="georg-hero.jpeg" alt="Georg Chimion" class="hero-photo">
+  </div>
+
+  <h1 class="hero-name">AI automation for the enterprise.</h1>
+  <p class="hero-tagline">AI AUTOMATION SPECIALIST &middot; MIAMI</p>
+  <p class="hero-sub">Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</p>
+
+  <div class="hero-cta">
+    <a href="#products">View Products</a>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-number">8</div>
+    <div class="stat-label">Live Systems</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">6+</div>
+    <div class="stat-label">Products</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">PwC</div>
+    <div class="stat-label">Currently At</div>
+  </div>
+</div>
+
+<!-- Products -->
+<section id="products">
+  <h2 class="section-title">From idea to deployment.</h2>
+  <div class="neon-divider"></div>
+  <p class="section-subtitle">Each project built end-to-end — from architecture to live demo.</p>
+
+  <div class="products-grid">
+
+    <div class="product-card">
+      <img src="screenshots/vestia.png" alt="Vestia" class="product-screenshot">
+      <div class="product-info">
+        <h3 class="product-name">Vestia</h3>
+        <p class="product-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</p>
+        <a href="https://vestia.georg.miami" target="_blank" class="product-link">Launch</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny" class="product-screenshot">
+      <div class="product-info">
+        <h3 class="product-name">Ask Penny</h3>
+        <p class="product-desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</p>
+        <a href="https://penny.georg.miami" target="_blank" class="product-link">Launch</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="screenshots/factory.png" alt="Agent Factory" class="product-screenshot">
+      <div class="product-info">
+        <h3 class="product-name">Agent Factory</h3>
+        <p class="product-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</p>
+        <a href="https://factory.georg.miami" target="_blank" class="product-link">Launch</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="screenshots/venue.png" alt="VENUE" class="product-screenshot">
+      <div class="product-info">
+        <h3 class="product-name">VENUE</h3>
+        <p class="product-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</p>
+        <a href="https://venue.georg.miami" target="_blank" class="product-link">Launch</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="screenshots/reconx.png" alt="ReconX" class="product-screenshot">
+      <div class="product-info">
+        <h3 class="product-name">ReconX</h3>
+        <p class="product-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</p>
+        <a href="https://reconx.georg.miami" target="_blank" class="product-link">Launch</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="screenshots/docai.png" alt="AI Doc Intelligence" class="product-screenshot">
+      <div class="product-info">
+        <h3 class="product-name">AI Document Intelligence</h3>
+        <p class="product-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</p>
+        <a href="https://docs.georg.miami" target="_blank" class="product-link">Launch</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="screenshots/roi.png" alt="ROI Calculator" class="product-screenshot">
+      <div class="product-info">
+        <h3 class="product-name">ROI Calculator</h3>
+        <p class="product-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</p>
+        <a href="https://roi.georg.miami" target="_blank" class="product-link">Launch</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="screenshots/spacewalk.png" alt="SpaceWalk" class="product-screenshot">
+      <div class="product-info">
+        <h3 class="product-name">SpaceWalk</h3>
+        <p class="product-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</p>
+        <a href="https://spacewalk.georg.miami" target="_blank" class="product-link">Launch</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Expertise -->
+<section id="expertise">
+  <h2 class="section-title">What I bring.</h2>
+  <div class="neon-divider"></div>
+  <p class="section-subtitle">End-to-end — from system design to deployed product.</p>
+
+  <div class="expertise-grid">
+    <div class="expertise-item">
+      <div class="expertise-icon">&#x1F916;</div>
+      <div class="expertise-label">AI Systems</div>
+    </div>
+    <div class="expertise-item">
+      <div class="expertise-icon">&#x1F4B0;</div>
+      <div class="expertise-label">Finance &amp; Risk</div>
+    </div>
+    <div class="expertise-item">
+      <div class="expertise-icon">&#x26A1;</div>
+      <div class="expertise-label">Full-Stack</div>
+    </div>
+    <div class="expertise-item">
+      <div class="expertise-icon">&#x1F680;</div>
+      <div class="expertise-label">Rapid Build</div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact-section">
+  <h2 class="section-title">Let's work together.</h2>
+  <div class="neon-divider"></div>
+  <br>
+  <img src="georg.jpeg" alt="Georg Chimion" class="contact-photo">
+  <p style="color:var(--neon-cyan);font-family:'Orbitron',sans-serif;font-size:1rem;text-shadow:0 0 10px rgba(0,240,255,0.4);margin-bottom:0.5rem">Georg Chimion</p>
+  <p style="color:#a080c0;font-size:0.95rem;">Wynwood, Miami FL</p>
+
+  <div class="contact-links">
+    <a href="mailto:georg.chimion@gmail.com" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      Email
+    </a>
+    <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
+    <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Georg Chimion. Miami, FL. &middot; Built with Claude</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georg Chimion — AI Automation Specialist | Holographic</title>
+    <meta name="description" content="AI automation for the enterprise. Holographic portfolio by Georg Chimion, Miami.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F30C;</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* =============================================
+           RESET & BASE
+        ============================================= */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --bg-2: #111111;
+            --surface: #161616;
+            --surface-2: #1c1c1c;
+            --border: rgba(255,255,255,0.08);
+            --border-hover: rgba(255,255,255,0.16);
+            --text: #f0f0f0;
+            --text-2: #999;
+            --text-3: #555;
+            --holo-1: #ff6ec7;
+            --holo-2: #7b68ee;
+            --holo-3: #00d4ff;
+            --holo-4: #39ff14;
+            --holo-5: #ffaa00;
+            --r-sm: 8px;
+            --r-md: 14px;
+            --r-lg: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+
+        /* =============================================
+           HOLOGRAPHIC UTILITIES
+        ============================================= */
+        .holo-text {
+            background: linear-gradient(
+                135deg,
+                var(--holo-1),
+                var(--holo-2),
+                var(--holo-3),
+                var(--holo-4),
+                var(--holo-5),
+                var(--holo-1)
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: holoShift 6s ease infinite;
+        }
+
+        @keyframes holoShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes holoRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes prismaticPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Background prismatic streaks */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(123,104,238,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(255,110,199,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 80%, rgba(0,212,255,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 10% 70%, rgba(57,255,20,0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: prismaticPulse 8s ease infinite;
+        }
+
+        /* =============================================
+           NAV
+        ============================================= */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: rgba(10,10,10,0.88);
+            backdrop-filter: blur(20px) saturate(1.2);
+        }
+
+        .nav-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            color: var(--text-2);
+            font-weight: 400;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        /* Theme dropdown */
+        .theme-dropdown {
+            position: relative;
+        }
+
+        .theme-dropdown-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 6px 14px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            min-height: 36px;
+        }
+
+        .theme-dropdown-btn:hover { border-color: var(--border-hover); color: var(--text); }
+
+        .theme-dropdown-btn .holo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: conic-gradient(var(--holo-1), var(--holo-2), var(--holo-3), var(--holo-4), var(--holo-5), var(--holo-1));
+            animation: holoRotate 3s linear infinite;
+        }
+
+        .theme-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 4px;
+            min-width: 160px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: all 0.2s;
+            z-index: 200;
+        }
+
+        .theme-dropdown:hover .theme-dropdown-menu,
+        .theme-dropdown:focus-within .theme-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            border-radius: 6px;
+            color: var(--text-2);
+            transition: all 0.15s;
+        }
+
+        .theme-dropdown-menu a:hover {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        .theme-dropdown-menu a.active {
+            color: var(--text);
+            background: rgba(123,104,238,0.12);
+        }
+
+        .btn-hire {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--holo-2), var(--holo-3));
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: var(--r-sm);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+            min-height: 36px;
+            line-height: 20px;
+        }
+
+        .btn-hire:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(123,104,238,0.4);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 8px;
+            min-width: 44px;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =============================================
+           HERO
+        ============================================= */
+        .hero { padding: 160px 0 100px; position: relative; z-index: 1; }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 57% 43%;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 22px;
+            opacity: 0;
+            background: linear-gradient(90deg, var(--holo-1), var(--holo-2), var(--holo-3));
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: holoShift 4s ease infinite;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(42px, 5.5vw, 72px);
+            letter-spacing: -0.03em;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            opacity: 0;
+        }
+
+        .hero h1 .chrome-text {
+            background: linear-gradient(180deg, #fff 0%, #aaa 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 17px;
+            color: var(--text-2);
+            line-height: 1.7;
+            max-width: 480px;
+            margin-bottom: 36px;
+            font-weight: 300;
+            opacity: 0;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            opacity: 0;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            background: linear-gradient(135deg, var(--holo-2), var(--holo-3));
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--r-sm);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            min-height: 44px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--holo-3), var(--holo-1));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-primary:hover::before { opacity: 1; }
+        .btn-primary span { position: relative; z-index: 1; }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(123,104,238,0.35);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            background: transparent;
+            color: var(--text-2);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--r-sm);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'DM Sans', sans-serif;
+            text-decoration: none;
+            min-height: 44px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--holo-2);
+            color: var(--text);
+            box-shadow: 0 0 20px rgba(123,104,238,0.15);
+        }
+
+        /* Hero photo with holographic frame */
+        .hero-photo-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            position: relative;
+        }
+
+        .hero-photo-frame {
+            position: relative;
+            border-radius: 20px;
+            padding: 3px;
+            background: conic-gradient(from 0deg,
+                var(--holo-1),
+                var(--holo-2),
+                var(--holo-3),
+                var(--holo-4),
+                var(--holo-5),
+                var(--holo-1)
+            );
+            animation: holoRotate 8s linear infinite;
+        }
+
+        .hero-photo {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: 18px;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-photo-glow {
+            position: absolute;
+            inset: -30px;
+            background: conic-gradient(from 0deg,
+                rgba(255,110,199,0.2),
+                rgba(123,104,238,0.2),
+                rgba(0,212,255,0.2),
+                rgba(57,255,20,0.15),
+                rgba(255,170,0,0.2),
+                rgba(255,110,199,0.2)
+            );
+            filter: blur(40px);
+            border-radius: 50%;
+            animation: holoRotate 8s linear infinite;
+            z-index: 0;
+        }
+
+        /* =============================================
+           SECTIONS SHARED
+        ============================================= */
+        section { padding: 90px 0; position: relative; z-index: 1; }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 14px;
+            background: linear-gradient(90deg, var(--holo-3), var(--holo-2), var(--holo-1));
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: holoShift 5s ease infinite;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 3.2vw, 42px);
+            letter-spacing: -0.03em;
+            font-weight: 700;
+            margin-bottom: 14px;
+            line-height: 1.15;
+        }
+
+        .section-sub {
+            font-size: 16px;
+            color: var(--text-2);
+            max-width: 540px;
+            line-height: 1.7;
+            margin-bottom: 52px;
+            font-weight: 300;
+        }
+
+        /* Holographic divider */
+        .holo-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--holo-2), var(--holo-3), var(--holo-1), transparent);
+            opacity: 0.3;
+            margin: 0;
+        }
+
+        /* =============================================
+           PRODUCT CARDS — HOLOGRAPHIC
+        ============================================= */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            position: relative;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: conic-gradient(
+                from var(--holo-angle, 0deg) at var(--holo-x, 50%) var(--holo-y, 50%),
+                rgba(255,110,199,0.15),
+                rgba(123,104,238,0.15),
+                rgba(0,212,255,0.15),
+                rgba(57,255,20,0.1),
+                rgba(255,170,0,0.15),
+                rgba(255,110,199,0.15)
+            );
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 1;
+            pointer-events: none;
+            border-radius: var(--r-lg);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.03) 0%,
+                transparent 40%,
+                transparent 60%,
+                rgba(255,255,255,0.02) 100%
+            );
+            pointer-events: none;
+            z-index: 2;
+            border-radius: var(--r-lg);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 20px 60px rgba(123,104,238,0.15),
+                0 0 40px rgba(0,212,255,0.08);
+            border-color: rgba(123,104,238,0.3);
+        }
+
+        .product-card-featured {
+            grid-column: span 2;
+        }
+
+        .product-card-featured .product-thumb {
+            height: 260px;
+        }
+
+        .product-thumb {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            background: var(--bg-2);
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease, filter 0.5s ease;
+        }
+
+        .product-card:hover .product-thumb img {
+            transform: scale(1.05);
+        }
+
+        /* Holographic shimmer on hover */
+        .product-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(255,110,199,0.1) 40%,
+                rgba(123,104,238,0.12) 45%,
+                rgba(0,212,255,0.1) 50%,
+                transparent 60%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.7s ease;
+            z-index: 3;
+        }
+
+        .product-card:hover .product-thumb::after {
+            transform: translateX(100%);
+        }
+
+        .product-info {
+            padding: 20px 22px 24px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .product-badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .badge-ai {
+            background: linear-gradient(135deg, rgba(123,104,238,0.2), rgba(0,212,255,0.2));
+            color: var(--holo-3);
+            border: 1px solid rgba(0,212,255,0.2);
+        }
+
+        .badge-live {
+            background: rgba(57,255,20,0.1);
+            color: var(--holo-4);
+            border: 1px solid rgba(57,255,20,0.15);
+        }
+
+        .badge-3d {
+            background: linear-gradient(135deg, rgba(255,110,199,0.2), rgba(255,170,0,0.15));
+            color: var(--holo-5);
+            border: 1px solid rgba(255,170,0,0.2);
+        }
+
+        .product-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .product-desc {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.55;
+            margin-bottom: 12px;
+        }
+
+        .product-cta {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-3);
+            transition: color 0.3s;
+        }
+
+        .product-card:hover .product-cta {
+            background: linear-gradient(90deg, var(--holo-3), var(--holo-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* =============================================
+           EXPERTISE SECTION
+        ============================================= */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .expertise-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            padding: 28px 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .expertise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--holo-1), var(--holo-2), var(--holo-3));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .expertise-card:hover::before { opacity: 1; }
+
+        .expertise-card:hover {
+            border-color: rgba(123,104,238,0.25);
+            box-shadow: 0 8px 30px rgba(123,104,238,0.08);
+        }
+
+        .expertise-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, rgba(123,104,238,0.15), rgba(0,212,255,0.1));
+            color: var(--holo-3);
+        }
+
+        .expertise-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .expertise-card p {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        /* =============================================
+           PROCESS SECTION
+        ============================================= */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 24px;
+            counter-reset: step;
+        }
+
+        .process-step {
+            position: relative;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            padding: 32px 24px 24px;
+            counter-increment: step;
+            transition: all 0.3s;
+        }
+
+        .process-step::before {
+            content: counter(step, decimal-leading-zero);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 16px;
+            display: block;
+            background: linear-gradient(135deg, var(--holo-2), var(--holo-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0.6;
+        }
+
+        .process-step:hover {
+            border-color: rgba(0,212,255,0.3);
+            box-shadow: 0 0 30px rgba(0,212,255,0.06);
+        }
+
+        .process-step h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .process-step p {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        /* =============================================
+           CONTACT SECTION
+        ============================================= */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .contact-photo {
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--r-lg);
+            position: relative;
+        }
+
+        .contact-photo-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .contact-photo-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: conic-gradient(from 45deg,
+                rgba(255,110,199,0.15),
+                rgba(123,104,238,0.15),
+                rgba(0,212,255,0.15),
+                rgba(57,255,20,0.1),
+                rgba(255,170,0,0.15),
+                rgba(255,110,199,0.15)
+            );
+            filter: blur(30px);
+            border-radius: 50%;
+            animation: holoRotate 10s linear infinite;
+            z-index: 0;
+        }
+
+        .contact-photo-wrap img {
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .contact-link:hover {
+            border-color: rgba(123,104,238,0.3);
+            box-shadow: 0 0 20px rgba(123,104,238,0.1);
+            transform: translateX(4px);
+        }
+
+        .contact-link i {
+            color: var(--holo-3);
+            flex-shrink: 0;
+        }
+
+        .contact-link span {
+            color: var(--text-2);
+            transition: color 0.3s;
+        }
+
+        .contact-link:hover span {
+            color: var(--text);
+        }
+
+        /* =============================================
+           FOOTER
+        ============================================= */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            color: var(--text-3);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            font-size: 13px;
+            color: var(--text-3);
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--text); }
+
+        /* =============================================
+           GSAP REVEAL
+        ============================================= */
+        .gsap-reveal { opacity: 0; transform: translateY(30px); }
+        .gsap-card { opacity: 0; transform: translateY(40px); }
+
+        /* =============================================
+           LAB CTA
+        ============================================= */
+        .lab-cta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            padding: 20px 28px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .lab-cta-bar strong {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+        }
+
+        .lab-cta-bar span {
+            color: var(--text-2);
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        /* =============================================
+           MOBILE
+        ============================================= */
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+            .hero-photo-wrap { order: -1; }
+            .hero-photo { max-width: 280px; }
+            .product-card-featured { grid-column: span 1; }
+            .product-card-featured .product-thumb { height: 200px; }
+            .contact-grid { grid-template-columns: 1fr; text-align: center; }
+            .contact-photo-wrap { margin: 0 auto; }
+            .contact-links { align-items: center; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 14px 20px; }
+            .nav-links { display: none; }
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 20px;
+                gap: 12px;
+            }
+            .mobile-menu { display: flex; }
+            .container { padding: 0 20px; }
+            .hero { padding: 120px 0 60px; }
+            .products-grid { grid-template-columns: 1fr; }
+            .expertise-grid { grid-template-columns: 1fr 1fr; }
+            .process-grid { grid-template-columns: 1fr 1fr; }
+            .footer-inner { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .expertise-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr; }
+        }
+
+        /* =============================================
+           SPACEWALK PLACEHOLDER
+        ============================================= */
+        .spacewalk-placeholder {
+            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        .spacewalk-placeholder svg {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="cinematic-v2.html">Cinematic V2</option>
+    <option value="insane.html">Insane</option>
+    <option value="holographic.html" selected>Holographic</option>
+    <option value="terminal.html">Terminal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="blueprint.html">Blueprint</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+<!-- =============================================
+     NAV
+============================================= -->
+<nav>
+    <a href="#" class="nav-name">Georg Chimion</a>
+    <div class="nav-links" id="navLinks">
+        <a href="#products">Products</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="btn-hire">Get in Touch</a>
+    </div>
+    <button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">
+        <i data-lucide="menu" style="width:22px;height:22px;"></i>
+    </button>
+</nav>
+
+<!-- =============================================
+     HERO
+============================================= -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-grid">
+            <div>
+                <div class="hero-eyebrow">AI AUTOMATION SPECIALIST &bull; MIAMI</div>
+                <h1><span class="chrome-text">AI automation</span><br><span class="holo-text">for the enterprise.</span></h1>
+                <p class="hero-sub">Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</p>
+                <div class="hero-actions">
+                    <a href="#products" class="btn-primary"><span>View Products</span></a>
+                    <a href="#contact" class="btn-secondary">Get in Touch</a>
+                </div>
+            </div>
+            <div class="hero-photo-wrap">
+                <div class="hero-photo-glow"></div>
+                <div class="hero-photo-frame">
+                    <img src="georg-hero.jpeg" alt="Georg Chimion" class="hero-photo">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="holo-divider"></div>
+
+<!-- =============================================
+     PRODUCTS
+============================================= -->
+<section id="products">
+    <div class="container">
+        <div class="section-label gsap-reveal">Products</div>
+        <h2 class="section-title gsap-reveal">From idea to deployment.</h2>
+        <p class="section-sub gsap-reveal">Each project built end-to-end — from architecture to live demo.</p>
+
+        <div class="products-grid">
+
+            <!-- Vestia — featured -->
+            <a href="https://vestia.georg.miami" target="_blank" class="product-card product-card-featured gsap-card">
+                <div class="product-thumb">
+                    <img src="screenshots/vestia.png" alt="Vestia — AI Property Management Platform" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Vestia</div>
+                    <div class="product-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</div>
+                    <div class="product-cta">Visit &rarr;</div>
+                </div>
+            </a>
+
+            <!-- Ask Penny -->
+            <a href="https://penny.georg.miami" target="_blank" class="product-card gsap-card">
+                <div class="product-thumb">
+                    <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny — AI Finance Dashboard" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Ask Penny</div>
+                    <div class="product-desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</div>
+                    <div class="product-cta">Visit &rarr;</div>
+                </div>
+            </a>
+
+            <!-- Agent Factory -->
+            <a href="https://factory.georg.miami" target="_blank" class="product-card gsap-card">
+                <div class="product-thumb">
+                    <img src="screenshots/factory.png" alt="Agent Factory — AI Website Builder" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI Multi-Agent</div>
+                    <div class="product-name">Agent Factory</div>
+                    <div class="product-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</div>
+                    <div class="product-cta">Visit &rarr;</div>
+                </div>
+            </a>
+
+            <!-- VENUE -->
+            <a href="https://venue.georg.miami" target="_blank" class="product-card gsap-card">
+                <div class="product-thumb">
+                    <img src="screenshots/venue.png" alt="VENUE — Private Event Booking" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Product</div>
+                    <div class="product-name">VENUE</div>
+                    <div class="product-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</div>
+                    <div class="product-cta">Visit &rarr;</div>
+                </div>
+            </a>
+
+            <!-- ReconX -->
+            <a href="https://reconx.georg.miami" target="_blank" class="product-card gsap-card">
+                <div class="product-thumb">
+                    <img src="screenshots/reconx.png" alt="ReconX — Financial Reconciliation Engine" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">ReconX</div>
+                    <div class="product-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</div>
+                    <div class="product-cta">Visit &rarr;</div>
+                </div>
+            </a>
+
+            <!-- AI Document Intelligence -->
+            <a href="https://docs.georg.miami" target="_blank" class="product-card gsap-card">
+                <div class="product-thumb">
+                    <img src="screenshots/docai.png" alt="AI Document Intelligence" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">AI Document Intelligence</div>
+                    <div class="product-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</div>
+                    <div class="product-cta">Visit &rarr;</div>
+                </div>
+            </a>
+
+            <!-- ROI Calculator -->
+            <a href="https://roi.georg.miami" target="_blank" class="product-card gsap-card">
+                <div class="product-thumb">
+                    <img src="screenshots/roi.png" alt="ROI Calculator" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">ROI Calculator</div>
+                    <div class="product-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</div>
+                    <div class="product-cta">Visit &rarr;</div>
+                </div>
+            </a>
+
+            <!-- SpaceWalk -->
+            <a href="https://spacewalk.georg.miami" target="_blank" class="product-card gsap-card">
+                <div class="product-thumb spacewalk-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--holo-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-3d">AI + 3D</div>
+                    <div class="product-name">SpaceWalk</div>
+                    <div class="product-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</div>
+                    <div class="product-cta">Visit &rarr;</div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Lab CTA -->
+        <div class="lab-cta-bar gsap-reveal" style="margin-top:24px;">
+            <div>
+                <strong>The Lab</strong>
+                <span>Experiments, prototypes, and side projects</span>
+            </div>
+            <a href="https://lab.georg.miami" target="_blank" class="btn-primary" style="flex-shrink:0;"><span>Explore &rarr;</span></a>
+        </div>
+    </div>
+</section>
+
+<div class="holo-divider"></div>
+
+<!-- =============================================
+     EXPERTISE
+============================================= -->
+<section id="expertise">
+    <div class="container">
+        <div class="section-label gsap-reveal">Expertise</div>
+        <h2 class="section-title gsap-reveal">What I bring.</h2>
+        <p class="section-sub gsap-reveal">End-to-end — from system design to deployed product.</p>
+
+        <div class="expertise-grid">
+            <div class="expertise-card gsap-card">
+                <div class="expertise-icon"><i data-lucide="brain" style="width:20px;height:20px;"></i></div>
+                <h3>AI Systems</h3>
+                <p>Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</p>
+            </div>
+            <div class="expertise-card gsap-card">
+                <div class="expertise-icon"><i data-lucide="shield-check" style="width:20px;height:20px;"></i></div>
+                <h3>Finance &amp; Risk</h3>
+                <p>Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</p>
+            </div>
+            <div class="expertise-card gsap-card">
+                <div class="expertise-icon"><i data-lucide="code-2" style="width:20px;height:20px;"></i></div>
+                <h3>Full-Stack</h3>
+                <p>React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</p>
+            </div>
+            <div class="expertise-card gsap-card">
+                <div class="expertise-icon"><i data-lucide="zap" style="width:20px;height:20px;"></i></div>
+                <h3>Rapid Build</h3>
+                <p>From concept to working prototype in days, not months. Fast iteration with real users — six live products already in portfolio.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="holo-divider"></div>
+
+<!-- =============================================
+     PROCESS
+============================================= -->
+<section id="process">
+    <div class="container">
+        <div class="section-label gsap-reveal">Process</div>
+        <h2 class="section-title gsap-reveal">Engagement model.</h2>
+        <p class="section-sub gsap-reveal">Embedded specialist, not a slide-deck consultant. I join your team and ship.</p>
+
+        <div class="process-grid">
+            <div class="process-step gsap-card">
+                <h3>01 Discovery</h3>
+                <p>Understand workflows, pain points, and what 'done' looks like. Map the opportunity, identify quick wins, define success criteria.</p>
+            </div>
+            <div class="process-step gsap-card">
+                <h3>02 Build &amp; Ship</h3>
+                <p>Embedded in your team, building production systems. Weekly stakeholder iterations. Real users, real feedback.</p>
+            </div>
+            <div class="process-step gsap-card">
+                <h3>03 Handoff</h3>
+                <p>Documentation, training, knowledge transfer. Your team owns it. Optional retainer for ongoing support.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="holo-divider"></div>
+
+<!-- =============================================
+     CONTACT
+============================================= -->
+<section id="contact">
+    <div class="container">
+        <div class="section-label gsap-reveal">Contact</div>
+        <h2 class="section-title gsap-reveal">Let's work together.</h2>
+        <p class="section-sub gsap-reveal">Taking on select consulting and contract engagements. If you need AI automation that delivers, let's talk.</p>
+
+        <div class="contact-grid">
+            <div class="contact-photo-wrap gsap-card">
+                <img src="georg.jpeg" alt="Georg Chimion" class="contact-photo">
+            </div>
+            <div>
+                <div class="contact-links">
+                    <a href="mailto:georg.chimion@gmail.com" class="contact-link gsap-card">
+                        <i data-lucide="mail" style="width:20px;height:20px;"></i>
+                        <span>georg.chimion@gmail.com</span>
+                    </a>
+                    <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-link gsap-card">
+                        <i data-lucide="github" style="width:20px;height:20px;"></i>
+                        <span>georgchimion-oss</span>
+                    </a>
+                    <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-link gsap-card">
+                        <i data-lucide="linkedin" style="width:20px;height:20px;"></i>
+                        <span>georgchimion</span>
+                    </a>
+                    <div class="contact-link gsap-card">
+                        <i data-lucide="map-pin" style="width:20px;height:20px;"></i>
+                        <span>Wynwood, Miami FL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     FOOTER
+============================================= -->
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-copy">&copy; 2026 Georg Chimion. Miami, FL. &middot; Built with Claude</div>
+            <div class="footer-links">
+                <a href="https://georg.miami">georg.miami</a>
+                <a href="https://github.com/georgchimion-oss" target="_blank">GitHub</a>
+                <a href="https://linkedin.com/in/georgchimion" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // =============================================
+    // LUCIDE ICONS
+    // =============================================
+    lucide.createIcons();
+
+    // =============================================
+    // MOBILE MENU
+    // =============================================
+    document.getElementById('mobileMenu').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('active');
+    });
+
+    // =============================================
+    // HOLOGRAPHIC 3D TILT ON PRODUCT CARDS
+    // =============================================
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            const percentX = (x / rect.width) * 100;
+            const percentY = (y / rect.height) * 100;
+            const angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
+
+            card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+            card.style.setProperty('--holo-x', percentX + '%');
+            card.style.setProperty('--holo-y', percentY + '%');
+            card.style.setProperty('--holo-angle', angle + 'deg');
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+            card.style.setProperty('--holo-x', '50%');
+            card.style.setProperty('--holo-y', '50%');
+            card.style.setProperty('--holo-angle', '0deg');
+        });
+    });
+
+    // =============================================
+    // GSAP SCROLL ANIMATIONS
+    // =============================================
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero animations
+    const heroTl = gsap.timeline({ defaults: { duration: 0.8, ease: 'power3.out' }});
+    heroTl
+        .to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.6 }, 0.2)
+        .to('.hero h1', { opacity: 1, y: 0 }, 0.4)
+        .to('.hero-sub', { opacity: 1, y: 0 }, 0.6)
+        .to('.hero-actions', { opacity: 1, y: 0 }, 0.8)
+        .to('.hero-photo-wrap', { opacity: 1, y: 0, duration: 1 }, 0.5);
+
+    // Reveal elements on scroll
+    gsap.utils.toArray('.gsap-reveal').forEach(el => {
+        gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: el,
+                start: 'top 88%',
+                once: true,
+            }
+        });
+    });
+
+    // Cards stagger
+    document.querySelectorAll('.products-grid, .expertise-grid, .process-grid').forEach(grid => {
+        const cards = grid.querySelectorAll('.gsap-card');
+        gsap.to(cards, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: grid,
+                start: 'top 85%',
+                once: true,
+            }
+        });
+    });
+
+    // Contact cards
+    const contactCards = document.querySelectorAll('#contact .gsap-card');
+    gsap.to(contactCards, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.12,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '#contact',
+            start: 'top 80%',
+            once: true,
+        }
+    });
+
+    // Holographic dividers glow on scroll
+    gsap.utils.toArray('.holo-divider').forEach(div => {
+        gsap.fromTo(div,
+            { opacity: 0.1 },
+            {
+                opacity: 0.5,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: div,
+                    start: 'top 90%',
+                    once: true,
+                }
+            }
+        );
+    });
+</script>
+
+</body>
+</html>
