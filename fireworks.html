@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIREWORKS — Georg Chimion</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&family=Inter:wght@300;400;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--night:#070318;--night2:#140A3A;--gold:#FFD66B;--rose:#FF6B9E;--cyan:#5BE0FF;--red:#FF4D5E;--cream:#FFF5DD}
+html,body{background:var(--night);color:var(--cream);font-family:'Inter',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden}
+body{background:radial-gradient(ellipse at top,var(--night2) 0%,var(--night) 60%)}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'Yeseva One',serif;font-weight:400}
+.back{position:fixed;top:14px;right:14px;z-index:1000;font-family:'Inter';font-size:10px;letter-spacing:0.22em;border:1px solid var(--gold);padding:7px 12px;background:rgba(7,3,24,0.9);color:var(--gold);text-transform:uppercase}
+
+#fw{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+.hero{position:relative;z-index:5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center}
+.eyebrow{font-size:11px;letter-spacing:0.4em;color:var(--gold);text-transform:uppercase;margin-bottom:26px;animation:fadein 1s ease-out}
+.eyebrow::before,.eyebrow::after{content:'✦';margin:0 14px;color:var(--rose)}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+h1{font-family:'Yeseva One',serif;font-size:clamp(60px,12vw,180px);line-height:0.9;letter-spacing:-0.02em;color:var(--cream);margin-bottom:18px;text-wrap:balance;text-shadow:0 0 40px rgba(255,214,107,0.5)}
+h1 em{font-style:italic;color:var(--gold);background:linear-gradient(180deg,var(--gold),var(--rose));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lede{font-family:'Yeseva One',serif;font-size:clamp(20px,2.5vw,30px);color:var(--cream);opacity:0.85;max-width:680px;margin:0 auto 30px;line-height:1.4;text-wrap:pretty}
+.portrait{margin:30px auto;width:240px;height:240px;border-radius:50%;overflow:hidden;border:4px solid var(--gold);box-shadow:0 0 40px var(--gold),0 0 80px var(--rose),0 0 120px var(--cyan);position:relative;animation:halo 3s ease-in-out infinite}
+@keyframes halo{50%{box-shadow:0 0 60px var(--gold),0 0 100px var(--rose),0 0 160px var(--cyan)}}
+.portrait img{width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(1.1) brightness(0.95)}
+.sparklers{position:absolute;inset:-20px;border-radius:50%;pointer-events:none}
+.sparklers::before,.sparklers::after{content:'';position:absolute;inset:0;border-radius:50%;border:1px dashed var(--gold);animation:spin 12s linear infinite}
+.sparklers::after{inset:-10px;animation-duration:20s;animation-direction:reverse;border-color:var(--rose)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.stats{display:grid;grid-template-columns:repeat(3,auto);gap:40px;margin-top:40px}
+.st{text-align:center}
+.st b{font-family:'Yeseva One',serif;font-size:44px;color:var(--gold);display:block;text-shadow:0 0 20px rgba(255,214,107,0.5)}
+.st span{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,245,221,0.6)}
+
+.scroll{margin-top:40px;font-size:10px;letter-spacing:0.3em;color:rgba(255,245,221,0.5);text-transform:uppercase;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:0.4}}
+
+/* Section */
+.sec{position:relative;z-index:5;padding:100px 24px;max-width:1400px;margin:0 auto}
+.sec-h{text-align:center;margin-bottom:60px}
+.sec-h .k{font-size:11px;letter-spacing:0.4em;color:var(--rose);text-transform:uppercase;margin-bottom:16px}
+.sec-h h2{font-family:'Yeseva One',serif;font-size:clamp(44px,7vw,92px);line-height:1;letter-spacing:-0.015em;color:var(--cream);text-wrap:balance}
+.sec-h h2 em{font-style:italic;color:var(--gold)}
+
+.shells{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.shell{position:relative;padding:32px 26px;background:linear-gradient(180deg,rgba(20,10,58,0.6),rgba(7,3,24,0.8));border:1px solid rgba(255,214,107,0.25);overflow:hidden;transition:all 0.3s;backdrop-filter:blur(6px)}
+.shell::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:4px;height:80px;background:linear-gradient(180deg,transparent,var(--gold));transition:transform 0.3s;opacity:0}
+.shell:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 20px 40px rgba(255,107,158,0.25),0 0 60px rgba(255,214,107,0.15)}
+.shell:hover::before{opacity:1;animation:launch 1s ease-out}
+@keyframes launch{to{transform:translateX(-50%) translateY(120px);opacity:0}}
+.shell .idx{font-family:'Yeseva One';font-size:12px;color:var(--rose);letter-spacing:0.2em;margin-bottom:4px}
+.shell h3{font-family:'Yeseva One',serif;font-size:30px;letter-spacing:-0.01em;line-height:1;margin-bottom:6px;color:var(--cream)}
+.shell h3 em{font-style:italic;color:var(--gold)}
+.shell .tag{font-size:10px;letter-spacing:0.24em;color:var(--cyan);text-transform:uppercase;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,214,107,0.2)}
+.shell p{font-size:13px;line-height:1.6;color:rgba(255,245,221,0.75);margin-bottom:18px}
+.shell .go{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold);padding-top:14px;border-top:1px solid rgba(255,214,107,0.2)}
+.shell .go::after{content:'✦';font-size:14px;transition:transform 0.3s}
+.shell:hover .go::after{transform:rotate(180deg) scale(1.2)}
+
+/* Toast / hire */
+.toast{position:relative;z-index:5;padding:120px 24px;text-align:center}
+.toast::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.toast .orn{font-size:24px;color:var(--gold);margin-bottom:20px;letter-spacing:0.6em}
+.toast h2{font-family:'Yeseva One',serif;font-size:clamp(48px,8vw,110px);line-height:0.9;margin-bottom:18px;text-wrap:balance;color:var(--cream);text-shadow:0 0 50px rgba(255,107,158,0.4)}
+.toast h2 em{font-style:italic;color:var(--rose)}
+.toast .dek{font-family:'Yeseva One',serif;font-size:22px;color:rgba(255,245,221,0.7);max-width:520px;margin:0 auto 40px;line-height:1.5}
+.chans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:900px;margin:0 auto}
+.ch{padding:22px;background:rgba(255,245,221,0.03);border:1px solid rgba(255,214,107,0.3);transition:all 0.3s;font-family:'Inter';text-align:left}
+.ch:hover{background:rgba(255,214,107,0.1);border-color:var(--gold);transform:translateY(-3px)}
+.ch .l{font-size:9px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.ch .v{font-family:'Yeseva One',serif;font-size:16px;color:var(--cream);word-break:break-all}
+
+footer{position:relative;z-index:5;padding:30px 24px;text-align:center;font-size:10px;letter-spacing:0.3em;color:rgba(255,245,221,0.4);text-transform:uppercase;border-top:1px solid rgba(255,214,107,0.15)}
+footer em{font-family:'Yeseva One';font-style:italic;color:var(--rose);letter-spacing:0.06em;text-transform:none}
+
+@media (max-width:700px){.stats{gap:20px}.portrait{width:180px;height:180px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<canvas id="fw"></canvas>
+
+<section class="hero">
+  <div class="eyebrow">A Private Celebration · Miami · MMXXVI</div>
+  <h1 class="serif">A sky for <em>shipping.</em></h1>
+  <div class="portrait">
+    <div class="sparklers"></div>
+    <img src="georg-hero.jpeg" alt="Georg">
+  </div>
+  <p class="lede">Eight products launched. Every one of them still in the air. Georg Chimion, automation specialist, is accepting new work — and lighting the sky while he waits.</p>
+  <div class="stats">
+    <div class="st"><b>08</b><span>Live Products</span></div>
+    <div class="st"><b>00</b><span>Dead Pilots</span></div>
+    <div class="st"><b>24h</b><span>Reply Window</span></div>
+  </div>
+  <div class="scroll">▼ WATCH THE LAUNCHES ▼</div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">
+    <div class="k">✦ Six launches on the program ✦</div>
+    <h2 class="serif">The <em>shells</em> in the sky.</h2>
+  </div>
+  <div class="shells">
+    <a class="shell" href="https://vestia.georg.miami"><div class="idx">LAUNCH N°01</div><h3 class="serif"><em>Vestia</em></h3><div class="tag">◆ Property Operations</div><p>Six-module AI platform for South Florida condos. Triage, compliance, collections, screening, documents, vendors.</p><div class="go">Open the launch</div></a>
+    <a class="shell" href="https://penny.georg.miami"><div class="idx">LAUNCH N°02</div><h3 class="serif">Ask <em>Penny</em></h3><div class="tag">◆ Household Finance</div><p>Claude-powered morning briefing on the family bank feed. Smart budgets. Gentle alerts.</p><div class="go">Open the launch</div></a>
+    <a class="shell" href="https://factory.georg.miami"><div class="idx">LAUNCH N°03</div><h3 class="serif">Agent <em>Factory</em></h3><div class="tag">◆ Multi-Agent</div><p>Four autonomous agents — PM, Coder, Reviewer, Deployer — collaborate to ship production sites from a brief.</p><div class="go">Open the launch</div></a>
+    <a class="shell" href="https://reconx.georg.miami"><div class="idx">LAUNCH N°04</div><h3 class="serif"><em>ReconX</em></h3><div class="tag">◆ Treasury / Ledger</div><p>Cloud-native reconciliation. Multi-pass matching, exceptions, nostro proof, SLA tracking.</p><div class="go">Open the launch</div></a>
+    <a class="shell" href="https://onboard.georg.miami"><div class="idx">LAUNCH N°05</div><h3 class="serif"><em>Onboard</em></h3><div class="tag">◆ Training</div><p>Upload the handbook. Get a full course with quizzes in three minutes. Score the cohort instantly.</p><div class="go">Open the launch</div></a>
+    <a class="shell" href="https://venue.georg.miami"><div class="idx">LAUNCH N°06</div><h3 class="serif"><em>VENUE</em></h3><div class="tag">◆ Hospitality</div><p>Private event booking wizard for Miami. Happy hours, dinners, DJ lounges, full buyouts.</p><div class="go">Open the launch</div></a>
+  </div>
+</section>
+
+<section class="toast" id="hire">
+  <div class="orn">✦ ✦ ✦</div>
+  <h2 class="serif">Raise a <em>glass.</em></h2>
+  <p class="dek">New engagements being accepted for Q3, MMXXVI. Correspondence answered within a day on each channel.</p>
+  <div class="chans">
+    <a class="ch" href="mailto:georg.chimion@gmail.com"><div class="l">By Post</div><div class="v serif">georg.chimion@gmail.com</div></a>
+    <a class="ch" href="https://linkedin.com/in/georgchimion"><div class="l">Professional</div><div class="v serif">in/georgchimion</div></a>
+    <a class="ch" href="https://github.com/georgchimion-oss"><div class="l">Source</div><div class="v serif">@georgchimion-oss</div></a>
+    <a class="ch" href="https://miami.georg.miami"><div class="l">In Person</div><div class="v serif">Miami AI · Wynwood</div></a>
+  </div>
+</section>
+
+<footer>© 2026 · <em>Georg Chimion · Wynwood</em> · Still Lighting The Sky</footer>
+
+<script>
+const c=document.getElementById('fw'),ctx=c.getContext('2d');
+function sz(){c.width=innerWidth;c.height=innerHeight}sz();addEventListener('resize',sz);
+const parts=[];
+const colors=[[255,214,107],[255,107,158],[91,224,255],[255,77,94],[255,245,221],[180,140,255]];
+function launch(){
+  const tx=Math.random()*c.width,ty=c.height*(0.15+Math.random()*0.35);
+  const col=colors[Math.floor(Math.random()*colors.length)];
+  // rocket trail
+  parts.push({t:'r',x:tx,y:c.height,tx,ty,col,l:1});
+}
+function burst(x,y,col){
+  const n=40+Math.floor(Math.random()*30);
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2,sp=2+Math.random()*4;
+    parts.push({t:'p',x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,col,l:1,sz:2+Math.random()*2});
+  }
+}
+setInterval(launch,650);
+for(let i=0;i<3;i++)setTimeout(launch,i*200);
+function loop(){
+  ctx.fillStyle='rgba(7,3,24,0.18)';ctx.fillRect(0,0,c.width,c.height);
+  for(let i=parts.length-1;i>=0;i--){
+    const p=parts[i];
+    if(p.t==='r'){
+      const dx=p.tx-p.x,dy=p.ty-p.y,d=Math.hypot(dx,dy);
+      if(d<10){burst(p.x,p.y,p.col);parts.splice(i,1);continue}
+      p.x+=dx/d*8;p.y+=dy/d*8;
+      ctx.fillStyle=`rgba(${p.col.join(',')},0.9)`;
+      ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fill();
+      // trail
+      ctx.fillStyle=`rgba(${p.col.join(',')},0.3)`;
+      ctx.beginPath();ctx.arc(p.x-dx/d*4,p.y-dy/d*4+1,1.5,0,Math.PI*2);ctx.fill();
+    } else {
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.05;p.vx*=0.99;p.l-=0.012;
+      if(p.l<=0){parts.splice(i,1);continue}
+      ctx.fillStyle=`rgba(${p.col.join(',')},${p.l})`;
+      ctx.shadowColor=`rgba(${p.col.join(',')},0.8)`;ctx.shadowBlur=8;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.sz*p.l,0,Math.PI*2);ctx.fill();
+      ctx.shadowBlur=0;
+    }
+  }
+  requestAnimationFrame(loop);
+}loop();
+</script>
+</body>
+</html>

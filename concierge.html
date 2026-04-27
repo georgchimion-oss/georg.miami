@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Maison</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0F0D0A;--bg2:#15120D;--cream:#F5EBD8;--mute:#9E9685;--gold:#C9A961;--line:rgba(201,169,97,0.2);--faint:rgba(245,235,216,0.4)}
+html,body{background:var(--bg);color:var(--cream);font-family:'Inter',sans-serif;font-weight:300;font-size:14px;line-height:1.7;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.ital{font-family:'Italiana',serif;font-weight:400}
+.cor{font-family:'Cormorant',serif;font-weight:300}
+.back{position:fixed;top:18px;right:22px;z-index:100;font-size:10px;letter-spacing:0.25em;padding:8px 14px;background:var(--bg);color:var(--cream);border:1px solid var(--gold);text-transform:uppercase}
+
+/* Header */
+.top{padding:28px 48px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+.top .crest{font-family:'Italiana',serif;font-size:26px;letter-spacing:0.08em;color:var(--gold)}
+.top .crest em{font-family:'Cormorant',serif;font-style:italic;font-weight:300;color:var(--cream);margin-left:6px}
+.top nav{display:flex;gap:40px;font-size:10px;letter-spacing:0.26em;color:var(--mute);text-transform:uppercase}
+.top nav a:hover{color:var(--gold)}
+
+/* HERO */
+.hero{min-height:92vh;display:grid;grid-template-columns:1.1fr 1fr;gap:0;border-bottom:1px solid var(--line)}
+.hero-l{padding:80px 60px;display:flex;flex-direction:column;justify-content:center;position:relative}
+.hero-l::after{content:'';position:absolute;top:60px;bottom:60px;right:0;width:1px;background:linear-gradient(180deg,transparent,var(--gold),transparent)}
+.hero-l .eyebrow{font-size:10px;letter-spacing:0.32em;color:var(--gold);text-transform:uppercase;margin-bottom:30px;display:flex;align-items:center;gap:14px}
+.hero-l .eyebrow::before,.hero-l .eyebrow::after{content:'';width:24px;height:1px;background:var(--gold)}
+.hero-l h1{font-family:'Italiana',serif;font-weight:400;font-size:clamp(64px,8.5vw,132px);line-height:0.9;letter-spacing:0.01em;margin-bottom:18px;text-wrap:balance}
+.hero-l h1 em{font-family:'Cormorant',serif;font-style:italic;font-weight:300;color:var(--gold)}
+.hero-l .lede{font-family:'Cormorant',serif;font-style:italic;font-size:22px;color:var(--mute);line-height:1.5;max-width:500px;margin:14px 0 38px;text-wrap:pretty}
+.hero-l .meta{display:flex;gap:48px;padding-top:22px;border-top:1px solid var(--line);font-size:10px;letter-spacing:0.26em;color:var(--mute);text-transform:uppercase}
+.hero-l .meta span b{display:block;font-family:'Italiana',serif;font-size:22px;letter-spacing:0.04em;color:var(--gold);margin-bottom:3px;font-weight:400}
+.hero-l .cta{margin-top:40px;display:inline-flex;align-items:center;gap:14px;align-self:flex-start;padding:18px 28px;border:1px solid var(--gold);color:var(--gold);font-size:10px;letter-spacing:0.28em;text-transform:uppercase;transition:all 0.3s}
+.hero-l .cta:hover{background:var(--gold);color:var(--bg)}
+.hero-l .cta::after{content:'→';transition:transform 0.3s}
+.hero-l .cta:hover::after{transform:translateX(4px)}
+
+.hero-r{position:relative;overflow:hidden;background:var(--bg2)}
+.hero-r::before{content:'';position:absolute;inset:40px;border:1px solid var(--gold);pointer-events:none;z-index:2}
+.hero-r::after{content:'';position:absolute;inset:48px;border:1px solid var(--line);pointer-events:none;z-index:2}
+.hero-r img{position:absolute;inset:60px;width:calc(100% - 120px);height:calc(100% - 120px);object-fit:cover;filter:sepia(0.15) contrast(1.05) brightness(0.9)}
+.hero-r .plate{position:absolute;bottom:80px;left:60px;right:60px;background:rgba(15,13,10,0.9);padding:18px 24px;backdrop-filter:blur(10px);border:1px solid var(--gold);z-index:3}
+.hero-r .plate .l{font-size:9px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.hero-r .plate .v{font-family:'Italiana',serif;font-size:18px;color:var(--cream);letter-spacing:0.03em}
+.hero-r .plate .v em{font-family:'Cormorant';font-style:italic;color:var(--mute);margin-left:6px}
+
+/* Dividers */
+.ornament{text-align:center;padding:40px 0;font-size:16px;color:var(--gold);letter-spacing:2em}
+
+/* Amenities */
+.amen{padding:100px 60px;max-width:1400px;margin:0 auto}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:16px;border-bottom:1px solid var(--gold);margin-bottom:56px}
+.sec-h h2{font-family:'Italiana',serif;font-weight:400;font-size:clamp(42px,5vw,64px);letter-spacing:0.02em}
+.sec-h h2 em{font-family:'Cormorant';font-style:italic;font-weight:300;color:var(--gold)}
+.sec-h .n{font-size:10px;letter-spacing:0.28em;color:var(--mute);text-transform:uppercase;font-family:'Cormorant';font-style:italic;font-size:14px;letter-spacing:0.2em}
+
+.amen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
+.card{padding:44px 36px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background 0.4s;position:relative}
+.card:nth-child(3n){border-right:0}
+.card:nth-last-child(-n+3){border-bottom:0}
+.card:hover{background:rgba(201,169,97,0.05)}
+.card .n{font-family:'Cormorant',serif;font-style:italic;font-size:13px;color:var(--gold);letter-spacing:0.08em;margin-bottom:12px}
+.card h3{font-family:'Italiana',serif;font-weight:400;font-size:34px;letter-spacing:0.02em;line-height:1.05;margin-bottom:6px;text-wrap:balance}
+.card h3 em{font-family:'Cormorant';font-style:italic;font-weight:300;color:var(--gold)}
+.card .sub{font-family:'Cormorant',serif;font-style:italic;font-size:14px;color:var(--mute);margin-bottom:20px;letter-spacing:0.02em}
+.card p{font-size:13px;color:rgba(245,235,216,0.7);line-height:1.75;margin-bottom:24px}
+.card .foot{display:flex;justify-content:space-between;align-items:baseline;padding-top:16px;border-top:1px solid var(--line);font-size:9px;letter-spacing:0.26em;color:var(--mute);text-transform:uppercase}
+.card .foot .go{color:var(--gold);letter-spacing:0.2em}
+.card .foot .go::after{content:' →'}
+
+/* The hour — contact */
+.hour{padding:120px 60px;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);border-top:1px solid var(--line);position:relative;overflow:hidden}
+.hour::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.hour-wrap{max-width:960px;margin:0 auto;text-align:center}
+.hour .orn{font-size:24px;color:var(--gold);letter-spacing:1em;margin-bottom:28px}
+.hour h2{font-family:'Italiana',serif;font-weight:400;font-size:clamp(52px,7vw,96px);line-height:0.95;letter-spacing:0.02em;margin-bottom:18px;text-wrap:balance}
+.hour h2 em{font-family:'Cormorant';font-style:italic;font-weight:300;color:var(--gold)}
+.hour .dek{font-family:'Cormorant',serif;font-style:italic;font-size:22px;color:var(--mute);max-width:540px;margin:0 auto 56px;line-height:1.5}
+.desk{display:grid;grid-template-columns:repeat(2,1fr);gap:0;max-width:760px;margin:0 auto;border:1px solid var(--gold)}
+.ch{padding:26px 30px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left;display:flex;justify-content:space-between;align-items:center;transition:background 0.3s}
+.ch:hover{background:rgba(201,169,97,0.08)}
+.ch:nth-child(2n){border-right:0}
+.ch:nth-last-child(-n+2){border-bottom:0}
+.ch-l{text-align:left}
+.ch .l{font-size:9px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.ch .v{font-family:'Italiana',serif;font-size:16px;letter-spacing:0.02em;color:var(--cream)}
+.ch-r{font-family:'Cormorant';font-style:italic;font-size:22px;color:var(--gold)}
+
+footer{padding:40px 48px;display:flex;justify-content:space-between;border-top:1px solid var(--line);font-size:10px;letter-spacing:0.26em;color:var(--mute);text-transform:uppercase}
+footer em{font-family:'Cormorant';font-style:italic;text-transform:none;letter-spacing:0.04em;font-size:13px;color:var(--gold)}
+
+@media (max-width:1000px){.hero{grid-template-columns:1fr}.amen-grid{grid-template-columns:1fr}.card{border-right:0!important;border-bottom:1px solid var(--line)!important}.desk{grid-template-columns:1fr}.ch{border-right:0!important}.top{padding:20px 24px;flex-direction:column;gap:14px}.top nav{gap:20px;font-size:9px}.hero-l,.amen,.hour{padding-left:24px;padding-right:24px}.hero-l::after{display:none}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← Gallery</a>
+
+<header class="top">
+  <div class="crest">Maison <em>Chimion</em></div>
+  <nav>
+    <a href="#amen">Amenities</a>
+    <a href="#hour">The Hour</a>
+    <a>South Florida · Est. MMXXII</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-l">
+    <div class="eyebrow">A Private House of Automation</div>
+    <h1>Of <em>quiet</em><br>consequence.</h1>
+    <p class="lede">Eleven years of hospitality in the service of complex operations. Finance, property, private concerns — attended to without noise, from a studio in Wynwood.</p>
+    <div class="meta">
+      <span><b>MMXXII</b>established</span>
+      <span><b>VIII</b>in residence</span>
+      <span><b>Q3</b>seatings</span>
+    </div>
+    <a class="cta" href="#hour">Reserve the Hour</a>
+  </div>
+  <div class="hero-r">
+    <img src="georg-hero.jpeg" alt="Georg Chimion, proprietor.">
+    <div class="plate">
+      <div class="l">The Proprietor</div>
+      <div class="v">Georg Chimion <em>· in residence</em></div>
+    </div>
+  </div>
+</section>
+
+<div class="ornament">◆ ◇ ◆</div>
+
+<section class="amen" id="amen">
+  <div class="sec-h">
+    <h2>The <em>Amenities.</em></h2>
+    <div class="n">Carte · Autumn MMXXVI</div>
+  </div>
+
+  <div class="amen-grid">
+    <a class="card" href="https://vestia.georg.miami">
+      <div class="n">Amuse · I</div>
+      <h3><em>Vestia</em></h3>
+      <div class="sub">Of the South Florida condominium.</div>
+      <p>Six modules attended to in a single service: maintenance, compliance, collections, screening, documents, vendors. Discreet, hot-plated, and never late to the board meeting.</p>
+      <div class="foot"><span>The Property Service</span><span class="go">Reserve</span></div>
+    </a>
+    <a class="card" href="https://penny.georg.miami">
+      <div class="n">Entrée · II</div>
+      <h3>Ask <em>Penny</em></h3>
+      <div class="sub">The household financial copilot.</div>
+      <p>A quiet morning card slipped under the door. Reads the feed, composes a short brief, alerts the household when the coffee line item is not, in fact, about the coffee.</p>
+      <div class="foot"><span>The Household Service</span><span class="go">Reserve</span></div>
+    </a>
+    <a class="card" href="https://factory.georg.miami">
+      <div class="n">Plat · III</div>
+      <h3>Agent <em>Factory</em></h3>
+      <div class="sub">A brigade of four, silent and precise.</div>
+      <p>A manager, a coder, a reviewer, a deployer — each an autonomous instance of Claude — collaborate to produce a finished site from a single paragraph of instruction.</p>
+      <div class="foot"><span>The Production Service</span><span class="go">Reserve</span></div>
+    </a>
+    <a class="card" href="https://reconx.georg.miami">
+      <div class="n">Plat · IV</div>
+      <h3><em>ReconX</em></h3>
+      <div class="sub">For the treasury and the quiet room.</div>
+      <p>Multi-pass matching, exception handling, nostro proof against an SLA timer. A devoted below-stairs service: one notices it, as one notices a well-tended furnace, only in its absence.</p>
+      <div class="foot"><span>The Treasury Service</span><span class="go">Reserve</span></div>
+    </a>
+    <a class="card" href="https://onboard.georg.miami">
+      <div class="n">Dessert · V</div>
+      <h3><em>Onboard</em></h3>
+      <div class="sub">A three-minute cordial for new staff.</div>
+      <p>Submit the handbook, receive a curriculum. New hires arrive scored, assessed, and already familiar with the house style.</p>
+      <div class="foot"><span>The Orientation Service</span><span class="go">Reserve</span></div>
+    </a>
+    <a class="card" href="https://venue.georg.miami">
+      <div class="n">Digestif · VI</div>
+      <h3><em>VENUE</em></h3>
+      <div class="sub">For the private evening.</div>
+      <p>Happy hours, dinners, DJ lounges, the full buyout. A gracious intake, a confirmation without delay, and the evening attended to in its entirety.</p>
+      <div class="foot"><span>The Evening Service</span><span class="go">Reserve</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="hour" id="hire">
+  <div class="hour-wrap">
+    <div class="orn">✦ ✦ ✦</div>
+    <h2>Reserve <em>the hour.</em></h2>
+    <p class="dek">A small calendar of private engagements is being attended to for Q3, MMXXVI. Correspondence is answered, in every case, within twenty-four hours.</p>
+    <div class="desk">
+      <a class="ch" href="mailto:georg.chimion@gmail.com"><span class="ch-l"><div class="l">By Post</div><div class="v">georg.chimion@gmail.com</div></span><span class="ch-r">→</span></a>
+      <a class="ch" href="https://linkedin.com/in/georgchimion"><span class="ch-l"><div class="l">Professionally</div><div class="v">in/georgchimion</div></span><span class="ch-r">→</span></a>
+      <a class="ch" href="https://github.com/georgchimion-oss"><span class="ch-l"><div class="l">At Source</div><div class="v">@georgchimion-oss</div></span><span class="ch-r">→</span></a>
+      <a class="ch" href="https://miami.georg.miami"><span class="ch-l"><div class="l">In Person</div><div class="v">Miami AI · Wynwood</div></span><span class="ch-r">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© MMXXVI Maison Chimion</span>
+  <em>A house in quiet practice.</em>
+  <span>Wynwood · Miami</span>
+</footer>
+</body>
+</html>

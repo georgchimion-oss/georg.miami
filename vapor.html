@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Vapor</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=VT323&family=Space+Mono:wght@400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0A0420;--pink:#FF4ECD;--cyan:#38E6FF;--violet:#8A5CFF;--gold:#FFD95C;--ink:#FFF3FF}
+html,body{background:var(--bg);color:var(--ink);font-family:'Space Mono',monospace;font-size:13px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.back{position:fixed;top:16px;right:16px;z-index:100;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;border:1px solid var(--pink);padding:6px 12px;background:var(--bg);color:var(--pink)}
+
+/* HERO — sunset with grid */
+.hero{position:relative;min-height:100vh;overflow:hidden;background:linear-gradient(180deg,#1A0636 0%,#4A0E56 30%,#8A1F6A 55%,#E82E8F 75%,#FF7A3F 92%,#FFC75C 100%)}
+.stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;width:2px;height:2px;background:var(--ink);border-radius:50%;animation:tw 3s ease-in-out infinite;box-shadow:0 0 6px var(--ink)}
+@keyframes tw{0%,100%{opacity:0.3}50%{opacity:1}}
+.sun{position:absolute;left:50%;bottom:38%;transform:translateX(-50%);width:460px;height:230px;background:linear-gradient(180deg,#FFE06A 0%,#FF4E99 50%,#9733D6 100%);border-radius:230px 230px 0 0;box-shadow:0 0 100px rgba(255,78,205,0.6);z-index:1}
+.sun::before{content:'';position:absolute;left:0;right:0;bottom:0;height:100%;background:repeating-linear-gradient(0deg,transparent 0px,transparent 18px,var(--bg) 18px,var(--bg) 24px);mix-blend-mode:multiply;opacity:0.6}
+.mountains{position:absolute;bottom:33%;left:0;right:0;height:60px;z-index:2;pointer-events:none}
+.mountains svg{width:100%;height:100%;display:block}
+.floor{position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(180deg,#2A0A4A 0%,#0A0420 100%);z-index:3;perspective:400px;perspective-origin:50% 0%;overflow:hidden}
+.floor::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--cyan) 1px,transparent 1px),linear-gradient(90deg,var(--cyan) 1px,transparent 1px);background-size:60px 60px;transform:rotateX(68deg) translateZ(0);transform-origin:50% 0%;animation:slide 2s linear infinite;box-shadow:inset 0 60px 100px rgba(10,4,32,0.8)}
+@keyframes slide{to{background-position:0 60px,0 0}}
+.floor::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,transparent 20%,var(--bg) 80%);pointer-events:none}
+
+.nav{position:relative;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;font-family:'VT323',monospace;font-size:22px;letter-spacing:0.04em;color:var(--ink)}
+.nav .logo{color:var(--cyan);text-shadow:2px 2px 0 var(--pink)}
+.nav-right{display:flex;gap:20px;font-size:16px}
+.nav-right a{color:var(--gold)}
+
+.hero-text{position:relative;z-index:5;max-width:1200px;margin:0 auto;padding:60px 32px 0;text-align:center}
+.glitch{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(60px,12vw,180px);line-height:0.9;letter-spacing:-0.04em;color:var(--ink);text-transform:uppercase;position:relative;display:inline-block;animation:rgb 3s ease-in-out infinite}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0;pointer-events:none}
+.glitch::before{color:var(--cyan);transform:translate(-4px,0);mix-blend-mode:screen;animation:jitter1 4s infinite}
+.glitch::after{color:var(--pink);transform:translate(4px,0);mix-blend-mode:screen;animation:jitter2 4s infinite}
+@keyframes jitter1{0%,90%,100%{transform:translate(-4px,0)}91%{transform:translate(-6px,2px)}93%{transform:translate(-3px,-2px)}95%{transform:translate(-5px,1px)}}
+@keyframes jitter2{0%,88%,100%{transform:translate(4px,0)}89%{transform:translate(6px,-2px)}92%{transform:translate(2px,2px)}94%{transform:translate(5px,-1px)}}
+@keyframes rgb{0%,100%{text-shadow:0 0 20px rgba(255,255,255,0.3)}50%{text-shadow:0 0 40px rgba(255,255,255,0.5)}}
+.hero-tag{font-family:'VT323',monospace;font-size:24px;letter-spacing:0.28em;color:var(--gold);margin-bottom:12px;text-shadow:2px 2px 0 rgba(0,0,0,0.3)}
+.hero-sub{font-family:'VT323',monospace;font-size:26px;margin-top:24px;color:var(--ink);letter-spacing:0.04em;text-shadow:1px 1px 0 var(--pink)}
+.hero-sub .g{color:var(--gold)}
+
+.hero-face{position:relative;z-index:5;margin-top:40px;display:flex;justify-content:center;align-items:center;gap:30px}
+.face-box{width:220px;aspect-ratio:1;border:3px solid var(--cyan);padding:6px;background:var(--bg);box-shadow:0 0 40px rgba(56,230,255,0.4),8px 8px 0 var(--pink);transform:rotate(-3deg);animation:bob 4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(-3deg) translateY(-8px)}}
+.face-box img{width:100%;height:100%;object-fit:cover;filter:saturate(1.3) contrast(1.1) hue-rotate(-10deg) sepia(0.2);display:block}
+.face-label{font-family:'VT323',monospace;font-size:20px;color:var(--gold);text-align:center;margin-top:6px}
+.face-side{text-align:left;font-family:'VT323',monospace;font-size:20px;color:var(--ink);max-width:260px}
+.face-side .k{color:var(--cyan)}
+.face-side .v{color:var(--gold);margin-bottom:8px}
+
+.scroll-tag{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);font-family:'VT323',monospace;font-size:20px;color:var(--gold);z-index:10;animation:bounce 2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+
+/* MARQUEE */
+.marq{overflow:hidden;white-space:nowrap;padding:18px 0;background:linear-gradient(90deg,var(--pink),var(--violet),var(--cyan),var(--pink));background-size:400% 100%;animation:shift 10s linear infinite;border-block:2px solid var(--gold)}
+@keyframes shift{to{background-position:400% 0}}
+.marq-t{display:inline-flex;gap:30px;animation:roll 30s linear infinite;padding-left:30px;font-family:'Syne',sans-serif;font-weight:800;font-size:32px;text-transform:uppercase;color:var(--ink);letter-spacing:0.02em}
+@keyframes roll{to{transform:translateX(-50%)}}
+.marq-t .d{color:var(--gold)}
+
+/* Sections */
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+
+.arc{padding:80px 0;position:relative}
+.arc::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(255,78,205,0.15),transparent 60%);pointer-events:none}
+.sec-l{font-family:'VT323',monospace;font-size:22px;color:var(--cyan);margin-bottom:10px;letter-spacing:0.2em}
+h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(44px,7vw,92px);letter-spacing:-0.03em;line-height:0.95;margin-bottom:12px;text-transform:uppercase}
+h2 .pk{color:var(--pink)}
+h2 .cy{color:var(--cyan)}
+.sec-s{font-family:'VT323',monospace;font-size:24px;color:var(--ink);margin-bottom:40px;letter-spacing:0.04em}
+
+/* Window cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:rgba(255,243,255,0.04);border:2px solid var(--cyan);padding:0;position:relative;overflow:hidden;transition:all 0.25s}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,78,205,0.1),rgba(56,230,255,0.1));pointer-events:none}
+.card:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--pink),0 0 30px rgba(255,78,205,0.4);border-color:var(--pink)}
+.card-chrome{background:linear-gradient(90deg,var(--cyan),var(--pink));padding:6px 10px;display:flex;justify-content:space-between;align-items:center;font-family:'VT323',monospace;color:var(--bg);font-size:14px;letter-spacing:0.08em}
+.card-chrome .dots{display:flex;gap:4px}
+.card-chrome .dots i{width:10px;height:10px;background:var(--bg);border-radius:50%;display:block}
+.card-body{padding:20px;position:relative}
+.card .tag{font-family:'VT323',monospace;font-size:18px;color:var(--gold);letter-spacing:0.15em;margin-bottom:4px}
+.card h3{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;letter-spacing:-0.02em;line-height:1;margin-bottom:10px;text-transform:uppercase}
+.card h3 .pk{color:var(--pink)}
+.card p{font-family:'Space Mono',monospace;font-size:12px;color:rgba(255,243,255,0.75);line-height:1.55;margin-bottom:16px}
+.card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px dashed rgba(56,230,255,0.3);font-family:'VT323',monospace;font-size:16px}
+.card-foot .live{color:var(--gold)}.card-foot .go{color:var(--cyan)}
+
+/* manifesto strip */
+.strip{margin-top:40px;border:3px solid var(--gold);background:linear-gradient(135deg,rgba(138,92,255,0.25),rgba(255,78,205,0.25));padding:60px 40px;text-align:center;position:relative;overflow:hidden}
+.strip::before{content:'✦';position:absolute;top:20px;left:30px;font-size:60px;color:var(--gold);animation:spin 10s linear infinite}
+.strip::after{content:'✦';position:absolute;bottom:20px;right:30px;font-size:60px;color:var(--gold);animation:spin 10s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.strip h3{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(36px,5vw,64px);letter-spacing:-0.02em;line-height:1;text-transform:uppercase}
+.strip h3 .pk{color:var(--pink)}
+.strip h3 .cy{color:var(--cyan)}
+.strip p{font-family:'VT323',monospace;font-size:22px;margin-top:14px;color:var(--ink);letter-spacing:0.04em}
+
+/* contact box */
+.hire{margin:80px 0;padding:60px 40px;background:var(--bg);border:3px solid var(--pink);box-shadow:0 0 40px rgba(255,78,205,0.4);position:relative}
+.hire::before{content:'';position:absolute;inset:6px;border:1px dashed var(--cyan);pointer-events:none}
+.hire h2{text-align:center;margin-bottom:10px}
+.hire p{font-family:'VT323',monospace;font-size:22px;text-align:center;color:var(--ink);margin-bottom:30px;letter-spacing:0.04em}
+.hire p .g{color:var(--gold)}
+.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:640px;margin:0 auto}
+.ctc{padding:14px 20px;border:2px solid var(--cyan);display:flex;justify-content:space-between;align-items:center;transition:all 0.2s;font-family:'VT323',monospace;font-size:20px}
+.ctc:hover{background:var(--cyan);color:var(--bg);border-color:var(--cyan);box-shadow:6px 6px 0 var(--pink)}
+.ctc .k{color:var(--gold)}
+.ctc:hover .k{color:var(--bg)}
+.ctc .ar{color:var(--pink);font-size:22px}
+.ctc:hover .ar{color:var(--bg)}
+
+footer{padding:24px 32px;text-align:center;font-family:'VT323',monospace;font-size:18px;color:var(--cyan);border-top:2px solid var(--pink);letter-spacing:0.06em}
+footer .g{color:var(--gold)}
+
+@media (max-width:900px){.cards{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}.hero-face{flex-direction:column}.face-side{text-align:center}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<section class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="sun"></div>
+  <div class="mountains">
+    <svg viewBox="0 0 1000 60" preserveAspectRatio="none"><polygon points="0,60 90,20 160,40 240,10 340,30 430,5 520,28 610,12 700,35 790,8 880,30 970,14 1000,30 1000,60" fill="#1A0636"/></svg>
+  </div>
+  <div class="floor"></div>
+
+  <nav class="nav">
+    <div class="logo">GEORG.EXE</div>
+    <div class="nav-right">
+      <a href="#works">★ WORKS</a>
+      <a href="#hire">★ HIRE</a>
+      <span>◢ 2026 ◣</span>
+    </div>
+  </nav>
+
+  <div class="hero-text">
+    <div class="hero-tag">✦ PRESS START · LOADING... 100% ✦</div>
+    <h1 class="glitch" data-text="GEORG.MIAMI">GEORG.MIAMI</h1>
+    <div class="hero-sub">&lt; an <span class="g">AI operator</span> broadcasting from Wynwood, FL /&gt;</div>
+  </div>
+
+  <div class="hero-face">
+    <div class="face-side">
+      <div class="k">&gt; SUBJECT:</div><div class="v">GEORG CHIMION</div>
+      <div class="k">&gt; CLASS:</div><div class="v">AI OPERATOR</div>
+      <div class="k">&gt; STATUS:</div><div class="v">◉ TAKING WORK · Q3 '26</div>
+    </div>
+    <div>
+      <div class="face-box"><img src="georg-hero.jpeg" alt="Georg"></div>
+      <div class="face-label">◆ HERO.JPEG ◆</div>
+    </div>
+    <div class="face-side">
+      <div class="k">&gt; PRODUCTS:</div><div class="v">08 LIVE · 00 DEAD</div>
+      <div class="k">&gt; STACK:</div><div class="v">CLAUDE · TS · NODE</div>
+      <div class="k">&gt; LOC:</div><div class="v">25.76°N -80.19°W</div>
+    </div>
+  </div>
+
+  <div class="scroll-tag">▼ SCROLL ▼</div>
+</section>
+
+<div class="marq"><div class="marq-t">
+  <span>★ SHIPPING AI SINCE 2022</span><span class="d">◆</span>
+  <span>★ NO DEAD PILOTS</span><span class="d">◆</span>
+  <span>★ BUILT IN MIAMI</span><span class="d">◆</span>
+  <span>★ CLAUDE-POWERED</span><span class="d">◆</span>
+  <span>★ SHIPPING AI SINCE 2022</span><span class="d">◆</span>
+  <span>★ NO DEAD PILOTS</span><span class="d">◆</span>
+  <span>★ BUILT IN MIAMI</span><span class="d">◆</span>
+  <span>★ CLAUDE-POWERED</span><span class="d">◆</span>
+</div></div>
+
+<section class="arc" id="works">
+  <div class="wrap">
+    <div class="sec-l">// SECTION 01 · PORTFOLIO.DIR</div>
+    <h2>The <span class="pk">works</span> <span class="cy">stack.</span></h2>
+    <div class="sec-s">&gt; 7 live products · tap to run</div>
+
+    <div class="cards">
+      <a class="card" href="https://vestia.georg.miami">
+        <div class="card-chrome"><div class="dots"><i></i><i></i><i></i></div><span>VESTIA.EXE</span></div>
+        <div class="card-body">
+          <div class="tag">◆ FILE 001 · PROPERTY OPS</div>
+          <h3><span class="pk">Vestia</span></h3>
+          <p>Six-module AI platform for South Florida condo associations. Maintenance, compliance, collections, screening.</p>
+          <div class="card-foot"><span class="live">◉ LIVE</span><span class="go">RUN →</span></div>
+        </div>
+      </a>
+      <a class="card" href="https://penny.georg.miami">
+        <div class="card-chrome"><div class="dots"><i></i><i></i><i></i></div><span>PENNY.EXE</span></div>
+        <div class="card-body">
+          <div class="tag">◆ FILE 002 · FIN AI</div>
+          <h3>Ask <span class="pk">Penny</span></h3>
+          <p>Claude-powered finance copilot. Bank integration. Smart budgets, morning summaries, alerts.</p>
+          <div class="card-foot"><span class="live">◉ LIVE</span><span class="go">RUN →</span></div>
+        </div>
+      </a>
+      <a class="card" href="https://factory.georg.miami">
+        <div class="card-chrome"><div class="dots"><i></i><i></i><i></i></div><span>FACTORY.EXE</span></div>
+        <div class="card-body">
+          <div class="tag">◆ FILE 003 · AGENTS</div>
+          <h3>Agent <span class="pk">Factory</span></h3>
+          <p>Four autonomous Claude agents collaborate to ship production websites from a brief.</p>
+          <div class="card-foot"><span class="live">◉ LIVE</span><span class="go">RUN →</span></div>
+        </div>
+      </a>
+      <a class="card" href="https://reconx.georg.miami">
+        <div class="card-chrome"><div class="dots"><i></i><i></i><i></i></div><span>RECONX.EXE</span></div>
+        <div class="card-body">
+          <div class="tag">◆ FILE 004 · FIN-TECH</div>
+          <h3><span class="pk">ReconX</span></h3>
+          <p>Cloud-native reconciliation. Multi-pass matching. Nostro proof. SLA tracking.</p>
+          <div class="card-foot"><span class="live">◉ LIVE</span><span class="go">RUN →</span></div>
+        </div>
+      </a>
+      <a class="card" href="https://onboard.georg.miami">
+        <div class="card-chrome"><div class="dots"><i></i><i></i><i></i></div><span>ONBOARD.EXE</span></div>
+        <div class="card-body">
+          <div class="tag">◆ FILE 005 · GEN EDU</div>
+          <h3><span class="pk">Onboard</span></h3>
+          <p>Internal docs → structured course with quizzes in 3 minutes.</p>
+          <div class="card-foot"><span class="live">◉ LIVE</span><span class="go">RUN →</span></div>
+        </div>
+      </a>
+      <a class="card" href="https://venue.georg.miami">
+        <div class="card-chrome"><div class="dots"><i></i><i></i><i></i></div><span>VENUE.EXE</span></div>
+        <div class="card-body">
+          <div class="tag">◆ FILE 006 · BOOKINGS</div>
+          <h3><span class="pk">VENUE</span></h3>
+          <p>Premium private event booking wizard for Miami.</p>
+          <div class="card-foot"><span class="live">◉ LIVE</span><span class="go">RUN →</span></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="strip">
+      <h3>No dead pilots.<br><span class="pk">Only </span><span class="cy">working systems.</span></h3>
+      <p>&gt; ship or delete · that's the whole philosophy</p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+<section class="hire" id="hire">
+  <div class="sec-l" style="text-align:center">// SECTION 02 · CONTACT.SYS</div>
+  <h2><span class="cy">Let's</span> <span class="pk">ship</span> something.</h2>
+  <p>&gt; accepting Q3 '26 engagements · <span class="g">reply &lt; 24h</span></p>
+  <div class="contact-grid">
+    <a class="ctc" href="mailto:georg.chimion@gmail.com"><span><span class="k">EMAIL:</span> georg.chimion</span><span class="ar">→</span></a>
+    <a class="ctc" href="https://linkedin.com/in/georgchimion"><span><span class="k">LINKEDIN:</span> /in/georgchimion</span><span class="ar">→</span></a>
+    <a class="ctc" href="https://github.com/georgchimion-oss"><span><span class="k">GITHUB:</span> @georgchimion-oss</span><span class="ar">→</span></a>
+    <a class="ctc" href="https://miami.georg.miami"><span><span class="k">COMMUNITY:</span> miami ai</span><span class="ar">→</span></a>
+  </div>
+</section>
+</div>
+
+<footer>
+  ◆ © 2026 GEORG.MIAMI ◆ <span class="g">LOVE + CLAUDE</span> ◆ MADE IN WYNWOOD ◆
+</footer>
+
+<script>
+const s=document.getElementById('stars');
+for(let i=0;i<50;i++){const e=document.createElement('div');e.className='star';e.style.left=Math.random()*100+'%';e.style.top=Math.random()*50+'%';e.style.animationDelay=Math.random()*3+'s';s.appendChild(e)}
+</script>
+</body>
+</html>

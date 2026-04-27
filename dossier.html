@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Dossier</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=Playfair+Display:ital@0;1&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --paper:#E8E1D0; --paper2:#DED4C0; --ink:#1A1612; --stamp:#8C1A1A; --stamp2:#1A4A8C;
+  --faint:rgba(26,22,18,0.5); --fainter:rgba(26,22,18,0.25);
+}
+html,body{background:var(--paper);color:var(--ink);font-family:'Courier Prime',monospace;font-size:14px;line-height:1.6;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(26,22,18,0.08) 1px,transparent 1px);background-size:3px 3px;pointer-events:none;z-index:99;opacity:0.6}
+body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.2'/%3E%3C/svg%3E");pointer-events:none;z-index:98;mix-blend-mode:multiply}
+a{color:inherit}
+.page{max-width:1100px;margin:40px auto;padding:60px 72px;background:var(--paper);border:1px solid var(--fainter);box-shadow:0 40px 80px rgba(0,0,0,0.15),0 1px 0 rgba(0,0,0,0.05);position:relative}
+.page::before{content:'';position:absolute;top:20px;bottom:20px;left:80px;width:1px;background:var(--stamp);opacity:0.25}
+.classified{position:absolute;top:30px;left:50%;transform:translateX(-50%);border:3px double var(--stamp);color:var(--stamp);padding:4px 20px;font-family:'Special Elite',cursive;font-size:13px;letter-spacing:0.4em;opacity:0.9}
+.file-no{position:absolute;top:30px;right:40px;font-family:'Special Elite',cursive;font-size:11px;letter-spacing:0.2em;color:var(--stamp)}
+.folder-tab{position:absolute;top:-24px;left:60px;background:var(--paper2);border:1px solid var(--fainter);border-bottom:none;padding:6px 24px;font-family:'Special Elite',cursive;font-size:11px;letter-spacing:0.3em}
+.stamp{position:absolute;padding:10px 18px;font-family:'Special Elite',cursive;font-size:20px;letter-spacing:0.2em;border:3px solid;opacity:0.85;transform:rotate(-14deg);pointer-events:none}
+.stamp.red{color:var(--stamp);border-color:var(--stamp)}
+.stamp.blue{color:var(--stamp2);border-color:var(--stamp2)}
+.stamp.s1{top:100px;right:60px;transform:rotate(8deg)}
+.stamp.s2{top:520px;left:20px;transform:rotate(-20deg);font-size:16px}
+.header{margin-top:60px;text-align:center;padding-bottom:20px;border-bottom:1px solid var(--ink)}
+.header .h-sub{font-family:'Special Elite',cursive;font-size:12px;letter-spacing:0.35em;color:var(--faint);margin-bottom:10px}
+h1.title{font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:64px;letter-spacing:-0.02em;margin-bottom:8px;line-height:1}
+.h-note{font-family:'Special Elite',cursive;font-size:11px;letter-spacing:0.2em;color:var(--faint)}
+.briefing{display:grid;grid-template-columns:280px 1fr;gap:40px;margin-top:48px}
+.photo-block{position:relative}
+.photo-block img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1) contrast(1.2) sepia(0.3);border:1px solid var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,0.08)}
+.photo-caption{font-family:'Special Elite',cursive;font-size:10px;letter-spacing:0.2em;color:var(--faint);text-align:center;margin-top:8px}
+.paperclip{position:absolute;top:-18px;left:40%;width:40px;height:60px;border:3px solid rgba(120,120,120,0.6);border-radius:20px 20px 4px 4px;transform:rotate(-8deg);box-shadow:inset -2px 2px 0 rgba(255,255,255,0.3)}
+.subject-info h2{font-family:'Playfair Display',serif;font-style:italic;font-size:32px;margin-bottom:6px;letter-spacing:-0.01em}
+.alias{font-family:'Special Elite',cursive;font-size:12px;letter-spacing:0.2em;color:var(--faint);margin-bottom:24px}
+.field{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:8px 0;border-bottom:1px dashed var(--fainter);font-family:'Special Elite',cursive;font-size:12px}
+.field .k{color:var(--faint);letter-spacing:0.14em;text-transform:uppercase;font-size:11px}
+.field .v{color:var(--ink)}
+.redacted{background:var(--ink);color:var(--ink);padding:0 6px;user-select:none}
+.section-hdr{font-family:'Special Elite',cursive;font-size:13px;letter-spacing:0.3em;margin:56px 0 16px;padding-bottom:6px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between}
+.case-file{padding:20px 0;border-bottom:1px dashed var(--fainter);display:grid;grid-template-columns:90px 1fr 120px;gap:20px;align-items:start}
+.case-no{font-family:'Special Elite',cursive;font-size:11px;letter-spacing:0.2em;color:var(--stamp)}
+.case-body h3{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;margin-bottom:4px;letter-spacing:-0.01em}
+.case-body .desc{font-size:13px;color:var(--faint);line-height:1.55}
+.case-status{text-align:right;font-family:'Special Elite',cursive;font-size:10px;letter-spacing:0.2em}
+.case-status .dot{display:inline-block;width:8px;height:8px;background:#2a7a3a;border-radius:50%;margin-right:6px;vertical-align:middle}
+.case-status .link{display:block;margin-top:6px;font-size:10px;color:var(--stamp);text-decoration:underline}
+.typed-note{background:var(--paper2);padding:20px 24px;margin-top:32px;font-family:'Special Elite',cursive;font-size:13px;line-height:1.8;position:relative;border-left:4px solid var(--stamp)}
+.typed-note::before{content:'MEMO';position:absolute;top:-10px;left:16px;background:var(--paper);padding:0 10px;font-size:10px;letter-spacing:0.3em;color:var(--stamp)}
+.typed-note p{margin-bottom:12px}
+.signature{margin-top:24px;font-family:'Playfair Display',serif;font-style:italic;font-size:24px;transform:rotate(-2deg)}
+.contact-block{margin-top:40px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.contact-row{padding:12px 16px;background:var(--paper2);border:1px dashed var(--fainter);display:flex;justify-content:space-between;align-items:center}
+.contact-row .k{font-family:'Special Elite',cursive;font-size:11px;letter-spacing:0.2em;color:var(--faint)}
+.contact-row .v{font-size:13px;text-decoration:underline}
+.footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--ink);font-family:'Special Elite',cursive;font-size:10px;letter-spacing:0.2em;color:var(--faint);display:flex;justify-content:space-between}
+.back{position:fixed;top:24px;right:24px;z-index:100;font-family:'Special Elite',cursive;font-size:11px;letter-spacing:0.2em;border:1px solid var(--ink);padding:6px 12px;background:var(--paper)}
+@media (max-width:800px){.page{padding:40px 24px;margin:12px}.briefing{grid-template-columns:1fr}.case-file{grid-template-columns:1fr;gap:6px}.contact-block{grid-template-columns:1fr}.classified{font-size:10px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<div class="page">
+  <div class="folder-tab">FILE // AI-OPS</div>
+  <div class="classified">CLASSIFIED — EYES ONLY</div>
+  <div class="file-no">FILE NO. 2026-GC-001</div>
+
+  <div class="stamp red s1">APPROVED</div>
+
+  <div class="header">
+    <div class="h-sub">DEPARTMENT OF ENTERPRISE AUTOMATION</div>
+    <h1 class="title">Subject Dossier</h1>
+    <div class="h-note">PREPARED FOR: CLIENTS &amp; COLLABORATORS · JURISDICTION: MIAMI, FL</div>
+  </div>
+
+  <div class="briefing">
+    <div class="photo-block">
+      <div class="paperclip"></div>
+      <img src="georg-hero.jpeg" alt="Georg">
+      <div class="photo-caption">EXHIBIT A — SUBJECT PHOTOGRAPH</div>
+    </div>
+    <div class="subject-info">
+      <h2>Georg Chimion</h2>
+      <div class="alias">A.K.A. "THE OPERATOR"</div>
+      <div class="field"><span class="k">Occupation</span><span class="v">AI Automation Specialist</span></div>
+      <div class="field"><span class="k">Cover</span><span class="v">PwC · Finance AI Division</span></div>
+      <div class="field"><span class="k">Base</span><span class="v">Wynwood, Miami FL</span></div>
+      <div class="field"><span class="k">Specialty</span><span class="v">Claude, multi-agent, reconciliation</span></div>
+      <div class="field"><span class="k">Known Assoc.</span><span class="v">Anthropic ecosystem, Miami AI collective</span></div>
+      <div class="field"><span class="k">Last Seen</span><span class="v">Shipping production AI to enterprise</span></div>
+      <div class="field"><span class="k">Threat Level</span><span class="v"><span class="redacted">████████</span> to operational inefficiency</span></div>
+      <div class="field"><span class="k">Availability</span><span class="v">Q3 2026 — NOW TAKING ENGAGEMENTS</span></div>
+    </div>
+  </div>
+
+  <div class="section-hdr"><span>§ CASE FILES — ACTIVE</span><span>07 OF 07</span></div>
+
+  <a class="case-file" href="https://vestia.georg.miami" target="_blank">
+    <div class="case-no">CASE 001</div>
+    <div class="case-body"><h3>Vestia</h3><div class="desc">Subject built a six-module AI property management platform for South Florida condo associations. Maintenance triage, SB 4-D compliance, rent collection, screening, lease generation, vendor bids.</div></div>
+    <div class="case-status"><span class="dot"></span>LIVE<span class="link">vestia.georg.miami</span></div>
+  </a>
+
+  <a class="case-file" href="https://penny.georg.miami" target="_blank">
+    <div class="case-no">CASE 002</div>
+    <div class="case-body"><h3>Ask Penny</h3><div class="desc">Claude-powered personal finance copilot. Connects to user bank via Teller. Smart budgets, proactive alerts, conversational insight. Full chat-based web app.</div></div>
+    <div class="case-status"><span class="dot"></span>LIVE<span class="link">penny.georg.miami</span></div>
+  </a>
+
+  <a class="case-file" href="https://factory.georg.miami" target="_blank">
+    <div class="case-no">CASE 003</div>
+    <div class="case-body"><h3>Agent Factory</h3><div class="desc">Four autonomous Claude agents — PM, Coder, Reviewer, Deployer — observed collaborating to build production websites from single-sentence briefs. Live SSE stream. Spectator mode available.</div></div>
+    <div class="case-status"><span class="dot"></span>LIVE<span class="link">factory.georg.miami</span></div>
+  </a>
+
+  <a class="case-file" href="https://reconx.georg.miami" target="_blank">
+    <div class="case-no">CASE 004</div>
+    <div class="case-body"><h3>ReconX</h3><div class="desc">Cloud-native reconciliation platform. Multi-pass matching (exact, tolerance, fuzzy, AI-suggested), nostro balance proof, exception management with SLA tracking.</div></div>
+    <div class="case-status"><span class="dot"></span>LIVE<span class="link">reconx.georg.miami</span></div>
+  </a>
+
+  <a class="case-file" href="https://onboard.georg.miami" target="_blank">
+    <div class="case-no">CASE 005</div>
+    <div class="case-body"><h3>Onboard</h3><div class="desc">Upload internal documents, receive a structured training course with quizzes in under three minutes. Eliminates tribal knowledge trapped in PDFs and Slack channels.</div></div>
+    <div class="case-status"><span class="dot"></span>LIVE<span class="link">onboard.georg.miami</span></div>
+  </a>
+
+  <a class="case-file" href="https://venue.georg.miami" target="_blank">
+    <div class="case-no">CASE 006</div>
+    <div class="case-body"><h3>VENUE</h3><div class="desc">Premium on-demand private event booking for Miami. Step-by-step wizard for happy hours, private dinners, DJ lounges, full venue buyouts. Instant quotes.</div></div>
+    <div class="case-status"><span class="dot"></span>LIVE<span class="link">venue.georg.miami</span></div>
+  </a>
+
+  <a class="case-file" href="https://docs.georg.miami" target="_blank">
+    <div class="case-no">CASE 007</div>
+    <div class="case-body"><h3>Doc Intelligence</h3><div class="desc">Upload a PDF, receipt, or invoice; watch AI extract structured data in real-time with field-level confidence scores.</div></div>
+    <div class="case-status"><span class="dot"></span>LIVE<span class="link">docs.georg.miami</span></div>
+  </a>
+
+  <div class="stamp blue s2">VERIFIED 04.2026</div>
+
+  <div class="typed-note">
+    <p>TO: Prospective client</p>
+    <p>RE: Engagement request</p>
+    <p>Subject accepts select consulting work, Q3 2026 onward. Target: finance AI, enterprise automation, intelligent products. No slide decks. No pilots that die in staging. Systems that ship.</p>
+    <p>If interested, open a channel below. Subject responds within 24 hours.</p>
+    <div class="signature">— G.C.</div>
+  </div>
+
+  <div class="section-hdr"><span>§ OPEN CHANNEL</span><span>04 LINES</span></div>
+
+  <div class="contact-block">
+    <a href="mailto:georg.chimion@gmail.com" class="contact-row"><span class="k">EMAIL</span><span class="v">georg.chimion@gmail.com</span></a>
+    <a href="https://linkedin.com/in/georgchimion" class="contact-row"><span class="k">LINKEDIN</span><span class="v">in/georgchimion</span></a>
+    <a href="https://github.com/georgchimion-oss" class="contact-row"><span class="k">GITHUB</span><span class="v">@georgchimion-oss</span></a>
+    <a href="https://miami.georg.miami" class="contact-row"><span class="k">COMMUNITY</span><span class="v">Miami AI · Wynwood</span></a>
+  </div>
+
+  <div class="footer">
+    <span>FILE 2026-GC-001 · PAGE 1 OF 1</span>
+    <span>END OF DOCUMENT</span>
+  </div>
+</div>
+
+</body>
+</html>

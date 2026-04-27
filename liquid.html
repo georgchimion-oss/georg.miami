@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — AI Automation Architect</title>
+<meta name="description" content="AI automation for the enterprise. Building intelligent systems that ship. Currently at PwC, Miami.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #050505;
+  --surface: #0a0a0a;
+  --chrome: #c0c0c0;
+  --chrome-bright: #e8e8e8;
+  --chrome-dim: #666;
+  --chrome-subtle: #333;
+  --accent: #b0b0b0;
+  --text: #d4d4d4;
+  --text-dim: #777;
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'Outfit', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; background: var(--bg); overflow-x: hidden; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: default;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(192,192,192,0.3); }
+
+/* ─── Loader ─── */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 24px;
+  transition: opacity 0.8s cubic-bezier(.4,0,.2,1), visibility 0.8s;
+}
+#loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-name {
+  font-family: var(--serif); font-size: 42px; font-weight: 300;
+  letter-spacing: 0.04em; color: var(--chrome-bright);
+}
+.loader-bar {
+  width: 0; height: 1px; background: var(--chrome);
+  transition: width 1.2s cubic-bezier(.77,0,.175,1);
+  box-shadow: 0 0 20px rgba(192,192,192,0.3);
+}
+.loader-bar.go { width: 160px; }
+
+/* ─── Cursor blob ─── */
+.cursor-blob {
+  position: fixed; width: 300px; height: 300px;
+  border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(180,180,180,0.06) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: left 0.6s cubic-bezier(.23,1,.32,1), top 0.6s cubic-bezier(.23,1,.32,1);
+  filter: blur(40px);
+}
+
+/* ─── Grain overlay ─── */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-repeat: repeat; opacity: 0.4;
+  mix-blend-mode: overlay;
+}
+
+/* ─── Nav ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 60px; display: flex; align-items: center;
+  padding: 0 40px;
+  background: rgba(5,5,5,0.7);
+  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border-bottom: 1px solid rgba(192,192,192,0.06);
+}
+.nav-inner {
+  max-width: 1400px; width: 100%; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--serif); font-size: 18px; font-weight: 400;
+  color: var(--chrome-bright); letter-spacing: 0.06em;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  font-size: 12px; font-weight: 400; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-dim);
+  text-decoration: none; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--chrome-bright); }
+.nav-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--chrome); opacity: 0.4;
+}
+
+/* ─── Sections ─── */
+section { position: relative; z-index: 1; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+/* ─── Hero ─── */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero-content { position: relative; z-index: 2; width: 100%; padding: 120px 0 80px; }
+
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--chrome-dim);
+  margin-bottom: 32px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before {
+  content: ''; width: 32px; height: 1px; background: var(--chrome-dim);
+}
+
+.hero h1 {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  line-height: 1.05; letter-spacing: -0.02em;
+  color: var(--chrome-bright);
+  margin-bottom: 32px;
+}
+.hero h1 em {
+  font-style: italic; font-weight: 300;
+  background: linear-gradient(135deg, #c0c0c0 0%, #888 50%, #c0c0c0 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero-sub {
+  font-size: 1.1rem; line-height: 1.7; color: var(--text-dim);
+  max-width: 480px; font-weight: 300;
+}
+.hero-meta {
+  display: flex; gap: 24px; margin-top: 48px;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.1em; color: var(--chrome-dim);
+}
+.hero-meta span { display: flex; align-items: center; gap: 8px; }
+.hero-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--chrome-dim); }
+
+/* Floating orbs */
+.orb {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(192,192,192,0.08) 0%, transparent 70%);
+  filter: blur(60px); pointer-events: none;
+  animation: float 20s ease-in-out infinite;
+}
+.orb-1 { width: 500px; height: 500px; top: 10%; right: -10%; animation-delay: 0s; }
+.orb-2 { width: 350px; height: 350px; bottom: 20%; left: -5%; animation-delay: -7s; }
+.orb-3 { width: 250px; height: 250px; top: 40%; right: 30%; animation-delay: -14s; }
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* ─── Section headers ─── */
+.section-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--chrome-dim);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before { content: ''; width: 20px; height: 1px; background: var(--chrome-subtle); }
+.section-title {
+  font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300; color: var(--chrome-bright);
+  letter-spacing: -0.01em; margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 0.95rem; color: var(--text-dim); font-weight: 300;
+  max-width: 500px; line-height: 1.7;
+}
+
+/* ─── Products ─── */
+.products-section { padding: 120px 0; }
+.products-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 2px; margin-top: 56px;
+  background: rgba(192,192,192,0.04);
+  border: 1px solid rgba(192,192,192,0.06);
+}
+.product-card {
+  display: block; padding: 40px 36px;
+  background: var(--bg);
+  text-decoration: none; color: var(--text);
+  position: relative; overflow: hidden;
+  transition: background 0.5s cubic-bezier(.23,1,.32,1);
+}
+.product-card:hover {
+  background: rgba(192,192,192,0.03);
+}
+.product-card::after {
+  content: '→'; position: absolute; top: 40px; right: 36px;
+  font-size: 18px; color: var(--chrome-dim);
+  transition: transform 0.4s cubic-bezier(.23,1,.32,1), color 0.3s;
+}
+.product-card:hover::after {
+  transform: translateX(6px); color: var(--chrome-bright);
+}
+.product-tag {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--chrome-dim);
+  margin-bottom: 12px;
+}
+.product-name {
+  font-family: var(--serif); font-size: 1.6rem; font-weight: 400;
+  color: var(--chrome-bright); margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  transition: color 0.3s;
+}
+.product-card:hover .product-name { color: #fff; }
+.product-desc {
+  font-size: 0.88rem; color: var(--text-dim); line-height: 1.6;
+  font-weight: 300; max-width: 400px;
+}
+.product-thumb {
+  width: 100%; height: 200px; margin-top: 20px;
+  border-radius: 4px; overflow: hidden;
+  border: 1px solid rgba(192,192,192,0.06);
+}
+.product-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(0.8) brightness(0.7);
+  transition: filter 0.6s cubic-bezier(.23,1,.32,1), transform 0.6s cubic-bezier(.23,1,.32,1);
+}
+.product-card:hover .product-thumb img {
+  filter: grayscale(0) brightness(0.9);
+  transform: scale(1.03);
+}
+
+/* ─── About strip ─── */
+.about-section {
+  padding: 120px 0;
+  border-top: 1px solid rgba(192,192,192,0.06);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  margin-top: 48px;
+}
+.about-text {
+  font-size: 1.05rem; line-height: 1.8; color: var(--text-dim);
+  font-weight: 300;
+}
+.about-text strong { color: var(--chrome-bright); font-weight: 500; }
+.about-stats { display: flex; flex-direction: column; gap: 32px; }
+.stat {
+  border-left: 1px solid rgba(192,192,192,0.15);
+  padding-left: 24px;
+}
+.stat-value {
+  font-family: var(--serif); font-size: 2.4rem; font-weight: 300;
+  color: var(--chrome-bright); line-height: 1;
+}
+.stat-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--chrome-dim); margin-top: 6px;
+}
+
+/* ─── Contact ─── */
+.contact-section {
+  padding: 120px 0;
+  border-top: 1px solid rgba(192,192,192,0.06);
+  text-align: center;
+}
+.contact-email {
+  font-family: var(--serif); font-size: clamp(1.4rem, 3vw, 2.4rem);
+  font-weight: 300; color: var(--chrome-bright);
+  text-decoration: none; letter-spacing: 0.02em;
+  position: relative; display: inline-block;
+}
+.contact-email::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--chrome);
+  transition: width 0.5s cubic-bezier(.23,1,.32,1);
+}
+.contact-email:hover::after { width: 100%; }
+.contact-sub {
+  font-size: 0.85rem; color: var(--chrome-dim); margin-top: 16px;
+  font-weight: 300; letter-spacing: 0.05em;
+}
+
+/* ─── Footer ─── */
+footer {
+  padding: 40px 0;
+  border-top: 1px solid rgba(192,192,192,0.04);
+  display: flex; align-items: center; justify-content: space-between;
+}
+footer, footer a {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
+  color: var(--chrome-dim); text-decoration: none; text-transform: uppercase;
+}
+footer a:hover { color: var(--chrome-bright); }
+
+/* ─── Reveal ─── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(.23,1,.32,1), transform 0.8s cubic-bezier(.23,1,.32,1);
+}
+.reveal.vis { opacity: 1; transform: none; }
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .container { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero h1 { font-size: 2.8rem; }
+  .products-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .product-card { padding: 28px 24px; }
+  .product-thumb { height: 160px; }
+  footer { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-name">Georg Chimion</div>
+  <div class="loader-bar" id="loaderBar"></div>
+</div>
+
+<!-- Cursor blob -->
+<div class="cursor-blob" id="cursorBlob"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Georg Chimion</a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <span class="nav-dot"></span>
+      <a href="#about">About</a>
+      <span class="nav-dot"></span>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow reveal">AI Automation Specialist</div>
+      <h1 class="reveal">Building systems<br>that <em>think</em></h1>
+      <p class="hero-sub reveal">Enterprise AI products, multi-agent systems, and automation infrastructure. Currently at PwC, Miami.</p>
+      <div class="hero-meta reveal">
+        <span><span class="dot"></span> Miami, FL</span>
+        <span><span class="dot"></span> PwC</span>
+        <span><span class="dot"></span> Claude Max</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products -->
+<section class="products-section" id="work">
+  <div class="container">
+    <div class="section-label reveal">Selected Work</div>
+    <div class="section-title reveal">Eight products. All shipped.</div>
+    <div class="section-sub reveal">Each built end-to-end — architecture to production deployment.</div>
+
+    <div class="products-grid">
+      <a href="https://vestia.georg.miami" target="_blank" class="product-card reveal">
+        <div class="product-tag">AI · Property Management</div>
+        <div class="product-name">Vestia</div>
+        <div class="product-desc">Six AI modules for South Florida condo associations. Triage, compliance, collections, screening, docs, vendors.</div>
+        <div class="product-thumb"><img src="screenshots/vestia.png" alt="Vestia" loading="lazy"></div>
+      </a>
+      <a href="https://penny.georg.miami" target="_blank" class="product-card reveal">
+        <div class="product-tag">AI · Finance</div>
+        <div class="product-name">Ask Penny</div>
+        <div class="product-desc">Claude-powered personal finance assistant. Connect your bank, ask anything about your money.</div>
+        <div class="product-thumb"><img src="screenshots/askpenny.png" alt="Ask Penny" loading="lazy"></div>
+      </a>
+      <a href="https://factory.georg.miami" target="_blank" class="product-card reveal">
+        <div class="product-tag">Multi-Agent · AI</div>
+        <div class="product-name">Agent Factory</div>
+        <div class="product-desc">Four autonomous agents collaborate to build production websites from a brief. Watch them work in real-time.</div>
+        <div class="product-thumb"><img src="screenshots/factory.png" alt="Agent Factory" loading="lazy"></div>
+      </a>
+      <a href="https://venue.georg.miami" target="_blank" class="product-card reveal">
+        <div class="product-tag">Product · Marketplace</div>
+        <div class="product-name">VENUE</div>
+        <div class="product-desc">Miami private event booking. Guided wizard for happy hours, dinners, DJ lounges, full venue buyouts.</div>
+        <div class="product-thumb"><img src="screenshots/venue.png" alt="VENUE" loading="lazy"></div>
+      </a>
+      <a href="https://reconx.georg.miami" target="_blank" class="product-card reveal">
+        <div class="product-tag">FinTech · Platform</div>
+        <div class="product-name">ReconX</div>
+        <div class="product-desc">Cloud-native financial reconciliation. Multi-pass matching, exception management, SLA tracking.</div>
+        <div class="product-thumb"><img src="screenshots/reconx.png" alt="ReconX" loading="lazy"></div>
+      </a>
+      <a href="https://onboard.georg.miami" target="_blank" class="product-card reveal">
+        <div class="product-tag">AI · HR Tech</div>
+        <div class="product-name">Onboard</div>
+        <div class="product-desc">Upload docs, get a structured training course with quizzes in 3 minutes. Stop losing new hires to broken onboarding.</div>
+        <div class="product-thumb"><img src="screenshots/onboard.png" alt="Onboard" loading="lazy"></div>
+      </a>
+      <a href="https://docs.georg.miami" target="_blank" class="product-card reveal">
+        <div class="product-tag">AI · Document Processing</div>
+        <div class="product-name">AI Document Intelligence</div>
+        <div class="product-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</div>
+        <div class="product-thumb"><img src="screenshots/docai.png" alt="AI Doc" loading="lazy"></div>
+      </a>
+      <a href="https://roi.georg.miami" target="_blank" class="product-card reveal">
+        <div class="product-tag">Tool · Lead Gen</div>
+        <div class="product-name">ROI Calculator</div>
+        <div class="product-desc">Enterprise AI automation value estimator. Input team size and process volume, get projected savings.</div>
+        <div class="product-thumb"><img src="screenshots/roi.png" alt="ROI Calculator" loading="lazy"></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="section-label reveal">About</div>
+    <div class="section-title reveal">Not just demos.<br>Products that ship.</div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I build <strong>AI systems that go to production</strong> — not pitch decks, not prototypes, not "coming soon" pages. Every product above is live, deployed, and handling real users or real data.</p>
+        <p style="margin-top:16px">Before AI, I spent years in <strong>financial reconciliation operations</strong> at TD Bank (IntelliMatch/FIS DIM). That background in high-stakes data systems is why my AI products handle money, compliance, and enterprise workflows — not toy demos.</p>
+        <p style="margin-top:16px">Currently contracting at <strong>PwC</strong> (MBO Partners), building insider threat detection, fraud investigation tools, and portfolio governance platforms.</p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat">
+          <div class="stat-value">8</div>
+          <div class="stat-label">Shipped products</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">4</div>
+          <div class="stat-label">AI agents in production</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">6</div>
+          <div class="stat-label">Enterprise modules (Vestia)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">$0</div>
+          <div class="stat-label">Per build (Claude Max)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="section-label reveal" style="justify-content:center">Get in touch</div>
+    <div class="section-title reveal" style="margin-bottom:32px">Let's build something.</div>
+    <a href="mailto:georg.chimion@gmail.com" class="contact-email reveal">georg.chimion@gmail.com</a>
+    <div class="contact-sub reveal">Miami, FL · Available for consulting, builds, and partnerships</div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+    <span>© 2026 Georg Chimion</span>
+    <a href="https://georg.miami">georg.miami</a>
+  </div>
+</footer>
+
+<script>
+/* Loader */
+requestAnimationFrame(() => {
+  document.getElementById('loaderBar').classList.add('go');
+  setTimeout(() => document.getElementById('loader').classList.add('out'), 1400);
+});
+
+/* Cursor blob */
+const blob = document.getElementById('cursorBlob');
+document.addEventListener('mousemove', e => {
+  blob.style.left = e.clientX + 'px';
+  blob.style.top = e.clientY + 'px';
+});
+
+/* Reveal */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); ro.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+/* Stagger product cards */
+document.querySelectorAll('.product-card.reveal').forEach((card, i) => {
+  card.style.transitionDelay = (i * 80) + 'ms';
+});
+</script>
+</body>
+</html>

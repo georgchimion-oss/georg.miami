@@ -88,6 +88,152 @@
 
         .theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
 
+        .nav-designs {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 7px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: border-color 0.18s, color 0.18s, background 0.18s;
+        }
+        .nav-designs:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        /* ─── Designs modal ─── */
+        .dm-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 60px 20px 20px;
+            overflow-y: auto;
+        }
+        .dm-overlay.open { display: flex; animation: dmFade 0.25s ease; }
+        @keyframes dmFade { from { opacity: 0; } to { opacity: 1; } }
+        .dm-panel {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 980px;
+            width: 100%;
+            padding: 32px;
+            box-shadow: 0 30px 90px rgba(0,0,0,0.5);
+            animation: dmUp 0.28s cubic-bezier(.22,1,.36,1);
+        }
+        @keyframes dmUp { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .dm-head {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            gap: 24px; margin-bottom: 28px;
+        }
+        .dm-title-wrap .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .dm-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(22px, 3vw, 30px);
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        .dm-desc {
+            font-size: 14px;
+            color: var(--text-2);
+            max-width: 560px;
+        }
+        .dm-close {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .dm-close:hover { color: var(--text); border-color: var(--text-2); }
+        .dm-group {
+            margin-top: 22px;
+        }
+        .dm-group-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            color: var(--text-3);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .dm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .dm-card {
+            display: block;
+            padding: 14px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            transition: border-color 0.18s, background 0.18s, transform 0.15s;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+        }
+        .dm-card:hover {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+            transform: translateY(-1px);
+        }
+        .dm-card .name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: -0.005em;
+            margin-bottom: 2px;
+        }
+        .dm-card .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-3);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .dm-card.featured {
+            background: var(--accent-glow);
+            border-color: var(--accent);
+        }
+        .dm-card.featured .name::after {
+            content: ' ★';
+            color: var(--accent);
+        }
+        @media (max-width: 640px) {
+            .dm-overlay { padding: 20px 12px; }
+            .dm-panel { padding: 20px; }
+            .dm-grid { grid-template-columns: 1fr 1fr; }
+        }
+
         .btn-hire {
             padding: 8px 20px;
             background: var(--accent);
@@ -168,6 +314,148 @@
             opacity: 0; /* GSAP will animate this */
         }
 
+        .hero-offer {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            margin-bottom: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--accent);
+            background: var(--accent-glow);
+            border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+            border-radius: 999px;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, transform 0.15s;
+        }
+        .hero-offer:hover {
+            background: color-mix(in srgb, var(--accent) 14%, transparent);
+            border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+            transform: translateX(2px);
+        }
+        .hero-offer .pulse {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+            animation: pulseRing 1.8s ease-out infinite;
+        }
+        .hero-offer .arr {
+            margin-left: 4px;
+            transition: transform 0.15s;
+        }
+        .hero-offer:hover .arr { transform: translateX(3px); }
+        @keyframes pulseRing {
+            0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+            70%  { box-shadow: 0 0 0 10px transparent; }
+            100% { box-shadow: 0 0 0 0 transparent; }
+        }
+
+        /* AUDITS SECTION */
+        #audits { background: var(--bg); }
+        .audit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 900px) { .audit-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .audit-grid { grid-template-columns: 1fr; } }
+        .audit-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px 22px 20px;
+            cursor: pointer;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex; flex-direction: column;
+            gap: 12px;
+            min-height: 220px;
+        }
+        .audit-card:hover {
+            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent), var(--shadow-lg);
+        }
+        .audit-card:hover .audit-arrow { color: var(--accent); transform: translateX(3px); }
+        .audit-card .a-top { display: flex; justify-content: space-between; align-items: center; }
+        .audit-card .a-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.1em; }
+        .audit-card .a-date { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-3); letter-spacing: 0.06em; }
+        .audit-card .a-name { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1.15; }
+        .audit-card .a-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+        .audit-card .a-desc { font-size: 13px; color: var(--text-2); line-height: 1.55; flex: 1; }
+        .audit-card .a-desc em { font-style: normal; font-weight: 500; color: var(--text); }
+        .audit-card .a-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
+        .audit-card .a-url { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); }
+        .audit-arrow { color: var(--text-3); font-size: 15px; transition: color 0.2s, transform 0.2s; }
+
+        .audits-see-all {
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px;
+            margin-top: 28px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            color: var(--text-2);
+            padding: 14px;
+            border: 1px dashed var(--border);
+            border-radius: var(--r);
+            text-decoration: none;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .audits-see-all:hover { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+        .audits-see-all strong { color: var(--text); font-family: 'Space Grotesk', sans-serif; font-size: 14px; letter-spacing: -0.02em; font-weight: 600; }
+
+        .audit-request-bar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 28px;
+            padding: 30px 34px;
+            background: linear-gradient(120deg, var(--accent-glow), color-mix(in srgb, var(--accent) 6%, transparent));
+            border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+            border-radius: var(--r);
+            margin-top: 28px;
+        }
+        .audit-request-bar .r-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(20px, 1.8vw, 24px);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+        .audit-request-bar .r-title em { font-style: normal; color: var(--accent); }
+        .audit-request-bar .r-sub {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.55;
+            max-width: 620px;
+        }
+        .audit-request-bar .r-btn {
+            background: var(--accent);
+            color: var(--accent-text);
+            padding: 14px 24px;
+            border-radius: var(--r-sm);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .audit-request-bar .r-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        @media (max-width: 700px) {
+            .audit-request-bar { grid-template-columns: 1fr; padding: 24px; }
+        }
+
         .hero-actions {
             display: flex;
             gap: 12px;
@@ -233,8 +521,9 @@
         .hero-photo {
             width: 100%;
             max-width: 420px;
-            aspect-ratio: 4/5;
+            aspect-ratio: 1/1;
             object-fit: cover;
+            object-position: center center;
             border-radius: 16px;
             box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
             display: block;
@@ -981,7 +1270,7 @@
 
             .hero-photo {
                 max-width: 280px;
-                aspect-ratio: 4/5;
+                aspect-ratio: 1/1;
             }
 
             .hero h1 {
@@ -1072,25 +1361,6 @@
     </style>
 </head>
 <body>
-<!-- Design Variations Switcher -->
-<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;box-shadow:var(--shadow-lg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
-  <span style="font-size:10px;color:var(--text-3);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
-  <select onchange="if(this.value)window.location=this.value" style="background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
-    <option value="index.html" selected>Default</option>
-    <option value="cinematic.html">Cinematic</option>
-    <option value="premiere.html">Premiere</option>
-    <option value="maximal.html">Maximal</option>
-    <option value="synthwave.html">Synthwave</option>
-    <option value="cyberpunk.html">Cyberpunk</option>
-    <option value="desktop.html">Desktop OS</option>
-    <option value="brutalist.html">Brutalist</option>
-    <option value="gaming.html">Gaming</option>
-    <option value="noir.html">Noir</option>
-    <option value="neon.html">Neon</option>
-  </select>
-</div>
-
-
 
 <!-- =============================================
      NAV
@@ -1099,9 +1369,11 @@
     <a href="/" class="nav-name">Georg Chimion</a>
     <div class="nav-links" id="navLinks">
         <a href="#products">Products</a>
+        <a href="#audits">Audits</a>
         <a href="#how">Work</a>
         <a href="https://lab.georg.miami" target="_blank">Lab</a>
         <a href="#contact">About</a>
+        <button type="button" class="nav-designs" id="navDesigns" aria-label="Browse designs">Designs · 41</button>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
         <a href="#contact" class="btn-hire">Hire Me</a>
     </div>
@@ -1114,6 +1386,160 @@
 </nav>
 
 <!-- =============================================
+     DESIGNS MODAL — 20 variant picker
+============================================= -->
+<div class="dm-overlay" id="dmOverlay" role="dialog" aria-modal="true" aria-labelledby="dmTitle" hidden>
+  <div class="dm-panel" role="document">
+    <div class="dm-head">
+      <div class="dm-title-wrap">
+        <div class="eyebrow">// 41 design variants</div>
+        <div class="dm-title" id="dmTitle">Same portfolio, forty-one designs.</div>
+        <p class="dm-desc">Each is a fully-built alternate of this site — different hero, different colors, different motion. Click any to see it live. You can always come back to this view.</p>
+      </div>
+      <button class="dm-close" id="dmClose" aria-label="Close">×</button>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">★ Homepage Concepts</div>
+      <div class="dm-grid">
+        <a class="dm-card featured" href="/index-v1.html"><div class="name">V1 · Operator</div><div class="tag">Editorial polish, metrics rail</div></a>
+        <a class="dm-card featured" href="/index-v2.html"><div class="name">V2 · Specialist</div><div class="tag">Data-dense + AI-twin chat</div></a>
+        <a class="dm-card featured" href="/index-v3.html"><div class="name">V3 · Signal</div><div class="tag">Kinetic · ambient · orbit</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Interactive</div>
+      <div class="dm-grid">
+        <a class="dm-card featured" href="/zelda.html"><div class="name">Legend of Georg</div><div class="tag">SNES · playable RPG</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">3D · WebGL</div>
+      <div class="dm-grid">
+        <a class="dm-card featured" href="/flux.html"><div class="name">Flux</div><div class="tag">20,000 particles</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Editorial · Print</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/atelier-paper.html"><div class="name">Atelier Paper</div><div class="tag">Newsreader serif</div></a>
+        <a class="dm-card" href="/broadsheet.html"><div class="name">Broadsheet</div><div class="tag">Newspaper masthead</div></a>
+        <a class="dm-card" href="/monograph.html"><div class="name">Monograph</div><div class="tag">Book on desk</div></a>
+        <a class="dm-card" href="/letterpress.html"><div class="name">Letterpress</div><div class="tag">Deboss · IBM Plex</div></a>
+        <a class="dm-card" href="/dossier.html"><div class="name">Dossier</div><div class="tag">Classified briefing</div></a>
+        <a class="dm-card" href="/gallerist.html"><div class="name">Gallerist</div><div class="tag">Museum placard</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Stage · Finance</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/spotlight.html"><div class="name">Spotlight</div><div class="tag">Cinematic portrait</div></a>
+        <a class="dm-card" href="/ledger.html"><div class="name">Ledger</div><div class="tag">Bloomberg terminal</div></a>
+        <a class="dm-card" href="/concierge.html"><div class="name">Concierge</div><div class="tag">Maison · gold + cream</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Atmospheric</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/dusk.html"><div class="name">Dusk</div><div class="tag">Sunset gradient</div></a>
+        <a class="dm-card" href="/constellation.html"><div class="name">Constellation</div><div class="tag">Starfield</div></a>
+        <a class="dm-card" href="/voyage.html"><div class="name">Voyage</div><div class="tag">Adventure map</div></a>
+        <a class="dm-card" href="/fireworks.html"><div class="name">Fireworks</div><div class="tag">Celebratory</div></a>
+        <a class="dm-card" href="/vapor.html"><div class="name">Vapor</div><div class="tag">Vaporwave sun</div></a>
+        <a class="dm-card" href="/ocean-drive.html"><div class="name">Ocean Drive</div><div class="tag">80s pixel + CRT</div></a>
+        <a class="dm-card" href="/tornado.html"><div class="name">Tornado</div><div class="tag">Warning bars</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">New</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/liquid.html"><div class="name">Liquid</div><div class="tag">Chrome</div></a>
+        <a class="dm-card" href="/kinetic.html"><div class="name">Kinetic</div><div class="tag">Motion</div></a>
+        <a class="dm-card" href="/editorial.html"><div class="name">Editorial</div><div class="tag">Magazine</div></a>
+        <a class="dm-card" href="/glitch.html"><div class="name">Glitch</div><div class="tag">Cyberpunk</div></a>
+        <a class="dm-card" href="/atelier.html"><div class="name">Atelier</div><div class="tag">Workshop</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Cinematic</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/cinematic.html"><div class="name">Cinematic</div><div class="tag">Film</div></a>
+        <a class="dm-card" href="/cinematic-v2.html"><div class="name">Cinematic V2</div><div class="tag">Remastered</div></a>
+        <a class="dm-card" href="/noir.html"><div class="name">Noir</div><div class="tag">Black & white</div></a>
+        <a class="dm-card" href="/premiere.html"><div class="name">Premiere</div><div class="tag">Red carpet</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Dark</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/cyberpunk.html"><div class="name">Cyberpunk</div><div class="tag">2077</div></a>
+        <a class="dm-card" href="/synthwave.html"><div class="name">Synthwave</div><div class="tag">80s neon</div></a>
+        <a class="dm-card" href="/neon.html"><div class="name">Neon</div><div class="tag">Vegas glow</div></a>
+        <a class="dm-card" href="/holographic.html"><div class="name">Holographic</div><div class="tag">Iridescent</div></a>
+        <a class="dm-card" href="/terminal.html"><div class="name">Terminal</div><div class="tag">CLI green</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Bold</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/brutalist.html"><div class="name">Brutalist</div><div class="tag">Raw concrete</div></a>
+        <a class="dm-card" href="/maximal.html"><div class="name">Maximal</div><div class="tag">All of it</div></a>
+        <a class="dm-card" href="/insane.html"><div class="name">Insane</div><div class="tag">No rules</div></a>
+        <a class="dm-card" href="/gaming.html"><div class="name">Gaming</div><div class="tag">RGB</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Clean</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/blueprint.html"><div class="name">Blueprint</div><div class="tag">Technical</div></a>
+        <a class="dm-card" href="/desktop.html"><div class="name">Desktop</div><div class="tag">OS chrome</div></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('navDesigns');
+  var overlay = document.getElementById('dmOverlay');
+  var closeBtn = document.getElementById('dmClose');
+  if (!btn || !overlay) return;
+
+  function open(){
+    overlay.hidden = false;
+    requestAnimationFrame(function(){ overlay.classList.add('open'); });
+    document.body.style.overflow = 'hidden';
+    // Move focus into the modal for keyboard users
+    closeBtn.focus();
+  }
+  function close(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function(){ overlay.hidden = true; }, 220);
+  }
+
+  btn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) close();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !overlay.hidden) close();
+  });
+})();
+</script>
+
+<!-- =============================================
      HERO — Split layout
 ============================================= -->
 <header class="hero">
@@ -1124,6 +1550,7 @@
                 <div class="hero-eyebrow" id="heroEyebrow">AI AUTOMATION SPECIALIST &middot; MIAMI</div>
                 <h1 id="heroH1">AI automation<br>for the enterprise.</h1>
                 <p class="hero-sub" id="heroSub">Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</p>
+                <a href="#audit-request" class="hero-offer"><span class="pulse"></span>Free growth audit for your business <span class="arr">&rarr;</span></a>
                 <div class="hero-actions" id="heroCTAs">
                     <a href="#products" class="btn-primary">View Products &rarr;</a>
                     <a href="#contact" class="btn-secondary">Get in Touch</a>
@@ -1217,6 +1644,32 @@
                 </div>
             </div>
 
+            <!-- Caliber -->
+            <div class="product-card gsap-card" onclick="openModal('caliber')">
+                <div class="product-thumb">
+                    <img src="screenshots/caliber.png" alt="Caliber — AI Youth Sports Scouting" loading="lazy" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(145deg, #0A1628, #122340)';this.parentElement.innerHTML=this.parentElement.innerHTML+'<div style=&quot;position:absolute;inset:0;display:grid;place-items:center;font-family:Bebas Neue,sans-serif;font-size:64px;color:#C4FF00;letter-spacing:0.04em;&quot;>CALIBER</div>';">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Caliber</div>
+                    <div class="product-desc">AI-verified youth sports scouting. Upload phone footage, get verified 40-yard dash / vertical / velocity. Free for athletes, used by college and pro programs.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <!-- Onboard -->
+            <div class="product-card gsap-card" onclick="openModal('onboard')">
+                <div class="product-thumb">
+                    <img src="screenshots/onboard.png" alt="Onboard — AI Employee Onboarding" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Onboard</div>
+                    <div class="product-desc">Upload internal docs, get a structured training course with quizzes in 3 minutes. Stop losing new hires to broken onboarding.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
             <!-- AI Document Intelligence -->
             <div class="product-card gsap-card" onclick="openModal('docs')">
                 <div class="product-thumb">
@@ -1254,6 +1707,432 @@
             <a href="https://lab.georg.miami" target="_blank" class="btn-primary" style="flex-shrink:0;">Explore &rarr;</a>
         </div>
     </div>
+</section>
+
+<!-- =============================================
+     GROWTH AUDITS SECTION
+============================================= -->
+<section id="audits">
+    <div class="container">
+        <div class="section-label gsap-reveal">// growth audits</div>
+        <h2 class="section-title gsap-reveal">Twelve audits. Twelve distribution problems.</h2>
+        <p class="section-sub gsap-reveal">Research-first audits across ten dimensions — technical, SEO, reviews, social, competitive, founder stories, and AI automation. Each one is a live, branded site.</p>
+
+        <div class="audit-grid">
+
+            <a class="audit-card gsap-card" href="https://la-piscine.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">01</span><span class="a-date">17·iv·26</span></div>
+                <div><div class="a-name">La Piscine</div><div class="a-tag">Restaurant · Miami Beach</div></div>
+                <div class="a-desc">Michelin-trained chef serving $5 margaritas. <em>3,484 followers inside a 1,000-unit residential tower.</em></div>
+                <div class="a-foot"><span class="a-url">la-piscine.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://lynx.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">02</span><span class="a-date">16·iv·26</span></div>
+                <div><div class="a-name">Lynx Health Advisors</div><div class="a-tag">Concierge medicine · Miami</div></div>
+                <div class="a-desc">Elite concierge healthcare, <em>40+ advisory-board specialists</em> across Miami, NYC, LA, London, Zurich.</div>
+                <div class="a-foot"><span class="a-url">lynx.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://rcg.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">07</span><span class="a-date">12·iv·26</span></div>
+                <div><div class="a-name">Robin Capital Group</div><div class="a-tag">Boutique RIA · Miami Beach</div></div>
+                <div class="a-desc"><em>Live, audited performance with Sharpe ratios and position-level transparency.</em> 18 LinkedIn followers — the substance exists, distribution doesn't.</div>
+                <div class="a-foot"><span class="a-url">rcg.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://dram-finance.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">03</span><span class="a-date">13·iv·26</span></div>
+                <div><div class="a-name">Dram Finance</div><div class="a-tag">Fractional whisky investing</div></div>
+                <div class="a-desc">A platform that lets you own pieces of rare whisky casks. <em>Friend audit</em> — positioning, trust signals, onboarding friction.</div>
+                <div class="a-foot"><span class="a-url">dram-finance.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://propertyforce.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">05</span><span class="a-date">13·iv·26</span></div>
+                <div><div class="a-name">PropertyForce</div><div class="a-tag">Real estate · South Florida</div></div>
+                <div class="a-desc">Meridian Trust / Synergy Home Buyers rebuild. <em>Four-person team doing what fifty used to.</em></div>
+                <div class="a-foot"><span class="a-url">propertyforce.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://rbc-datacenter.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">08</span><span class="a-date">11·iv·26</span></div>
+                <div><div class="a-name">RBC — DC Command Center</div><div class="a-tag">Datacenter infrastructure · PwC</div></div>
+                <div class="a-desc">Infrastructure observability prototype. <em>A command center for the ops floor</em> — live metrics, alert routing, on-call escalation loops.</div>
+                <div class="a-foot"><span class="a-url">rbc-datacenter.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+        </div>
+
+        <a class="audits-see-all gsap-reveal" href="https://audit.georg.miami/"><strong>See all 12 audits &rarr;</strong> filter by industry, status, or keyword at audit.georg.miami</a>
+
+        <div class="audit-request-bar gsap-reveal">
+            <div>
+                <div class="r-title">Want a free audit of <em>your</em> business?</div>
+                <div class="r-sub">Same process, same ten dimensions, same depth. Delivered as a live branded site within a week. Limited slots each month.</div>
+            </div>
+            <a class="r-btn" href="#audit-request">Request Free Audit &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     AUDIT REQUEST — 4-step questionnaire
+============================================= -->
+<section id="audit-request">
+<style>
+  #audit-request { background: var(--bg-2); }
+  .aq-wrap { max-width: 760px; margin: 0 auto; }
+  .aq-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 40px;
+    margin-top: 40px;
+    position: relative;
+  }
+  .aq-progress {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .aq-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border-hover);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .aq-dot.on { background: var(--accent); transform: scale(1.15); box-shadow: 0 0 0 3px var(--accent-glow); }
+  .aq-dot.done { background: var(--accent); opacity: 0.5; }
+  .aq-step-label { margin-left: 14px; color: var(--text-2); }
+  .aq-step { display: none; animation: aqFade 0.35s ease; }
+  .aq-step.active { display: block; }
+  @keyframes aqFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .aq-step label {
+    display: block;
+    margin-bottom: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    letter-spacing: 0.02em;
+  }
+  .aq-step input[type="text"], .aq-step input[type="email"], .aq-step textarea {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 12px 14px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+  .aq-step input:focus, .aq-step textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .aq-step textarea { resize: vertical; min-height: 80px; font-family: 'DM Sans', sans-serif; }
+  .aq-q {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .aq-sub { font-size: 13px; color: var(--text-2); margin-bottom: 16px; }
+  .aq-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .aq-choices-checks { grid-template-columns: 1fr; }
+  @media (max-width: 600px) { .aq-choices { grid-template-columns: 1fr; } }
+  .aq-radio, .aq-check {
+    display: flex; align-items: center;
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 0;
+    font-weight: 400;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .aq-radio:hover, .aq-check:hover { border-color: var(--border-hover); background: var(--surface-2); }
+  .aq-radio input, .aq-check input { margin-right: 10px; accent-color: var(--accent); }
+  .aq-radio input:checked + span, .aq-check input:checked + span { color: var(--accent); font-weight: 500; }
+  .aq-radio:has(input:checked), .aq-check:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+  .aq-textarea-wrap { margin-top: 20px; }
+  .aq-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .aq-back, .aq-next, .aq-submit {
+    padding: 12px 22px;
+    border: none;
+    border-radius: var(--r-sm);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .aq-back {
+    background: transparent;
+    color: var(--text-2);
+    border: 1px solid var(--border);
+  }
+  .aq-back:hover { color: var(--text); border-color: var(--border-hover); }
+  .aq-next, .aq-submit {
+    background: var(--accent);
+    color: var(--accent-text);
+    margin-left: auto;
+    box-shadow: 0 0 0 0 var(--accent-glow);
+  }
+  .aq-next:hover, .aq-submit:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 20px var(--accent-glow); }
+  .aq-submit { background: var(--accent); }
+  .aq-nav button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .aq-error {
+    color: #ff6b6b;
+    font-size: 13px;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .aq-success {
+    text-align: center;
+    padding: 40px 20px;
+    animation: aqFade 0.4s ease;
+  }
+  .aq-check-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 36px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 8px var(--accent-glow);
+  }
+  .aq-success-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .aq-success-text { color: var(--text-2); font-size: 16px; }
+</style>
+
+<div class="container">
+    <div class="aq-wrap">
+        <div class="section-label gsap-reveal">// get audited</div>
+        <h2 class="section-title gsap-reveal">Get your personalized growth audit.</h2>
+        <p class="section-sub gsap-reveal">Free. Research-first, same ten dimensions as the audits above — delivered as a live branded site within a week. Tell me about your business.</p>
+
+        <form id="aqForm" class="aq-form gsap-reveal" novalidate>
+            <div class="aq-progress">
+                <span class="aq-dot on" data-dot="1"></span>
+                <span class="aq-dot" data-dot="2"></span>
+                <span class="aq-dot" data-dot="3"></span>
+                <span class="aq-dot" data-dot="4"></span>
+                <span class="aq-step-label" id="aqStepLabel">Step 1 of 4 · You</span>
+            </div>
+
+            <div class="aq-step active" data-step="1">
+                <label>Your name
+                    <input type="text" name="name" required autocomplete="name" placeholder="Jane Doe">
+                </label>
+                <label>Work email
+                    <input type="email" name="email" required autocomplete="email" placeholder="jane@company.com">
+                </label>
+                <label>Company <span style="color:var(--text-3);font-weight:400">(optional)</span>
+                    <input type="text" name="company" autocomplete="organization" placeholder="Acme Inc">
+                </label>
+            </div>
+
+            <div class="aq-step" data-step="2">
+                <div class="aq-q">What does your business do?</div>
+                <div class="aq-sub">Pick the closest match.</div>
+                <div class="aq-choices">
+                    <label class="aq-radio"><input type="radio" name="industry" value="SaaS / Software"><span>SaaS / Software</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Finance / Investing"><span>Finance / Investing</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Real Estate"><span>Real Estate</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="E-commerce / DTC"><span>E-commerce / DTC</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Agency / Services"><span>Agency / Services</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Healthcare"><span>Healthcare</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Hospitality / F&B"><span>Hospitality / F&amp;B</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Other"><span>Other</span></label>
+                </div>
+            </div>
+
+            <div class="aq-step" data-step="3">
+                <div class="aq-q">What hurts the most right now?</div>
+                <div class="aq-sub">Pick any that apply.</div>
+                <div class="aq-choices aq-choices-checks">
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Manual data entry"><span>Manual data entry eating hours</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Slow customer response"><span>Slow customer response times</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Fragmented tools"><span>Fragmented tools — data everywhere</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Unclear metrics"><span>No visibility into what's working</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Low conversion"><span>Traffic but not conversions</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Team bandwidth"><span>Team running at capacity</span></label>
+                </div>
+                <label class="aq-textarea-wrap">Anything else — specific problems, what you've tried, links
+                    <textarea name="painText" rows="4" placeholder="Optional. The more you write, the better the audit."></textarea>
+                </label>
+            </div>
+
+            <div class="aq-step" data-step="4">
+                <div class="aq-q">Budget for a fix?</div>
+                <div class="aq-sub">Helps me scope the recommendations.</div>
+                <div class="aq-choices">
+                    <label class="aq-radio"><input type="radio" name="budget" value="Under $5k"><span>Under $5k</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="$5k–$25k"><span>$5k–$25k</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="$25k–$100k"><span>$25k–$100k</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="$100k+"><span>$100k+</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="Not sure"><span>Not sure yet</span></label>
+                </div>
+                <div class="aq-q" style="margin-top:28px">Timeline?</div>
+                <div class="aq-choices">
+                    <label class="aq-radio"><input type="radio" name="timeline" value="ASAP"><span>ASAP — this month</span></label>
+                    <label class="aq-radio"><input type="radio" name="timeline" value="This quarter"><span>This quarter</span></label>
+                    <label class="aq-radio"><input type="radio" name="timeline" value="Next 6 months"><span>Next 6 months</span></label>
+                    <label class="aq-radio"><input type="radio" name="timeline" value="Exploring"><span>Just exploring</span></label>
+                </div>
+            </div>
+
+            <div class="aq-error" id="aqError" hidden></div>
+            <div class="aq-nav">
+                <button type="button" class="aq-back" id="aqBack" hidden>← Back</button>
+                <button type="button" class="aq-next" id="aqNext">Next →</button>
+                <button type="submit" class="aq-submit" id="aqSubmit" hidden>Submit audit request</button>
+            </div>
+
+            <div class="aq-success" id="aqSuccess" hidden>
+                <div class="aq-check-icon">✓</div>
+                <div class="aq-success-title">Got it.</div>
+                <div class="aq-success-text">Georg will email you within 48 hours. Watch your inbox.</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+(function () {
+    var STEP_LABELS = ['Step 1 of 4 · You', 'Step 2 of 4 · Industry', 'Step 3 of 4 · Pain', 'Step 4 of 4 · Budget'];
+    var form = document.getElementById('aqForm');
+    if (!form) return;
+    var currentStep = 1;
+    var maxStep = 4;
+
+    var $ = function (s, r) { return (r || form).querySelector(s); };
+    var $$ = function (s, r) { return (r || form).querySelectorAll(s); };
+
+    var backBtn = $('#aqBack');
+    var nextBtn = $('#aqNext');
+    var submitBtn = $('#aqSubmit');
+    var errorEl = $('#aqError');
+    var stepLabel = $('#aqStepLabel');
+    var successEl = $('#aqSuccess');
+
+    function showStep(n) {
+        currentStep = n;
+        $$('.aq-step').forEach(function (el) {
+            el.classList.toggle('active', Number(el.dataset.step) === n);
+        });
+        $$('.aq-dot').forEach(function (d) {
+            var i = Number(d.dataset.dot);
+            d.classList.toggle('on', i === n);
+            d.classList.toggle('done', i < n);
+        });
+        stepLabel.textContent = STEP_LABELS[n - 1];
+        backBtn.hidden = n === 1;
+        nextBtn.hidden = n === maxStep;
+        submitBtn.hidden = n !== maxStep;
+        errorEl.hidden = true;
+    }
+
+    function validateStep(n) {
+        errorEl.hidden = true;
+        if (n === 1) {
+            var name = form.elements['name'].value.trim();
+            var email = form.elements['email'].value.trim();
+            if (!name) return 'Please enter your name.';
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Please enter a valid email.';
+        }
+        if (n === 2) {
+            if (!form.elements['industry'].value) return 'Pick what your business does.';
+        }
+        if (n === 4) {
+            if (!form.elements['budget'].value) return 'Pick a budget (or "Not sure").';
+            if (!form.elements['timeline'].value) return 'Pick a timeline.';
+        }
+        return null;
+    }
+
+    nextBtn.addEventListener('click', function () {
+        var err = validateStep(currentStep);
+        if (err) { errorEl.textContent = err; errorEl.hidden = false; return; }
+        if (currentStep < maxStep) showStep(currentStep + 1);
+    });
+    backBtn.addEventListener('click', function () {
+        if (currentStep > 1) showStep(currentStep - 1);
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var err = validateStep(currentStep);
+        if (err) { errorEl.textContent = err; errorEl.hidden = false; return; }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+
+        var painChecks = [];
+        $$('input[name="pain"]:checked').forEach(function (c) { painChecks.push(c.value); });
+
+        var payload = {
+            name: form.elements['name'].value.trim(),
+            email: form.elements['email'].value.trim(),
+            company: form.elements['company'].value.trim(),
+            industry: form.elements['industry'].value,
+            pain: painChecks,
+            painText: form.elements['painText'].value.trim(),
+            budget: form.elements['budget'].value,
+            timeline: form.elements['timeline'].value,
+        };
+
+        fetch('https://api.georg.miami/ops/audit-request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        }).then(function (r) {
+            return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, data: j }; });
+        }).then(function (res) {
+            if (!res.ok) throw new Error(res.data.error || 'Submission failed');
+            // Show success state: hide form internals, show success block
+            $$('.aq-step, .aq-progress, .aq-nav, .aq-error').forEach(function (el) { el.style.display = 'none'; });
+            successEl.hidden = false;
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }).catch(function (err) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit audit request';
+            errorEl.textContent = 'Something went wrong: ' + err.message + '. Email georg.chimion@gmail.com instead.';
+            errorEl.hidden = false;
+        });
+    });
+
+    showStep(1);
+})();
+</script>
 </section>
 
 <!-- =============================================
@@ -1525,7 +2404,21 @@ var products = {
         title: 'Agent Factory — AI Website Builder',
         desc: 'Four autonomous Claude-powered agents — PM, Coder, Reviewer, Deployer — collaborate in a real-time pipeline to build production websites from natural language briefs. Watch them discuss, write code, review quality, and deploy live sites. Includes spectator mode for live demos.',
         tech: ['Claude AI', 'Multi-Agent', 'SSE Streaming', 'Node.js', 'Express'],
-        url: 'https://api.georg.miami/factory'
+        url: 'https://factory.georg.miami'
+    },
+    caliber: {
+        img: 'screenshots/caliber.png',
+        title: 'Caliber — AI Youth Sports Scouting',
+        desc: 'An AI-verified youth sports scouting platform. Athletes upload a single phone clip; the computer-vision gait model extracts verified 40-yard dash, top speed, vertical, velocity, and agility metrics — each with a confidence interval. Free for athletes, paid for college and pro programs. Fixes the two-sided trust problem in recruiting: dad-timed stats nobody trusts, and pay-to-play platforms that surface inflated profiles over real talent.',
+        tech: ['Computer Vision', 'Gait Model v4.2', 'Pose Estimation', 'Two-sided Marketplace'],
+        url: 'https://caliber.georg.miami'
+    },
+    onboard: {
+        img: 'screenshots/onboard.png',
+        title: 'Onboard — AI Employee Onboarding',
+        desc: 'Upload internal documents and a role description — AI transforms them into a structured training course with modules, lessons, and quizzes in under 3 minutes. New hires take the course, get scored, and managers see who\'s ready. No more tribal knowledge trapped in PDFs, Slack channels, and senior employees\' heads.',
+        tech: ['Claude AI', 'Course Generation', 'Auto-Quiz', 'Scoring'],
+        url: 'https://onboard.georg.miami'
     }
 };
 
@@ -1762,6 +2655,20 @@ window.addEventListener('scroll', function() {
 
 })();
 
+</script>
+
+<!-- georg analytics — track pageviews + owner flag via ?iam=georg -->
+<script>
+(function(){try{
+  let v=localStorage.getItem('gv');
+  if(!v){v=(crypto.randomUUID&&crypto.randomUUID())||String(Date.now())+Math.random().toString(36).slice(2);localStorage.setItem('gv',v);}
+  var p=new URLSearchParams(location.search);
+  if(p.get('iam')==='georg')localStorage.setItem('go','1');
+  var o=localStorage.getItem('go')==='1';
+  fetch('https://api.georg.miami/ops/track',{method:'POST',keepalive:true,
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({page:location.hostname+location.pathname,ref:document.referrer||null,vid:v,owner:o,ts:Date.now()})}).catch(function(){});
+}catch(e){}})();
 </script>
 </body>
 </html>

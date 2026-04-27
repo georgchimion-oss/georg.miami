@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — AI Automation Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cyan:#00F0FF;--dark:#0a0a0a;--grid:rgba(0,240,255,0.06)}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* LOADER */
+.loader{position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}.loader.done{opacity:0;visibility:hidden}
+.loader-bar{width:200px;height:2px;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
+.loader-bar::after{content:'';position:absolute;left:-50%;width:50%;height:100%;background:var(--cyan);animation:load .8s ease-in-out infinite}
+@keyframes load{to{left:100%}}
+
+/* GRID BG */
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+background-size:60px 60px}
+
+/* PARALLAX LAYERS */
+.parallax-dots{position:fixed;inset:0;z-index:0;pointer-events:none}
+.p-dot{position:absolute;width:3px;height:3px;background:var(--cyan);border-radius:50%;opacity:.3}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(10,10,10,.7);border-bottom:1px solid rgba(0,240,255,.1)}
+nav .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--cyan)}
+nav .nav-links a{color:rgba(255,255,255,.6);text-decoration:none;margin-left:32px;font-size:13px;letter-spacing:2px;text-transform:uppercase;transition:color .3s}
+nav .nav-links a:hover{color:var(--cyan)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;z-index:1;padding:0 48px}
+.hero-content{max-width:900px}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,12vw,160px);line-height:.85;letter-spacing:-2px;color:#fff;opacity:0;transform:translateX(-80px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.hero h1.vis{opacity:1;transform:translateX(0)}
+.hero h1 span{color:var(--cyan);display:block}
+.hero-sub{font-size:clamp(14px,1.8vw,20px);color:rgba(255,255,255,.5);margin-top:24px;letter-spacing:4px;text-transform:uppercase;font-weight:300;opacity:0;transform:translateX(-40px);transition:all 1s .3s cubic-bezier(.16,1,.3,1)}
+.hero-sub.vis{opacity:1;transform:translateX(0)}
+.hero-line{width:0;height:2px;background:var(--cyan);margin-top:32px;transition:width 1.2s .5s cubic-bezier(.16,1,.3,1)}
+.hero-line.vis{width:120px}
+.scroll-hint{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.3);font-size:11px;letter-spacing:3px;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* FLOATING ACCENT SHAPES */
+.float-shape{position:absolute;border:1px solid rgba(0,240,255,.15);pointer-events:none;z-index:0}
+.fs1{width:300px;height:300px;border-radius:50%;top:15%;right:10%;animation:float1 8s ease-in-out infinite}
+.fs2{width:200px;height:200px;top:60%;right:25%;animation:float2 10s ease-in-out infinite;transform:rotate(45deg)}
+.fs3{width:150px;height:150px;border-radius:50%;top:30%;left:5%;animation:float3 12s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+@keyframes float2{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(50deg) translateY(-20px)}}
+@keyframes float3{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(-15px) translateX(10px)}}
+
+/* SECTION TITLES */
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,8vw,100px);letter-spacing:2px;margin-bottom:48px;position:relative;display:inline-block}
+.section-title::after{content:'';position:absolute;bottom:-8px;left:0;width:40px;height:3px;background:var(--cyan)}
+
+/* PRODUCTS */
+.products{position:relative;z-index:1;padding:120px 48px}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2px}
+.product-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);padding:0;overflow:hidden;position:relative;opacity:0;transform:translateY(60px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.product-card.vis{opacity:1;transform:translateY(0)}
+.product-card:hover{background:rgba(0,240,255,.03);border-color:rgba(0,240,255,.2)}
+.product-card:hover .card-accent{transform:scaleX(1)}
+.card-accent{position:absolute;top:0;left:0;right:0;height:2px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.card-img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;filter:grayscale(.3);transition:filter .5s}
+.product-card:hover .card-img{filter:grayscale(0)}
+.card-body{padding:28px 32px}
+.card-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:rgba(0,240,255,.15);line-height:1;margin-bottom:4px}
+.card-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;margin-bottom:8px}
+.card-desc{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px}
+.card-link{display:inline-flex;align-items:center;gap:8px;color:var(--cyan);text-decoration:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;transition:gap .3s}
+.card-link:hover{gap:14px}
+.card-link svg{width:14px;height:14px;stroke:var(--cyan);fill:none;stroke-width:2}
+
+/* ABOUT */
+.about{position:relative;z-index:1;padding:120px 48px;max-width:900px}
+.about-text{font-size:18px;line-height:1.8;color:rgba(255,255,255,.6);font-weight:300}
+.about-text strong{color:#fff;font-weight:500}
+.about-stats{display:flex;gap:64px;margin-top:48px;flex-wrap:wrap}
+.stat-item .stat-num{font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--cyan);line-height:1}
+.stat-item .stat-label{font-size:12px;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-top:4px}
+
+/* CONTACT */
+.contact{position:relative;z-index:1;padding:120px 48px 80px}
+.contact-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px;border-top:1px solid rgba(255,255,255,.1);padding-top:48px}
+.contact a{color:var(--cyan);text-decoration:none;font-size:14px;letter-spacing:1px;transition:opacity .3s}
+.contact a:hover{opacity:.7}
+.contact .copyright{font-size:12px;color:rgba(255,255,255,.3)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+nav{padding:16px 24px}
+nav .nav-links{display:none}
+.hero,.products,.about,.contact{padding-left:24px;padding-right:24px}
+.hero h1{font-size:48px}
+.products-grid{grid-template-columns:1fr}
+.about-stats{gap:32px}
+.float-shape{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader">
+  <div class="loader-bar"></div>
+</div>
+
+<div class="grid-bg"></div>
+<div class="parallax-dots" id="parallaxDots"></div>
+
+<nav>
+  <div class="logo">GC</div>
+  <div class="nav-links">
+    <a href="#products">Products</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="float-shape fs1"></div>
+  <div class="float-shape fs2"></div>
+  <div class="float-shape fs3"></div>
+  <div class="hero-content">
+    <h1 id="heroTitle">Georg<span>Chimion</span></h1>
+    <p class="hero-sub" id="heroSub">AI Automation Specialist &bull; Miami &bull; PwC</p>
+    <div class="hero-line" id="heroLine"></div>
+  </div>
+  <div class="scroll-hint">Scroll<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+</section>
+
+<section class="products" id="products">
+  <div class="section-title">Products</div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<section class="about" id="about">
+  <div class="section-title">About</div>
+  <p class="about-text">
+    <strong>AI automation specialist based in Miami.</strong> PwC contractor building intelligent systems for enterprise clients. Background in TD Bank reconciliation automation — turning manual processes into scalable, auditable pipelines. I build products that ship, not decks that don't.
+  </p>
+  <div class="about-stats">
+    <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Live Products</div></div>
+    <div class="stat-item"><div class="stat-num">PwC</div><div class="stat-label">Contractor</div></div>
+    <div class="stat-item"><div class="stat-num">MIA</div><div class="stat-label">Miami, FL</div></div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="section-title">Contact</div>
+  <div class="contact-row">
+    <div>
+      <a href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a><br><br>
+      <a href="https://georg.miami" target="_blank">georg.miami</a>
+    </div>
+    <div class="copyright">&copy; 2026 Georg Chimion</div>
+  </div>
+</section>
+
+<script>
+const products = [
+  {name:'Vestia',desc:'Enterprise platform hub with 6 integrated modules for workforce management.',url:'https://vestia.georg.miami',img:'screenshots/vestia.png'},
+  {name:'Ask Penny',desc:'AI assistant for financial operations — natural language queries against complex data.',url:'https://penny.georg.miami',img:'screenshots/askpenny.png'},
+  {name:'Agent Factory',desc:'Rapid agent deployment pipeline. Concept to production in under 3 minutes.',url:'https://factory.georg.miami',img:'screenshots/factory.png'},
+  {name:'VENUE',desc:'Event and venue management platform with real-time analytics.',url:'https://venue.georg.miami',img:'screenshots/venue.png'},
+  {name:'ReconX',desc:'Automated reconciliation engine for banking transaction matching.',url:'https://reconx.georg.miami',img:'screenshots/reconx.png'},
+  {name:'Onboard',desc:'Intelligent employee onboarding — adaptive workflows, compliance tracking.',url:'https://onboard.georg.miami',img:'screenshots/onboard.png'},
+  {name:'AI Doc Intelligence',desc:'Document processing pipeline — extraction, classification, validation at scale.',url:'https://docs.georg.miami',img:'screenshots/docai.png'},
+  {name:'ROI Calculator',desc:'Interactive ROI modeling tool for AI automation investments.',url:'https://roi.georg.miami',img:'screenshots/roi.png'},
+];
+
+const grid = document.getElementById('productsGrid');
+products.forEach((p,i) => {
+  const card = document.createElement('div');
+  card.className = 'product-card';
+  card.style.transitionDelay = `${i * 0.1}s`;
+  card.innerHTML = `
+    <div class="card-accent"></div>
+    <img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#111,#1a1a2e)';this.style.minHeight='200px'">
+    <div class="card-body">
+      <div class="card-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="card-name">${p.name}</div>
+      <div class="card-desc">${p.desc}</div>
+      <a class="card-link" href="${p.url}" target="_blank">Launch <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>`;
+  grid.appendChild(card);
+});
+
+// Parallax dots
+const dotsEl = document.getElementById('parallaxDots');
+for(let i=0;i<40;i++){
+  const d = document.createElement('div');
+  d.className = 'p-dot';
+  d.style.left = Math.random()*100+'%';
+  d.style.top = Math.random()*100+'%';
+  d.dataset.speed = (Math.random()*.5+.1).toFixed(2);
+  dotsEl.appendChild(d);
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis') });
+}, {threshold:0.1});
+
+document.querySelectorAll('.product-card').forEach(c => observer.observe(c));
+
+// Hero animations
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('done'), 600);
+  setTimeout(() => document.getElementById('heroTitle').classList.add('vis'), 800);
+  setTimeout(() => document.getElementById('heroSub').classList.add('vis'), 1000);
+  setTimeout(() => document.getElementById('heroLine').classList.add('vis'), 1200);
+});
+
+// Parallax on scroll
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  document.querySelectorAll('.p-dot').forEach(d => {
+    const speed = parseFloat(d.dataset.speed);
+    d.style.transform = `translateY(${sy * speed}px)`;
+  });
+});
+</script>
+</body>
+</html>

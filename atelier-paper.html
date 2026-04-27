@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Atelier</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;700&family=Tiempos+Headline&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--paper:#EFECE5;--ink:#101014;--mid:#7A776F;--faint:#C9C4B8;--rule:#D4CFC2;--accent:#D94A20}
+html,body{background:var(--paper);color:var(--ink);font-family:'Inter Tight',sans-serif;font-size:14px;line-height:1.55;min-height:100vh;overflow-x:hidden;font-weight:400}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'Newsreader',serif;font-weight:400}
+.back{position:fixed;top:16px;right:16px;z-index:100;font-size:10px;letter-spacing:0.18em;border:1px solid var(--ink);padding:5px 10px;background:var(--paper);font-weight:500}
+
+/* top strip */
+.bar{display:grid;grid-template-columns:180px 1fr 180px;border-bottom:1px solid var(--ink);padding:12px 24px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;align-items:center}
+.bar .c{text-align:center}
+.bar .r{text-align:right}
+
+/* MASTHEAD */
+.mast{padding:80px 24px 60px;border-bottom:1px solid var(--ink);display:grid;grid-template-columns:180px 1fr;gap:60px;align-items:end}
+.mast .folio{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;writing-mode:vertical-lr;transform:rotate(180deg);color:var(--mid);justify-self:start}
+.mast h1{font-family:'Newsreader',serif;font-size:clamp(60px,10vw,180px);line-height:0.88;letter-spacing:-0.03em;font-weight:500}
+.mast h1 em{font-style:italic;color:var(--accent)}
+.mast .kicker{font-size:11px;letter-spacing:0.26em;text-transform:uppercase;margin-bottom:16px;color:var(--mid)}
+
+/* 12-col swiss grid */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:40px 24px;border-bottom:1px solid var(--ink)}
+.grid > div{position:relative}
+.col-label{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--mid);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--rule)}
+
+.intro{grid-column:span 5;grid-column-start:2}
+.intro h2{font-family:'Newsreader',serif;font-size:44px;line-height:1.05;letter-spacing:-0.015em;font-weight:400;margin-bottom:18px}
+.intro h2 em{font-style:italic;color:var(--accent)}
+.intro p{font-family:'Newsreader',serif;font-size:17px;line-height:1.55;color:var(--ink);margin-bottom:12px}
+.intro p:first-letter{font-family:'Newsreader',serif;font-size:70px;font-style:italic;float:left;line-height:0.85;padding:6px 10px 0 0;color:var(--accent)}
+
+.portrait{grid-column:span 4;grid-column-start:8}
+.portrait-f{border:1px solid var(--ink);padding:12px;background:#F5F2EA}
+.portrait-f img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(0.5) contrast(1.1);display:block}
+.portrait-cap{display:flex;justify-content:space-between;padding-top:10px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase}
+.portrait-cap .r{color:var(--accent)}
+
+/* METRICS */
+.metrics{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin-top:40px}
+.metric{padding:28px 20px;border-right:1px solid var(--rule)}
+.metric:last-child{border-right:none}
+.metric .k{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--mid)}
+.metric .v{font-family:'Newsreader',serif;font-size:68px;line-height:0.95;letter-spacing:-0.02em;margin-top:6px}
+.metric .v em{font-style:italic}
+.metric .s{font-size:11px;color:var(--mid);margin-top:6px}
+
+/* TOC / INDEX */
+.index{padding:60px 24px;border-bottom:1px solid var(--ink);display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.index-h{grid-column:1/5}
+.index-h .num{font-family:'Newsreader',serif;font-size:86px;line-height:1;letter-spacing:-0.03em;color:var(--accent);font-weight:500}
+.index-h h2{font-family:'Newsreader',serif;font-size:52px;line-height:1;letter-spacing:-0.02em;font-weight:400;margin-top:8px}
+.index-h h2 em{font-style:italic}
+.index-h .sub{margin-top:14px;color:var(--mid);font-size:13px;line-height:1.6}
+.index-list{grid-column:6/13}
+.ix-row{display:grid;grid-template-columns:60px 1fr 1fr 80px 30px;gap:20px;padding:18px 0;border-bottom:1px solid var(--rule);align-items:baseline;transition:all 0.2s}
+.ix-row:hover{background:linear-gradient(90deg,rgba(217,74,32,0.06),transparent);padding-left:6px}
+.ix-row:first-child{border-top:1px solid var(--ink)}
+.ix-row .nx{font-size:10px;letter-spacing:0.22em;color:var(--mid)}
+.ix-row .nm{font-family:'Newsreader',serif;font-size:26px;letter-spacing:-0.01em}
+.ix-row .nm em{font-style:italic}
+.ix-row .dsc{color:var(--mid);font-size:12px;line-height:1.5}
+.ix-row .st{font-size:10px;letter-spacing:0.22em;color:var(--accent);text-align:right}
+.ix-row .ar{font-family:'Newsreader',serif;font-style:italic;font-size:20px;color:var(--accent);text-align:right;opacity:0;transform:translateX(-5px);transition:all 0.2s}
+.ix-row:hover .ar{opacity:1;transform:translateX(0)}
+
+/* SPECIMEN — featured piece */
+.spec{padding:80px 24px;border-bottom:1px solid var(--ink);display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;background:linear-gradient(180deg,var(--paper),#E8E3D5)}
+.spec-eyebrow{grid-column:2/7;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.spec-t{grid-column:2/12;font-family:'Newsreader',serif;font-size:clamp(56px,9vw,132px);line-height:0.92;letter-spacing:-0.025em;font-weight:400}
+.spec-t em{font-style:italic;color:var(--accent)}
+.spec-body{grid-column:2/7;margin-top:32px}
+.spec-body p{font-family:'Newsreader',serif;font-size:18px;line-height:1.6;margin-bottom:14px;color:var(--ink)}
+.spec-meta{grid-column:8/12;margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px}
+.spec-meta div{padding-bottom:12px;border-bottom:1px solid var(--rule)}
+.spec-meta .k{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);margin-bottom:4px}
+.spec-meta .v{font-family:'Newsreader',serif;font-size:18px;font-style:italic}
+
+/* PROCESS — columnar */
+.proc{padding:60px 24px;border-bottom:1px solid var(--ink);display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.proc-h{grid-column:2/6}
+.proc-h .num{font-family:'Newsreader',serif;font-size:86px;line-height:1;letter-spacing:-0.03em;color:var(--accent);font-weight:500}
+.proc-h h2{font-family:'Newsreader',serif;font-size:48px;line-height:1;letter-spacing:-0.02em;font-weight:400;margin-top:8px}
+.proc-h h2 em{font-style:italic}
+.p-steps{grid-column:6/13;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.p-step{border-top:1px solid var(--ink);padding-top:16px;position:relative}
+.p-step .pn{font-family:'Newsreader',serif;font-size:38px;font-style:italic;color:var(--accent);line-height:1;font-weight:500}
+.p-step h3{font-family:'Newsreader',serif;font-size:22px;font-style:italic;margin:10px 0 8px}
+.p-step p{color:var(--mid);font-size:12px;line-height:1.55}
+
+/* COLOPHON / Contact */
+.colophon{padding:80px 24px;display:grid;grid-template-columns:repeat(12,1fr);gap:24px;background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.colophon::before{content:'';position:absolute;top:-50%;right:-20%;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(217,74,32,0.4),transparent 60%);pointer-events:none}
+.colophon-h{grid-column:2/8;position:relative}
+.colophon-h .num{font-family:'Newsreader',serif;font-size:120px;line-height:1;letter-spacing:-0.03em;color:var(--accent);font-style:italic;font-weight:500}
+.colophon-h h2{font-family:'Newsreader',serif;font-size:clamp(44px,6vw,88px);line-height:0.95;letter-spacing:-0.02em;font-weight:400;margin-top:6px}
+.colophon-h h2 em{font-style:italic;color:var(--accent)}
+.colophon-h p{margin-top:20px;color:rgba(239,236,229,0.7);font-family:'Newsreader',serif;font-size:18px;line-height:1.6;max-width:520px}
+.colophon-side{grid-column:9/13;position:relative}
+.cs-row{display:block;padding:18px 0;border-bottom:1px solid rgba(239,236,229,0.15);font-family:'Newsreader',serif;font-size:22px;font-style:italic;display:flex;justify-content:space-between;align-items:baseline;transition:padding 0.2s}
+.cs-row:hover{padding-left:10px}
+.cs-row .k{font-family:'Inter Tight',sans-serif;font-style:normal;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(239,236,229,0.5)}
+.cs-row .ar{color:var(--accent);font-size:20px;opacity:0.7;transition:transform 0.2s}
+.cs-row:hover .ar{transform:translateX(6px);opacity:1}
+
+footer{padding:24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid)}
+footer .c{text-align:center}.footer-r{text-align:right}
+
+@media (max-width:900px){.grid,.index,.spec,.proc,.colophon{grid-template-columns:1fr;padding:40px 20px}.intro,.portrait,.index-h,.index-list,.proc-h,.p-steps,.colophon-h,.colophon-side,.spec-eyebrow,.spec-t,.spec-body,.spec-meta{grid-column:1/-1}.metrics{grid-template-columns:1fr 1fr}.metric{border-right:none;border-bottom:1px solid var(--rule)}.mast{grid-template-columns:1fr;padding:40px 20px}.mast .folio{writing-mode:horizontal-tb;transform:none}.bar{grid-template-columns:1fr;gap:6px;text-align:left}.bar .c,.bar .r{text-align:left}.ix-row{grid-template-columns:40px 1fr;gap:8px}.ix-row .dsc,.ix-row .st,.ix-row .ar{grid-column:span 2;padding-top:4px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<div class="bar">
+  <span>Atelier — est. 2022</span>
+  <span class="c">Volume VIII · Folio No. 26</span>
+  <span class="r">Miami, FL · 25.76° N</span>
+</div>
+
+<!-- MASTHEAD -->
+<section class="mast">
+  <div class="folio">Ref. 2026-GC-08 ↓</div>
+  <div>
+    <div class="kicker">— The Atelier of Georg Chimion —</div>
+    <h1>Quiet<br>systems.<br><em>Loud results.</em></h1>
+  </div>
+</section>
+
+<!-- INTRO GRID -->
+<section class="grid">
+  <div class="intro">
+    <div class="col-label">§ I — On the work</div>
+    <h2>Eight AI products in production. Seven client audits shipped. <em>Zero pilots dying in staging.</em></h2>
+    <p>The studio operates from Wynwood, Miami, building enterprise AI and intelligent products end-to-end. Current engagement with PwC's finance AI practice. Independent work is selective, embedded, and finishes on a ship date.</p>
+    <p>Editorial approach is the point. A working system is worth a hundred slide decks — so we write the brief, architect the system, write the code, deploy it, and document the handoff. No middle layer.</p>
+  </div>
+  <div class="portrait">
+    <div class="col-label">§ II — Portrait</div>
+    <div class="portrait-f">
+      <img src="georg-hero.jpeg" alt="Georg Chimion">
+      <div class="portrait-cap"><span>Georg Chimion</span><span class="r">Plate I</span></div>
+    </div>
+  </div>
+  <div class="metrics">
+    <div class="metric"><div class="k">Live products</div><div class="v"><em>08</em></div><div class="s">as of Apr 2026</div></div>
+    <div class="metric"><div class="k">Client audits</div><div class="v"><em>07</em></div><div class="s">finance · enterprise</div></div>
+    <div class="metric"><div class="k">Avg. ship time</div><div class="v"><em>4</em><span style="font-size:22px;color:var(--mid)"> wks</span></div><div class="s">discovery → prod</div></div>
+    <div class="metric"><div class="k">Availability</div><div class="v"><em>Q3</em></div><div class="s">2026 onward</div></div>
+  </div>
+</section>
+
+<!-- SPECIMEN -->
+<section class="spec">
+  <div class="spec-eyebrow">§ III — Specimen No. 001</div>
+  <h2 class="spec-t"><em>Vestia</em> —<br>an atelier<br>for property ops.</h2>
+  <div class="spec-body">
+    <p>A six-module AI platform purpose-built for South Florida condo associations. Maintenance triage, SB 4-D compliance, automated rent collection, tenant screening, lease generation, and vendor bid comparison.</p>
+    <p>Built end-to-end, production-ready, and live since Q1 2026.</p>
+  </div>
+  <div class="spec-meta">
+    <div><div class="k">Stack</div><div class="v">React, TS</div></div>
+    <div><div class="k">Status</div><div class="v">Live</div></div>
+    <div><div class="k">Modules</div><div class="v">Six</div></div>
+    <div><div class="k">Region</div><div class="v">S. Florida</div></div>
+  </div>
+</section>
+
+<!-- INDEX -->
+<section class="index" id="works">
+  <div class="index-h">
+    <div class="num">IV.</div>
+    <h2><em>Index</em> of works.</h2>
+    <div class="sub">Every piece the studio has put into production, newest first. Tap to open.</div>
+  </div>
+  <div class="index-list">
+    <a class="ix-row" href="https://vestia.georg.miami"><span class="nx">001</span><span class="nm"><em>Vestia</em></span><span class="dsc">AI property management for South FL condos.</span><span class="st">LIVE</span><span class="ar">→</span></a>
+    <a class="ix-row" href="https://penny.georg.miami"><span class="nx">002</span><span class="nm">Ask <em>Penny</em></span><span class="dsc">Claude-powered finance copilot · bank integration.</span><span class="st">LIVE</span><span class="ar">→</span></a>
+    <a class="ix-row" href="https://factory.georg.miami"><span class="nx">003</span><span class="nm">Agent <em>Factory</em></span><span class="dsc">Four autonomous Claude agents ship production sites.</span><span class="st">LIVE</span><span class="ar">→</span></a>
+    <a class="ix-row" href="https://reconx.georg.miami"><span class="nx">004</span><span class="nm"><em>ReconX</em></span><span class="dsc">Cloud-native reconciliation · SLA tracking.</span><span class="st">LIVE</span><span class="ar">→</span></a>
+    <a class="ix-row" href="https://onboard.georg.miami"><span class="nx">005</span><span class="nm"><em>Onboard</em></span><span class="dsc">Internal docs become a structured course in 3 minutes.</span><span class="st">LIVE</span><span class="ar">→</span></a>
+    <a class="ix-row" href="https://venue.georg.miami"><span class="nx">006</span><span class="nm"><em>VENUE</em></span><span class="dsc">Premium private event booking · Miami-first.</span><span class="st">LIVE</span><span class="ar">→</span></a>
+    <a class="ix-row" href="https://docs.georg.miami"><span class="nx">007</span><span class="nm">Doc <em>Intel</em></span><span class="dsc">PDF → structured JSON with confidence scores.</span><span class="st">LIVE</span><span class="ar">→</span></a>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="proc">
+  <div class="proc-h">
+    <div class="num">V.</div>
+    <h2><em>Method</em> of the studio.</h2>
+  </div>
+  <div class="p-steps">
+    <div class="p-step"><div class="pn">i.</div><h3>Discovery</h3><p>Scope the opportunity, map the workflow, define the ship criteria. About one week.</p></div>
+    <div class="p-step"><div class="pn">ii.</div><h3>Build &amp; ship</h3><p>Embedded in your team. Weekly iterations. Real users. 2–12 weeks, finishing on a ship date.</p></div>
+    <div class="p-step"><div class="pn">iii.</div><h3>Handoff</h3><p>Documentation, training, transfer. Optional retainer for ongoing features &amp; maintenance.</p></div>
+  </div>
+</section>
+
+<!-- COLOPHON / HIRE -->
+<section class="colophon" id="hire">
+  <div class="colophon-h">
+    <div class="num">VI.</div>
+    <h2>Open the <em>studio</em> doors.</h2>
+    <p>Accepting select engagements for Q3 2026 and beyond. Finance AI, enterprise automation, intelligent products. I reply within a day.</p>
+  </div>
+  <div class="colophon-side">
+    <a class="cs-row" href="mailto:georg.chimion@gmail.com"><span class="k">Email</span><span>georg.chimion<span class="ar">→</span></span></a>
+    <a class="cs-row" href="https://linkedin.com/in/georgchimion"><span class="k">LinkedIn</span><span>in/georgchimion<span class="ar">→</span></span></a>
+    <a class="cs-row" href="https://github.com/georgchimion-oss"><span class="k">GitHub</span><span>@georgchimion-oss<span class="ar">→</span></span></a>
+    <a class="cs-row" href="https://miami.georg.miami"><span class="k">Community</span><span>Miami AI<span class="ar">→</span></span></a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Atelier Chimion</span>
+  <span class="c">Volume VIII · Folio 26</span>
+  <span class="footer-r">Set in Newsreader &amp; Inter Tight</span>
+</footer>
+</body>
+</html>

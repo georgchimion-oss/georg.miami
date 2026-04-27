@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Spotlight</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050506;--ink:#F3EDE0;--mid:rgba(243,237,224,0.55);--faint:rgba(243,237,224,0.25);--glow:#FFD27A;--accent:#FF4E2B}
+html,body{background:var(--bg);color:var(--ink);font-family:'Space Mono',monospace;font-size:13px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'Instrument Serif',serif;font-weight:400}
+.back{position:fixed;top:20px;right:20px;z-index:100;font-size:10px;letter-spacing:0.2em;border:1px solid var(--faint);padding:6px 12px;color:var(--mid)}
+
+/* HERO CINEMA */
+.hero{position:relative;height:100vh;min-height:720px;overflow:hidden;background:#000;cursor:crosshair}
+.hero-img{position:absolute;inset:0;background:url('georg-hero.jpeg') center/cover;filter:grayscale(1) contrast(1.15) brightness(0.55)}
+.vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,transparent 20%,rgba(0,0,0,0.4) 55%,rgba(0,0,0,0.9) 100%);pointer-events:none}
+.grain{position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");mix-blend-mode:overlay;opacity:0.35;pointer-events:none;animation:noise 0.5s steps(4) infinite}
+@keyframes noise{0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}50%{transform:translate(1%,-1%)}75%{transform:translate(-1%,2%)}}
+.spot{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle 320px at var(--mx,50%) var(--my,50%),rgba(255,210,122,0.5),rgba(255,210,122,0.1) 35%,transparent 60%);mix-blend-mode:screen;transition:background 0.15s}
+.scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--glow),transparent);opacity:0.6;animation:scan 4s ease-in-out infinite;pointer-events:none}
+@keyframes scan{0%,100%{top:0%;opacity:0}50%{top:100%;opacity:0.7}}
+.hero-chrome{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:32px 40px;z-index:3}
+.chrome-top,.chrome-bot{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:0.22em;color:var(--mid)}
+.dot-live{display:inline-flex;align-items:center;gap:8px}
+.dot-live::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:0.3;transform:scale(0.8)}}
+.center-text{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;z-index:4;pointer-events:none}
+.reel{font-size:10px;letter-spacing:0.3em;color:var(--glow);margin-bottom:20px;opacity:0;animation:up 1.2s 0.3s forwards}
+h1.main{font-family:'Instrument Serif',serif;font-size:clamp(68px,12vw,180px);line-height:0.88;letter-spacing:-0.03em;font-weight:400;opacity:0;animation:up 1.4s 0.5s forwards}
+h1.main em{font-style:italic;color:var(--glow);position:relative}
+h1.main em::after{content:'';position:absolute;left:0;right:0;bottom:8px;height:2px;background:var(--glow);transform:scaleX(0);transform-origin:left;animation:line 1.2s 1.5s forwards}
+@keyframes line{to{transform:scaleX(1)}}
+.subtitle{font-size:12px;letter-spacing:0.2em;color:var(--mid);margin-top:18px;opacity:0;animation:up 1.2s 0.9s forwards}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.marks{position:absolute;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--faint);z-index:3}
+.mk-tl{top:32px;left:40px}.mk-tr{top:32px;right:40px}.mk-bl{bottom:32px;left:40px}.mk-br{bottom:32px;right:40px}
+.corner{position:absolute;width:28px;height:28px;border:1px solid var(--glow);opacity:0.4;z-index:3}
+.corner.tl{top:22px;left:30px;border-right:none;border-bottom:none}
+.corner.tr{top:22px;right:30px;border-left:none;border-bottom:none}
+.corner.bl{bottom:22px;left:30px;border-right:none;border-top:none}
+.corner.br{bottom:22px;right:30px;border-left:none;border-top:none}
+
+/* SCROLL CTA */
+.scroll-ind{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);z-index:5;text-align:center;font-size:9px;letter-spacing:0.25em;color:var(--glow);opacity:0;animation:up 1s 1.6s forwards}
+.scroll-line{width:1px;height:40px;margin:12px auto 0;background:linear-gradient(180deg,var(--glow),transparent);position:relative;overflow:hidden}
+.scroll-line::after{content:'';position:absolute;inset:0;background:var(--glow);animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
+
+/* MARQUEE */
+.marq{border-block:1px solid rgba(243,237,224,0.1);padding:18px 0;overflow:hidden;white-space:nowrap;background:#08080A}
+.marq-track{display:inline-flex;gap:40px;animation:roll 40s linear infinite;padding-left:40px;font-family:'Instrument Serif',serif;font-size:28px}
+.marq em{font-style:italic;color:var(--glow)}
+.marq span.star{color:var(--accent);font-size:14px;vertical-align:middle;margin:0 4px}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+.wrap{max-width:1300px;margin:0 auto;padding:0 40px}
+.section-label{font-size:10px;letter-spacing:0.25em;color:var(--glow);margin:120px 0 16px}
+h2{font-family:'Instrument Serif',serif;font-size:clamp(48px,7vw,96px);line-height:0.95;letter-spacing:-0.02em;margin-bottom:16px;font-weight:400}
+h2 em{font-style:italic;color:var(--glow)}
+.section-sub{color:var(--mid);font-size:14px;max-width:540px;margin-bottom:56px;line-height:1.7}
+
+/* ACT I — films grid */
+.films{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-top:1px solid var(--faint);border-left:1px solid var(--faint)}
+.film{grid-column:span 6;padding:32px 32px 40px;border-right:1px solid var(--faint);border-bottom:1px solid var(--faint);display:flex;flex-direction:column;justify-content:space-between;min-height:320px;position:relative;overflow:hidden;transition:background 0.3s}
+.film:hover{background:rgba(255,210,122,0.04)}
+.film.wide{grid-column:span 12}
+.film.third{grid-column:span 4}
+.film-no{font-size:10px;letter-spacing:0.25em;color:var(--accent)}
+.film h3{font-family:'Instrument Serif',serif;font-size:52px;line-height:1;letter-spacing:-0.02em;margin:24px 0 10px;font-weight:400}
+.film.wide h3{font-size:88px}
+.film p{color:var(--mid);font-size:13px;line-height:1.65;max-width:440px}
+.film-meta{display:flex;gap:20px;font-size:10px;letter-spacing:0.2em;color:var(--faint);margin-top:20px;padding-top:16px;border-top:1px solid var(--faint)}
+.film-cta{position:absolute;right:32px;bottom:32px;opacity:0;transform:translateY(6px);transition:all 0.3s;font-size:11px;letter-spacing:0.18em;color:var(--glow)}
+.film:hover .film-cta{opacity:1;transform:translateY(0)}
+.film-shine{position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,210,122,0.07),transparent);transition:left 0.8s;pointer-events:none}
+.film:hover .film-shine{left:150%}
+
+/* ACT II — strip */
+.strip{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:120px;border:1px solid var(--faint)}
+.strip-l{padding:60px;border-right:1px solid var(--faint)}
+.strip-l h2{margin-bottom:24px}
+.strip-l p{color:var(--mid);font-size:14px;line-height:1.75;margin-bottom:16px;max-width:440px}
+.strip-r{padding:60px;background:linear-gradient(135deg,#0A0A0C,#050506);position:relative}
+.ticker-col{display:flex;flex-direction:column;gap:16px}
+.ticker-item{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px dashed var(--faint);font-size:12px}
+.ticker-item .no{color:var(--accent);font-size:10px;letter-spacing:0.2em;min-width:32px}
+.ticker-item .ev{flex:1;font-family:'Instrument Serif',serif;font-size:18px;font-style:italic}
+.ticker-item .st{font-size:9px;letter-spacing:0.2em;color:var(--glow)}
+
+/* ACT III — end credits */
+.credits{margin-top:120px;padding:80px 40px;text-align:center;border-top:1px solid var(--faint)}
+.credits .card{font-size:10px;letter-spacing:0.3em;color:var(--glow);margin-bottom:24px}
+.credits h2{margin:0 auto 16px;max-width:900px}
+.credits p{color:var(--mid);max-width:520px;margin:0 auto 32px;font-size:14px;line-height:1.7}
+.credit-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+.cta{padding:14px 28px;border:1px solid var(--glow);color:var(--glow);font-size:11px;letter-spacing:0.22em;transition:all 0.25s;display:inline-block}
+.cta:hover{background:var(--glow);color:var(--bg)}
+.cta.solid{background:var(--glow);color:var(--bg)}
+.cta.solid:hover{background:transparent;color:var(--glow)}
+.end-card{display:inline-block;padding:10px 20px;border:1px solid var(--faint);font-size:10px;letter-spacing:0.3em;color:var(--mid);margin-top:24px}
+footer{padding:40px;border-top:1px solid var(--faint);display:flex;justify-content:space-between;font-size:10px;letter-spacing:0.2em;color:var(--faint)}
+@media (max-width:900px){.film,.film.third,.film.wide{grid-column:span 12}.strip{grid-template-columns:1fr}.strip-l,.strip-r{padding:40px}.hero-chrome{padding:16px 20px}.marks,.corner{display:none}.wrap{padding:0 20px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-img"></div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+  <div class="spot" id="spot"></div>
+  <div class="scan"></div>
+
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+  <div class="marks mk-tl">REC · 24.000 FPS</div>
+  <div class="marks mk-tr">ASA 400 · ƒ1.8</div>
+  <div class="marks mk-bl">TC 01:00:00:00</div>
+  <div class="marks mk-br">SCENE 01 / TAKE 26</div>
+
+  <div class="hero-chrome">
+    <div class="chrome-top">
+      <span>GEORG.MIAMI // REEL 2026</span>
+      <span class="dot-live">LIVE · NOW TAKING ENGAGEMENTS</span>
+    </div>
+    <div class="chrome-bot">
+      <span>DIR: G.CHIMION</span>
+      <span>MIAMI, FL · 25.7617° N</span>
+      <span>RUNTIME: ∞</span>
+    </div>
+  </div>
+
+  <div class="center-text">
+    <div class="reel">◉ NOW SHOWING · REEL N°VIII</div>
+    <h1 class="main">Shipped<br><em>in production.</em></h1>
+    <div class="subtitle">GEORG CHIMION — AI AUTOMATION · MIAMI</div>
+  </div>
+
+  <div class="scroll-ind">SCROLL<div class="scroll-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marq"><div class="marq-track">
+  <span><em>Vestia</em></span><span class="star">✦</span>
+  <span><em>Ask Penny</em></span><span class="star">✦</span>
+  <span><em>Agent Factory</em></span><span class="star">✦</span>
+  <span><em>ReconX</em></span><span class="star">✦</span>
+  <span><em>Onboard</em></span><span class="star">✦</span>
+  <span><em>VENUE</em></span><span class="star">✦</span>
+  <span><em>Doc Intel</em></span><span class="star">✦</span>
+  <span><em>Vestia</em></span><span class="star">✦</span>
+  <span><em>Ask Penny</em></span><span class="star">✦</span>
+  <span><em>Agent Factory</em></span><span class="star">✦</span>
+  <span><em>ReconX</em></span><span class="star">✦</span>
+  <span><em>Onboard</em></span><span class="star">✦</span>
+  <span><em>VENUE</em></span><span class="star">✦</span>
+  <span><em>Doc Intel</em></span><span class="star">✦</span>
+</div></div>
+
+<!-- ACT I -->
+<div class="wrap">
+  <div class="section-label">ACT I · PRINCIPAL PHOTOGRAPHY</div>
+  <h2>A reel of <em>seven productions,</em><br>all shipped, all live.</h2>
+  <p class="section-sub">Each one built end-to-end — architecture, code, design, deploy. No pilots dying in staging.</p>
+</div>
+
+<div class="wrap">
+<div class="films">
+  <a class="film wide" href="https://vestia.georg.miami">
+    <div class="film-shine"></div>
+    <div class="film-no">FILM 001 · LIVE</div>
+    <h3><em>Vestia</em></h3>
+    <p>Six-module AI platform for South Florida condo associations — maintenance triage, SB 4-D compliance, collections, screening, lease docs, vendor bids.</p>
+    <div class="film-meta"><span>AI-NATIVE</span><span>REACT + TS</span><span>FL-FIRST</span></div>
+    <div class="film-cta">OPEN →</div>
+  </a>
+  <a class="film" href="https://penny.georg.miami">
+    <div class="film-shine"></div>
+    <div class="film-no">FILM 002 · LIVE</div>
+    <h3>Ask Penny</h3>
+    <p>Claude-powered personal finance copilot with bank integration.</p>
+    <div class="film-meta"><span>CLAUDE</span><span>NODE</span><span>TELLER</span></div>
+    <div class="film-cta">OPEN →</div>
+  </a>
+  <a class="film" href="https://factory.georg.miami">
+    <div class="film-shine"></div>
+    <div class="film-no">FILM 003 · LIVE</div>
+    <h3>Agent Factory</h3>
+    <p>Four autonomous Claude agents collaborate to ship websites from a brief.</p>
+    <div class="film-meta"><span>MULTI-AGENT</span><span>SSE</span><span>CLAUDE</span></div>
+    <div class="film-cta">OPEN →</div>
+  </a>
+  <a class="film third" href="https://reconx.georg.miami">
+    <div class="film-shine"></div>
+    <div class="film-no">FILM 004 · LIVE</div>
+    <h3>ReconX</h3>
+    <p>Cloud-native reconciliation. Multi-pass matching. SLA tracking.</p>
+    <div class="film-meta"><span>FINTECH</span><span>SLA</span></div>
+    <div class="film-cta">OPEN →</div>
+  </a>
+  <a class="film third" href="https://onboard.georg.miami">
+    <div class="film-shine"></div>
+    <div class="film-no">FILM 005 · LIVE</div>
+    <h3>Onboard</h3>
+    <p>Internal docs become a structured course with quizzes in three minutes.</p>
+    <div class="film-meta"><span>CLAUDE</span><span>GEN</span></div>
+    <div class="film-cta">OPEN →</div>
+  </a>
+  <a class="film third" href="https://venue.georg.miami">
+    <div class="film-shine"></div>
+    <div class="film-no">FILM 006 · LIVE</div>
+    <h3>VENUE</h3>
+    <p>Premium private event booking for Miami. Wizard flow.</p>
+    <div class="film-meta"><span>BOOKING</span><span>UX</span></div>
+    <div class="film-cta">OPEN →</div>
+  </a>
+</div>
+</div>
+
+<!-- ACT II -->
+<div class="wrap">
+<div class="strip">
+  <div class="strip-l">
+    <div class="section-label" style="margin-top:0">ACT II · THE OPERATOR</div>
+    <h2>The person behind <em>the reel.</em></h2>
+    <p>Based in Wynwood, Miami. Currently at PwC building finance AI inside one of the world's largest enterprise practices. Eight live products. Seven client audits.</p>
+    <p>Working on select consulting engagements, Q3 2026. Finance AI, enterprise automation, intelligent products. No slide-deck consulting — embedded specialist who ships.</p>
+  </div>
+  <div class="strip-r">
+    <div class="section-label" style="margin-top:0">SHOOTING SCHEDULE</div>
+    <div class="ticker-col">
+      <div class="ticker-item"><span class="no">01</span><span class="ev">Discovery</span><span class="st">1 WK</span></div>
+      <div class="ticker-item"><span class="no">02</span><span class="ev">Build &amp; ship</span><span class="st">2–12 WK</span></div>
+      <div class="ticker-item"><span class="no">03</span><span class="ev">Handoff + docs</span><span class="st">1 WK</span></div>
+      <div class="ticker-item"><span class="no">04</span><span class="ev">Optional retainer</span><span class="st">ONGOING</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- END CREDITS -->
+<div class="credits">
+  <div class="card">⬢ END CREDITS ⬢</div>
+  <h2>Let's make the <em>next one</em> together.</h2>
+  <p>Taking select engagements for Q3 2026 and beyond. Send a message — response within 24 hours.</p>
+  <div class="credit-row">
+    <a class="cta solid" href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a>
+    <a class="cta" href="https://linkedin.com/in/georgchimion">LINKEDIN</a>
+    <a class="cta" href="https://github.com/georgchimion-oss">GITHUB</a>
+  </div>
+  <div class="end-card">⬢ FIN — REEL 2026 ⬢</div>
+</div>
+
+<footer>
+  <span>© 2026 G.CHIMION · MIAMI</span>
+  <span>REEL VIII · 24FPS · NO AI WAS HARMED</span>
+</footer>
+
+<script>
+const hero=document.getElementById('hero');const spot=document.getElementById('spot');
+hero.addEventListener('mousemove',e=>{const r=hero.getBoundingClientRect();spot.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');spot.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%')});
+hero.addEventListener('mouseleave',()=>{spot.style.setProperty('--mx','50%');spot.style.setProperty('--my','50%')});
+</script>
+</body>
+</html>
