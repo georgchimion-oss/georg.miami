@@ -1,0 +1,11 @@
+title = "portfolio/georg-ai gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Documentation placeholders (e.g. 'Bearer YOUR_TOKEN' in demo plan) are not real tokens. The real OPS_AUTH_TOKEN leak in commit f058565a was rotated 2026-04-28."
+regexes = [
+  '''YOUR_TOKEN''',
+  '''Bearer YOUR_TOKEN'''
+]
