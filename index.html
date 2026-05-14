@@ -1579,6 +1579,19 @@
 
         <div class="products-grid">
 
+            <!-- Cascade — newest, supply-chain intelligence POC -->
+            <div class="product-card gsap-card" onclick="openModal('cascade')">
+                <div class="product-thumb">
+                    <img src="screenshots/cascade.png" alt="Cascade — Supply Chain Exposure POC" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Cascade</div>
+                    <div class="product-desc">When the world breaks, whose supply chain breaks with it? Maritime chokepoint disruptions mapped to ranked corporate exposure across 57 US public filers — using only free public data.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
             <!-- Vestia — featured, spans 2 columns -->
             <div class="product-card product-card-featured gsap-card" onclick="openModal('vestia')">
                 <div class="product-thumb">
@@ -2359,6 +2372,13 @@ var products = {
         desc: 'Personal finance AI powered by Claude. Connect your bank via Teller.io or Plaid, ask anything about your spending, get smart budgets, morning summaries, and proactive alerts. Full web app with chat interface.',
         tech: ['Claude AI', 'Node.js', 'PostgreSQL', 'Express', 'Teller.io'],
         url: 'https://penny.georg.miami'
+    },
+    cascade: {
+        img: 'screenshots/cascade.png',
+        title: 'Cascade — Supply Chain Exposure POC',
+        desc: 'When the world breaks, whose supply chain breaks with it? Cascade maps maritime-chokepoint disruptions (Strait of Hormuz, Suez/Red Sea, Taiwan Strait) to ranked exposure across 57 US public companies. Every score is backed by a verbatim SEC 10-K excerpt with a deep link to EDGAR. Uses only free public data — SEC filings, UN Comtrade, NASA Worldview satellite imagery. Maritime war-room visual treatment with real chokepoint satellite imagery, animated vessel routes, and severity-driven color temperature.',
+        tech: ['Claude AI', 'SEC EDGAR', 'NASA Worldview', 'UN Comtrade'],
+        url: 'https://cascade.georg.miami'
     },
     reconx: {
         img: 'screenshots/reconx.png',
