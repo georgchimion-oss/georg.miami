@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Georg Chimion — AI Automation Specialist | Miami</title>
-    <meta name="description" content="AI automation for the enterprise. Finance AI, intelligent products, and production-grade systems. Currently at PwC.">
-    <meta property="og:title" content="Georg Chimion — AI Automation Specialist | Miami">
-    <meta property="og:description" content="AI automation for the enterprise. Finance AI, intelligent products, and production-grade systems. Currently at PwC.">
+    <title>Georg Chimion · AI Engineer for Finance · Miami</title>
+    <meta name="description" content="AI engineer with a background in banking and consulting. Reconciliation, risk and fraud scoring, document intelligence, and assistants on live financial data. Currently at PwC.">
+    <meta property="og:title" content="Georg Chimion · AI Engineer for Finance · Miami">
+    <meta property="og:description" content="AI engineer with a background in banking and consulting. Reconciliation, risk and fraud scoring, document intelligence, and assistants on live financial data. Currently at PwC.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://georg.miami">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2306B6D4'/><text x='16' y='22' font-family='system-ui,sans-serif' font-size='18' font-weight='700' fill='%230C0C0C' text-anchor='middle'>GC</text></svg>">
@@ -271,7 +271,7 @@
         }
 
         /* =============================================
-           HERO — Split layout (text 55% / photo 45%)
+           HERO · Split layout (text 55% / photo 45%)
         ============================================= */
         .hero {
             padding: 160px 0 100px;
@@ -570,6 +570,47 @@
         /* =============================================
            PRODUCTS GRID
         ============================================= */
+        /* Credibility strip under hero */
+        .cred-strip {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .cred-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px 28px;
+            padding: 26px 0;
+        }
+        .cred-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+        .cred-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+        .cred-num .hl { color: var(--accent); }
+        .cred-label {
+            font-size: 12px;
+            color: var(--text-2);
+            letter-spacing: 0.01em;
+        }
+        @media (max-width: 768px) {
+            .cred-row {
+                gap: 16px 24px;
+                padding: 20px 0;
+            }
+            .cred-row { grid-template-columns: repeat(2, 1fr); }
+            .cred-item:last-child { grid-column: 1 / -1; }
+            .cred-num { font-size: 16px; }
+        }
+
         .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -602,6 +643,38 @@
 
         .product-card-featured .product-thumb {
             aspect-ratio: 16/7;
+        }
+
+        /* Featured set: accent top edge so the first six read as the lead row */
+        .product-card.is-featured {
+            border-color: color-mix(in srgb, var(--accent) 22%, var(--border));
+        }
+        .product-card.is-featured::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--accent);
+            z-index: 2;
+        }
+
+        /* "More work" divider between featured and the rest */
+        .more-label {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 40px 0 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-2);
+        }
+        .more-label::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
         }
 
         .product-thumb {
@@ -684,13 +757,14 @@
             margin-top: 12px;
             font-size: 12px;
             color: var(--accent);
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.2s;
+            font-weight: 600;
+            opacity: 0.75;
+            transition: opacity 0.2s, gap 0.2s;
         }
 
         .product-card:hover .product-cta {
             opacity: 1;
+            gap: 7px;
         }
 
         /* The Lab CTA bar */
@@ -996,6 +1070,46 @@
             font-weight: 300;
         }
 
+        .contact-cta-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+        .contact-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 28px;
+            background: var(--accent);
+            color: #0C0C0C;
+            border-radius: var(--r-sm);
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent), 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
+        }
+        .contact-cta-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 0 0 1px var(--accent), 0 12px 32px color-mix(in srgb, var(--accent) 35%, transparent);
+        }
+        .contact-cta-btn svg { stroke: currentColor; flex-shrink: 0; }
+        .contact-cta-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-2);
+            letter-spacing: 0.02em;
+        }
+        .contact-cta-note::before {
+            content: "● ";
+            color: var(--status-green);
+            font-size: 9px;
+            vertical-align: middle;
+        }
+
         .contact-links-row {
             display: flex;
             align-items: center;
@@ -1196,7 +1310,7 @@
         }
 
         /* =============================================
-           RESPONSIVE — TABLET
+           RESPONSIVE · TABLET
         ============================================= */
         @media (max-width: 1024px) {
             .hero-grid {
@@ -1222,7 +1336,7 @@
         }
 
         /* =============================================
-           RESPONSIVE — MOBILE
+           RESPONSIVE · MOBILE
         ============================================= */
         @media (max-width: 768px) {
             nav {
@@ -1352,7 +1466,7 @@
         }
 
         /* =============================================
-           ANIMATIONS — initial states for non-GSAP
+           ANIMATIONS · initial states for non-GSAP
         ============================================= */
         .gsap-reveal {
             opacity: 0;
@@ -1385,7 +1499,7 @@
 </nav>
 
 <!-- =============================================
-     DESIGNS MODAL — 20 variant picker
+     DESIGNS MODAL · 20 variant picker
 ============================================= -->
 <div class="dm-overlay" id="dmOverlay" role="dialog" aria-modal="true" aria-labelledby="dmTitle" hidden>
   <div class="dm-panel" role="document">
@@ -1393,7 +1507,7 @@
       <div class="dm-title-wrap">
         <div class="eyebrow">// 41 design variants</div>
         <div class="dm-title" id="dmTitle">Same portfolio, forty-one designs.</div>
-        <p class="dm-desc">Each is a fully-built alternate of this site — different hero, different colors, different motion. Click any to see it live. You can always come back to this view.</p>
+        <p class="dm-desc">Each is a fully-built alternate of this site. Different hero, different colors, different motion. Click any to see it live. You can always come back to this view.</p>
       </div>
       <button class="dm-close" id="dmClose" aria-label="Close">×</button>
     </div>
@@ -1539,16 +1653,16 @@
 </script>
 
 <!-- =============================================
-     HERO — Split layout
+     HERO · Split layout
 ============================================= -->
 <header class="hero">
     <div class="container">
         <div class="hero-grid">
             <!-- Left: text -->
             <div class="hero-text">
-                <div class="hero-eyebrow" id="heroEyebrow">AI AUTOMATION SPECIALIST &middot; MIAMI</div>
+                <div class="hero-eyebrow" id="heroEyebrow">AI ENGINEER &middot; FINTECH &amp; BANKING &middot; MIAMI</div>
                 <h1 id="heroH1">AI automation<br>for the enterprise.</h1>
-                <p class="hero-sub" id="heroSub">Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</p>
+                <p class="hero-sub" id="heroSub">AI engineer with a background in banking and consulting. I put AI to work where money and regulation leave no room for error: reconciliation, risk and fraud scoring, document intelligence, assistants on live financial data. Currently at PwC.</p>
                 <a href="#audit-request" class="hero-offer"><span class="pulse"></span>Free growth audit for your business <span class="arr">&rarr;</span></a>
                 <div class="hero-actions" id="heroCTAs">
                     <a href="#products" class="btn-primary">View Products &rarr;</a>
@@ -1559,7 +1673,7 @@
             <div class="hero-photo-wrap" id="heroPhoto">
                 <img
                     src="georg-hero.jpeg"
-                    alt="Georg Chimion — AI Automation Specialist"
+                    alt="Georg Chimion, AI engineer for finance"
                     class="hero-photo"
                 >
             </div>
@@ -1568,108 +1682,130 @@
 </header>
 
 <!-- =============================================
+     CREDIBILITY STRIP
+============================================= -->
+<section class="cred-strip">
+    <div class="container">
+        <div class="cred-row">
+            <div class="cred-item">
+                <span class="cred-num"><span class="hl">PwC</span> today</span>
+                <span class="cred-label">AI systems in production</span>
+            </div>
+            <div class="cred-item">
+                <span class="cred-num">Banking + risk</span>
+                <span class="cred-label">reconciliation, fraud, and compliance systems</span>
+            </div>
+            <div class="cred-item">
+                <span class="cred-num"><span class="hl">15</span> AI products</span>
+                <span class="cred-label">all live, all clickable</span>
+            </div>
+            <div class="cred-item">
+                <span class="cred-num"><span class="hl">12</span> client audits</span>
+                <span class="cred-label">delivered as live branded sites</span>
+            </div>
+            <div class="cred-item">
+                <span class="cred-num">Claude</span>
+                <span class="cred-label">multi-agent, on real data</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
      PRODUCTS SECTION
 ============================================= -->
 <section id="products">
     <div class="container">
         <div class="section-label gsap-reveal">// products</div>
-        <h2 class="section-title gsap-reveal">From idea to deployment.</h2>
-        <p class="section-sub gsap-reveal">Each project built end-to-end — from architecture to live demo.</p>
+        <h2 class="section-title gsap-reveal">AI you can click.</h2>
+        <p class="section-sub gsap-reveal">Every one is live, built end to end, from architecture to deployed product. The strongest are built where finance and risk live.</p>
 
         <div class="products-grid">
 
-            <!-- Agent Factory -->
-            <div class="product-card gsap-card" onclick="openModal('factory')">
+            <!-- Ask Penny -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('penny')">
                 <div class="product-thumb">
-                    <img src="screenshots/factory.png" alt="Agent Factory — AI Website Builder" loading="lazy">
-                </div>
-                <div class="product-info">
-                    <div class="product-badge badge-ai">AI Multi-Agent</div>
-                    <div class="product-name">Agent Factory</div>
-                    <div class="product-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</div>
-                    <div class="product-cta">View demo &rarr;</div>
-                </div>
-            </div>
-
-            <!-- Cascade -->
-            <div class="product-card gsap-card" onclick="openModal('cascade')">
-                <div class="product-thumb">
-                    <img src="screenshots/cascade.png" alt="Cascade — Supply Chain Exposure POC" loading="lazy">
+                    <img src="screenshots/penny.png" alt="Ask Penny · AI finance assistant on real bank data" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">Cascade</div>
-                    <div class="product-desc">When the world breaks, whose supply chain breaks with it? Maritime chokepoint disruptions mapped to ranked corporate exposure across 57 US public filers — using only free public data.</div>
-                    <div class="product-cta">View demo &rarr;</div>
-                </div>
-            </div>
-
-            <!-- Vestia — featured, spans 2 columns -->
-            <div class="product-card product-card-featured gsap-card" onclick="openModal('vestia')">
-                <div class="product-thumb">
-                    <img src="screenshots/vestia.png" alt="Vestia — AI Property Management Platform" loading="lazy">
-                </div>
-                <div class="product-info">
-                    <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">Vestia</div>
-                    <div class="product-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</div>
+                    <div class="product-name">Ask Penny</div>
+                    <div class="product-desc">Claude connected to a real bank account through Teller or Plaid. Ask about your money in plain English and it answers from live transactions.</div>
                     <div class="product-cta">View demo &rarr;</div>
                 </div>
             </div>
 
             <!-- ReconX -->
-            <div class="product-card gsap-card" onclick="openModal('reconx')">
+            <div class="product-card is-featured gsap-card" onclick="openModal('reconx')">
                 <div class="product-thumb">
-                    <img src="screenshots/reconx.png" alt="ReconX — Financial Reconciliation Engine" loading="lazy">
+                    <img src="screenshots/reconx.png" alt="ReconX · AI financial reconciliation engine" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-live">Live</div>
                     <div class="product-name">ReconX</div>
-                    <div class="product-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</div>
+                    <div class="product-desc">AI reconciliation engine. Multi-pass matching clears the easy hits and surfaces the exceptions a controller actually needs to see. Built on hands-on banking reconciliation work.</div>
                     <div class="product-cta">View demo &rarr;</div>
                 </div>
             </div>
 
-            <!-- Ask Penny -->
-            <div class="product-card gsap-card" onclick="openModal('penny')">
+            <!-- Cascade -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('cascade')">
                 <div class="product-thumb">
-                    <img src="screenshots/penny.png" alt="Ask Penny — AI Finance Assistant" loading="lazy">
+                    <img src="screenshots/cascade.png" alt="Cascade · AI supply-chain exposure ranking" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">Ask Penny</div>
-                    <div class="product-desc">Talk to your money. Claude-powered finance assistant connected to your real bank via Teller or Plaid.</div>
+                    <div class="product-name">Cascade</div>
+                    <div class="product-desc">AI ranks 57 US public filers by supply-chain exposure when a maritime chokepoint closes. Every score is backed by a real 10-K excerpt, using only free public data.</div>
                     <div class="product-cta">View demo &rarr;</div>
                 </div>
             </div>
 
-            <!-- Tracker / LedgerWorks -->
-            <div class="product-card gsap-card" onclick="openModal('tracker')">
+            <!-- Tracker -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('tracker')">
                 <div class="product-thumb">
-                    <img src="screenshots/tracker.png" alt="Tracker — Audit Engagement Platform" loading="lazy">
+                    <img src="screenshots/tracker.png" alt="Tracker · AI audit and assurance console" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-live">Live</div>
                     <div class="product-name">Tracker</div>
-                    <div class="product-desc">Audit and assurance engagement management. 34 active engagements, SoD conflict flagging, PCAOB-aligned workflows from planning through wrap-up.</div>
+                    <div class="product-desc">AI audit and assurance console. 34 live engagements, segregation-of-duties conflict flagging, PCAOB-aligned workflow from planning to wrap-up.</div>
                     <div class="product-cta">View demo &rarr;</div>
                 </div>
             </div>
 
-            <!-- Onboard -->
-            <div class="product-card gsap-card" onclick="openModal('onboard')">
+            <!-- Agent Factory -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('factory')">
                 <div class="product-thumb">
-                    <img src="screenshots/onboard.png" alt="Onboard — AI Employee Onboarding" loading="lazy">
+                    <img src="screenshots/factory.png" alt="Agent Factory · four Claude agents build a site live" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI Multi-Agent</div>
+                    <div class="product-name">Agent Factory</div>
+                    <div class="product-desc">Four Claude agents plan, build, review, and deploy a production website from one brief. Watch them work the queue in real time.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <!-- Vestia -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('vestia')">
+                <div class="product-thumb">
+                    <img src="screenshots/vestia.png" alt="Vestia · AI condo compliance platform" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">Onboard</div>
-                    <div class="product-desc">Upload internal docs, get a structured training course with quizzes in 3 minutes. Stop losing new hires to broken onboarding.</div>
+                    <div class="product-name">Vestia</div>
+                    <div class="product-desc">Six AI modules for South Florida condo compliance: triage, compliance, collections, screening, documents, and vendors.</div>
                     <div class="product-cta">View demo &rarr;</div>
                 </div>
             </div>
 
-            <!-- AI Document Intelligence -->
+        </div>
+
+        <div class="more-label">More work</div>
+
+        <div class="products-grid">
+
             <div class="product-card gsap-card" onclick="openModal('docs')">
                 <div class="product-thumb">
                     <img src="screenshots/docai.png" alt="AI Document Intelligence" loading="lazy">
@@ -1682,36 +1818,21 @@
                 </div>
             </div>
 
-            <!-- Sole Revival -->
-            <div class="product-card gsap-card" onclick="openModal('solerevival')">
+            <div class="product-card gsap-card" onclick="openModal('onboard')">
                 <div class="product-thumb">
-                    <img src="screenshots/solerevival.png" alt="Sole Revival — AI Sneaker Mockup Generator" loading="lazy">
+                    <img src="screenshots/onboard.png" alt="Onboard · AI Employee Onboarding" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">Sole Revival</div>
-                    <div class="product-desc">Upload a brand logo, pick a shoe, get 4 photorealistic branded sneaker mockups in under 15 seconds. Built on Gemini image generation.</div>
+                    <div class="product-name">Onboard</div>
+                    <div class="product-desc">Upload internal docs, get a structured training course with quizzes in 3 minutes. New hires take it, get scored, managers see who is ready.</div>
                     <div class="product-cta">View demo &rarr;</div>
                 </div>
             </div>
 
-            <!-- CallFlow -->
-            <div class="product-card gsap-card" onclick="openModal('jordan')">
-                <div class="product-thumb">
-                    <img src="screenshots/jordan.png" alt="CallFlow AI — Intelligent Call Intake" loading="lazy">
-                </div>
-                <div class="product-info">
-                    <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">CallFlow</div>
-                    <div class="product-desc">Voice AI for inbound real-estate calls. Streams audio to Claude, captures structured property data live, FL two-party compliant.</div>
-                    <div class="product-cta">View demo &rarr;</div>
-                </div>
-            </div>
-
-            <!-- ORCOM Setup -->
             <div class="product-card gsap-card" onclick="openModal('orcom')">
                 <div class="product-thumb">
-                    <img src="screenshots/orcom-setup.png" alt="ORCOM Setup — Bilingual Claude Intake" loading="lazy">
+                    <img src="screenshots/orcom-setup.png" alt="ORCOM Setup · Bilingual Claude Intake" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
@@ -1721,36 +1842,21 @@
                 </div>
             </div>
 
-            <!-- VENUE -->
-            <div class="product-card gsap-card" onclick="openModal('venue')">
+            <div class="product-card gsap-card" onclick="openModal('jordan')">
                 <div class="product-thumb">
-                    <img src="screenshots/venue.png" alt="VENUE — Private Event Booking" loading="lazy">
-                </div>
-                <div class="product-info">
-                    <div class="product-badge badge-live">Product</div>
-                    <div class="product-name">VENUE</div>
-                    <div class="product-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</div>
-                    <div class="product-cta">View demo &rarr;</div>
-                </div>
-            </div>
-
-            <!-- SocialPilot -->
-            <div class="product-card gsap-card" onclick="openModal('autopilot')">
-                <div class="product-thumb">
-                    <img src="screenshots/autopilot.png" alt="SocialPilot — AI LinkedIn Engagement" loading="lazy">
+                    <img src="screenshots/jordan.png" alt="CallFlow AI · Intelligent Call Intake" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-ai">AI-Powered</div>
-                    <div class="product-name">SocialPilot</div>
-                    <div class="product-desc">Claude-generated comments for LinkedIn and Twitter, scheduled within optimal engagement windows. Approval queue, not a spam bot.</div>
+                    <div class="product-name">CallFlow</div>
+                    <div class="product-desc">Voice AI for inbound real-estate calls. Streams audio to Claude, captures structured property data live, FL two-party compliant.</div>
                     <div class="product-cta">View demo &rarr;</div>
                 </div>
             </div>
 
-            <!-- DC Command Center -->
             <div class="product-card gsap-card" onclick="openModal('datacenter')">
                 <div class="product-thumb">
-                    <img src="screenshots/datacenter-command.png" alt="DC Command Center — Global Infrastructure Operations" loading="lazy">
+                    <img src="screenshots/datacenter-command.png" alt="DC Command Center · Global Infrastructure Operations" loading="lazy">
                 </div>
                 <div class="product-info">
                     <div class="product-badge badge-live">Live</div>
@@ -1760,13 +1866,48 @@
                 </div>
             </div>
 
-            <!-- Miami AI Community -->
+            <div class="product-card gsap-card" onclick="openModal('venue')">
+                <div class="product-thumb">
+                    <img src="screenshots/venue.png" alt="VENUE · Private Event Booking" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">VENUE</div>
+                    <div class="product-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('solerevival')">
+                <div class="product-thumb">
+                    <img src="screenshots/solerevival.png" alt="Sole Revival · AI Sneaker Mockup Generator" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Sole Revival</div>
+                    <div class="product-desc">Upload a brand logo, pick a shoe, get 4 photorealistic branded sneaker mockups in under 15 seconds. Built on Gemini image generation.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('autopilot')">
+                <div class="product-thumb">
+                    <img src="screenshots/autopilot.png" alt="SocialPilot · AI LinkedIn Engagement" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">SocialPilot</div>
+                    <div class="product-desc">Claude-generated comments for LinkedIn and Twitter, scheduled within optimal engagement windows. Approval queue, not a spam bot.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
             <div class="product-card gsap-card" onclick="openModal('miami')">
                 <div class="product-thumb">
                     <img src="screenshots/miami.png" alt="Miami AI Community" loading="lazy">
                 </div>
                 <div class="product-info">
-                    <div class="product-badge badge-live">Community</div>
+                    <div class="product-badge badge-live">Live</div>
                     <div class="product-name">Miami AI Community</div>
                     <div class="product-desc">Hands-on sessions for enterprise teams exploring real AI workflows. Live demos with Claude, hosted in Wynwood.</div>
                     <div class="product-cta">View demo &rarr;</div>
@@ -1784,7 +1925,7 @@
     <div class="container">
         <div class="section-label gsap-reveal">// growth audits</div>
         <h2 class="section-title gsap-reveal">Twelve audits. Twelve distribution problems.</h2>
-        <p class="section-sub gsap-reveal">Research-first audits across ten dimensions — technical, SEO, reviews, social, competitive, founder stories, and AI automation. Each one is a live, branded site.</p>
+        <p class="section-sub gsap-reveal">Research-first audits across ten dimensions: technical, SEO, reviews, social, competitive, founder stories, and AI automation. Each one is a live, branded site.</p>
 
         <div class="audit-grid">
 
@@ -1805,14 +1946,14 @@
             <a class="audit-card gsap-card" href="https://rcg.georg.miami/" target="_blank" rel="noopener">
                 <div class="a-top"><span class="a-num">07</span><span class="a-date">12·iv·26</span></div>
                 <div><div class="a-name">Robin Capital Group</div><div class="a-tag">Boutique RIA · Miami Beach</div></div>
-                <div class="a-desc"><em>Live, audited performance with Sharpe ratios and position-level transparency.</em> 18 LinkedIn followers — the substance exists, distribution doesn't.</div>
+                <div class="a-desc"><em>Live, audited performance with Sharpe ratios and position-level transparency.</em> 18 LinkedIn followers. The substance exists, distribution doesn't.</div>
                 <div class="a-foot"><span class="a-url">rcg.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
             </a>
 
             <a class="audit-card gsap-card" href="https://dram-finance.georg.miami/" target="_blank" rel="noopener">
                 <div class="a-top"><span class="a-num">03</span><span class="a-date">13·iv·26</span></div>
                 <div><div class="a-name">Dram Finance</div><div class="a-tag">Fractional whisky investing</div></div>
-                <div class="a-desc">A platform that lets you own pieces of rare whisky casks. <em>Friend audit</em> — positioning, trust signals, onboarding friction.</div>
+                <div class="a-desc">A platform that lets you own pieces of rare whisky casks. <em>Friend audit</em>. Positioning, trust signals, onboarding friction.</div>
                 <div class="a-foot"><span class="a-url">dram-finance.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
             </a>
 
@@ -1825,8 +1966,8 @@
 
             <a class="audit-card gsap-card" href="https://rbc-datacenter.georg.miami/" target="_blank" rel="noopener">
                 <div class="a-top"><span class="a-num">08</span><span class="a-date">11·iv·26</span></div>
-                <div><div class="a-name">RBC — DC Command Center</div><div class="a-tag">Datacenter infrastructure · PwC</div></div>
-                <div class="a-desc">Infrastructure observability prototype. <em>A command center for the ops floor</em> — live metrics, alert routing, on-call escalation loops.</div>
+                <div><div class="a-name">RBC · DC Command Center</div><div class="a-tag">Datacenter infrastructure · PwC</div></div>
+                <div class="a-desc">Infrastructure observability prototype. <em>A command center for the ops floor</em>. Live metrics, alert routing, on-call escalation loops.</div>
                 <div class="a-foot"><span class="a-url">rbc-datacenter.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
             </a>
 
@@ -1845,7 +1986,7 @@
 </section>
 
 <!-- =============================================
-     AUDIT REQUEST — 4-step questionnaire
+     AUDIT REQUEST · 4-step questionnaire
 ============================================= -->
 <section id="audit-request">
 <style>
@@ -2005,7 +2146,7 @@
     <div class="aq-wrap">
         <div class="section-label gsap-reveal">// get audited</div>
         <h2 class="section-title gsap-reveal">Get your personalized growth audit.</h2>
-        <p class="section-sub gsap-reveal">Free. Research-first, same ten dimensions as the audits above — delivered as a live branded site within a week. Tell me about your business.</p>
+        <p class="section-sub gsap-reveal">Free. Research-first, same ten dimensions as the audits above, delivered as a live branded site within a week. Tell me about your business.</p>
 
         <form id="aqForm" class="aq-form gsap-reveal" novalidate>
             <div class="aq-progress">
@@ -2049,12 +2190,12 @@
                 <div class="aq-choices aq-choices-checks">
                     <label class="aq-check"><input type="checkbox" name="pain" value="Manual data entry"><span>Manual data entry eating hours</span></label>
                     <label class="aq-check"><input type="checkbox" name="pain" value="Slow customer response"><span>Slow customer response times</span></label>
-                    <label class="aq-check"><input type="checkbox" name="pain" value="Fragmented tools"><span>Fragmented tools — data everywhere</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Fragmented tools"><span>Fragmented tools, data everywhere</span></label>
                     <label class="aq-check"><input type="checkbox" name="pain" value="Unclear metrics"><span>No visibility into what's working</span></label>
                     <label class="aq-check"><input type="checkbox" name="pain" value="Low conversion"><span>Traffic but not conversions</span></label>
                     <label class="aq-check"><input type="checkbox" name="pain" value="Team bandwidth"><span>Team running at capacity</span></label>
                 </div>
-                <label class="aq-textarea-wrap">Anything else — specific problems, what you've tried, links
+                <label class="aq-textarea-wrap">Anything else: specific problems, what you've tried, links
                     <textarea name="painText" rows="4" placeholder="Optional. The more you write, the better the audit."></textarea>
                 </label>
             </div>
@@ -2064,14 +2205,14 @@
                 <div class="aq-sub">Helps me scope the recommendations.</div>
                 <div class="aq-choices">
                     <label class="aq-radio"><input type="radio" name="budget" value="Under $5k"><span>Under $5k</span></label>
-                    <label class="aq-radio"><input type="radio" name="budget" value="$5k–$25k"><span>$5k–$25k</span></label>
-                    <label class="aq-radio"><input type="radio" name="budget" value="$25k–$100k"><span>$25k–$100k</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="$5k to $25k"><span>$5k to $25k</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="$25k to $100k"><span>$25k to $100k</span></label>
                     <label class="aq-radio"><input type="radio" name="budget" value="$100k+"><span>$100k+</span></label>
                     <label class="aq-radio"><input type="radio" name="budget" value="Not sure"><span>Not sure yet</span></label>
                 </div>
                 <div class="aq-q" style="margin-top:28px">Timeline?</div>
                 <div class="aq-choices">
-                    <label class="aq-radio"><input type="radio" name="timeline" value="ASAP"><span>ASAP — this month</span></label>
+                    <label class="aq-radio"><input type="radio" name="timeline" value="ASAP"><span>ASAP, this month</span></label>
                     <label class="aq-radio"><input type="radio" name="timeline" value="This quarter"><span>This quarter</span></label>
                     <label class="aq-radio"><input type="radio" name="timeline" value="Next 6 months"><span>Next 6 months</span></label>
                     <label class="aq-radio"><input type="radio" name="timeline" value="Exploring"><span>Just exploring</span></label>
@@ -2210,7 +2351,7 @@
     <div class="container">
         <div class="section-label gsap-reveal">// expertise</div>
         <h2 class="section-title gsap-reveal">What I bring.</h2>
-        <p class="section-sub gsap-reveal">End-to-end — from system design to deployed product.</p>
+        <p class="section-sub gsap-reveal">End to end, from system design to deployed product.</p>
 
         <div class="expertise-grid">
 
@@ -2236,9 +2377,9 @@
                 <div class="expertise-icon" aria-hidden="true">
                     <i data-lucide="layers" style="width:24px;height:24px;"></i>
                 </div>
-                <div class="expertise-title">Full-Stack</div>
-                <div class="expertise-desc">React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</div>
-                <div class="expertise-context">Architecture to deployment</div>
+                <div class="expertise-title">Production Engineering</div>
+                <div class="expertise-desc">React, TypeScript, Node, PostgreSQL, and cloud, wired so AI runs reliably on live data. One owner from architecture to production.</div>
+                <div class="expertise-context">One owner, end to end</div>
             </div>
 
             <div class="expertise-card gsap-card">
@@ -2246,8 +2387,8 @@
                     <i data-lucide="zap" style="width:24px;height:24px;"></i>
                 </div>
                 <div class="expertise-title">Rapid Build</div>
-                <div class="expertise-desc">From concept to working prototype in days, not months. Fast iteration with real users — six live products already in portfolio.</div>
-                <div class="expertise-context">6 live products shipped</div>
+                <div class="expertise-desc">From concept to working prototype in days, not months. Fast iteration with real users. Fifteen live products you can click right now.</div>
+                <div class="expertise-context">15 live products</div>
             </div>
 
         </div>
@@ -2261,7 +2402,7 @@
     <div class="container">
         <div class="section-label gsap-reveal">// how I work</div>
         <h2 class="section-title gsap-reveal">Engagement model.</h2>
-        <p class="section-sub gsap-reveal">Embedded specialist, not a slide-deck consultant. I join your team and ship.</p>
+        <p class="section-sub gsap-reveal">Embedded AI engineer. I join your team and build the systems your business runs on.</p>
 
         <div class="process-row" id="processRow">
 
@@ -2280,8 +2421,8 @@
 
             <div class="process-step gsap-card">
                 <div class="process-num">02</div>
-                <div class="process-title">Build &amp; Ship</div>
-                <div class="process-desc">Embedded in your team, building production systems. Weekly stakeholder iterations. Real users, real feedback — no prototypes collecting dust. Two to twelve weeks.</div>
+                <div class="process-title">Build &amp; Launch</div>
+                <div class="process-desc">Embedded with your team, building the production system. Weekly stakeholder reviews against real usage. Two to twelve weeks.</div>
             </div>
 
             <div class="process-connector" aria-hidden="true">
@@ -2316,14 +2457,18 @@
             >
 
             <div class="section-label gsap-reveal" style="text-align:center;">// work with me</div>
-            <h2 class="contact-heading gsap-reveal">Let's work together.</h2>
-            <p class="contact-sub gsap-reveal">Taking on select consulting and contract engagements. If you need AI automation that delivers, let's talk.</p>
+            <h2 class="contact-heading gsap-reveal">Bring me a hard one.</h2>
+            <p class="contact-sub gsap-reveal">Open to AI engineering and advisory work in fintech, banking, and consulting. Tell me what you are trying to build.</p>
 
-            <div class="contact-links-row gsap-reveal">
-                <a href="mailto:georg.chimion@gmail.com" class="contact-link" aria-label="Send email">
-                    <i data-lucide="mail" style="width:14px;height:14px;"></i>
+            <div class="contact-cta-wrap gsap-reveal">
+                <a href="mailto:georg.chimion@gmail.com?subject=Working%20with%20Georg" class="contact-cta-btn" aria-label="Email Georg">
+                    <i data-lucide="mail" style="width:16px;height:16px;"></i>
                     georg.chimion@gmail.com
                 </a>
+                <span class="contact-cta-note">Replies within 48 hours</span>
+            </div>
+
+            <div class="contact-links-row gsap-reveal">
                 <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-link" aria-label="GitHub profile" rel="noopener noreferrer">
                     <i data-lucide="github" style="width:14px;height:14px;"></i>
                     GitHub
@@ -2385,22 +2530,22 @@ lucide.createIcons();
 var products = {
     penny: {
         img: 'screenshots/penny.png',
-        title: 'Ask Penny — AI Finance Assistant',
-        desc: 'Talk to your money. A Claude-powered finance assistant connected to your real bank accounts via Teller.io or Plaid. Ask anything about your spending, get morning summaries, smart budgets, and proactive alerts. Access by request — handles real financial data.',
+        title: 'Ask Penny · AI finance assistant',
+        desc: 'Talk to your money. A Claude-powered finance assistant connected to your real bank accounts via Teller.io or Plaid. Ask anything about your spending, get morning summaries, smart budgets, and proactive alerts. Access by request. Handles real financial data.',
         tech: ['Claude Sonnet 4.5', 'Node.js', 'PostgreSQL', 'Express', 'Teller.io', 'Plaid'],
         url: 'https://askpenny.georg.miami'
     },
     cascade: {
         img: 'screenshots/cascade.png',
-        title: 'Cascade — Supply Chain Exposure POC',
-        desc: 'When the world breaks, whose supply chain breaks with it? Cascade maps maritime-chokepoint disruptions (Strait of Hormuz, Suez/Red Sea, Taiwan Strait) to ranked exposure across 57 US public companies. Every score is backed by a verbatim SEC 10-K excerpt with a deep link to EDGAR. Uses only free public data — SEC filings, UN Comtrade, NASA Worldview satellite imagery. Maritime war-room visual treatment with real chokepoint satellite imagery, animated vessel routes, and severity-driven color temperature.',
+        title: 'Cascade · supply-chain exposure POC',
+        desc: 'When the world breaks, whose supply chain breaks with it? Cascade maps maritime-chokepoint disruptions (Strait of Hormuz, Suez/Red Sea, Taiwan Strait) to ranked exposure across 57 US public companies. Every score is backed by a verbatim SEC 10-K excerpt with a deep link to EDGAR. Uses only free public data: SEC filings, UN Comtrade, NASA Worldview satellite imagery. Maritime war-room visual treatment with real chokepoint satellite imagery, animated vessel routes, and severity-driven color temperature.',
         tech: ['Claude AI', 'SEC EDGAR', 'NASA Worldview', 'UN Comtrade'],
         url: 'https://cascade.georg.miami'
     },
     reconx: {
         img: 'screenshots/reconx.png',
         video: 'videos/reconx.mp4',
-        title: 'ReconX — Financial Reconciliation Engine',
+        title: 'ReconX · financial reconciliation engine',
         desc: 'Cloud-native reconciliation platform replacing legacy systems like IntelliMatch. Multi-pass matching engine (exact, tolerance, fuzzy, AI-suggested), nostro balance proof with daily sign-off, exception management with SLA tracking.',
         tech: ['React', 'TypeScript', 'Chart.js', 'Zustand'],
         url: 'https://reconx.georg.miami'
@@ -2408,7 +2553,7 @@ var products = {
     venue: {
         img: 'screenshots/venue.png',
         video: 'videos/venue.mp4',
-        title: 'VENUE — Private Event Booking',
+        title: 'VENUE · private event booking',
         desc: 'Premium on-demand private event booking platform. Step-by-step wizard for happy hours, private dinners, DJ lounges, full venue buyouts. Budget tiers, catering, bar packages, and instant quotes.',
         tech: ['JavaScript', 'UX Design', 'Booking', 'Miami'],
         url: 'https://venue.georg.miami'
@@ -2417,48 +2562,48 @@ var products = {
         img: 'screenshots/docai.png',
         video: 'videos/docai.mp4',
         title: 'AI Document Intelligence',
-        desc: 'Upload a PDF, invoice, or receipt — watch AI extract structured data in real-time. Live demo processing documents and turning messy PDFs into clean JSON with field-level confidence scores.',
+        desc: 'Upload a PDF, invoice, or receipt and watch AI extract structured data in real-time. Live demo processing documents and turning messy PDFs into clean JSON with field-level confidence scores.',
         tech: ['Claude AI', 'JavaScript', 'Document AI', 'JSON'],
         url: 'https://docs.georg.miami'
     },
     tracker: {
         img: 'screenshots/tracker.png',
-        title: 'Tracker — Audit & Assurance Engagement Platform',
+        title: 'Tracker · audit and assurance engagement platform',
         desc: 'A modern engagement-management console for audit and assurance teams. 34 active engagements, segregation-of-duties conflict flagging, task management from planning through wrap-up. PCAOB AS 2201 and COSO 2013 aligned. Built as a modern replacement for legacy GRC tools.',
         tech: ['Audit', 'PCAOB AS 2201', 'COSO 2013', 'Engagement Management'],
         url: 'https://tracker.georg.miami'
     },
     solerevival: {
         img: 'screenshots/solerevival.png',
-        title: 'Sole Revival — AI Sneaker Mockup Generator',
+        title: 'Sole Revival · AI sneaker mockup generator',
         desc: 'Upload a brand logo, pick a shoe silhouette, get four photorealistic branded sneaker mockups in under fifteen seconds. Powered by Google Gemini image generation. Built for a leadership demo on AI-native product visualization.',
         tech: ['Gemini Image', 'AI Generation', 'Brand Design', 'Mockup'],
-        url: 'https://solerevival.georg.miami'
+        url: 'https://thesolerevival.georg.miami'
     },
     jordan: {
         img: 'screenshots/jordan.png',
-        title: 'CallFlow — Intelligent Call Intake',
+        title: 'CallFlow · intelligent call intake',
         desc: 'Voice AI for inbound real-estate calls. Streams audio to Claude with tool-calling and neural TTS, captures structured property data (address, beds, motivation, mortgage, asking price) live as the caller speaks. Florida two-party-consent compliant. Built for Sunshine Home Buyers.',
         tech: ['Claude AI', 'Neural Voice', 'Tool Calling', 'FL Compliance'],
         url: 'https://jordan.georg.miami'
     },
     orcom: {
         img: 'screenshots/orcom-setup.png',
-        title: 'ORCOM Setup — Bilingual Claude Intake',
-        desc: 'A conversational replacement for a six-page client intake form, in French and English. Built for ORCOM US — a Paris-headquartered accounting and tax advisory firm serving French founders incorporating in the US. Powered by Claude Haiku 4.5 with mid-conversation language toggle.',
+        title: 'ORCOM Setup · bilingual Claude intake',
+        desc: 'A conversational replacement for a six-page client intake form, in French and English. Built for ORCOM US, a Paris-headquartered accounting and tax advisory firm serving French founders incorporating in the US. Powered by Claude Haiku 4.5 with mid-conversation language toggle.',
         tech: ['Claude Haiku 4.5', 'Bilingual NLP', 'FR/EN', 'Conversational UI'],
         url: 'https://orcom-setup.georg.miami'
     },
     autopilot: {
         img: 'screenshots/autopilot.png',
-        title: 'SocialPilot — AI LinkedIn & Twitter Engagement',
+        title: 'SocialPilot · AI LinkedIn and Twitter engagement',
         desc: 'Claude-generated comments for LinkedIn and Twitter, scheduled within optimal engagement windows. Approval queue means you stay in the loop on every reply. Targeting by keyword or by creator. Campaign analytics, comment quality scoring, profile-view tracking.',
         tech: ['Claude AI', 'React', 'TypeScript', 'Vite'],
         url: 'https://autopilot.georg.miami'
     },
     datacenter: {
         img: 'screenshots/datacenter-command.png',
-        title: 'DC Command Center — Global Infrastructure Operations',
+        title: 'DC Command Center · global infrastructure operations',
         desc: 'A unified operations console for global data center fleets. Real-time global IT load, total facility power, weighted PUE, active incidents, carbon intensity per site. Toronto, Montreal, Calgary, New Jersey, London. Tier III and IV mix. Theme-aware corporate / dark / night-ops display.',
         tech: ['Infrastructure', 'PUE Monitoring', 'ESG', 'Real-time Telemetry'],
         url: 'https://datacenter-command.georg.miami'
@@ -2466,13 +2611,13 @@ var products = {
     miami: {
         img: 'screenshots/miami.png',
         title: 'Miami AI Community',
-        desc: 'A Miami-based community for enterprise teams exploring real AI workflows. Hands-on sessions with Claude Code, live demos, and working systems — not slideware. Hosted in Wynwood. No fluff, no hype.',
+        desc: 'A Miami-based community for enterprise teams exploring real AI workflows. Hands-on sessions with Claude Code, live demos, and working systems you can run. Hosted in Wynwood.',
         tech: ['Community', 'Claude Code', 'Wynwood', 'Enterprise AI'],
         url: 'https://miami.georg.miami'
     },
     vestia: {
         img: 'screenshots/vestia.png',
-        title: 'Vestia — AI Property Management Platform',
+        title: 'Vestia · AI property management platform',
         desc: 'Six AI-powered modules purpose-built for South Florida condo associations. Maintenance triage with AI dispatch, SB 4-D compliance tracking, automated rent collection, tenant screening, lease document generation, and vendor bid comparison.',
         tech: ['React', 'TypeScript', 'Tailwind CSS', 'AI-Native', 'Florida-First'],
         url: 'https://vestia.georg.miami'
@@ -2480,15 +2625,15 @@ var products = {
     factory: {
         img: 'screenshots/factory.png',
         video: 'videos/factory.mp4',
-        title: 'Agent Factory — AI Website Builder',
-        desc: 'Four autonomous Claude-powered agents — PM, Coder, Reviewer, Deployer — collaborate in a real-time pipeline to build production websites from natural language briefs. Watch them discuss, write code, review quality, and deploy live sites. Includes spectator mode for live demos.',
+        title: 'Agent Factory · AI website builder',
+        desc: 'Four autonomous Claude-powered agents (PM, Coder, Reviewer, Deployer) collaborate in a real-time pipeline to build production websites from natural language briefs. Watch them discuss, write code, review quality, and deploy live sites. Includes spectator mode for live demos.',
         tech: ['Claude AI', 'Multi-Agent', 'SSE Streaming', 'Node.js', 'Express'],
         url: 'https://factory.georg.miami'
     },
     onboard: {
         img: 'screenshots/onboard.png',
-        title: 'Onboard — AI Employee Onboarding',
-        desc: 'Upload internal documents and a role description — AI transforms them into a structured training course with modules, lessons, and quizzes in under 3 minutes. New hires take the course, get scored, and managers see who\'s ready. No more tribal knowledge trapped in PDFs, Slack channels, and senior employees\' heads.',
+        title: 'Onboard · AI employee onboarding',
+        desc: 'Upload internal documents and a role description, and AI transforms them into a structured training course with modules, lessons, and quizzes in under 3 minutes. New hires take the course, get scored, and managers see who\'s ready.',
         tech: ['Claude AI', 'Course Generation', 'Auto-Quiz', 'Scoring'],
         url: 'https://onboard.georg.miami'
     }
@@ -2682,7 +2827,7 @@ window.addEventListener('scroll', function() {
         );
     });
 
-    /* --- 4. PRODUCT + EXPERTISE + PROCESS CARDS — staggered --- */
+    /* --- 4. PRODUCT + EXPERTISE + PROCESS CARDS · staggered --- */
     /* Group cards by their parent section so stagger applies per-section */
     var sections = document.querySelectorAll('section');
     sections.forEach(function(section) {
@@ -2706,7 +2851,7 @@ window.addEventListener('scroll', function() {
         );
     });
 
-    /* --- 5. PROCESS CONNECTING LINES — animate width on scroll --- */
+    /* --- 5. PROCESS CONNECTING LINES · animate width on scroll --- */
     ['connectorFill1', 'connectorFill2'].forEach(function(id) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -2729,7 +2874,7 @@ window.addEventListener('scroll', function() {
 
 </script>
 
-<!-- georg analytics — track pageviews + owner flag via ?iam=georg -->
+<!-- georg analytics · track pageviews + owner flag via ?iam=georg -->
 <script>
 (function(){try{
   let v=localStorage.getItem('gv');
