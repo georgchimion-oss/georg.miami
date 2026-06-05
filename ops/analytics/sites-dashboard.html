@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sites · georg.miami</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  :root {
+    --bg: #07090d; --bg-2: #0d1117; --surface: #151b23; --surface-2: #1c2330;
+    --border: #2a3342; --border-hover: #3d4757;
+    --text: #e6edf3; --text-mute: #8b98a8;
+    --accent: #58a6ff; --ok: #3fb950; --warn: #d29922; --danger: #f85149;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, sans-serif;
+    font-size: 14px; line-height: 1.55;
+  }
+  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+  h1 { font-size: 22px; margin: 0; }
+  .meta { color: var(--text-mute); font-size: 12px; }
+  .meta a { color: var(--accent); text-decoration: none; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .tab {
+    padding: 10px 16px; background: none; border: none; color: var(--text-mute);
+    cursor: pointer; font-size: 14px; font-weight: 600;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  .pane { display: none; }
+  .pane.active { display: block; }
+
+  input[type=text] {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 10px 14px; border-radius: 8px; font-size: 14px; width: 100%; max-width: 360px;
+  }
+
+  /* CATALOG */
+  .catalog-controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card .top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .card .name { font-weight: 700; font-size: 15px; }
+  .card .name a { color: var(--accent); text-decoration: none; }
+  .card .name a:hover { text-decoration: underline; }
+  .card .kind { font-size: 10px; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; background: rgba(88,166,255,.12); border-radius: 4px; }
+  .card .title { font-size: 13px; color: var(--text); }
+  .card .desc { font-size: 12px; color: var(--text-mute); }
+  .card .footer { font-size: 11px; color: var(--text-mute); margin-top: 6px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .card .pill { display: inline-block; padding: 1px 6px; background: rgba(248,81,73,.18); color: #f85149; border-radius: 4px; font-size: 10px; font-weight: 600; }
+
+  /* TRAFFIC */
+  .traffic-controls {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 16px; padding: 12px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px;
+  }
+  .traffic-controls label { font-size: 13px; cursor: pointer; user-select: none; color: var(--text-mute); }
+  .src-toggle { font-size: 12px; padding: 4px 8px; border-radius: 4px; background: var(--bg-2); border: 1px solid var(--border); cursor: pointer; }
+  .src-toggle.on { color: var(--text); border-color: var(--accent); }
+  .src-toggle.off { color: var(--text-mute); text-decoration: line-through; opacity: .6; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .stat .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat .l { font-size: 11px; color: var(--text-mute); text-transform: uppercase; letter-spacing: .08em; }
+  table {
+    width: 100%; border-collapse: collapse; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 13px;
+  }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { min-width: 240px; white-space: normal; }
+  th {
+    background: var(--surface-2); color: var(--text-mute);
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+    cursor: pointer; user-select: none;
+  }
+  th:hover { color: var(--text); }
+  th.sorted-asc::after  { content: ' ▲'; color: var(--accent); }
+  th.sorted-desc::after { content: ' ▼'; color: var(--accent); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-2); }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+  .http-pill { display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .http-200 { background: rgba(63,185,80,.15); color: var(--ok); }
+  .http-401, .http-403 { background: rgba(210,153,34,.15); color: var(--warn); }
+  .http-404, .http-5xx { background: rgba(248,81,73,.15); color: var(--danger); }
+  .http-other { background: rgba(139,152,168,.15); color: var(--text-mute); }
+  .src-badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+  .src-you      { background: rgba(63,185,80,.18); color: #6dde85; }
+  .src-internal { background: rgba(139,152,168,.18); color: var(--text-mute); }
+  .src-slack    { background: rgba(88,166,255,.18); color: var(--accent); }
+  .src-scanner  { background: rgba(248,81,73,.18); color: var(--danger); }
+  .src-visitor  { background: rgba(210,153,34,.18); color: var(--warn); }
+  .src-bot      { background: rgba(139,148,158,.18); color: var(--text-mute); }
+
+  details {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; margin: 4px 0;
+  }
+  details summary { padding: 10px 14px; cursor: pointer; color: var(--text); font-size: 13px; }
+  details[open] summary { border-bottom: 1px solid var(--border); }
+  details .body { padding: 8px 14px 12px; }
+  details table { border: none; border-radius: 0; }
+  details table th { background: transparent; padding: 6px 8px; }
+  details table td { padding: 6px 8px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+  details table tr:hover td { background: transparent; }
+
+  .section-h { font-size: 16px; font-weight: 700; margin: 24px 0 10px; }
+  .legend { margin-top: 20px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; color: var(--text-mute); }
+  .legend strong { color: var(--text); }
+  .legend code { background: var(--bg-2); padding: 1px 6px; border-radius: 3px; color: var(--text); }
+  .err { background: rgba(248,81,73,.1); border: 1px solid var(--danger); border-radius: 6px; padding: 12px; color: var(--danger); display: none; }
+  .empty { color: var(--text-mute); font-style: italic; padding: 24px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🌐 Sites</h1>
+    <div class="meta">Every product subdomain on *.georg.miami · 🌐 visitor = real human (bots, scanners, internal, your machines excluded) · <a href="/whoami.html">📍 label your IP</a></div>
+  </div>
+  <div class="meta" id="freshness"></div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-pane="catalog">📚 Catalog</button>
+  <button class="tab" data-pane="traffic">📊 Traffic</button>
+</div>
+
+<div id="err" class="err"></div>
+
+<!-- ─── CATALOG PANE ─── -->
+<div class="pane active" id="pane-catalog">
+  <div class="catalog-controls">
+    <input type="text" id="cat-q" placeholder="🔍 search name / title / description / kind…" autofocus>
+    <span id="cat-count" class="meta"></span>
+  </div>
+  <div id="cat-grid" class="grid"></div>
+</div>
+
+<!-- ─── TRAFFIC PANE ─── -->
+<div class="pane" id="pane-traffic">
+  <div class="traffic-controls">
+    <input type="text" id="tr-q" placeholder="🔍 filter site name…">
+    <label><input type="checkbox" id="tr-hide-zero" checked> Hide zero-traffic</label>
+    <span style="color: var(--text-mute); font-size: 12px;">Sources:</span>
+    <span class="src-toggle on"  data-src="you">🏠 you</span>
+    <span class="src-toggle on"  data-src="visitor">🌐 visitor</span>
+    <span class="src-toggle on"  data-src="slack">💬 slack</span>
+    <span class="src-toggle off" data-src="scanner">🕷️ scanner</span>
+    <span class="src-toggle off" data-src="internal">🤖 internal</span>
+    <span class="src-toggle off" data-src="bot">🛰️ bot</span>
+  </div>
+
+  <div class="stats" id="tr-stats"></div>
+
+  <div class="section-h">Sites <span id="tr-row-count" style="color: var(--text-mute); font-weight: normal; font-size: 13px;"></span></div>
+  <table id="tr-table">
+    <thead>
+      <tr>
+        <th data-sort="name">Site</th>
+        <th data-sort="http">HTTP</th>
+        <th data-sort="visitors" title="Real visitors (not scanners, not you)" class="num">🌐 Visitors</th>
+        <th data-sort="you" title="From your labeled IPs" class="num">🏠 You</th>
+        <th data-sort="scanners" title="Vuln scanners (wp-admin, .env, etc)" class="num">🕷️ Scan</th>
+        <th data-sort="slack" title="Slack link unfurl" class="num">💬 Slack</th>
+        <th data-sort="internal" title="VPS-to-VPS internal" class="num">🤖 Int</th>
+        <th data-sort="bot" title="Crawlers, AI bots, uptime monitors, datacenter/VPN scrapers" class="num">🛰️ Bot</th>
+        <th data-sort="total" class="num">Total</th>
+        <th data-sort="x4" title="4xx: 400 bad request, 401 unauthorized, 403 forbidden, 404 not found, 405 wrong method" class="num">4xx</th>
+        <th data-sort="x5" title="5xx: 500 internal, 502 bad gateway, 503 unavailable, 504 timeout" class="num">5xx</th>
+        <th data-sort="last">Last hit</th>
+      </tr>
+    </thead>
+    <tbody id="tr-body"></tbody>
+  </table>
+
+  <div class="section-h">Recent requests (top sites, filtered by toggles)</div>
+  <div id="tr-recent"></div>
+
+  <div class="legend">
+    <div><strong>Source legend:</strong>
+      <span class="src-badge src-you">🏠 you</span> labeled IPs ·
+      <span class="src-badge src-internal">🤖 internal</span> VPS-to-VPS ·
+      <span class="src-badge src-slack">💬 slack</span> link unfurl ·
+      <span class="src-badge src-scanner">🕷️ scanner</span> vuln probes ·
+      <span class="src-badge src-visitor">🌐 visitor</span> real human ·
+      <span class="src-badge src-bot">🛰️ bot</span> crawlers, AI bots, datacenter/VPN scrapers (excluded from visitors)
+    </div>
+    <div style="margin-top:6px"><strong>HTTP:</strong>
+      <code>2xx</code> success · <code>3xx</code> redirect ·
+      <code>4xx</code> client error (401 unauth, 403 forbidden, 404 not found, 405 wrong method) ·
+      <code>5xx</code> server error (500 internal, 502 bad gateway, 503 unavailable)
+    </div>
+  </div>
+</div>
+
+<script>
+let data = null;
+let sortKey = 'visitors';
+let sortDir = -1;
+const sources = { you: true, visitor: true, slack: true, scanner: false, internal: false, bot: false };
+
+async function load() {
+  try {
+    const r = await fetch('/stats.json?t=' + Date.now());
+    data = await r.json();
+    render();
+  } catch (e) {
+    document.getElementById('err').textContent = 'stats.json failed: ' + e.message;
+    document.getElementById('err').style.display = 'block';
+  }
+}
+
+function timeAgo(iso) {
+  if (!iso) return '·';
+  const ms = Date.now() - new Date(iso).getTime();
+  if (ms < 0) return 'future';
+  const s = Math.floor(ms / 1000);
+  if (s < 60) return s + 's';
+  const m = Math.floor(s / 60);
+  if (m < 60) return m + 'm';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + 'h';
+  return Math.floor(h / 24) + 'd';
+}
+function sizeFmt(kb) { return kb < 1024 ? kb + ' KB' : (kb/1024).toFixed(1) + ' MB'; }
+function httpPill(c) {
+  if (!c) return '<span class="http-pill http-other">?</span>';
+  if (c === 200) return '<span class="http-pill http-200">200</span>';
+  if (c === 401 || c === 403) return '<span class="http-pill http-401">' + c + '</span>';
+  if (c === 404) return '<span class="http-pill http-404">404</span>';
+  if (c >= 500) return '<span class="http-pill http-5xx">' + c + '</span>';
+  return '<span class="http-pill http-other">' + c + '</span>';
+}
+
+function render() {
+  if (!data) return;
+  document.getElementById('freshness').innerHTML = 'refreshed <strong>' + timeAgo(data.generated_at) + ' ago</strong>';
+  renderCatalog();
+  renderTraffic();
+}
+
+function renderCatalog() {
+  const f = (document.getElementById('cat-q').value || '').trim().toLowerCase();
+  const cat = data.catalog || {};
+  let list = Object.values(cat).sort((a, b) => a.name.localeCompare(b.name));
+  if (f) list = list.filter(s => {
+    const hay = (s.name + ' ' + (s.title||'') + ' ' + (s.description||'') + ' ' + (s.kind_guess||'')).toLowerCase();
+    return hay.includes(f);
+  });
+  document.getElementById('cat-count').textContent = `${list.length} of ${Object.keys(cat).length} sites`;
+  if (list.length === 0) {
+    document.getElementById('cat-grid').innerHTML = '<div class="empty">No matches.</div>';
+    return;
+  }
+  document.getElementById('cat-grid').innerHTML = list.map(s => `
+    <div class="card">
+      <div class="top">
+        <span class="name"><a href="${s.subdomain ? 'https://'+s.subdomain : '#'}" target="_blank">${s.name}</a></span>
+        ${s.kind_guess ? `<span class="kind">${s.kind_guess}</span>` : ''}
+      </div>
+      ${s.title ? `<div class="title">${s.title}</div>` : '<div class="title" style="color:var(--text-mute);font-style:italic">(no title)</div>'}
+      ${s.description ? `<div class="desc">${s.description}</div>` : ''}
+      <div class="footer">
+        ${s.is_gated ? '<span class="pill">gated</span>' : ''}
+        <span>${sizeFmt(s.size_kb||0)}</span>
+        <span>updated ${timeAgo(s.mtime)}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTraffic() {
+  const stats = data.stats_by_host || {};
+  const sites = data.sites || [];
+  const cat = data.catalog || {};
+  const f = (document.getElementById('tr-q').value || '').trim().toLowerCase();
+  const hideZero = document.getElementById('tr-hide-zero').checked;
+
+  const rowsMap = new Map();
+  for (const s of sites) {
+    const host = s.name + '.georg.miami';
+    rowsMap.set(host, { name: s.name, host, url: s.url, http: s.http, mtime: s.mtime, catalog: cat[s.name] || null, ...(stats[host] || {}) });
+  }
+  for (const [host, s] of Object.entries(stats)) {
+    if (!rowsMap.has(host)) {
+      const short = host.replace('.georg.miami', '');
+      rowsMap.set(host, { name: short, host, url: 'https://' + host, http: 0, mtime: null, catalog: cat[short] || null, ...s });
+    }
+  }
+
+  let rows = Array.from(rowsMap.values());
+  if (f) rows = rows.filter(r => {
+    const hay = (r.name + ' ' + (r.catalog?.title || '') + ' ' + (r.catalog?.description || '')).toLowerCase();
+    return hay.includes(f);
+  });
+
+  for (const r of rows) {
+    const bs = r.by_source_24h || {};
+    r.visitors = bs.visitor || 0; r.you = bs.you || 0;
+    r.scanners = bs.scanner || 0; r.slack = bs.slack || 0; r.internal = bs.internal || 0; r.bot = bs.bot || 0;
+    r.x4 = r.status_4xx_24h || 0; r.x5 = r.status_5xx_24h || 0;
+    r.total = r.total_24h || 0;
+    r.recent_visible = (r.recent || []).filter(h => sources[h.source]);
+    r.visibleSum = Object.entries(bs).reduce((sum, [src, n]) => sources[src] ? sum + n : sum, 0);
+  }
+  if (hideZero) rows = rows.filter(r => r.visibleSum > 0);
+
+  rows.sort((a, b) => {
+    if (sortKey === 'name') return a.name.localeCompare(b.name) * sortDir;
+    if (sortKey === 'last') {
+      const av = a.last_ts || '', bv = b.last_ts || '';
+      return (av > bv ? 1 : av < bv ? -1 : 0) * sortDir;
+    }
+    return ((a[sortKey] ?? 0) - (b[sortKey] ?? 0)) * sortDir;
+  });
+
+  document.getElementById('tr-row-count').textContent = `(${rows.length} of ${rowsMap.size})`;
+
+  const t = data.totals || {};
+  const bs = t.by_source_24h || {};
+  const visibleTotal = Object.entries(bs).reduce((s, [src, n]) => sources[src] ? s + n : s, 0);
+  document.getElementById('tr-stats').innerHTML = `
+    <div class="stat"><div class="v" style="color:var(--warn)">${t.unique_people_24h || 0}</div><div class="l">👥 real people (24h)</div></div>
+    <div class="stat"><div class="v">${t.total_sites || 0}</div><div class="l">Sites</div></div>
+    <div class="stat"><div class="v">${visibleTotal}</div><div class="l">Visible reqs (24h)</div></div>
+    <div class="stat"><div class="v" style="color:var(--warn)">${bs.visitor || 0}</div><div class="l">🌐 visitors</div></div>
+    <div class="stat"><div class="v" style="color:var(--danger)">${bs.scanner || 0}</div><div class="l">🕷️ scanners</div></div>
+    <div class="stat"><div class="v" style="color:var(--accent)">${bs.slack || 0}</div><div class="l">💬 slack</div></div>
+    <div class="stat"><div class="v" style="color:var(--ok)">${bs.you || 0}</div><div class="l">🏠 you</div></div>
+    <div class="stat"><div class="v" style="color:var(--text-mute)">${bs.internal || 0}</div><div class="l">🤖 internal</div></div>
+    <div class="stat"><div class="v" style="color:var(--text-mute)">${bs.bot || 0}</div><div class="l">🛰️ bots</div></div>
+  `;
+
+  document.getElementById('tr-body').innerHTML = rows.map(r => `
+    <tr>
+      <td><a href="${r.url}" target="_blank" title="${(r.catalog?.title || '').replace(/"/g, '&quot;')}${r.catalog?.description ? ' · ' + r.catalog.description.replace(/"/g, '&quot;') : ''}">${r.name}</a>${r.catalog?.kind_guess ? ' <span class="kind">' + r.catalog.kind_guess + '</span>' : ''}</td>
+      <td>${httpPill(r.http)}</td>
+      <td class="num" style="color:${r.visitors > 0 ? 'var(--warn)' : 'var(--text-mute)'}">${r.visitors}</td>
+      <td class="num" style="color:${r.you > 0 ? 'var(--ok)' : 'var(--text-mute)'}">${r.you}</td>
+      <td class="num" style="color:${r.scanners > 0 ? 'var(--danger)' : 'var(--text-mute)'}">${r.scanners}</td>
+      <td class="num" style="color:${r.slack > 0 ? 'var(--accent)' : 'var(--text-mute)'}">${r.slack}</td>
+      <td class="num" style="color:var(--text-mute)">${r.internal}</td>
+      <td class="num" style="color:var(--text-mute)">${r.bot}</td>
+      <td class="num">${r.total}</td>
+      <td class="num" style="color:${r.x4 > 5 ? 'var(--warn)' : 'var(--text-mute)'}">${r.x4}</td>
+      <td class="num" style="color:${r.x5 > 0 ? 'var(--danger)' : 'var(--text-mute)'}">${r.x5}</td>
+      <td style="color:var(--text-mute)">${timeAgo(r.last_ts)}</td>
+    </tr>
+  `).join('');
+
+  document.querySelectorAll('th[data-sort]').forEach(th => {
+    th.classList.remove('sorted-asc', 'sorted-desc');
+    if (th.dataset.sort === sortKey) th.classList.add(sortDir > 0 ? 'sorted-asc' : 'sorted-desc');
+  });
+
+  const topActive = rows.filter(r => r.recent_visible.length > 0).slice(0, 8);
+  document.getElementById('tr-recent').innerHTML = topActive.map(r => {
+    const items = r.recent_visible.slice(-15).reverse().map(h => `
+      <tr>
+        <td style="white-space:nowrap;color:var(--text-mute)">${timeAgo(h.ts)} ago</td>
+        <td><span class="src-badge src-${h.source}">${data.source_legend[h.source].emoji}</span></td>
+        <td>${h.ip}${h.ip_label ? ' <span style="color:var(--text-mute);font-size:11px">'+h.ip_label+'</span>' : ''}</td>
+        <td>${h.method} ${h.path}</td>
+        <td>${httpPill(h.status)}</td>
+        <td style="color:var(--text-mute);font-size:11px">${h.ua_short}</td>
+      </tr>
+    `).join('');
+    return `<details><summary><strong>${r.name}</strong> · ${r.recent_visible.length} recent matching</summary><div class="body"><table><thead><tr><th>When</th><th>Src</th><th>IP</th><th>Request</th><th>Status</th><th>UA</th></tr></thead><tbody>${items}</tbody></table></div></details>`;
+  }).join('');
+}
+
+// Tabs
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById('pane-' + t.dataset.pane).classList.add('active');
+}));
+
+document.getElementById('cat-q').addEventListener('input', renderCatalog);
+document.getElementById('tr-q').addEventListener('input', renderTraffic);
+document.getElementById('tr-hide-zero').addEventListener('change', renderTraffic);
+document.querySelectorAll('.src-toggle').forEach(el => {
+  el.addEventListener('click', () => {
+    sources[el.dataset.src] = !sources[el.dataset.src];
+    el.classList.toggle('on', sources[el.dataset.src]);
+    el.classList.toggle('off', !sources[el.dataset.src]);
+    renderTraffic();
+  });
+});
+document.querySelectorAll('th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    const k = th.dataset.sort;
+    if (sortKey === k) sortDir *= -1;
+    else { sortKey = k; sortDir = (k === 'name') ? 1 : -1; }
+    renderTraffic();
+  });
+});
+
+load();
+setInterval(load, 60000);
+</script>
+
+</body>
+</html>

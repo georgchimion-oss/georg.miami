@@ -1,0 +1,9 @@
+{
+  "_doc": "TEMPLATE. The real known-ips.json lives only on the VPS at /var/www/sites/sites/known-ips.json and is gitignored (it contains personal IPs). Map of public IPs to human labels; you=true marks Georg's own machines/phones (excluded from visitor counts). Add networks via sites.georg.miami/whoami.html.",
+  "_updated": "YYYY-MM-DD",
+  "ips": {
+    "203.0.113.10": { "label": "🏠 home (macbook + mac mini)", "you": true,  "note": "home/office egress IP" },
+    "203.0.113.20": { "label": "📱 phone cellular",            "you": true,  "note": "added via /whoami" },
+    "159.89.185.96": { "label": "🤖 vps (self)",               "you": false, "note": "the VPS calling itself" }
+  }
+}

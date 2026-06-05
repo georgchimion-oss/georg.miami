@@ -10,3 +10,6 @@ package-lock.json
 # Environment variables
 .env
 .env.*
+
+# personal IPs — VPS only
+ops/analytics/known-ips.json
