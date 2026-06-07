@@ -38,8 +38,13 @@ done < <(find "$CODING" -maxdepth 4 -name ".git" -type d 2>/dev/null)
 
 # --- Traffic: real humans on the sites (bots, scanners, internal, and Georg's
 #     own machines excluded). Computed on the VPS from human-filtered stats.json. ---
-TRAFFIC=$(ssh -o ConnectTimeout=6 -o BatchMode=yes root@159.89.185.96 'python3 /usr/local/bin/traffic-digest.py' 2>>"$LOG")
-[ -z "$TRAFFIC" ] && TRAFFIC=":bar_chart: *Traffic* unavailable (VPS unreachable this run)"
+TRAFFIC=""
+for attempt in 1 2 3; do
+  TRAFFIC=$(ssh -o ConnectTimeout=8 -o BatchMode=yes -o ServerAliveInterval=4 root@159.89.185.96 'python3 /usr/local/bin/traffic-digest.py' 2>>"$LOG")
+  [ -n "$TRAFFIC" ] && break
+  echo "  traffic ssh attempt $attempt failed, retrying" >> "$LOG"; sleep 6
+done
+[ -z "$TRAFFIC" ] && TRAFFIC=":bar_chart: *Traffic* unavailable (VPS unreachable after 3 tries)"
 
 # --- Compose (traffic always posts; commits only when there were any) ---
 if [ "$TOTAL_COMMITS" -gt 0 ]; then
