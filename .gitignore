@@ -13,3 +13,15 @@ package-lock.json
 
 # personal IPs — VPS only
 ops/analytics/known-ips.json
+
+# scratch / verification screenshots (not product previews)
+screenshots/verify-*.png
+screenshots/critique-*.png
+screenshots/review-*.png
+screenshots/georg-miami-*.png
+screenshots/sites-dashboard-*.png
+screenshots/*-light*.png
+screenshots/*-1440*.png
+screenshots/cred-strip-*.png
+screenshots/rapid-build-*.png
+screenshots/badge-*.png
