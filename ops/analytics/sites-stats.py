@@ -299,10 +299,7 @@ def parse_logs(known_ips: dict):
                 e["ips_24h"].add(ip)
                 e["bytes_24h"] += size
                 e["by_source_24h"][src] += 1
-                if 400 <= status < 500:
-                    e["status_4xx_24h"] += 1
-                elif status >= 500:
-                    e["status_5xx_24h"] += 1
+                # errors counted only for real visitors (see deferred branch), not monitors/bots
                 if e["last_ts"] is None or ts > e["last_ts"]:
                     e["last_ts"] = ts
                 if src == "slack":
@@ -328,13 +325,14 @@ def parse_logs(known_ips: dict):
             e["ips_24h"].add(ip)
             e["bytes_24h"] += size
             e["by_source_24h"][src] += 1
-            if 400 <= status < 500:
-                e["status_4xx_24h"] += 1
-            elif status >= 500:
-                e["status_5xx_24h"] += 1
             if e["last_ts"] is None or ts > e["last_ts"]:
                 e["last_ts"] = ts
             if not crawler:
+                # real-visitor-facing errors only (ignore uptime-monitor HEAD 501s, gated-site 401s)
+                if 400 <= status < 500:
+                    e["status_4xx_24h"] += 1
+                elif status >= 500:
+                    e["status_5xx_24h"] += 1
                 e["visitor_ips_24h"].add(ip)
                 global_vis_ips.add(ip)
                 if rec["city"]:
