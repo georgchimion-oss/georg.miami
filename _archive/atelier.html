@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — AI Automation Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cream:#F5F0E8;--charcoal:#2C2C2C;--terra:#C05A3B;--light-terra:rgba(192,90,59,.08);--paper:#EDE8DC}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--charcoal);font-family:'Lora',serif;overflow-x:hidden;font-size:16px;
+background-image:url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E")}
+
+/* LOADER */
+.loader{position:fixed;inset:0;z-index:9999;background:var(--cream);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;transition:opacity .8s,visibility .8s}
+.loader.done{opacity:0;visibility:hidden}
+.loader-brush{width:60px;height:4px;background:var(--terra);border-radius:2px;animation:brush 1.5s ease-in-out infinite;transform-origin:left}
+@keyframes brush{0%{transform:scaleX(0)}50%{transform:scaleX(1)}100%{transform:scaleX(0);transform-origin:right}}
+.loader-label{font-family:'Caveat',cursive;font-size:18px;color:var(--charcoal);opacity:.5}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,240,232,.85);backdrop-filter:blur(15px)}
+nav .logo{font-family:'Caveat',cursive;font-size:24px;font-weight:700;color:var(--terra)}
+nav .nav-links a{color:var(--charcoal);text-decoration:none;margin-left:28px;font-size:13px;opacity:.5;transition:opacity .3s;font-style:italic}
+nav .nav-links a:hover{opacity:1;color:var(--terra)}
+
+/* DECORATIVE SHAPES */
+.deco-circle{position:absolute;border-radius:50%;border:2px dashed rgba(192,90,59,.15);pointer-events:none}
+.deco-squiggle{position:absolute;pointer-events:none;opacity:.12}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 48px 80px;position:relative;overflow:hidden}
+.hero .deco-circle.d1{width:400px;height:400px;top:10%;right:5%;animation:spin-slow 40s linear infinite}
+.hero .deco-circle.d2{width:250px;height:250px;bottom:15%;left:8%;border-style:dotted;animation:spin-slow 30s linear infinite reverse}
+@keyframes spin-slow{to{transform:rotate(360deg)}}
+.hero-content{position:relative;z-index:1}
+.hero .hand-label{font-family:'Caveat',cursive;font-size:18px;color:var(--terra);margin-bottom:8px;opacity:0;transform:rotate(-3deg) translateY(10px);transition:all .8s .2s}
+.hero .hand-label.vis{opacity:1;transform:rotate(-3deg) translateY(0)}
+.hero h1{font-family:'Lora',serif;font-size:clamp(36px,7vw,80px);font-weight:600;line-height:1.1;color:var(--charcoal);opacity:0;transform:translateY(20px);transition:all 1s .3s}
+.hero h1.vis{opacity:1;transform:none}
+.hero h1 em{font-style:italic;color:var(--terra);font-weight:400}
+.hero-sub{font-size:16px;color:rgba(44,44,44,.5);margin-top:20px;font-style:italic;opacity:0;transition:opacity 1s .7s}
+.hero-sub.vis{opacity:1}
+.hero-doodle{margin-top:32px;opacity:0;transition:opacity 1s 1s}
+.hero-doodle.vis{opacity:1}
+.hero-doodle svg{width:80px;height:20px}
+
+/* WAVY DIVIDER */
+.wavy-divider{height:40px;overflow:hidden;position:relative}
+.wavy-divider svg{position:absolute;bottom:0;width:100%}
+
+/* PRODUCTS */
+.products{padding:80px 48px;max-width:1100px;margin:0 auto}
+.section-hand{font-family:'Caveat',cursive;font-size:clamp(28px,5vw,48px);color:var(--terra);margin-bottom:8px;transform:rotate(-2deg);display:inline-block}
+.section-desc{font-size:14px;color:rgba(44,44,44,.45);font-style:italic;margin-bottom:48px}
+
+/* WORKBENCH GRID */
+.workbench{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px}
+.sketch-card{background:var(--paper);border:2px dashed rgba(44,44,44,.1);border-radius:4px;padding:0;overflow:hidden;position:relative;opacity:0;transform:translateY(30px) rotate(0deg);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.sketch-card.vis{opacity:1;transform:translateY(0) rotate(0deg)}
+.sketch-card:nth-child(odd){transform:translateY(30px) rotate(-1deg)}
+.sketch-card:nth-child(odd).vis{transform:translateY(0) rotate(-0.5deg)}
+.sketch-card:nth-child(even).vis{transform:translateY(0) rotate(0.5deg)}
+.sketch-card:hover{border-color:var(--terra);transform:rotate(0deg) translateY(-4px) !important;box-shadow:0 8px 32px rgba(192,90,59,.1)}
+.sketch-img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-bottom:2px dashed rgba(44,44,44,.08);filter:sepia(.1);transition:filter .5s}
+.sketch-card:hover .sketch-img{filter:sepia(0)}
+.sketch-body{padding:24px}
+.sketch-num{font-family:'Caveat',cursive;font-size:36px;color:rgba(192,90,59,.2);line-height:1;position:absolute;top:12px;right:16px;font-weight:700}
+.sketch-name{font-family:'Caveat',cursive;font-size:24px;font-weight:600;color:var(--charcoal);margin-bottom:6px}
+.sketch-desc{font-size:13px;line-height:1.7;color:rgba(44,44,44,.5);margin-bottom:16px;font-style:italic}
+.sketch-link{display:inline-flex;align-items:center;gap:6px;color:var(--terra);text-decoration:none;font-family:'Caveat',cursive;font-size:16px;font-weight:600;border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .3s}
+.sketch-link:hover{border-color:var(--terra)}
+
+/* TAPE DECORATION */
+.tape{position:absolute;width:60px;height:20px;background:rgba(192,90,59,.1);top:-10px;left:30px;transform:rotate(-5deg);border-radius:2px}
+
+/* ABOUT */
+.about{padding:80px 48px;max-width:900px;margin:0 auto}
+.about-card{background:var(--paper);border:2px dashed rgba(44,44,44,.1);border-radius:4px;padding:40px;position:relative}
+.about-card .tape{left:auto;right:40px;top:-10px;transform:rotate(3deg)}
+.about-text{font-size:17px;line-height:1.9;color:rgba(44,44,44,.7)}
+.about-text strong{color:var(--charcoal);font-weight:600}
+.about-text em{color:var(--terra)}
+.about-notes{display:flex;gap:32px;margin-top:32px;flex-wrap:wrap}
+.about-note{background:rgba(192,90,59,.05);border-left:3px solid var(--terra);padding:12px 16px;font-family:'Caveat',cursive;font-size:18px;color:var(--charcoal)}
+.about-note span{display:block;font-family:'Lora',serif;font-size:12px;color:rgba(44,44,44,.4);margin-top:4px;font-style:italic}
+
+/* CONTACT */
+.contact{padding:80px 48px 48px;max-width:900px;margin:0 auto}
+.contact-inner{border-top:2px dashed rgba(44,44,44,.1);padding-top:32px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px}
+.contact a{color:var(--terra);text-decoration:none;font-family:'Caveat',cursive;font-size:20px;font-weight:600;transition:opacity .3s}
+.contact a:hover{opacity:.7}
+.contact .copy{font-size:12px;color:rgba(44,44,44,.3);font-style:italic}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+nav{padding:16px 24px}
+nav .nav-links{display:none}
+.hero,.products,.about,.contact{padding-left:24px;padding-right:24px}
+.workbench{grid-template-columns:1fr}
+.hero .deco-circle{display:none}
+.about-notes{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader">
+  <div class="loader-brush"></div>
+  <div class="loader-label">setting up the studio...</div>
+</div>
+
+<nav>
+  <div class="logo">Georg C.</div>
+  <div class="nav-links">
+    <a href="#products">the work</a>
+    <a href="#about">about me</a>
+    <a href="#contact">say hello</a>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="deco-circle d1"></div>
+  <div class="deco-circle d2"></div>
+  <div class="hero-content">
+    <div class="hand-label" id="heroLabel">hello, i'm</div>
+    <h1 id="heroTitle">Georg <em>Chimion</em></h1>
+    <p class="hero-sub" id="heroSub">AI Automation Specialist &middot; Miami &middot; PwC</p>
+    <div class="hero-doodle" id="heroDoodle">
+      <svg viewBox="0 0 80 20" fill="none" stroke="var(--terra)" stroke-width="2" stroke-linecap="round">
+        <path d="M5 15 Q15 5 25 15 Q35 25 45 15 Q55 5 65 15 Q70 20 75 15"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="section-hand">things i've built</div>
+  <p class="section-desc">Each project, sketched and shipped from the workshop.</p>
+  <div class="workbench" id="workbench"></div>
+</section>
+
+<section class="about" id="about">
+  <div class="section-hand">about me</div>
+  <div class="about-card" style="margin-top:24px">
+    <div class="tape"></div>
+    <p class="about-text">
+      <strong>AI automation specialist</strong> based in Miami. PwC contractor building intelligent systems for enterprise clients. My background is in <em>TD Bank reconciliation automation</em> — turning manual processes into scalable, auditable pipelines. I build products that ship, not decks that don't.
+    </p>
+    <div class="about-notes">
+      <div class="about-note">8 live products<span>and counting</span></div>
+      <div class="about-note">PwC contractor<span>enterprise AI</span></div>
+      <div class="about-note">Miami, FL<span>home base</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="section-hand">let's talk</div>
+  <div class="contact-inner" style="margin-top:24px">
+    <div>
+      <a href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a><br><br>
+      <a href="https://georg.miami" target="_blank">georg.miami</a>
+    </div>
+    <div class="copy">&copy; 2026 Georg Chimion</div>
+  </div>
+</section>
+
+<script>
+const products = [
+  {name:'Vestia',desc:'Enterprise platform hub with six integrated modules for workforce management.',url:'https://vestia.georg.miami',img:'screenshots/vestia.png'},
+  {name:'Ask Penny',desc:'AI financial assistant — natural language queries against complex data.',url:'https://penny.georg.miami',img:'screenshots/askpenny.png'},
+  {name:'Agent Factory',desc:'Rapid agent deployment pipeline. Concept to production in under 3 minutes.',url:'https://factory.georg.miami',img:'screenshots/factory.png'},
+  {name:'VENUE',desc:'Event and venue management platform with real-time analytics.',url:'https://venue.georg.miami',img:'screenshots/venue.png'},
+  {name:'ReconX',desc:'Automated reconciliation engine for banking transaction matching.',url:'https://reconx.georg.miami',img:'screenshots/reconx.png'},
+  {name:'Onboard',desc:'Intelligent employee onboarding — adaptive workflows, compliance tracking.',url:'https://onboard.georg.miami',img:'screenshots/onboard.png'},
+  {name:'AI Doc Intelligence',desc:'Document processing pipeline — extraction, classification, validation at scale.',url:'https://docs.georg.miami',img:'screenshots/docai.png'},
+  {name:'ROI Calculator',desc:'Interactive ROI modeling tool for AI automation investments.',url:'https://roi.georg.miami',img:'screenshots/roi.png'},
+];
+
+const bench = document.getElementById('workbench');
+products.forEach((p,i) => {
+  const card = document.createElement('div');
+  card.className = 'sketch-card';
+  card.style.transitionDelay = `${i*0.1}s`;
+  card.innerHTML = `
+    <div class="tape"></div>
+    <div class="sketch-num">${i+1}</div>
+    <img class="sketch-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#EDE8DC,#E5DFD3)';this.style.minHeight='180px'">
+    <div class="sketch-body">
+      <div class="sketch-name">${p.name}</div>
+      <p class="sketch-desc">${p.desc}</p>
+      <a class="sketch-link" href="${p.url}" target="_blank">visit project &rarr;</a>
+    </div>`;
+  bench.appendChild(card);
+});
+
+// Scroll observer
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis') });
+},{threshold:0.05});
+document.querySelectorAll('.sketch-card').forEach(c => obs.observe(c));
+
+// Hero
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('done'), 700);
+  setTimeout(() => document.getElementById('heroLabel').classList.add('vis'), 900);
+  setTimeout(() => document.getElementById('heroTitle').classList.add('vis'), 1000);
+  setTimeout(() => document.getElementById('heroSub').classList.add('vis'), 1200);
+  setTimeout(() => document.getElementById('heroDoodle').classList.add('vis'), 1400);
+});
+</script>
+</body>
+</html>

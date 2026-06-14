@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georg Chimion — Terminal</title>
+    <meta name="description" content="Georg Chimion — AI Automation Specialist. Retro terminal portfolio.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>></text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* =============================================
+           RESET & BASE
+        ============================================= */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --green: #00ff41;
+            --green-dim: #00cc33;
+            --green-dark: #009922;
+            --green-glow: rgba(0, 255, 65, 0.15);
+            --green-glow-strong: rgba(0, 255, 65, 0.35);
+            --amber: #ffb000;
+            --cyan: #00e5ff;
+            --red: #ff3333;
+            --bg: #0a0a0a;
+            --bg-screen: #050505;
+            --border: #1a3a1a;
+            --comment: #4a7a4a;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: #000;
+            color: var(--green);
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* =============================================
+           CRT MONITOR FRAME
+        ============================================= */
+        .crt-frame {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 30px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 24px;
+            box-shadow:
+                0 0 0 3px #333,
+                0 0 0 6px #1a1a1a,
+                0 0 60px rgba(0, 255, 65, 0.05),
+                inset 0 0 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .crt-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 30px;
+            display: flex;
+            gap: 8px;
+            font-size: 10px;
+            color: #444;
+            letter-spacing: 2px;
+        }
+
+        .crt-bezel-label {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #333;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .crt-power {
+            position: absolute;
+            top: 12px;
+            right: 30px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 6px var(--green), 0 0 12px var(--green-glow);
+            animation: powerBlink 3s ease-in-out infinite;
+        }
+
+        @keyframes powerBlink {
+            0%, 95%, 100% { opacity: 1; }
+            97% { opacity: 0.6; }
+        }
+
+        /* =============================================
+           CRT SCREEN
+        ============================================= */
+        .crt-screen {
+            background: var(--bg-screen);
+            border-radius: 12px;
+            padding: 30px 24px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #1a1a1a;
+            box-shadow:
+                inset 0 0 100px rgba(0, 255, 65, 0.03),
+                inset 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Scanlines */
+        .crt-screen::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.15) 2px,
+                rgba(0, 0, 0, 0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Screen vignette */
+        .crt-screen::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Flicker */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.95; }
+            94% { opacity: 1; }
+            96% { opacity: 0.97; }
+            97% { opacity: 1; }
+        }
+
+        .crt-screen {
+            animation: flicker 4s ease-in-out infinite;
+        }
+
+        /* =============================================
+           BOOT SEQUENCE
+        ============================================= */
+        .boot-line {
+            color: var(--comment);
+            font-size: 11px;
+            margin-bottom: 2px;
+        }
+
+        .boot-ok { color: var(--green-dim); }
+        .boot-separator {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 16px 0;
+        }
+
+        /* =============================================
+           TERMINAL CONTENT
+        ============================================= */
+        .terminal-block {
+            margin-bottom: 32px;
+            opacity: 0;
+            transform: translateY(8px);
+            animation: blockReveal 0.4s ease forwards;
+        }
+
+        .terminal-block:nth-child(1) { animation-delay: 0.1s; }
+        .terminal-block:nth-child(2) { animation-delay: 0.3s; }
+        .terminal-block:nth-child(3) { animation-delay: 0.5s; }
+        .terminal-block:nth-child(4) { animation-delay: 0.7s; }
+        .terminal-block:nth-child(5) { animation-delay: 0.9s; }
+        .terminal-block:nth-child(6) { animation-delay: 1.1s; }
+        .terminal-block:nth-child(7) { animation-delay: 1.3s; }
+        .terminal-block:nth-child(8) { animation-delay: 1.5s; }
+        .terminal-block:nth-child(9) { animation-delay: 1.7s; }
+        .terminal-block:nth-child(10) { animation-delay: 1.9s; }
+        .terminal-block:nth-child(11) { animation-delay: 2.1s; }
+
+        @keyframes blockReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .prompt {
+            color: var(--green);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .prompt-user { color: var(--cyan); }
+        .prompt-at { color: var(--comment); }
+        .prompt-host { color: var(--amber); }
+        .prompt-path { color: var(--green-dim); }
+        .prompt-dollar { color: var(--green); }
+        .prompt-cmd { color: #fff; font-weight: 400; }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--green);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .output {
+            padding-left: 0;
+            margin-top: 4px;
+        }
+
+        .output-line {
+            padding: 1px 0;
+        }
+
+        .highlight { color: #fff; font-weight: 500; }
+        .dim { color: var(--comment); }
+        .amber { color: var(--amber); }
+        .cyan { color: var(--cyan); }
+        .red { color: var(--red); }
+
+        /* =============================================
+           HERO / PHOTO
+        ============================================= */
+        .hero-row {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-photo-container {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .hero-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid var(--green-dark);
+            filter: grayscale(40%) brightness(0.9) contrast(1.1);
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+
+        .hero-photo-border {
+            position: absolute;
+            inset: -4px;
+            border: 1px solid var(--green-dark);
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        .hero-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .hero-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--green);
+            text-shadow: 0 0 10px var(--green-glow);
+            margin-bottom: 4px;
+        }
+
+        .hero-title {
+            color: var(--amber);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .hero-location {
+            color: var(--comment);
+            font-size: 12px;
+        }
+
+        /* =============================================
+           ASCII ART
+        ============================================= */
+        .ascii-art {
+            color: var(--green-dark);
+            font-size: 10px;
+            line-height: 1.2;
+            white-space: pre;
+            margin-bottom: 16px;
+            text-shadow: 0 0 4px var(--green-glow);
+        }
+
+        /* =============================================
+           STATS TABLE
+        ============================================= */
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stats-table td {
+            padding: 4px 0;
+            vertical-align: top;
+        }
+
+        .stats-table td:first-child {
+            color: var(--comment);
+            width: 220px;
+            white-space: nowrap;
+            padding-right: 16px;
+        }
+
+        .stats-table td:last-child {
+            color: var(--green);
+        }
+
+        .stats-divider {
+            border: none;
+            border-top: 1px dashed var(--border);
+            margin: 8px 0;
+        }
+
+        /* =============================================
+           PROJECT CARDS
+        ============================================= */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .project-card {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px;
+            background: rgba(0, 255, 65, 0.02);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            border-color: var(--green-dark);
+            background: rgba(0, 255, 65, 0.05);
+            box-shadow: 0 0 20px var(--green-glow), inset 0 0 20px var(--green-glow);
+        }
+
+        .project-card:hover .project-screenshot {
+            filter: grayscale(20%) brightness(0.85) contrast(1.1);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .project-index {
+            color: var(--comment);
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .project-name {
+            color: var(--green);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .project-status {
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 2px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .status-live {
+            color: var(--green);
+            border: 1px solid var(--green-dark);
+            background: rgba(0, 255, 65, 0.08);
+        }
+
+        .status-beta {
+            color: var(--amber);
+            border: 1px solid rgba(255, 176, 0, 0.3);
+            background: rgba(255, 176, 0, 0.08);
+        }
+
+        .project-screenshot {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            object-position: center 20%;
+            border-radius: 2px;
+            border: 1px solid var(--border);
+            filter: grayscale(40%) brightness(0.8) contrast(1.1);
+            margin: 8px 0;
+            transition: filter 0.3s ease;
+        }
+
+        .project-desc {
+            color: var(--comment);
+            font-size: 11px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .project-url {
+            color: var(--cyan);
+            font-size: 11px;
+            word-break: break-all;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .project-tag {
+            font-size: 9px;
+            color: var(--green-dark);
+            border: 1px solid rgba(0, 255, 65, 0.15);
+            padding: 1px 6px;
+            border-radius: 2px;
+            background: rgba(0, 255, 65, 0.03);
+        }
+
+        /* file preview label */
+        .file-preview-label {
+            font-size: 10px;
+            color: var(--comment);
+            margin-bottom: 4px;
+        }
+
+        /* =============================================
+           SKILLS
+        ============================================= */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            background: rgba(0, 255, 65, 0.02);
+        }
+
+        .skill-bar-container {
+            flex: 1;
+            height: 4px;
+            background: rgba(0, 255, 65, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .skill-bar {
+            height: 100%;
+            background: var(--green);
+            border-radius: 2px;
+            box-shadow: 0 0 4px var(--green-glow);
+        }
+
+        .skill-name {
+            font-size: 11px;
+            color: var(--green-dim);
+            min-width: 80px;
+        }
+
+        /* =============================================
+           CONTACT
+        ============================================= */
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .contact-link {
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 14px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 3px;
+            transition: all 0.2s;
+            background: rgba(0, 229, 255, 0.03);
+        }
+
+        .contact-link:hover {
+            background: rgba(0, 229, 255, 0.1);
+            border-color: var(--cyan);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+        }
+
+        /* =============================================
+           FOOTER
+        ============================================= */
+        .terminal-footer {
+            margin-top: 40px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--comment);
+            font-size: 11px;
+        }
+
+        /* =============================================
+           RESPONSIVE
+        ============================================= */
+        @media (max-width: 768px) {
+            .crt-frame {
+                margin: 8px;
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .crt-screen {
+                padding: 16px 12px;
+            }
+
+            body { font-size: 12px; }
+
+            .hero-row {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-name { font-size: 20px; }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .ascii-art {
+                font-size: 6px;
+                overflow-x: auto;
+            }
+
+            .stats-table td:first-child {
+                width: 140px;
+            }
+
+            .contact-links {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-photo {
+                width: 90px;
+                height: 90px;
+            }
+
+            .crt-bezel-label { display: none; }
+        }
+
+        /* =============================================
+           STARTUP ANIMATION
+        ============================================= */
+        .screen-on {
+            animation: screenOn 0.6s ease-out forwards;
+        }
+
+        @keyframes screenOn {
+            0% {
+                filter: brightness(0);
+                transform: scaleY(0.005) scaleX(0.8);
+            }
+            30% {
+                filter: brightness(2);
+                transform: scaleY(0.005) scaleX(1);
+            }
+            50% {
+                filter: brightness(1.5);
+                transform: scaleY(1) scaleX(1);
+            }
+            100% {
+                filter: brightness(1);
+                transform: scaleY(1) scaleX(1);
+            }
+        }
+
+        /* Typing animation for prompts */
+        .typing-cmd {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--green);
+            animation: typeCmd 0.6s steps(30) forwards, blinkCaret 0.7s step-end 3;
+            width: 0;
+            display: inline-block;
+            vertical-align: bottom;
+        }
+
+        @keyframes typeCmd {
+            to { width: 100%; }
+        }
+
+        @keyframes blinkCaret {
+            50% { border-color: transparent; }
+        }
+
+        /* Glow text */
+        .glow {
+            text-shadow: 0 0 8px var(--green-glow-strong), 0 0 20px var(--green-glow);
+        }
+
+        /* No screenshot placeholder */
+        .no-screenshot {
+            width: 100%;
+            height: 140px;
+            border: 1px dashed var(--border);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--comment);
+            font-size: 11px;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="cinematic-v2.html">Cinematic V2</option>
+    <option value="insane.html">Insane</option>
+    <option value="holographic.html">Holographic</option>
+    <option value="terminal.html" selected>Terminal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="blueprint.html">Blueprint</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+<div class="crt-frame">
+    <span class="crt-bezel-label">GEORG-OS v3.0</span>
+    <div class="crt-power"></div>
+
+    <div class="crt-screen screen-on">
+
+        <!-- Boot sequence -->
+        <div class="terminal-block">
+            <div class="boot-line">BIOS v3.0.1 — GEORG-OS</div>
+            <div class="boot-line">Memory Test: <span class="boot-ok">OK</span> — 128MB Extended</div>
+            <div class="boot-line">Loading kernel............... <span class="boot-ok">[DONE]</span></div>
+            <div class="boot-line">Mounting /portfolio.......... <span class="boot-ok">[DONE]</span></div>
+            <div class="boot-line">Initializing CRT display.... <span class="boot-ok">[DONE]</span></div>
+            <div class="boot-line">Network: <span class="boot-ok">georg.miami</span> — connected</div>
+            <hr class="boot-separator">
+        </div>
+
+        <!-- ASCII Banner -->
+        <div class="terminal-block">
+<pre class="ascii-art">
+  ██████╗ ███████╗ ██████╗ ██████╗  ██████╗
+ ██╔════╝ ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+ ██║  ███╗█████╗  ██║   ██║██████╔╝██║  ███╗
+ ██║   ██║██╔══╝  ██║   ██║██╔══██╗██║   ██║
+ ╚██████╔╝███████╗╚██████╔╝██║  ██║╚██████╔╝
+  ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝
+      C H I M I O N  —  M I A M I ,  F L
+</pre>
+        </div>
+
+        <!-- hero -->
+        <div class="terminal-block">
+            <div class="prompt">
+                <span class="prompt-user">georg</span><span class="prompt-at">@</span><span class="prompt-host">miami</span>:<span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                <span class="prompt-cmd">cat profile.txt</span>
+            </div>
+            <div class="output">
+                <div class="hero-row">
+                    <div class="hero-photo-container">
+                        <img src="georg-hero.jpeg" alt="Georg Chimion" class="hero-photo">
+                        <div class="hero-photo-border"></div>
+                    </div>
+                    <div class="hero-info">
+                        <div class="hero-name glow">AI automation for the enterprise.</div>
+                        <div class="hero-title">AI AUTOMATION SPECIALIST &middot; MIAMI</div>
+                        <div style="margin-top:8px; font-size:12px; color:var(--green-dim);">
+                            Enterprise automation, finance AI, and intelligent products.<br>
+                            Helping companies reduce operational costs with AI that actually works. Currently at PwC.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- $ cat stats.txt -->
+        <div class="terminal-block">
+            <div class="prompt">
+                <span class="prompt-user">georg</span><span class="prompt-at">@</span><span class="prompt-host">miami</span>:<span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                <span class="prompt-cmd">cat stats.txt</span>
+            </div>
+            <div class="output">
+                <table class="stats-table">
+                    <tr><td>products_shipped</td><td class="highlight">8</td></tr>
+                    <tr><td>stack</td><td>React, Node.js, Python, SQL</td></tr>
+                    <tr><td>ai_models</td><td>Claude, GPT-4, Gemini</td></tr>
+                    <tr><td>data_platform</td><td>Databricks, PostgreSQL</td></tr>
+                    <tr><td>enterprise</td><td>Power Platform, SharePoint</td></tr>
+                    <tr><td colspan="2"><hr class="stats-divider"></td></tr>
+                    <tr><td>current_employer</td><td class="amber">PwC (Contract)</td></tr>
+                    <tr><td>location</td><td>Wynwood, Miami FL</td></tr>
+                    <tr><td>focus</td><td>AI Automation & Enterprise Tools</td></tr>
+                    <tr><td>infra</td><td>Cloud infrastructure, Nginx, PM2</td></tr>
+                    <tr><td>domain</td><td class="cyan">georg.miami</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- $ ls projects/ -->
+        <div class="terminal-block">
+            <div class="prompt">
+                <span class="prompt-user">georg</span><span class="prompt-at">@</span><span class="prompt-host">miami</span>:<span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                <span class="prompt-cmd">ls -la projects/</span>
+            </div>
+            <div class="output">
+                <div class="output-line dim">total 8 — showing all deployed products</div>
+                <div class="output-line dim" style="margin-bottom:12px;">drwxr-xr-x  8 georg miami  4096 Apr  4 2026 .</div>
+
+                <div class="project-grid">
+
+                    <!-- Vestia -->
+                    <a href="https://vestia.georg.miami" target="_blank" class="project-card">
+                        <div class="project-header">
+                            <span class="project-index">[0]</span>
+                            <span class="project-name">Vestia</span>
+                            <span class="project-status status-live">LIVE</span>
+                        </div>
+                        <div class="file-preview-label">$ preview vestia.png</div>
+                        <img src="screenshots/vestia.png" alt="Vestia" class="project-screenshot">
+                        <div class="project-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</div>
+                        <div class="project-url">vestia.georg.miami</div>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">AI</span>
+                            <span class="project-tag">Property</span>
+                        </div>
+                    </a>
+
+                    <!-- Ask Penny -->
+                    <a href="https://penny.georg.miami" target="_blank" class="project-card">
+                        <div class="project-header">
+                            <span class="project-index">[1]</span>
+                            <span class="project-name">Ask Penny</span>
+                            <span class="project-status status-live">LIVE</span>
+                        </div>
+                        <div class="file-preview-label">$ preview askpenny-dashboard.png</div>
+                        <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny" class="project-screenshot">
+                        <div class="project-desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</div>
+                        <div class="project-url">penny.georg.miami</div>
+                        <div class="project-tags">
+                            <span class="project-tag">Express</span>
+                            <span class="project-tag">Claude API</span>
+                            <span class="project-tag">PostgreSQL</span>
+                        </div>
+                    </a>
+
+                    <!-- Agent Factory -->
+                    <a href="https://factory.georg.miami" target="_blank" class="project-card">
+                        <div class="project-header">
+                            <span class="project-index">[2]</span>
+                            <span class="project-name">Agent Factory</span>
+                            <span class="project-status status-live">LIVE</span>
+                        </div>
+                        <div class="file-preview-label">$ preview factory.png</div>
+                        <img src="screenshots/factory.png" alt="Agent Factory" class="project-screenshot">
+                        <div class="project-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</div>
+                        <div class="project-url">factory.georg.miami</div>
+                        <div class="project-tags">
+                            <span class="project-tag">SSE</span>
+                            <span class="project-tag">AI Agents</span>
+                            <span class="project-tag">Node.js</span>
+                        </div>
+                    </a>
+
+                    <!-- VENUE -->
+                    <a href="https://venue.georg.miami" target="_blank" class="project-card">
+                        <div class="project-header">
+                            <span class="project-index">[3]</span>
+                            <span class="project-name">VENUE</span>
+                            <span class="project-status status-live">LIVE</span>
+                        </div>
+                        <div class="file-preview-label">$ preview venue.png</div>
+                        <img src="screenshots/venue.png" alt="VENUE" class="project-screenshot">
+                        <div class="project-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</div>
+                        <div class="project-url">venue.georg.miami</div>
+                        <div class="project-tags">
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">SSR</span>
+                        </div>
+                    </a>
+
+                    <!-- ReconX -->
+                    <a href="https://reconx.georg.miami" target="_blank" class="project-card">
+                        <div class="project-header">
+                            <span class="project-index">[4]</span>
+                            <span class="project-name">ReconX</span>
+                            <span class="project-status status-live">LIVE</span>
+                        </div>
+                        <div class="file-preview-label">$ preview reconx.png</div>
+                        <img src="screenshots/reconx.png" alt="ReconX" class="project-screenshot">
+                        <div class="project-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</div>
+                        <div class="project-url">reconx.georg.miami</div>
+                        <div class="project-tags">
+                            <span class="project-tag">Finance</span>
+                            <span class="project-tag">Automation</span>
+                            <span class="project-tag">React</span>
+                        </div>
+                    </a>
+
+                    <!-- AI Doc Intelligence -->
+                    <a href="https://docs.georg.miami" target="_blank" class="project-card">
+                        <div class="project-header">
+                            <span class="project-index">[5]</span>
+                            <span class="project-name">AI Document Intelligence</span>
+                            <span class="project-status status-live">LIVE</span>
+                        </div>
+                        <div class="file-preview-label">$ preview docai.png</div>
+                        <img src="screenshots/docai.png" alt="AI Doc Intelligence" class="project-screenshot">
+                        <div class="project-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</div>
+                        <div class="project-url">docs.georg.miami</div>
+                        <div class="project-tags">
+                            <span class="project-tag">AI</span>
+                            <span class="project-tag">NLP</span>
+                            <span class="project-tag">Documents</span>
+                        </div>
+                    </a>
+
+                    <!-- ROI Calculator -->
+                    <a href="https://roi.georg.miami" target="_blank" class="project-card">
+                        <div class="project-header">
+                            <span class="project-index">[6]</span>
+                            <span class="project-name">ROI Calculator</span>
+                            <span class="project-status status-live">LIVE</span>
+                        </div>
+                        <div class="file-preview-label">$ preview roi.png</div>
+                        <img src="screenshots/roi.png" alt="ROI Calculator" class="project-screenshot">
+                        <div class="project-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</div>
+                        <div class="project-url">roi.georg.miami</div>
+                        <div class="project-tags">
+                            <span class="project-tag">Analytics</span>
+                            <span class="project-tag">Enterprise</span>
+                            <span class="project-tag">Finance</span>
+                        </div>
+                    </a>
+
+                    <!-- SpaceWalk -->
+                    <a href="https://spacewalk.georg.miami" target="_blank" class="project-card">
+                        <div class="project-header">
+                            <span class="project-index">[7]</span>
+                            <span class="project-name">SpaceWalk</span>
+                            <span class="project-status status-beta">BETA</span>
+                        </div>
+                        <div class="file-preview-label">$ preview spacewalk.png</div>
+                        <img src="screenshots/spacewalk.png" alt="SpaceWalk" class="project-screenshot">
+                        <div class="project-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</div>
+                        <div class="project-url">spacewalk.georg.miami</div>
+                        <div class="project-tags">
+                            <span class="project-tag">Experimental</span>
+                            <span class="project-tag">Spatial</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- expertise -->
+        <div class="terminal-block">
+            <div class="prompt">
+                <span class="prompt-user">georg</span><span class="prompt-at">@</span><span class="prompt-host">miami</span>:<span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                <span class="prompt-cmd">cat expertise.txt</span>
+            </div>
+            <div class="output">
+                <div class="output-line" style="margin-bottom: 8px;"><span class="highlight">What I bring.</span> <span class="dim">// End-to-end — from system design to deployed product.</span></div>
+                <div class="output-line"><span class="amber">AI Systems</span> <span class="dim">—</span> Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</div>
+                <div class="output-line" style="margin-top:6px;"><span class="amber">Finance &amp; Risk</span> <span class="dim">—</span> Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</div>
+                <div class="output-line" style="margin-top:6px;"><span class="amber">Full-Stack</span> <span class="dim">—</span> React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</div>
+                <div class="output-line" style="margin-top:6px;"><span class="amber">Rapid Build</span> <span class="dim">—</span> From concept to working prototype in days, not months. Fast iteration with real users — six live products already in portfolio.</div>
+            </div>
+        </div>
+
+        <!-- engagement model -->
+        <div class="terminal-block">
+            <div class="prompt">
+                <span class="prompt-user">georg</span><span class="prompt-at">@</span><span class="prompt-host">miami</span>:<span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                <span class="prompt-cmd">cat engagement-model.txt</span>
+            </div>
+            <div class="output">
+                <div class="output-line" style="margin-bottom: 8px;"><span class="highlight">Engagement model.</span> <span class="dim">// Embedded specialist, not a slide-deck consultant. I join your team and ship.</span></div>
+                <div class="output-line"><span class="cyan">01 Discovery</span> <span class="dim">—</span> Understand workflows, pain points, and what 'done' looks like. Map the opportunity, identify quick wins, define success criteria.</div>
+                <div class="output-line" style="margin-top:6px;"><span class="cyan">02 Build &amp; Ship</span> <span class="dim">—</span> Embedded in your team, building production systems. Weekly stakeholder iterations. Real users, real feedback.</div>
+                <div class="output-line" style="margin-top:6px;"><span class="cyan">03 Handoff</span> <span class="dim">—</span> Documentation, training, knowledge transfer. Your team owns it. Optional retainer for ongoing support.</div>
+            </div>
+        </div>
+
+        <!-- $ contact --list -->
+        <div class="terminal-block">
+            <div class="prompt">
+                <span class="prompt-user">georg</span><span class="prompt-at">@</span><span class="prompt-host">miami</span>:<span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                <span class="prompt-cmd">cat contact.txt</span>
+            </div>
+            <div class="output">
+                <div class="contact-links">
+                    <a href="mailto:georg.chimion@gmail.com" class="contact-link">
+                        mail: georg.chimion@gmail.com
+                    </a>
+                    <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-link">
+                        github: georgchimion-oss
+                    </a>
+                    <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-link">
+                        linkedin: georgchimion
+                    </a>
+                    <a href="https://georg.miami" target="_blank" class="contact-link">
+                        web: georg.miami
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final prompt with blinking cursor -->
+        <div class="terminal-block">
+            <div class="prompt">
+                <span class="prompt-user">georg</span><span class="prompt-at">@</span><span class="prompt-host">miami</span>:<span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                <span class="cursor"></span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="terminal-footer">
+            <div>&copy; 2026 Georg Chimion. Miami, FL. // Built with Claude</div>
+            <div style="margin-top:4px;">Session uptime: <span id="uptime">00:00:00</span></div>
+        </div>
+
+    </div><!-- /.crt-screen -->
+</div><!-- /.crt-frame -->
+
+<script>
+    // Session uptime counter
+    const startTime = Date.now();
+    const uptimeEl = document.getElementById('uptime');
+
+    function updateUptime() {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const h = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+        const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+        const s = String(elapsed % 60).padStart(2, '0');
+        uptimeEl.textContent = `${h}:${m}:${s}`;
+    }
+
+    setInterval(updateUptime, 1000);
+
+    // Intersection Observer for scroll-triggered reveals
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.terminal-block').forEach(block => {
+        observer.observe(block);
+    });
+</script>
+
+</body>
+</html>

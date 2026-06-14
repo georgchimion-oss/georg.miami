@@ -1,0 +1,2900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georg Chimion · AI Engineer for Finance · Miami</title>
+    <meta name="description" content="AI engineer with a background in banking and consulting. Reconciliation, risk and fraud scoring, document intelligence, and assistants on live financial data. Currently at PwC.">
+    <meta property="og:title" content="Georg Chimion · AI Engineer for Finance · Miami">
+    <meta property="og:description" content="AI engineer with a background in banking and consulting. Reconciliation, risk and fraud scoring, document intelligence, and assistants on live financial data. Currently at PwC.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://georg.miami">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2306B6D4'/><text x='16' y='22' font-family='system-ui,sans-serif' font-size='18' font-weight='700' fill='%230C0C0C' text-anchor='middle'>GC</text></svg>">
+    <link rel="stylesheet" href="georg-design-system.css">
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+
+    <style>
+        /* =============================================
+           NAV
+        ============================================= */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            transition: border-color 0.3s ease;
+        }
+
+        nav::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
+            backdrop-filter: blur(20px) saturate(1.2);
+        }
+
+        .nav-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            color: var(--text-2);
+            font-weight: 400;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            color: var(--text-2);
+            transition: border-color 0.2s;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
+
+        .nav-designs {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 7px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: border-color 0.18s, color 0.18s, background 0.18s;
+        }
+        .nav-designs:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        /* ─── Designs modal ─── */
+        .dm-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 60px 20px 20px;
+            overflow-y: auto;
+        }
+        .dm-overlay.open { display: flex; animation: dmFade 0.25s ease; }
+        @keyframes dmFade { from { opacity: 0; } to { opacity: 1; } }
+        .dm-panel {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 980px;
+            width: 100%;
+            padding: 32px;
+            box-shadow: 0 30px 90px rgba(0,0,0,0.5);
+            animation: dmUp 0.28s cubic-bezier(.22,1,.36,1);
+        }
+        @keyframes dmUp { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .dm-head {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            gap: 24px; margin-bottom: 28px;
+        }
+        .dm-title-wrap .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .dm-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(22px, 3vw, 30px);
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        .dm-desc {
+            font-size: 14px;
+            color: var(--text-2);
+            max-width: 560px;
+        }
+        .dm-close {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .dm-close:hover { color: var(--text); border-color: var(--text-2); }
+        .dm-group {
+            margin-top: 22px;
+        }
+        .dm-group-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            color: var(--text-3);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .dm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .dm-card {
+            display: block;
+            padding: 14px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            transition: border-color 0.18s, background 0.18s, transform 0.15s;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+        }
+        .dm-card:hover {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+            transform: translateY(-1px);
+        }
+        .dm-card .name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: -0.005em;
+            margin-bottom: 2px;
+        }
+        .dm-card .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-3);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .dm-card.featured {
+            background: var(--accent-glow);
+            border-color: var(--accent);
+        }
+        .dm-card.featured .name::after {
+            content: ' ★';
+            color: var(--accent);
+        }
+        @media (max-width: 640px) {
+            .dm-overlay { padding: 20px 12px; }
+            .dm-panel { padding: 20px; }
+            .dm-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .btn-hire {
+            padding: 8px 20px;
+            background: var(--accent);
+            color: var(--accent-text);
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: var(--r-sm);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+            min-height: 44px;
+            line-height: 28px;
+        }
+
+        .btn-hire:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            color: var(--accent-text);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 8px;
+            min-width: 44px;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =============================================
+           HERO · Split layout (text 55% / photo 45%)
+        ============================================= */
+        .hero {
+            padding: 160px 0 100px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 57% 43%;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 22px;
+            opacity: 0; /* GSAP will animate this */
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5.5vw, 72px);
+            letter-spacing: -0.03em;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            opacity: 0; /* GSAP will animate this */
+        }
+
+        .hero-sub {
+            font-size: 17px;
+            color: var(--text-2);
+            line-height: 1.7;
+            max-width: 480px;
+            margin-bottom: 36px;
+            font-weight: 300;
+            opacity: 0; /* GSAP will animate this */
+        }
+
+        .hero-offer {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            margin-bottom: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--accent);
+            background: var(--accent-glow);
+            border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+            border-radius: 999px;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, transform 0.15s;
+        }
+        .hero-offer:hover {
+            background: color-mix(in srgb, var(--accent) 14%, transparent);
+            border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+            transform: translateX(2px);
+        }
+        .hero-offer .pulse {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+            animation: pulseRing 1.8s ease-out infinite;
+        }
+        .hero-offer .arr {
+            margin-left: 4px;
+            transition: transform 0.15s;
+        }
+        .hero-offer:hover .arr { transform: translateX(3px); }
+        @keyframes pulseRing {
+            0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+            70%  { box-shadow: 0 0 0 10px transparent; }
+            100% { box-shadow: 0 0 0 0 transparent; }
+        }
+
+        /* AUDITS SECTION */
+        #audits { background: var(--bg); }
+        .audit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 900px) { .audit-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .audit-grid { grid-template-columns: 1fr; } }
+        .audit-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px 22px 20px;
+            cursor: pointer;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex; flex-direction: column;
+            gap: 12px;
+            min-height: 220px;
+        }
+        .audit-card:hover {
+            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent), var(--shadow-lg);
+        }
+        .audit-card:hover .audit-arrow { color: var(--accent); transform: translateX(3px); }
+        .audit-card .a-top { display: flex; justify-content: space-between; align-items: center; }
+        .audit-card .a-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.1em; }
+        .audit-card .a-date { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-3); letter-spacing: 0.06em; }
+        .audit-card .a-name { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1.15; }
+        .audit-card .a-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); }
+        .audit-card .a-desc { font-size: 13px; color: var(--text-2); line-height: 1.55; flex: 1; }
+        .audit-card .a-desc em { font-style: normal; font-weight: 500; color: var(--text); }
+        .audit-card .a-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
+        .audit-card .a-url { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); }
+        .audit-arrow { color: var(--text-3); font-size: 15px; transition: color 0.2s, transform 0.2s; }
+
+        .audits-see-all {
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px;
+            margin-top: 28px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            color: var(--text-2);
+            padding: 14px;
+            border: 1px dashed var(--border);
+            border-radius: var(--r);
+            text-decoration: none;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .audits-see-all:hover { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+        .audits-see-all strong { color: var(--text); font-family: 'Space Grotesk', sans-serif; font-size: 14px; letter-spacing: -0.02em; font-weight: 600; }
+
+        .audit-request-bar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 28px;
+            padding: 30px 34px;
+            background: linear-gradient(120deg, var(--accent-glow), color-mix(in srgb, var(--accent) 6%, transparent));
+            border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+            border-radius: var(--r);
+            margin-top: 28px;
+        }
+        .audit-request-bar .r-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(20px, 1.8vw, 24px);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+        .audit-request-bar .r-title em { font-style: normal; color: var(--accent); }
+        .audit-request-bar .r-sub {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.55;
+            max-width: 620px;
+        }
+        .audit-request-bar .r-btn {
+            background: var(--accent);
+            color: var(--accent-text);
+            padding: 14px 24px;
+            border-radius: var(--r-sm);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .audit-request-bar .r-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        @media (max-width: 700px) {
+            .audit-request-bar { grid-template-columns: 1fr; padding: 24px; }
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            opacity: 0; /* GSAP will animate this */
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            background: var(--accent);
+            color: var(--accent-text);
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--r-sm);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            min-height: 44px;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            color: var(--accent-text);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            background: transparent;
+            color: var(--text-2);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--r-sm);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
+            text-decoration: none;
+            min-height: 44px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
+
+        /* Hero photo */
+        .hero-photo-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; /* GSAP will animate this */
+        }
+
+        .hero-photo {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            object-position: center center;
+            border-radius: 16px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+            display: block;
+        }
+
+        [data-theme="light"] .hero-photo {
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        /* =============================================
+           SECTION SHARED STYLES
+        ============================================= */
+        section {
+            padding: 90px 0;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 3.2vw, 42px);
+            letter-spacing: -0.03em;
+            font-weight: 700;
+            margin-bottom: 14px;
+            line-height: 1.15;
+        }
+
+        .section-sub {
+            font-size: 16px;
+            color: var(--text-2);
+            max-width: 540px;
+            line-height: 1.7;
+            margin-bottom: 52px;
+            font-weight: 300;
+        }
+
+        /* =============================================
+           PRODUCTS GRID
+        ============================================= */
+        /* Credibility strip under hero */
+        .cred-strip {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .cred-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px 28px;
+            padding: 26px 0;
+        }
+        .cred-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+        .cred-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+        .cred-num .hl { color: var(--accent); }
+        .cred-label {
+            font-size: 12px;
+            color: var(--text-2);
+            letter-spacing: 0.01em;
+        }
+        @media (max-width: 768px) {
+            .cred-row {
+                gap: 16px 24px;
+                padding: 20px 0;
+            }
+            .cred-row { grid-template-columns: repeat(2, 1fr); }
+            .cred-item:last-child { grid-column: 1 / -1; }
+            .cred-num { font-size: 16px; }
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .product-card {
+            background: var(--surface);
+            border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 6px 18px rgba(0,0,0,0.07);
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent), var(--shadow-lg);
+        }
+
+        /* Featured card spans 2 columns */
+        .product-card-featured {
+            grid-column: span 2;
+        }
+
+        .product-card-featured .product-thumb {
+            aspect-ratio: 16/7;
+        }
+
+        /* Featured set: accent top edge so the first six read as the lead row */
+        .product-card.is-featured {
+            border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+        }
+        .product-card.is-featured::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--accent);
+            z-index: 2;
+        }
+
+        /* "More work" divider between featured and the rest */
+        .more-label {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 40px 0 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-2);
+        }
+        .more-label::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .product-thumb {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+            overflow: hidden;
+            position: relative;
+        }
+        /* Inset hairline so a white/light preview never bleeds to the card edge */
+        .product-thumb::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+            pointer-events: none;
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            display: block;
+        }
+
+        .product-card:hover .product-thumb img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .badge-ai {
+            background: var(--accent-glow);
+            color: var(--accent);
+            border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+        }
+
+        .badge-live {
+            background: var(--status-green-glow);
+            color: var(--status-green);
+            border: 1px solid color-mix(in srgb, var(--status-green) 20%, transparent);
+        }
+
+        .badge-new {
+            background: var(--accent-glow);
+            color: var(--accent);
+            border: 1px dashed color-mix(in srgb, var(--accent) 25%, transparent);
+        }
+
+        .product-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .product-desc {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.55;
+        }
+
+        .product-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 600;
+            opacity: 0.75;
+            transition: opacity 0.2s, gap 0.2s;
+        }
+
+        .product-card:hover .product-cta {
+            opacity: 1;
+            gap: 7px;
+        }
+
+        /* The Lab CTA bar */
+        .lab-cta-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 32px;
+            background: var(--accent-glow);
+            border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+            border-radius: var(--r);
+            margin-top: 24px;
+        }
+
+        .lab-cta-bar strong {
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .lab-cta-bar span {
+            font-size: 13px;
+            color: var(--text-2);
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* =============================================
+           EXPERTISE (was capabilities)
+        ============================================= */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .expertise-card {
+            padding: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            border-left: 3px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .expertise-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .expertise-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+
+        .expertise-desc {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        .expertise-context {
+            font-size: 11px;
+            color: var(--text-3);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: auto;
+            padding-top: 8px;
+        }
+
+        /* =============================================
+           PROCESS SECTION
+        ============================================= */
+        .process-wrapper {
+            position: relative;
+        }
+
+        .process-row {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            position: relative;
+        }
+
+        .process-step {
+            flex: 1;
+            padding: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Connecting line between steps */
+        .process-connector {
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            flex-shrink: 0;
+        }
+
+        .process-connector-line {
+            width: 48px;
+            height: 1px;
+            background: var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-connector-fill {
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: none;
+        }
+
+        .process-connector-arrow {
+            color: var(--text-3);
+            font-size: 14px;
+            opacity: 0.4;
+            margin-left: 4px;
+            flex-shrink: 0;
+        }
+
+        .process-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .process-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .process-desc {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.6;
+            margin-top: auto;
+        }
+
+        /* =============================================
+           EVENT SECTION
+        ============================================= */
+        .event-card {
+            padding: 36px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 36px;
+            align-items: start;
+        }
+
+        .event-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            background: var(--accent-glow);
+            border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+            border-radius: 100px;
+            font-size: 11px;
+            color: var(--accent);
+            margin-bottom: 18px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        .event-eyebrow-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 6px var(--accent);
+            animation: pulse-dot 2s ease infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .event-meta-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .event-meta-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            min-width: 52px;
+        }
+
+        .event-meta-value {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .event-topics {
+            padding: 24px;
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+        }
+
+        .event-topics-header {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 14px;
+        }
+
+        .event-topic {
+            padding: 9px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-2);
+            display: flex;
+            gap: 10px;
+            line-height: 1.4;
+        }
+
+        .event-topic:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .event-topic-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--accent);
+            min-width: 16px;
+            padding-top: 2px;
+        }
+
+        /* =============================================
+           CONTACT SECTION
+        ============================================= */
+        .contact-section-inner {
+            text-align: center;
+        }
+
+        .contact-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            margin: 0 auto 28px;
+            display: block;
+        }
+
+        .contact-heading {
+            font-size: clamp(32px, 4vw, 48px);
+            letter-spacing: -0.03em;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .contact-sub {
+            font-size: 16px;
+            color: var(--text-2);
+            max-width: 480px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .contact-cta-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+        .contact-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 28px;
+            background: var(--accent);
+            color: #0C0C0C;
+            border-radius: var(--r-sm);
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent), 0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent);
+        }
+        .contact-cta-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 0 0 1px var(--accent), 0 12px 32px color-mix(in srgb, var(--accent) 35%, transparent);
+        }
+        .contact-cta-btn svg { stroke: currentColor; flex-shrink: 0; }
+        .contact-cta-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-2);
+            letter-spacing: 0.02em;
+        }
+        .contact-cta-note::before {
+            content: "● ";
+            color: var(--status-green);
+            font-size: 9px;
+            vertical-align: middle;
+        }
+
+        .contact-links-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            color: var(--text-2);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            min-height: 44px;
+        }
+
+        .contact-link:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
+
+        .contact-link svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            flex-shrink: 0;
+        }
+
+        /* =============================================
+           MODAL
+        ============================================= */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(24px);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-2);
+            font-size: 18px;
+            transition: border-color 0.2s, color 0.2s;
+            z-index: 10;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
+
+        .modal-video {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--bg-2);
+            border-radius: 16px 16px 0 0;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .modal-video img,
+        .modal-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .modal-body {
+            padding: 28px;
+            position: relative;
+        }
+
+        .modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .modal-desc {
+            font-size: 15px;
+            color: var(--text-2);
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .modal-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 24px;
+        }
+
+        .tech-pill {
+            padding: 4px 10px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            font-size: 11px;
+            color: var(--text-3);
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .modal-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--accent);
+            color: var(--accent-text);
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: var(--r-sm);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+        }
+
+        .modal-cta:hover {
+            background: var(--accent-hover);
+            color: var(--accent-text);
+        }
+
+        /* =============================================
+           FOOTER
+        ============================================= */
+        footer {
+            padding: 36px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-main {
+            font-size: 13px;
+            color: var(--text-3);
+            margin-bottom: 6px;
+        }
+
+        .footer-sub {
+            font-size: 11px;
+            color: var(--text-3);
+            opacity: 0.5;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* =============================================
+           RESPONSIVE · TABLET
+        ============================================= */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 48px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-card-featured {
+                grid-column: span 2;
+            }
+
+            .expertise-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .event-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* =============================================
+           RESPONSIVE · MOBILE
+        ============================================= */
+        @media (max-width: 768px) {
+            nav {
+                padding: 14px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 20px;
+                gap: 16px;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            /* Hero: text first, photo below */
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            /* Photo order: text first (order 1), then photo (order 2) */
+            .hero-text { order: 1; }
+
+            .hero-photo-wrap {
+                order: 2;
+                justify-content: center;
+            }
+
+            .hero-photo {
+                max-width: 280px;
+                aspect-ratio: 1/1;
+            }
+
+            .hero h1 {
+                font-size: clamp(36px, 9vw, 52px);
+            }
+
+            /* Products: 1 column */
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card-featured {
+                grid-column: span 1;
+            }
+
+            .product-card-featured .product-thumb {
+                aspect-ratio: 16/10;
+            }
+
+            /* Always show product CTA on mobile */
+            .product-cta {
+                opacity: 1;
+            }
+
+            /* Expertise: 1 column */
+            .expertise-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Process: stack vertically */
+            .process-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .process-connector {
+                justify-content: center;
+                transform: rotate(90deg);
+                padding: 4px 0;
+            }
+
+            .process-connector-line {
+                width: 32px;
+            }
+
+            /* Lab CTA bar */
+            .lab-cta-bar {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+                padding: 24px 20px;
+            }
+
+            /* Event */
+            .event-card {
+                grid-template-columns: 1fr;
+                padding: 24px;
+                gap: 24px;
+            }
+
+            /* Contact */
+            .contact-links-row {
+                gap: 8px;
+            }
+
+            .contact-link {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+
+            /* Modal */
+            .modal-overlay {
+                padding: 16px;
+            }
+
+            .section-sub {
+                margin-bottom: 36px;
+            }
+        }
+
+        /* =============================================
+           ANIMATIONS · initial states for non-GSAP
+        ============================================= */
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+    </style>
+</head>
+<body>
+
+<!-- =============================================
+     NAV
+============================================= -->
+<nav id="mainNav">
+    <a href="/" class="nav-name">Georg Chimion</a>
+    <div class="nav-links" id="navLinks">
+        <a href="#products">Products</a>
+        <a href="#audits">Audits</a>
+        <a href="#how">Work</a>
+        <a href="#contact">About</a>
+        <button type="button" class="nav-designs" id="navDesigns" aria-label="Browse designs">Designs · 41</button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+        <a href="#contact" class="btn-hire">Hire Me</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      
+      <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">
+          <i data-lucide="menu" style="width:20px;height:20px;"></i>
+      </button>
+    </div>
+</nav>
+
+<!-- =============================================
+     DESIGNS MODAL · 20 variant picker
+============================================= -->
+<div class="dm-overlay" id="dmOverlay" role="dialog" aria-modal="true" aria-labelledby="dmTitle" hidden>
+  <div class="dm-panel" role="document">
+    <div class="dm-head">
+      <div class="dm-title-wrap">
+        <div class="eyebrow">// 41 design variants</div>
+        <div class="dm-title" id="dmTitle">Same portfolio, forty-one designs.</div>
+        <p class="dm-desc">Each is a fully-built alternate of this site. Different hero, different colors, different motion. Click any to see it live. You can always come back to this view.</p>
+      </div>
+      <button class="dm-close" id="dmClose" aria-label="Close">×</button>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">★ Homepage Concepts</div>
+      <div class="dm-grid">
+        <a class="dm-card featured" href="/index-v1.html"><div class="name">V1 · Operator</div><div class="tag">Editorial polish, metrics rail</div></a>
+        <a class="dm-card featured" href="/index-v2.html"><div class="name">V2 · Specialist</div><div class="tag">Data-dense + AI-twin chat</div></a>
+        <a class="dm-card featured" href="/index-v3.html"><div class="name">V3 · Signal</div><div class="tag">Kinetic · ambient · orbit</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Interactive</div>
+      <div class="dm-grid">
+        <a class="dm-card featured" href="/zelda.html"><div class="name">Legend of Georg</div><div class="tag">SNES · playable RPG</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">3D · WebGL</div>
+      <div class="dm-grid">
+        <a class="dm-card featured" href="/flux.html"><div class="name">Flux</div><div class="tag">20,000 particles</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Editorial · Print</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/atelier-paper.html"><div class="name">Atelier Paper</div><div class="tag">Newsreader serif</div></a>
+        <a class="dm-card" href="/broadsheet.html"><div class="name">Broadsheet</div><div class="tag">Newspaper masthead</div></a>
+        <a class="dm-card" href="/monograph.html"><div class="name">Monograph</div><div class="tag">Book on desk</div></a>
+        <a class="dm-card" href="/letterpress.html"><div class="name">Letterpress</div><div class="tag">Deboss · IBM Plex</div></a>
+        <a class="dm-card" href="/dossier.html"><div class="name">Dossier</div><div class="tag">Classified briefing</div></a>
+        <a class="dm-card" href="/gallerist.html"><div class="name">Gallerist</div><div class="tag">Museum placard</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Stage · Finance</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/spotlight.html"><div class="name">Spotlight</div><div class="tag">Cinematic portrait</div></a>
+        <a class="dm-card" href="/ledger.html"><div class="name">Ledger</div><div class="tag">Bloomberg terminal</div></a>
+        <a class="dm-card" href="/concierge.html"><div class="name">Concierge</div><div class="tag">Maison · gold + cream</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Atmospheric</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/dusk.html"><div class="name">Dusk</div><div class="tag">Sunset gradient</div></a>
+        <a class="dm-card" href="/constellation.html"><div class="name">Constellation</div><div class="tag">Starfield</div></a>
+        <a class="dm-card" href="/voyage.html"><div class="name">Voyage</div><div class="tag">Adventure map</div></a>
+        <a class="dm-card" href="/fireworks.html"><div class="name">Fireworks</div><div class="tag">Celebratory</div></a>
+        <a class="dm-card" href="/vapor.html"><div class="name">Vapor</div><div class="tag">Vaporwave sun</div></a>
+        <a class="dm-card" href="/ocean-drive.html"><div class="name">Ocean Drive</div><div class="tag">80s pixel + CRT</div></a>
+        <a class="dm-card" href="/tornado.html"><div class="name">Tornado</div><div class="tag">Warning bars</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">New</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/liquid.html"><div class="name">Liquid</div><div class="tag">Chrome</div></a>
+        <a class="dm-card" href="/kinetic.html"><div class="name">Kinetic</div><div class="tag">Motion</div></a>
+        <a class="dm-card" href="/editorial.html"><div class="name">Editorial</div><div class="tag">Magazine</div></a>
+        <a class="dm-card" href="/glitch.html"><div class="name">Glitch</div><div class="tag">Cyberpunk</div></a>
+        <a class="dm-card" href="/atelier.html"><div class="name">Atelier</div><div class="tag">Workshop</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Cinematic</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/cinematic.html"><div class="name">Cinematic</div><div class="tag">Film</div></a>
+        <a class="dm-card" href="/cinematic-v2.html"><div class="name">Cinematic V2</div><div class="tag">Remastered</div></a>
+        <a class="dm-card" href="/noir.html"><div class="name">Noir</div><div class="tag">Black & white</div></a>
+        <a class="dm-card" href="/premiere.html"><div class="name">Premiere</div><div class="tag">Red carpet</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Dark</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/cyberpunk.html"><div class="name">Cyberpunk</div><div class="tag">2077</div></a>
+        <a class="dm-card" href="/synthwave.html"><div class="name">Synthwave</div><div class="tag">80s neon</div></a>
+        <a class="dm-card" href="/neon.html"><div class="name">Neon</div><div class="tag">Vegas glow</div></a>
+        <a class="dm-card" href="/holographic.html"><div class="name">Holographic</div><div class="tag">Iridescent</div></a>
+        <a class="dm-card" href="/terminal.html"><div class="name">Terminal</div><div class="tag">CLI green</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Bold</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/brutalist.html"><div class="name">Brutalist</div><div class="tag">Raw concrete</div></a>
+        <a class="dm-card" href="/maximal.html"><div class="name">Maximal</div><div class="tag">All of it</div></a>
+        <a class="dm-card" href="/insane.html"><div class="name">Insane</div><div class="tag">No rules</div></a>
+        <a class="dm-card" href="/gaming.html"><div class="name">Gaming</div><div class="tag">RGB</div></a>
+      </div>
+    </div>
+
+    <div class="dm-group">
+      <div class="dm-group-label">Clean</div>
+      <div class="dm-grid">
+        <a class="dm-card" href="/blueprint.html"><div class="name">Blueprint</div><div class="tag">Technical</div></a>
+        <a class="dm-card" href="/desktop.html"><div class="name">Desktop</div><div class="tag">OS chrome</div></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('navDesigns');
+  var overlay = document.getElementById('dmOverlay');
+  var closeBtn = document.getElementById('dmClose');
+  if (!btn || !overlay) return;
+
+  function open(){
+    overlay.hidden = false;
+    requestAnimationFrame(function(){ overlay.classList.add('open'); });
+    document.body.style.overflow = 'hidden';
+    // Move focus into the modal for keyboard users
+    closeBtn.focus();
+  }
+  function close(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function(){ overlay.hidden = true; }, 220);
+  }
+
+  btn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) close();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !overlay.hidden) close();
+  });
+})();
+</script>
+
+<!-- =============================================
+     HERO · Split layout
+============================================= -->
+<header class="hero">
+    <div class="container">
+        <div class="hero-grid">
+            <!-- Left: text -->
+            <div class="hero-text">
+                <div class="hero-eyebrow" id="heroEyebrow">AI ENGINEER &middot; FINTECH &amp; BANKING &middot; MIAMI</div>
+                <h1 id="heroH1">AI automation<br>for the enterprise.</h1>
+                <p class="hero-sub" id="heroSub">AI engineer with a background in banking and consulting. I put AI to work where money and regulation leave no room for error: reconciliation, risk and fraud scoring, document intelligence, assistants on live financial data. Currently at PwC.</p>
+                <a href="#audit-request" class="hero-offer"><span class="pulse"></span>Free growth audit for your business <span class="arr">&rarr;</span></a>
+                <div class="hero-actions" id="heroCTAs">
+                    <a href="#products" class="btn-primary">View Products &rarr;</a>
+                    <a href="#contact" class="btn-secondary">Get in Touch</a>
+                </div>
+            </div>
+            <!-- Right: photo -->
+            <div class="hero-photo-wrap" id="heroPhoto">
+                <img
+                    src="georg-hero.jpeg"
+                    alt="Georg Chimion, AI engineer for finance"
+                    class="hero-photo"
+                >
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- =============================================
+     CREDIBILITY STRIP
+============================================= -->
+<section class="cred-strip">
+    <div class="container">
+        <div class="cred-row">
+            <div class="cred-item">
+                <span class="cred-num"><span class="hl">PwC</span> today</span>
+                <span class="cred-label">AI systems in production</span>
+            </div>
+            <div class="cred-item">
+                <span class="cred-num">Banking + risk</span>
+                <span class="cred-label">reconciliation, fraud, and compliance systems</span>
+            </div>
+            <div class="cred-item">
+                <span class="cred-num"><span class="hl">15</span> AI products</span>
+                <span class="cred-label">all live, all clickable</span>
+            </div>
+            <div class="cred-item">
+                <span class="cred-num"><span class="hl">12</span> client audits</span>
+                <span class="cred-label">delivered as live branded sites</span>
+            </div>
+            <div class="cred-item">
+                <span class="cred-num">Claude</span>
+                <span class="cred-label">multi-agent, on real data</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     PRODUCTS SECTION
+============================================= -->
+<section id="products">
+    <div class="container">
+        <div class="section-label gsap-reveal">// products</div>
+        <h2 class="section-title gsap-reveal">AI you can click.</h2>
+        <p class="section-sub gsap-reveal">Every one is live, built end to end, from architecture to deployed product. The strongest are built where finance and risk live.</p>
+
+        <div class="products-grid">
+
+            <!-- Ask Penny -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('penny')">
+                <div class="product-thumb">
+                    <img src="screenshots/penny.png" alt="Ask Penny · AI finance assistant on real bank data" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Ask Penny</div>
+                    <div class="product-desc">Claude connected to a real bank account through Teller or Plaid. Ask about your money in plain English and it answers from live transactions.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <!-- ReconX -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('reconx')">
+                <div class="product-thumb">
+                    <img src="screenshots/reconx.png" alt="ReconX · AI financial reconciliation engine" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">ReconX</div>
+                    <div class="product-desc">AI reconciliation engine. Multi-pass matching clears the easy hits and surfaces the exceptions a controller actually needs to see. Built on hands-on banking reconciliation work.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <!-- Cascade -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('cascade')">
+                <div class="product-thumb">
+                    <img src="screenshots/cascade.png" alt="Cascade · AI supply-chain exposure ranking" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Cascade</div>
+                    <div class="product-desc">AI ranks 57 US public filers by supply-chain exposure when a maritime chokepoint closes. Every score is backed by a real 10-K excerpt, using only free public data.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <!-- Tracker -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('tracker')">
+                <div class="product-thumb">
+                    <img src="screenshots/tracker.png" alt="Tracker · AI audit and assurance console" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">Tracker</div>
+                    <div class="product-desc">AI audit and assurance console. 34 live engagements, segregation-of-duties conflict flagging, PCAOB-aligned workflow from planning to wrap-up.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <!-- Agent Factory -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('factory')">
+                <div class="product-thumb">
+                    <img src="screenshots/factory.png" alt="Agent Factory · four Claude agents build a site live" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI Multi-Agent</div>
+                    <div class="product-name">Agent Factory</div>
+                    <div class="product-desc">Four Claude agents plan, build, review, and deploy a production website from one brief. Watch them work the queue in real time.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <!-- Vestia -->
+            <div class="product-card is-featured gsap-card" onclick="openModal('vestia')">
+                <div class="product-thumb">
+                    <img src="screenshots/vestia.png" alt="Vestia · AI condo compliance platform" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Vestia</div>
+                    <div class="product-desc">Six AI modules for South Florida condo compliance: triage, compliance, collections, screening, documents, and vendors.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="more-label">More work</div>
+
+        <div class="products-grid">
+
+            <div class="product-card gsap-card" onclick="openModal('docs')">
+                <div class="product-thumb">
+                    <img src="screenshots/docai.png" alt="AI Document Intelligence" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">AI Document Intelligence</div>
+                    <div class="product-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('onboard')">
+                <div class="product-thumb">
+                    <img src="screenshots/onboard.png" alt="Onboard · AI Employee Onboarding" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Onboard</div>
+                    <div class="product-desc">Upload internal docs, get a structured training course with quizzes in 3 minutes. New hires take it, get scored, managers see who is ready.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('orcom')">
+                <div class="product-thumb">
+                    <img src="screenshots/orcom-setup.png" alt="ORCOM Setup · Bilingual Claude Intake" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">ORCOM Setup</div>
+                    <div class="product-desc">Bilingual (FR/EN) Claude-powered intake agent for French founders setting up US entities. Conversational replacement for a 6-page form.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('jordan')">
+                <div class="product-thumb">
+                    <img src="screenshots/jordan.png" alt="CallFlow AI · Intelligent Call Intake" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">CallFlow</div>
+                    <div class="product-desc">Voice AI for inbound real-estate calls. Streams audio to Claude, captures structured property data live, FL two-party compliant.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('datacenter')">
+                <div class="product-thumb">
+                    <img src="screenshots/datacenter-command.png" alt="DC Command Center · Global Infrastructure Operations" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">DC Command Center</div>
+                    <div class="product-desc">Global data center operations console. Real-time PUE, carbon intensity, incidents, and site status across a Tier III/IV fleet.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('venue')">
+                <div class="product-thumb">
+                    <img src="screenshots/venue.png" alt="VENUE · Private Event Booking" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">VENUE</div>
+                    <div class="product-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('solerevival')">
+                <div class="product-thumb">
+                    <img src="screenshots/solerevival.png" alt="Sole Revival · AI Sneaker Mockup Generator" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">Sole Revival</div>
+                    <div class="product-desc">Upload a brand logo, pick a shoe, get 4 photorealistic branded sneaker mockups in under 15 seconds. Built on Gemini image generation.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('autopilot')">
+                <div class="product-thumb">
+                    <img src="screenshots/autopilot.png" alt="SocialPilot · AI LinkedIn Engagement" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-ai">AI-Powered</div>
+                    <div class="product-name">SocialPilot</div>
+                    <div class="product-desc">Claude-generated comments for LinkedIn and Twitter, scheduled within optimal engagement windows. Approval queue, not a spam bot.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+            <div class="product-card gsap-card" onclick="openModal('miami')">
+                <div class="product-thumb">
+                    <img src="screenshots/miami.png" alt="Miami AI Community" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-badge badge-live">Live</div>
+                    <div class="product-name">Miami AI Community</div>
+                    <div class="product-desc">Hands-on sessions for enterprise teams exploring real AI workflows. Live demos with Claude, hosted in Wynwood.</div>
+                    <div class="product-cta">View demo &rarr;</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     GROWTH AUDITS SECTION
+============================================= -->
+<section id="audits">
+    <div class="container">
+        <div class="section-label gsap-reveal">// growth audits</div>
+        <h2 class="section-title gsap-reveal">Twelve audits. Twelve distribution problems.</h2>
+        <p class="section-sub gsap-reveal">Research-first audits across ten dimensions: technical, SEO, reviews, social, competitive, founder stories, and AI automation. Each one is a live, branded site.</p>
+
+        <div class="audit-grid">
+
+            <a class="audit-card gsap-card" href="https://la-piscine.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">01</span><span class="a-date">17·iv·26</span></div>
+                <div><div class="a-name">La Piscine</div><div class="a-tag">Restaurant · Miami Beach</div></div>
+                <div class="a-desc">Michelin-trained chef serving $5 margaritas. <em>3,484 followers inside a 1,000-unit residential tower.</em></div>
+                <div class="a-foot"><span class="a-url">la-piscine.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://lynx.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">02</span><span class="a-date">16·iv·26</span></div>
+                <div><div class="a-name">Lynx Health Advisors</div><div class="a-tag">Concierge medicine · Miami</div></div>
+                <div class="a-desc">Elite concierge healthcare, <em>40+ advisory-board specialists</em> across Miami, NYC, LA, London, Zurich.</div>
+                <div class="a-foot"><span class="a-url">lynx.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://rcg.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">07</span><span class="a-date">12·iv·26</span></div>
+                <div><div class="a-name">Robin Capital Group</div><div class="a-tag">Boutique RIA · Miami Beach</div></div>
+                <div class="a-desc"><em>Live, audited performance with Sharpe ratios and position-level transparency.</em> 18 LinkedIn followers. The substance exists, distribution doesn't.</div>
+                <div class="a-foot"><span class="a-url">rcg.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://dram-finance.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">03</span><span class="a-date">13·iv·26</span></div>
+                <div><div class="a-name">Dram Finance</div><div class="a-tag">Fractional whisky investing</div></div>
+                <div class="a-desc">A platform that lets you own pieces of rare whisky casks. <em>Friend audit</em>. Positioning, trust signals, onboarding friction.</div>
+                <div class="a-foot"><span class="a-url">dram-finance.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://propertyforce.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">05</span><span class="a-date">13·iv·26</span></div>
+                <div><div class="a-name">PropertyForce</div><div class="a-tag">Real estate · South Florida</div></div>
+                <div class="a-desc">Meridian Trust / Synergy Home Buyers rebuild. <em>Four-person team doing what fifty used to.</em></div>
+                <div class="a-foot"><span class="a-url">propertyforce.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+            <a class="audit-card gsap-card" href="https://rbc-datacenter.georg.miami/" target="_blank" rel="noopener">
+                <div class="a-top"><span class="a-num">08</span><span class="a-date">11·iv·26</span></div>
+                <div><div class="a-name">RBC · DC Command Center</div><div class="a-tag">Datacenter infrastructure · PwC</div></div>
+                <div class="a-desc">Infrastructure observability prototype. <em>A command center for the ops floor</em>. Live metrics, alert routing, on-call escalation loops.</div>
+                <div class="a-foot"><span class="a-url">rbc-datacenter.georg.miami</span><span class="audit-arrow">&rarr;</span></div>
+            </a>
+
+        </div>
+
+        <a class="audits-see-all gsap-reveal" href="https://audit.georg.miami/"><strong>See all 12 audits &rarr;</strong> filter by industry, status, or keyword at audit.georg.miami</a>
+
+        <div class="audit-request-bar gsap-reveal">
+            <div>
+                <div class="r-title">Want a free audit of <em>your</em> business?</div>
+                <div class="r-sub">Same process, same ten dimensions, same depth. Delivered as a live branded site within a week. Limited slots each month.</div>
+            </div>
+            <a class="r-btn" href="#audit-request">Request Free Audit &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     AUDIT REQUEST · 4-step questionnaire
+============================================= -->
+<section id="audit-request">
+<style>
+  #audit-request { background: var(--bg-2); }
+  .aq-wrap { max-width: 760px; margin: 0 auto; }
+  .aq-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 40px;
+    margin-top: 40px;
+    position: relative;
+  }
+  .aq-progress {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .aq-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border-hover);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .aq-dot.on { background: var(--accent); transform: scale(1.15); box-shadow: 0 0 0 3px var(--accent-glow); }
+  .aq-dot.done { background: var(--accent); opacity: 0.5; }
+  .aq-step-label { margin-left: 14px; color: var(--text-2); }
+  .aq-step { display: none; animation: aqFade 0.35s ease; }
+  .aq-step.active { display: block; }
+  @keyframes aqFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .aq-step label {
+    display: block;
+    margin-bottom: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    letter-spacing: 0.02em;
+  }
+  .aq-step input[type="text"], .aq-step input[type="email"], .aq-step textarea {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 12px 14px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+  .aq-step input:focus, .aq-step textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .aq-step textarea { resize: vertical; min-height: 80px; font-family: 'DM Sans', sans-serif; }
+  .aq-q {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .aq-sub { font-size: 13px; color: var(--text-2); margin-bottom: 16px; }
+  .aq-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .aq-choices-checks { grid-template-columns: 1fr; }
+  @media (max-width: 600px) { .aq-choices { grid-template-columns: 1fr; } }
+  .aq-radio, .aq-check {
+    display: flex; align-items: center;
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 0;
+    font-weight: 400;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .aq-radio:hover, .aq-check:hover { border-color: var(--border-hover); background: var(--surface-2); }
+  .aq-radio input, .aq-check input { margin-right: 10px; accent-color: var(--accent); }
+  .aq-radio input:checked + span, .aq-check input:checked + span { color: var(--accent); font-weight: 500; }
+  .aq-radio:has(input:checked), .aq-check:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+  .aq-textarea-wrap { margin-top: 20px; }
+  .aq-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .aq-back, .aq-next, .aq-submit {
+    padding: 12px 22px;
+    border: none;
+    border-radius: var(--r-sm);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .aq-back {
+    background: transparent;
+    color: var(--text-2);
+    border: 1px solid var(--border);
+  }
+  .aq-back:hover { color: var(--text); border-color: var(--border-hover); }
+  .aq-next, .aq-submit {
+    background: var(--accent);
+    color: var(--accent-text);
+    margin-left: auto;
+    box-shadow: 0 0 0 0 var(--accent-glow);
+  }
+  .aq-next:hover, .aq-submit:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 20px var(--accent-glow); }
+  .aq-submit { background: var(--accent); }
+  .aq-nav button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .aq-error {
+    color: #ff6b6b;
+    font-size: 13px;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .aq-success {
+    text-align: center;
+    padding: 40px 20px;
+    animation: aqFade 0.4s ease;
+  }
+  .aq-check-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 36px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 8px var(--accent-glow);
+  }
+  .aq-success-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .aq-success-text { color: var(--text-2); font-size: 16px; }
+</style>
+
+<div class="container">
+    <div class="aq-wrap">
+        <div class="section-label gsap-reveal">// get audited</div>
+        <h2 class="section-title gsap-reveal">Get your personalized growth audit.</h2>
+        <p class="section-sub gsap-reveal">Free. Research-first, same ten dimensions as the audits above, delivered as a live branded site within a week. Tell me about your business.</p>
+
+        <form id="aqForm" class="aq-form gsap-reveal" novalidate>
+            <div class="aq-progress">
+                <span class="aq-dot on" data-dot="1"></span>
+                <span class="aq-dot" data-dot="2"></span>
+                <span class="aq-dot" data-dot="3"></span>
+                <span class="aq-dot" data-dot="4"></span>
+                <span class="aq-step-label" id="aqStepLabel">Step 1 of 4 · You</span>
+            </div>
+
+            <div class="aq-step active" data-step="1">
+                <label>Your name
+                    <input type="text" name="name" required autocomplete="name" placeholder="Jane Doe">
+                </label>
+                <label>Work email
+                    <input type="email" name="email" required autocomplete="email" placeholder="jane@company.com">
+                </label>
+                <label>Company <span style="color:var(--text-3);font-weight:400">(optional)</span>
+                    <input type="text" name="company" autocomplete="organization" placeholder="Acme Inc">
+                </label>
+            </div>
+
+            <div class="aq-step" data-step="2">
+                <div class="aq-q">What does your business do?</div>
+                <div class="aq-sub">Pick the closest match.</div>
+                <div class="aq-choices">
+                    <label class="aq-radio"><input type="radio" name="industry" value="SaaS / Software"><span>SaaS / Software</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Finance / Investing"><span>Finance / Investing</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Real Estate"><span>Real Estate</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="E-commerce / DTC"><span>E-commerce / DTC</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Agency / Services"><span>Agency / Services</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Healthcare"><span>Healthcare</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Hospitality / F&B"><span>Hospitality / F&amp;B</span></label>
+                    <label class="aq-radio"><input type="radio" name="industry" value="Other"><span>Other</span></label>
+                </div>
+            </div>
+
+            <div class="aq-step" data-step="3">
+                <div class="aq-q">What hurts the most right now?</div>
+                <div class="aq-sub">Pick any that apply.</div>
+                <div class="aq-choices aq-choices-checks">
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Manual data entry"><span>Manual data entry eating hours</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Slow customer response"><span>Slow customer response times</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Fragmented tools"><span>Fragmented tools, data everywhere</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Unclear metrics"><span>No visibility into what's working</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Low conversion"><span>Traffic but not conversions</span></label>
+                    <label class="aq-check"><input type="checkbox" name="pain" value="Team bandwidth"><span>Team running at capacity</span></label>
+                </div>
+                <label class="aq-textarea-wrap">Anything else: specific problems, what you've tried, links
+                    <textarea name="painText" rows="4" placeholder="Optional. The more you write, the better the audit."></textarea>
+                </label>
+            </div>
+
+            <div class="aq-step" data-step="4">
+                <div class="aq-q">Budget for a fix?</div>
+                <div class="aq-sub">Helps me scope the recommendations.</div>
+                <div class="aq-choices">
+                    <label class="aq-radio"><input type="radio" name="budget" value="Under $5k"><span>Under $5k</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="$5k to $25k"><span>$5k to $25k</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="$25k to $100k"><span>$25k to $100k</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="$100k+"><span>$100k+</span></label>
+                    <label class="aq-radio"><input type="radio" name="budget" value="Not sure"><span>Not sure yet</span></label>
+                </div>
+                <div class="aq-q" style="margin-top:28px">Timeline?</div>
+                <div class="aq-choices">
+                    <label class="aq-radio"><input type="radio" name="timeline" value="ASAP"><span>ASAP, this month</span></label>
+                    <label class="aq-radio"><input type="radio" name="timeline" value="This quarter"><span>This quarter</span></label>
+                    <label class="aq-radio"><input type="radio" name="timeline" value="Next 6 months"><span>Next 6 months</span></label>
+                    <label class="aq-radio"><input type="radio" name="timeline" value="Exploring"><span>Just exploring</span></label>
+                </div>
+            </div>
+
+            <div class="aq-error" id="aqError" hidden></div>
+            <div class="aq-nav">
+                <button type="button" class="aq-back" id="aqBack" hidden>← Back</button>
+                <button type="button" class="aq-next" id="aqNext">Next →</button>
+                <button type="submit" class="aq-submit" id="aqSubmit" hidden>Submit audit request</button>
+            </div>
+
+            <div class="aq-success" id="aqSuccess" hidden>
+                <div class="aq-check-icon">✓</div>
+                <div class="aq-success-title">Got it.</div>
+                <div class="aq-success-text">Georg will email you within 48 hours. Watch your inbox.</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+(function () {
+    var STEP_LABELS = ['Step 1 of 4 · You', 'Step 2 of 4 · Industry', 'Step 3 of 4 · Pain', 'Step 4 of 4 · Budget'];
+    var form = document.getElementById('aqForm');
+    if (!form) return;
+    var currentStep = 1;
+    var maxStep = 4;
+
+    var $ = function (s, r) { return (r || form).querySelector(s); };
+    var $$ = function (s, r) { return (r || form).querySelectorAll(s); };
+
+    var backBtn = $('#aqBack');
+    var nextBtn = $('#aqNext');
+    var submitBtn = $('#aqSubmit');
+    var errorEl = $('#aqError');
+    var stepLabel = $('#aqStepLabel');
+    var successEl = $('#aqSuccess');
+
+    function showStep(n) {
+        currentStep = n;
+        $$('.aq-step').forEach(function (el) {
+            el.classList.toggle('active', Number(el.dataset.step) === n);
+        });
+        $$('.aq-dot').forEach(function (d) {
+            var i = Number(d.dataset.dot);
+            d.classList.toggle('on', i === n);
+            d.classList.toggle('done', i < n);
+        });
+        stepLabel.textContent = STEP_LABELS[n - 1];
+        backBtn.hidden = n === 1;
+        nextBtn.hidden = n === maxStep;
+        submitBtn.hidden = n !== maxStep;
+        errorEl.hidden = true;
+    }
+
+    function validateStep(n) {
+        errorEl.hidden = true;
+        if (n === 1) {
+            var name = form.elements['name'].value.trim();
+            var email = form.elements['email'].value.trim();
+            if (!name) return 'Please enter your name.';
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Please enter a valid email.';
+        }
+        if (n === 2) {
+            if (!form.elements['industry'].value) return 'Pick what your business does.';
+        }
+        if (n === 4) {
+            if (!form.elements['budget'].value) return 'Pick a budget (or "Not sure").';
+            if (!form.elements['timeline'].value) return 'Pick a timeline.';
+        }
+        return null;
+    }
+
+    nextBtn.addEventListener('click', function () {
+        var err = validateStep(currentStep);
+        if (err) { errorEl.textContent = err; errorEl.hidden = false; return; }
+        if (currentStep < maxStep) showStep(currentStep + 1);
+    });
+    backBtn.addEventListener('click', function () {
+        if (currentStep > 1) showStep(currentStep - 1);
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var err = validateStep(currentStep);
+        if (err) { errorEl.textContent = err; errorEl.hidden = false; return; }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+
+        var painChecks = [];
+        $$('input[name="pain"]:checked').forEach(function (c) { painChecks.push(c.value); });
+
+        var payload = {
+            name: form.elements['name'].value.trim(),
+            email: form.elements['email'].value.trim(),
+            company: form.elements['company'].value.trim(),
+            industry: form.elements['industry'].value,
+            pain: painChecks,
+            painText: form.elements['painText'].value.trim(),
+            budget: form.elements['budget'].value,
+            timeline: form.elements['timeline'].value,
+        };
+
+        fetch('https://api.georg.miami/ops/audit-request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        }).then(function (r) {
+            return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, data: j }; });
+        }).then(function (res) {
+            if (!res.ok) throw new Error(res.data.error || 'Submission failed');
+            // Show success state: hide form internals, show success block
+            $$('.aq-step, .aq-progress, .aq-nav, .aq-error').forEach(function (el) { el.style.display = 'none'; });
+            successEl.hidden = false;
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }).catch(function (err) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit audit request';
+            errorEl.textContent = 'Something went wrong: ' + err.message + '. Email georg.chimion@gmail.com instead.';
+            errorEl.hidden = false;
+        });
+    });
+
+    showStep(1);
+})();
+</script>
+</section>
+
+<!-- =============================================
+     EXPERTISE SECTION
+============================================= -->
+<section id="expertise">
+    <div class="container">
+        <div class="section-label gsap-reveal">// expertise</div>
+        <h2 class="section-title gsap-reveal">What I bring.</h2>
+        <p class="section-sub gsap-reveal">End to end, from system design to deployed product.</p>
+
+        <div class="expertise-grid">
+
+            <div class="expertise-card gsap-card">
+                <div class="expertise-icon" aria-hidden="true">
+                    <i data-lucide="cpu" style="width:24px;height:24px;"></i>
+                </div>
+                <div class="expertise-title">AI Systems</div>
+                <div class="expertise-desc">Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</div>
+                <div class="expertise-context">Anthropic ecosystem</div>
+            </div>
+
+            <div class="expertise-card gsap-card">
+                <div class="expertise-icon" aria-hidden="true">
+                    <i data-lucide="shield-check" style="width:24px;height:24px;"></i>
+                </div>
+                <div class="expertise-title">Finance & Risk</div>
+                <div class="expertise-desc">Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</div>
+                <div class="expertise-context">Enterprise-grade accuracy</div>
+            </div>
+
+            <div class="expertise-card gsap-card">
+                <div class="expertise-icon" aria-hidden="true">
+                    <i data-lucide="layers" style="width:24px;height:24px;"></i>
+                </div>
+                <div class="expertise-title">Production Engineering</div>
+                <div class="expertise-desc">React, TypeScript, Node, PostgreSQL, and cloud, wired so AI runs reliably on live data. One owner from architecture to production.</div>
+                <div class="expertise-context">One owner, end to end</div>
+            </div>
+
+            <div class="expertise-card gsap-card">
+                <div class="expertise-icon" aria-hidden="true">
+                    <i data-lucide="zap" style="width:24px;height:24px;"></i>
+                </div>
+                <div class="expertise-title">Rapid Build</div>
+                <div class="expertise-desc">From concept to working prototype in days, not months. Fast iteration with real users. Fifteen live products you can click right now.</div>
+                <div class="expertise-context">15 live products</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     PROCESS SECTION
+============================================= -->
+<section id="how">
+    <div class="container">
+        <div class="section-label gsap-reveal">// how I work</div>
+        <h2 class="section-title gsap-reveal">Engagement model.</h2>
+        <p class="section-sub gsap-reveal">Embedded AI engineer. I join your team and build the systems your business runs on.</p>
+
+        <div class="process-row" id="processRow">
+
+            <div class="process-step gsap-card">
+                <div class="process-num">01</div>
+                <div class="process-title">Discovery</div>
+                <div class="process-desc">Understand workflows, pain points, and what "done" looks like. Map the opportunity, identify quick wins, define success criteria. Approximately one week.</div>
+            </div>
+
+            <div class="process-connector" aria-hidden="true">
+                <div class="process-connector-line">
+                    <div class="process-connector-fill" id="connectorFill1"></div>
+                </div>
+                <span class="process-connector-arrow">&rarr;</span>
+            </div>
+
+            <div class="process-step gsap-card">
+                <div class="process-num">02</div>
+                <div class="process-title">Build &amp; Launch</div>
+                <div class="process-desc">Embedded with your team, building the production system. Weekly stakeholder reviews against real usage. Two to twelve weeks.</div>
+            </div>
+
+            <div class="process-connector" aria-hidden="true">
+                <div class="process-connector-line">
+                    <div class="process-connector-fill" id="connectorFill2"></div>
+                </div>
+                <span class="process-connector-arrow">&rarr;</span>
+            </div>
+
+            <div class="process-step gsap-card">
+                <div class="process-num">03</div>
+                <div class="process-title">Handoff</div>
+                <div class="process-desc">Documentation, training, knowledge transfer. Your team owns it. Optional retainer for ongoing support, feature additions, and maintenance.</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     CONTACT SECTION
+============================================= -->
+<section id="contact">
+    <div class="container">
+        <div class="contact-section-inner">
+
+            <img
+                src="georg.jpeg"
+                alt="Georg Chimion"
+                class="contact-photo gsap-reveal"
+                loading="lazy"
+            >
+
+            <div class="section-label gsap-reveal" style="text-align:center;">// work with me</div>
+            <h2 class="contact-heading gsap-reveal">Bring me a hard one.</h2>
+            <p class="contact-sub gsap-reveal">Open to AI engineering and advisory work in fintech, banking, and consulting. Tell me what you are trying to build.</p>
+
+            <div class="contact-cta-wrap gsap-reveal">
+                <a href="mailto:georg.chimion@gmail.com?subject=Working%20with%20Georg" class="contact-cta-btn" aria-label="Email Georg">
+                    <i data-lucide="mail" style="width:16px;height:16px;"></i>
+                    georg.chimion@gmail.com
+                </a>
+                <span class="contact-cta-note">Replies within 48 hours</span>
+            </div>
+
+            <div class="contact-links-row gsap-reveal">
+                <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-link" aria-label="GitHub profile" rel="noopener noreferrer">
+                    <i data-lucide="github" style="width:14px;height:14px;"></i>
+                    GitHub
+                </a>
+                <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-link" aria-label="LinkedIn profile" rel="noopener noreferrer">
+                    <i data-lucide="linkedin" style="width:14px;height:14px;"></i>
+                    LinkedIn
+                </a>
+                <span class="contact-link" style="cursor:default;">
+                    <i data-lucide="map-pin" style="width:14px;height:14px;"></i>
+                    Wynwood, Miami FL
+                </span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =============================================
+     FOOTER
+============================================= -->
+<footer>
+    <div class="container">
+        <div class="footer-main">&copy; 2026 Georg Chimion. Miami, FL.</div>
+        <div class="footer-sub">Designed &amp; built by Georg Chimion</div>
+    </div>
+</footer>
+
+<!-- =============================================
+     PRODUCT MODAL
+============================================= -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+        <div class="modal-video" id="modalVideo"></div>
+        <div class="modal-body">
+            <h3 class="modal-title" id="modalTitle"></h3>
+            <p class="modal-desc" id="modalDesc"></p>
+            <div class="modal-tech" id="modalTech"></div>
+            <a id="modalLink" href="#" target="_blank" rel="noopener noreferrer" class="modal-cta">Try Live Demo &rarr;</a>
+        </div>
+    </div>
+</div>
+
+<!-- =============================================
+     JAVASCRIPT
+============================================= -->
+<script>
+'use strict';
+
+/* -----------------------------------------------
+   LUCIDE ICONS INIT
+----------------------------------------------- */
+lucide.createIcons();
+
+/* -----------------------------------------------
+   PRODUCT DATA
+----------------------------------------------- */
+var products = {
+    penny: {
+        img: 'screenshots/penny.png',
+        title: 'Ask Penny · AI finance assistant',
+        desc: 'Talk to your money. A Claude-powered finance assistant connected to your real bank accounts via Teller.io or Plaid. Ask anything about your spending, get morning summaries, smart budgets, and proactive alerts. Access by request. Handles real financial data.',
+        tech: ['Claude Sonnet 4.5', 'Node.js', 'PostgreSQL', 'Express', 'Teller.io', 'Plaid'],
+        url: 'https://askpenny.georg.miami'
+    },
+    cascade: {
+        img: 'screenshots/cascade.png',
+        title: 'Cascade · supply-chain exposure POC',
+        desc: 'When the world breaks, whose supply chain breaks with it? Cascade maps maritime-chokepoint disruptions (Strait of Hormuz, Suez/Red Sea, Taiwan Strait) to ranked exposure across 57 US public companies. Every score is backed by a verbatim SEC 10-K excerpt with a deep link to EDGAR. Uses only free public data: SEC filings, UN Comtrade, NASA Worldview satellite imagery. Maritime war-room visual treatment with real chokepoint satellite imagery, animated vessel routes, and severity-driven color temperature.',
+        tech: ['Claude AI', 'SEC EDGAR', 'NASA Worldview', 'UN Comtrade'],
+        url: 'https://cascade.georg.miami'
+    },
+    reconx: {
+        img: 'screenshots/reconx.png',
+        video: 'videos/reconx.mp4',
+        title: 'ReconX · financial reconciliation engine',
+        desc: 'Cloud-native reconciliation platform replacing legacy systems like IntelliMatch. Multi-pass matching engine (exact, tolerance, fuzzy, AI-suggested), nostro balance proof with daily sign-off, exception management with SLA tracking.',
+        tech: ['React', 'TypeScript', 'Chart.js', 'Zustand'],
+        url: 'https://reconx.georg.miami'
+    },
+    venue: {
+        img: 'screenshots/venue.png',
+        video: 'videos/venue.mp4',
+        title: 'VENUE · private event booking',
+        desc: 'Premium on-demand private event booking platform. Step-by-step wizard for happy hours, private dinners, DJ lounges, full venue buyouts. Budget tiers, catering, bar packages, and instant quotes.',
+        tech: ['JavaScript', 'UX Design', 'Booking', 'Miami'],
+        url: 'https://venue.georg.miami'
+    },
+    docs: {
+        img: 'screenshots/docai.png',
+        video: 'videos/docai.mp4',
+        title: 'AI Document Intelligence',
+        desc: 'Upload a PDF, invoice, or receipt and watch AI extract structured data in real-time. Live demo processing documents and turning messy PDFs into clean JSON with field-level confidence scores.',
+        tech: ['Claude AI', 'JavaScript', 'Document AI', 'JSON'],
+        url: 'https://docs.georg.miami'
+    },
+    tracker: {
+        img: 'screenshots/tracker.png',
+        title: 'Tracker · audit and assurance engagement platform',
+        desc: 'A modern engagement-management console for audit and assurance teams. 34 active engagements, segregation-of-duties conflict flagging, task management from planning through wrap-up. PCAOB AS 2201 and COSO 2013 aligned. Built as a modern replacement for legacy GRC tools.',
+        tech: ['Audit', 'PCAOB AS 2201', 'COSO 2013', 'Engagement Management'],
+        url: 'https://tracker.georg.miami'
+    },
+    solerevival: {
+        img: 'screenshots/solerevival.png',
+        title: 'Sole Revival · AI sneaker mockup generator',
+        desc: 'Upload a brand logo, pick a shoe silhouette, get four photorealistic branded sneaker mockups in under fifteen seconds. Powered by Google Gemini image generation. Built for a leadership demo on AI-native product visualization.',
+        tech: ['Gemini Image', 'AI Generation', 'Brand Design', 'Mockup'],
+        url: 'https://thesolerevival.georg.miami'
+    },
+    jordan: {
+        img: 'screenshots/jordan.png',
+        title: 'CallFlow · intelligent call intake',
+        desc: 'Voice AI for inbound real-estate calls. Streams audio to Claude with tool-calling and neural TTS, captures structured property data (address, beds, motivation, mortgage, asking price) live as the caller speaks. Florida two-party-consent compliant. Built for Sunshine Home Buyers.',
+        tech: ['Claude AI', 'Neural Voice', 'Tool Calling', 'FL Compliance'],
+        url: 'https://jordan.georg.miami'
+    },
+    orcom: {
+        img: 'screenshots/orcom-setup.png',
+        title: 'ORCOM Setup · bilingual Claude intake',
+        desc: 'A conversational replacement for a six-page client intake form, in French and English. Built for ORCOM US, a Paris-headquartered accounting and tax advisory firm serving French founders incorporating in the US. Powered by Claude Haiku 4.5 with mid-conversation language toggle.',
+        tech: ['Claude Haiku 4.5', 'Bilingual NLP', 'FR/EN', 'Conversational UI'],
+        url: 'https://orcom-setup.georg.miami'
+    },
+    autopilot: {
+        img: 'screenshots/autopilot.png',
+        title: 'SocialPilot · AI LinkedIn and Twitter engagement',
+        desc: 'Claude-generated comments for LinkedIn and Twitter, scheduled within optimal engagement windows. Approval queue means you stay in the loop on every reply. Targeting by keyword or by creator. Campaign analytics, comment quality scoring, profile-view tracking.',
+        tech: ['Claude AI', 'React', 'TypeScript', 'Vite'],
+        url: 'https://autopilot.georg.miami'
+    },
+    datacenter: {
+        img: 'screenshots/datacenter-command.png',
+        title: 'DC Command Center · global infrastructure operations',
+        desc: 'A unified operations console for global data center fleets. Real-time global IT load, total facility power, weighted PUE, active incidents, carbon intensity per site. Toronto, Montreal, Calgary, New Jersey, London. Tier III and IV mix. Theme-aware corporate / dark / night-ops display.',
+        tech: ['Infrastructure', 'PUE Monitoring', 'ESG', 'Real-time Telemetry'],
+        url: 'https://datacenter-command.georg.miami'
+    },
+    miami: {
+        img: 'screenshots/miami.png',
+        title: 'Miami AI Community',
+        desc: 'A Miami-based community for enterprise teams exploring real AI workflows. Hands-on sessions with Claude Code, live demos, and working systems you can run. Hosted in Wynwood.',
+        tech: ['Community', 'Claude Code', 'Wynwood', 'Enterprise AI'],
+        url: 'https://miami.georg.miami'
+    },
+    vestia: {
+        img: 'screenshots/vestia.png',
+        title: 'Vestia · AI property management platform',
+        desc: 'Six AI-powered modules purpose-built for South Florida condo associations. Maintenance triage with AI dispatch, SB 4-D compliance tracking, automated rent collection, tenant screening, lease document generation, and vendor bid comparison.',
+        tech: ['React', 'TypeScript', 'Tailwind CSS', 'AI-Native', 'Florida-First'],
+        url: 'https://vestia.georg.miami'
+    },
+    factory: {
+        img: 'screenshots/factory.png',
+        video: 'videos/factory.mp4',
+        title: 'Agent Factory · AI website builder',
+        desc: 'Four autonomous Claude-powered agents (PM, Coder, Reviewer, Deployer) collaborate in a real-time pipeline to build production websites from natural language briefs. Watch them discuss, write code, review quality, and deploy live sites. Includes spectator mode for live demos.',
+        tech: ['Claude AI', 'Multi-Agent', 'SSE Streaming', 'Node.js', 'Express'],
+        url: 'https://factory.georg.miami'
+    },
+    onboard: {
+        img: 'screenshots/onboard.png',
+        title: 'Onboard · AI employee onboarding',
+        desc: 'Upload internal documents and a role description, and AI transforms them into a structured training course with modules, lessons, and quizzes in under 3 minutes. New hires take the course, get scored, and managers see who\'s ready.',
+        tech: ['Claude AI', 'Course Generation', 'Auto-Quiz', 'Scoring'],
+        url: 'https://onboard.georg.miami'
+    }
+};
+
+/* -----------------------------------------------
+   MODAL
+----------------------------------------------- */
+function openModal(id) {
+    var p = products[id];
+    if (!p) return;
+
+    var mediaEl = document.getElementById('modalVideo');
+    if (p.video) {
+        mediaEl.innerHTML = '<video src="' + p.video + '" autoplay muted loop playsinline></video>';
+    } else {
+        mediaEl.innerHTML = '<img src="' + p.img + '" alt="' + p.title + '">';
+    }
+
+    document.getElementById('modalTitle').textContent = p.title;
+    document.getElementById('modalDesc').textContent = p.desc;
+    document.getElementById('modalTech').innerHTML = p.tech
+        .map(function(t) { return '<span class="tech-pill">' + t + '</span>'; })
+        .join('');
+    document.getElementById('modalLink').href = p.url;
+
+    var overlay = document.getElementById('modalOverlay');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('modalTitle').focus();
+}
+
+function closeModal(e) {
+    /* If called from overlay click, only close if the overlay itself was clicked */
+    if (e && e.target !== e.currentTarget) return;
+
+    var vid = document.querySelector('#modalVideo video');
+    if (vid) vid.pause();
+
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+});
+
+/* -----------------------------------------------
+   THEME TOGGLE
+----------------------------------------------- */
+var themeToggle = document.getElementById('themeToggle');
+var htmlEl = document.documentElement;
+
+function setTheme(theme) {
+    htmlEl.setAttribute('data-theme', theme);
+    themeToggle.textContent = theme === 'light' ? '☀️' : '🌙';
+    localStorage.setItem('theme', theme);
+}
+
+(function initTheme() {
+    var saved = localStorage.getItem('theme');
+    if (saved) {
+        setTheme(saved);
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        setTheme('light');
+    }
+})();
+
+themeToggle.addEventListener('click', function() {
+    setTheme(htmlEl.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+});
+
+/* -----------------------------------------------
+   MOBILE MENU
+----------------------------------------------- */
+document.getElementById('mobileMenu').addEventListener('click', function() {
+    var links = document.getElementById('navLinks');
+    links.classList.toggle('open');
+});
+
+/* Close mobile menu on nav link click */
+document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        document.getElementById('navLinks').classList.remove('open');
+    });
+});
+
+/* -----------------------------------------------
+   SMOOTH ANCHOR SCROLL
+----------------------------------------------- */
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+        var target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+/* -----------------------------------------------
+   NAV BORDER ON SCROLL
+----------------------------------------------- */
+window.addEventListener('scroll', function() {
+    var nav = document.getElementById('mainNav');
+    nav.style.borderBottomColor = window.scrollY > 20
+        ? 'var(--border-hover)'
+        : 'var(--border)';
+}, { passive: true });
+
+/* -----------------------------------------------
+   GSAP ANIMATIONS
+----------------------------------------------- */
+(function initGSAP() {
+    /* Register ScrollTrigger plugin */
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* --- 1. HERO TIMELINE (staggered entrance) --- */
+    var heroTl = gsap.timeline({ delay: 0.1 });
+
+    /* Eyebrow */
+    heroTl.to('#heroEyebrow', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power3.out'
+    }, 0.3);
+
+    /* Headline */
+    heroTl.to('#heroH1', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: 'power3.out'
+    }, 0.5);
+
+    /* Subtitle */
+    heroTl.to('#heroSub', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power3.out'
+    }, 0.7);
+
+    /* CTAs */
+    heroTl.to('#heroCTAs', {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power3.out'
+    }, 0.9);
+
+    /* Photo: fade + scale from 0.95 to 1.0 */
+    heroTl.to('#heroPhoto', {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: 'power2.out'
+    }, 0.5);
+
+    /* Set initial photo scale */
+    gsap.set('#heroPhoto', { scale: 0.95 });
+
+    /* --- 2. HERO PHOTO PARALLAX --- */
+    gsap.to('#heroPhoto', {
+        y: 60,
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+        }
+    });
+
+    /* --- 3. SECTION LABEL / TITLE / SUB REVEALS --- */
+    gsap.utils.toArray('.gsap-reveal').forEach(function(el) {
+        gsap.fromTo(el,
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.75,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 88%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+    });
+
+    /* --- 4. PRODUCT + EXPERTISE + PROCESS CARDS · staggered --- */
+    /* Group cards by their parent section so stagger applies per-section */
+    var sections = document.querySelectorAll('section');
+    sections.forEach(function(section) {
+        var cards = section.querySelectorAll('.gsap-card');
+        if (cards.length === 0) return;
+
+        gsap.fromTo(cards,
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.65,
+                ease: 'power3.out',
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+    });
+
+    /* --- 5. PROCESS CONNECTING LINES · animate width on scroll --- */
+    ['connectorFill1', 'connectorFill2'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        gsap.fromTo(el,
+            { width: '0%' },
+            {
+                width: '100%',
+                ease: 'power2.inOut',
+                scrollTrigger: {
+                    trigger: '#processRow',
+                    start: 'top 75%',
+                    end: 'bottom 60%',
+                    scrub: 0.8
+                }
+            }
+        );
+    });
+
+})();
+
+</script>
+
+<!-- georg analytics · track pageviews + owner flag via ?iam=georg -->
+<script>
+(function(){try{
+  let v=localStorage.getItem('gv');
+  if(!v){v=(crypto.randomUUID&&crypto.randomUUID())||String(Date.now())+Math.random().toString(36).slice(2);localStorage.setItem('gv',v);}
+  var p=new URLSearchParams(location.search);
+  if(p.get('iam')==='georg')localStorage.setItem('go','1');
+  var o=localStorage.getItem('go')==='1';
+  fetch('https://api.georg.miami/ops/track',{method:'POST',keepalive:true,
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({page:location.hostname+location.pathname,ref:document.referrer||null,vid:v,owner:o,ts:Date.now()})}).catch(function(){});
+}catch(e){}})();
+</script>
+</body>
+</html>

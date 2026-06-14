@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEORG CHIMION — BRUTALIST</title>
+    <meta name="description" content="Georg Chimion. AI Automation. Miami. Raw.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%96%A0</text></svg>">
+    <style>
+        /* ============================================
+           BRUTALIST RESET
+        ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ::selection {
+            background: #000;
+            color: #fff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Courier New', 'Courier', monospace;
+            background: #fff;
+            color: #000;
+            line-height: 1.4;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* ============================================
+           EXPOSED LABELS — the brutalist signature
+        ============================================ */
+        .label {
+            font-size: 10px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #999;
+            position: absolute;
+            user-select: none;
+        }
+
+        .label--tag {
+            color: #ccc;
+            font-size: 9px;
+        }
+
+        /* ============================================
+           GRID OVERLAY
+        ============================================ */
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+
+        /* ============================================
+           NAV — counter-intuitive, brutalist
+        ============================================ */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: #fff;
+            border-bottom: 3px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 20px;
+            mix-blend-mode: normal;
+        }
+
+        .nav__logo {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: -0.5px;
+        }
+
+        .nav__links {
+            display: flex;
+            gap: 0;
+        }
+
+        .nav__links a {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-left: 2px solid #000;
+            transition: all 0.05s;
+        }
+
+        .nav__links a:first-child {
+            border-left: none;
+        }
+
+        .nav__time {
+            font-size: 10px;
+            color: #999;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ============================================
+           HERO — massive type, architect energy
+        ============================================ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            padding: 120px 40px 60px;
+            border-bottom: 4px solid #000;
+            overflow: hidden;
+        }
+
+        .hero__tag {
+            font-size: 9px;
+            color: #ccc;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .hero__name {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(80px, 18vw, 260px);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -8px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero__name span {
+            display: block;
+        }
+
+        .hero__name span:last-child {
+            margin-left: clamp(20px, 5vw, 80px);
+            font-style: italic;
+        }
+
+        .hero__subtitle {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 30px;
+            max-width: 400px;
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero__photo {
+            position: absolute;
+            right: 40px;
+            bottom: 80px;
+            transform: rotate(-3deg);
+            width: clamp(200px, 22vw, 340px);
+            border: 3px solid #000;
+            z-index: 3;
+            filter: grayscale(30%) contrast(1.1);
+        }
+
+        .hero__ticker {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #000;
+            color: #fff;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .hero__ticker-inner {
+            display: inline-block;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .hero__coord {
+            position: absolute;
+            bottom: 50px;
+            right: 40px;
+            font-size: 10px;
+            color: #999;
+            text-align: right;
+            line-height: 1.8;
+            z-index: 2;
+        }
+
+        /* ============================================
+           STATS BAR
+        ============================================ */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 3px solid #000;
+            position: relative;
+        }
+
+        .stats__item {
+            padding: 30px 20px;
+            border-right: 2px solid #000;
+            text-align: center;
+        }
+
+        .stats__item:last-child {
+            border-right: none;
+        }
+
+        .stats__number {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(36px, 5vw, 72px);
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .stats__label {
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 8px;
+            color: #666;
+        }
+
+        /* ============================================
+           SECTION HEADERS
+        ============================================ */
+        .section-header {
+            position: relative;
+            padding: 60px 40px 30px;
+            border-bottom: 2px solid #000;
+        }
+
+        .section-header__tag {
+            font-size: 9px;
+            color: #ccc;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+
+        .section-header__title {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(48px, 10vw, 140px);
+            font-weight: 900;
+            letter-spacing: -4px;
+            line-height: 0.9;
+        }
+
+        .section-header__line {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 10px;
+            color: #ccc;
+        }
+
+        /* ============================================
+           PRODUCTS GRID — brutalist, asymmetric
+        ============================================ */
+        .products {
+            position: relative;
+        }
+
+        .product {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 3px solid #000;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.1s;
+        }
+
+        .product:hover {
+            background: #f5f5f5;
+        }
+
+        .product:nth-child(even) {
+            direction: rtl;
+        }
+
+        .product:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .product__info {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .product__number {
+            font-family: Georgia, serif;
+            font-size: clamp(60px, 8vw, 120px);
+            font-weight: 900;
+            color: #f0f0f0;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+            z-index: 0;
+        }
+
+        .product__tag {
+            font-size: 9px;
+            color: #ccc;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product__name {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(28px, 4vw, 56px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product__desc {
+            font-size: 13px;
+            line-height: 1.7;
+            max-width: 400px;
+            margin-bottom: 20px;
+            color: #333;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product__link {
+            display: inline-block;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 2px solid #000;
+            padding: 10px 24px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.05s;
+            align-self: flex-start;
+        }
+
+        .product__link:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .product__visual {
+            position: relative;
+            border-left: 2px solid #000;
+            overflow: hidden;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+        }
+
+        .product:nth-child(even) .product__visual {
+            border-left: none;
+            border-right: 2px solid #000;
+        }
+
+        .product__img {
+            width: 85%;
+            border: 2px solid #000;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .product:nth-child(odd) .product__img {
+            transform: rotate(-2deg);
+        }
+
+        .product:nth-child(even) .product__img {
+            transform: rotate(2deg);
+        }
+
+        .product:hover .product__img {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .product__visual-label {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 9px;
+            color: #ccc;
+        }
+
+        /* SpaceWalk — no screenshot */
+        .product--no-img .product__visual {
+            background: #000;
+            color: #fff;
+            font-family: Georgia, serif;
+            font-size: clamp(40px, 5vw, 80px);
+            font-weight: 900;
+            letter-spacing: -3px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .product--no-img .product__visual span {
+            transform: rotate(-8deg);
+            display: block;
+        }
+
+        /* ============================================
+           EXPERTISE SECTION
+        ============================================ */
+        .expertise {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-bottom: 3px solid #000;
+        }
+
+        .expertise__col {
+            padding: 40px;
+            border-right: 2px solid #000;
+            position: relative;
+        }
+
+        .expertise__col:last-child {
+            border-right: none;
+        }
+
+        .expertise__col-tag {
+            font-size: 9px;
+            color: #ccc;
+            margin-bottom: 12px;
+        }
+
+        .expertise__col-title {
+            font-family: Georgia, serif;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #000;
+        }
+
+        .expertise__list {
+            list-style: none;
+        }
+
+        .expertise__list li {
+            font-size: 12px;
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+            letter-spacing: 0.5px;
+        }
+
+        .expertise__list li::before {
+            content: '// ';
+            color: #ccc;
+        }
+
+        /* ============================================
+           CONTACT — raw, exposed
+        ============================================ */
+        .contact {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            border-bottom: 3px solid #000;
+            position: relative;
+        }
+
+        .contact__photo-wrap {
+            border-right: 3px solid #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .contact__photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(50%) contrast(1.15);
+        }
+
+        .contact__photo-label {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 9px;
+            color: #fff;
+            background: #000;
+            padding: 2px 6px;
+        }
+
+        .contact__info {
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact__tag {
+            font-size: 9px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .contact__title {
+            font-family: Georgia, serif;
+            font-size: clamp(36px, 6vw, 80px);
+            font-weight: 900;
+            letter-spacing: -3px;
+            line-height: 0.95;
+            margin-bottom: 30px;
+        }
+
+        .contact__links {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .contact__link {
+            font-size: 13px;
+            padding: 14px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: 1px;
+        }
+
+        .contact__link-label {
+            font-size: 9px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .contact__link a {
+            border-bottom: 2px solid #000;
+            padding-bottom: 1px;
+        }
+
+        /* ============================================
+           FOOTER — minimal
+        ============================================ */
+        .footer {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: #999;
+            letter-spacing: 1px;
+        }
+
+        .footer__tag {
+            color: #ddd;
+        }
+
+        /* ============================================
+           MARQUEE TEXT
+        ============================================ */
+        .marquee {
+            border-bottom: 3px solid #000;
+            padding: 15px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            background: #000;
+            color: #fff;
+        }
+
+        .marquee__inner {
+            display: inline-block;
+            animation: ticker 25s linear infinite;
+            font-family: Georgia, serif;
+            font-size: clamp(18px, 3vw, 36px);
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ============================================
+           MOBILE
+        ============================================ */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 20px 80px;
+            }
+
+            .hero__name {
+                letter-spacing: -3px;
+            }
+
+            .hero__name span:last-child {
+                margin-left: 10px;
+            }
+
+            .hero__photo {
+                position: relative;
+                right: auto;
+                top: auto;
+                bottom: auto;
+                transform: rotate(-2deg);
+                width: 70%;
+                margin: 30px 0;
+            }
+
+            .hero__coord {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                text-align: left;
+                margin-top: 20px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats__item:nth-child(2) {
+                border-right: none;
+            }
+
+            .stats__item:nth-child(3),
+            .stats__item:nth-child(4) {
+                border-top: 2px solid #000;
+            }
+
+            .stats__item:nth-child(4) {
+                border-right: none;
+            }
+
+            .product {
+                grid-template-columns: 1fr;
+            }
+
+            .product:nth-child(even) {
+                direction: ltr;
+            }
+
+            .product__visual {
+                border-left: none !important;
+                border-right: none !important;
+                border-top: 2px solid #000;
+                min-height: 220px;
+            }
+
+            .product__number {
+                font-size: 60px;
+            }
+
+            .expertise {
+                grid-template-columns: 1fr;
+            }
+
+            .expertise__col {
+                border-right: none;
+                border-bottom: 2px solid #000;
+            }
+
+            .expertise__col:last-child {
+                border-bottom: none;
+            }
+
+            .contact {
+                grid-template-columns: 1fr;
+            }
+
+            .contact__photo-wrap {
+                border-right: none;
+                border-bottom: 3px solid #000;
+                height: 300px;
+            }
+
+            .contact__info {
+                padding: 40px 20px;
+            }
+
+            .section-header {
+                padding: 40px 20px 20px;
+            }
+
+            .section-header__title {
+                letter-spacing: -2px;
+            }
+
+            .product__info {
+                padding: 30px 20px;
+            }
+
+            .nav__links a {
+                padding: 6px 8px;
+                font-size: 8px;
+            }
+
+            .nav__time {
+                display: none;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+                padding: 20px;
+            }
+        }
+
+        /* ============================================
+           BRUTALIST EXTRAS
+        ============================================ */
+        .rotate-ccw { transform: rotate(-2deg); }
+        .rotate-cw { transform: rotate(1.5deg); }
+
+        .border-top { border-top: 3px solid #000; }
+        .border-bottom { border-bottom: 3px solid #000; }
+
+        .mono { font-family: 'Courier New', monospace; }
+        .serif { font-family: Georgia, 'Times New Roman', serif; }
+
+        .text-muted { color: #999; }
+        .text-tiny { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* Brutalist cursor trail */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #000;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+        }
+    </style>
+</head>
+<body>
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.92);border:1px solid rgba(0,0,0,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(0,0,0,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(0,0,0,0.05);color:#000;border:1px solid rgba(0,0,0,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="premiere.html">Premiere</option>
+    <option value="maximal.html">Maximal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html" selected>Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+
+
+<!-- GRID OVERLAY -->
+<div class="grid-overlay"></div>
+
+<!-- ============================================
+     NAV
+============================================ -->
+<nav class="nav">
+    <div class="nav__logo">GC<sup style="font-size:8px;color:#999;">&#169;</sup></div>
+    <div class="nav__links">
+        <a href="#products">PRODUCTS</a>
+        <a href="#expertise">EXPERTISE</a>
+        <a href="#contact">CONTACT</a>
+    </div>
+    <div class="nav__time" id="navTime">00:00:00</div>
+</nav>
+
+<!-- ============================================
+     HERO
+============================================ -->
+<section class="hero" id="hero">
+    <div class="hero__tag">&lt;section id="hero"&gt;</div>
+
+    <h1 class="hero__name">
+        <span>GEORG</span>
+        <span>CHIMION</span>
+    </h1>
+
+    <p class="hero__subtitle">
+        AI AUTOMATION SPECIALIST &middot; MIAMI<br><br>
+        AI automation for the enterprise.<br>
+        Enterprise automation, finance AI, and intelligent products.<br>
+        Helping companies reduce operational costs with AI that actually works.<br>
+        Currently at PwC.
+    </p>
+
+    <img src="georg-hero.jpeg" alt="Georg Chimion" class="hero__photo">
+
+    <div class="hero__coord">
+        25.7617&deg; N<br>
+        80.1918&deg; W<br>
+        <span style="color:#ccc;">MIAMI</span>
+    </div>
+
+    <div class="hero__ticker">
+        <div class="hero__ticker-inner">
+            AI AUTOMATION &mdash; ENTERPRISE SYSTEMS &mdash; CLAUDE &mdash; REACT &mdash; NODE.JS &mdash; PYTHON &mdash; DATABRICKS &mdash; POWER PLATFORM &mdash; FULL-STACK &mdash; MIAMI &mdash;
+            AI AUTOMATION &mdash; ENTERPRISE SYSTEMS &mdash; CLAUDE &mdash; REACT &mdash; NODE.JS &mdash; PYTHON &mdash; DATABRICKS &mdash; POWER PLATFORM &mdash; FULL-STACK &mdash; MIAMI &mdash;
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     STATS
+============================================ -->
+<div class="stats">
+    <div class="stats__item">
+        <div class="stats__number">8</div>
+        <div class="stats__label">LIVE SYSTEMS</div>
+    </div>
+    <div class="stats__item">
+        <div class="stats__number">6+</div>
+        <div class="stats__label">PRODUCTS</div>
+    </div>
+    <div class="stats__item">
+        <div class="stats__number">PwC</div>
+        <div class="stats__label">CURRENTLY AT</div>
+    </div>
+    <div class="stats__item">
+        <div class="stats__number">MIA</div>
+        <div class="stats__label">MIAMI, FL</div>
+    </div>
+</div>
+
+<!-- ============================================
+     PRODUCTS HEADER
+============================================ -->
+<div class="section-header" id="products">
+    <div class="section-header__tag">&lt;section id="products"&gt;</div>
+    <h2 class="section-header__title">FROM IDEA TO DEPLOYMENT.</h2>
+    <div class="section-header__line">// Each project built end-to-end — from architecture to live demo.</div>
+</div>
+
+<!-- ============================================
+     MARQUEE
+============================================ -->
+<div class="marquee">
+    <div class="marquee__inner">
+        FROM IDEA TO DEPLOYMENT &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        FROM IDEA TO DEPLOYMENT &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        FROM IDEA TO DEPLOYMENT &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        FROM IDEA TO DEPLOYMENT &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        FROM IDEA TO DEPLOYMENT &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        FROM IDEA TO DEPLOYMENT &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+
+<!-- ============================================
+     PRODUCTS
+============================================ -->
+<div class="products">
+
+    <!-- 01 VESTIA -->
+    <div class="product">
+        <div class="product__info">
+            <div class="product__number">01</div>
+            <div class="product__tag">&lt;div class="product"&gt;</div>
+            <h3 class="product__name">Vestia</h3>
+            <p class="product__desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</p>
+            <a href="https://vestia.georg.miami" target="_blank" class="product__link">vestia.georg.miami &rarr;</a>
+        </div>
+        <div class="product__visual">
+            <img src="screenshots/vestia.png" alt="Vestia" class="product__img">
+            <div class="product__visual-label">vestia.png / 2026</div>
+        </div>
+    </div>
+
+    <!-- 02 ASK PENNY -->
+    <div class="product">
+        <div class="product__info">
+            <div class="product__number">02</div>
+            <div class="product__tag">&lt;div class="product"&gt;</div>
+            <h3 class="product__name">Ask Penny</h3>
+            <p class="product__desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</p>
+            <a href="https://penny.georg.miami" target="_blank" class="product__link">penny.georg.miami &rarr;</a>
+        </div>
+        <div class="product__visual">
+            <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny" class="product__img">
+            <div class="product__visual-label">askpenny-dashboard.png / 2026</div>
+        </div>
+    </div>
+
+    <!-- 03 AGENT FACTORY -->
+    <div class="product">
+        <div class="product__info">
+            <div class="product__number">03</div>
+            <div class="product__tag">&lt;div class="product"&gt;</div>
+            <h3 class="product__name">Agent Factory</h3>
+            <p class="product__desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</p>
+            <a href="https://factory.georg.miami" target="_blank" class="product__link">factory.georg.miami &rarr;</a>
+        </div>
+        <div class="product__visual">
+            <img src="screenshots/factory.png" alt="Agent Factory" class="product__img">
+            <div class="product__visual-label">factory.png / 2026</div>
+        </div>
+    </div>
+
+    <!-- 04 VENUE -->
+    <div class="product">
+        <div class="product__info">
+            <div class="product__number">04</div>
+            <div class="product__tag">&lt;div class="product"&gt;</div>
+            <h3 class="product__name">VENUE</h3>
+            <p class="product__desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</p>
+            <a href="https://venue.georg.miami" target="_blank" class="product__link">venue.georg.miami &rarr;</a>
+        </div>
+        <div class="product__visual">
+            <img src="screenshots/venue.png" alt="VENUE" class="product__img">
+            <div class="product__visual-label">venue.png / 2026</div>
+        </div>
+    </div>
+
+    <!-- 05 RECONX -->
+    <div class="product">
+        <div class="product__info">
+            <div class="product__number">05</div>
+            <div class="product__tag">&lt;div class="product"&gt;</div>
+            <h3 class="product__name">ReconX</h3>
+            <p class="product__desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</p>
+            <a href="https://reconx.georg.miami" target="_blank" class="product__link">reconx.georg.miami &rarr;</a>
+        </div>
+        <div class="product__visual">
+            <img src="screenshots/reconx.png" alt="ReconX" class="product__img">
+            <div class="product__visual-label">reconx.png / 2026</div>
+        </div>
+    </div>
+
+    <!-- 06 AI DOC INTELLIGENCE -->
+    <div class="product">
+        <div class="product__info">
+            <div class="product__number">06</div>
+            <div class="product__tag">&lt;div class="product"&gt;</div>
+            <h3 class="product__name">AI Document Intelligence</h3>
+            <p class="product__desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</p>
+            <a href="https://docs.georg.miami" target="_blank" class="product__link">docs.georg.miami &rarr;</a>
+        </div>
+        <div class="product__visual">
+            <img src="screenshots/docai.png" alt="AI Doc Intelligence" class="product__img">
+            <div class="product__visual-label">docai.png / 2026</div>
+        </div>
+    </div>
+
+    <!-- 07 ROI CALCULATOR -->
+    <div class="product">
+        <div class="product__info">
+            <div class="product__number">07</div>
+            <div class="product__tag">&lt;div class="product"&gt;</div>
+            <h3 class="product__name">ROI Calculator</h3>
+            <p class="product__desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</p>
+            <a href="https://roi.georg.miami" target="_blank" class="product__link">roi.georg.miami &rarr;</a>
+        </div>
+        <div class="product__visual">
+            <img src="screenshots/roi.png" alt="ROI Calculator" class="product__img">
+            <div class="product__visual-label">roi.png / 2026</div>
+        </div>
+    </div>
+
+    <!-- 08 SPACEWALK -->
+    <div class="product">
+        <div class="product__info">
+            <div class="product__number">08</div>
+            <div class="product__tag">&lt;div class="product"&gt;</div>
+            <h3 class="product__name">SpaceWalk</h3>
+            <p class="product__desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</p>
+            <a href="https://spacewalk.georg.miami" target="_blank" class="product__link">spacewalk.georg.miami &rarr;</a>
+        </div>
+        <div class="product__visual">
+            <img src="screenshots/spacewalk.png" alt="SpaceWalk" class="product__img">
+            <div class="product__visual-label">spacewalk.png / 2026</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ============================================
+     EXPERTISE HEADER
+============================================ -->
+<div class="section-header" id="expertise">
+    <div class="section-header__tag">&lt;section id="expertise"&gt;</div>
+    <h2 class="section-header__title">WHAT I BRING.</h2>
+    <div class="section-header__line">// End-to-end — from system design to deployed product.</div>
+</div>
+
+<!-- ============================================
+     EXPERTISE GRID
+============================================ -->
+<div class="expertise">
+    <div class="expertise__col">
+        <div class="expertise__col-tag">&lt;div class="ai-systems"&gt;</div>
+        <h3 class="expertise__col-title">AI Systems</h3>
+        <p style="font-size:13px;line-height:1.6;">Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</p>
+    </div>
+    <div class="expertise__col">
+        <div class="expertise__col-tag">&lt;div class="finance"&gt;</div>
+        <h3 class="expertise__col-title">Finance &amp; Risk</h3>
+        <p style="font-size:13px;line-height:1.6;">Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</p>
+    </div>
+    <div class="expertise__col">
+        <div class="expertise__col-tag">&lt;div class="fullstack"&gt;</div>
+        <h3 class="expertise__col-title">Full-Stack</h3>
+        <p style="font-size:13px;line-height:1.6;">React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</p>
+    </div>
+</div>
+
+<!-- ============================================
+     MARQUEE 2
+============================================ -->
+<div class="marquee" style="background:#fff;color:#000;border-top:3px solid #000;">
+    <div class="marquee__inner" style="animation-direction:reverse;">
+        8 LIVE SYSTEMS &mdash; 6+ PRODUCTS &mdash; CURRENTLY AT PWC &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        8 LIVE SYSTEMS &mdash; 6+ PRODUCTS &mdash; CURRENTLY AT PWC &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        8 LIVE SYSTEMS &mdash; 6+ PRODUCTS &mdash; CURRENTLY AT PWC &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        8 LIVE SYSTEMS &mdash; 6+ PRODUCTS &mdash; CURRENTLY AT PWC &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+    </div>
+</div>
+
+<!-- ============================================
+     CONTACT
+============================================ -->
+<div class="section-header" id="contact">
+    <div class="section-header__tag">&lt;section id="contact"&gt;</div>
+    <h2 class="section-header__title">LET'S WORK TOGETHER.</h2>
+    <div class="section-header__line">// Taking on select consulting and contract engagements.</div>
+</div>
+
+<div class="contact">
+    <div class="contact__photo-wrap">
+        <img src="georg.jpeg" alt="Georg Chimion" class="contact__photo">
+        <div class="contact__photo-label">georg.jpeg</div>
+    </div>
+    <div class="contact__info">
+        <div class="contact__tag">&lt;div class="contact-info"&gt;</div>
+        <h3 class="contact__title">Let's work<br>together.</h3>
+        <div class="contact__links">
+            <div class="contact__link">
+                <span class="contact__link-label">EMAIL</span>
+                <a href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a>
+            </div>
+            <div class="contact__link">
+                <span class="contact__link-label">GITHUB</span>
+                <a href="https://github.com/georgchimion-oss" target="_blank">georgchimion-oss</a>
+            </div>
+            <div class="contact__link">
+                <span class="contact__link-label">LINKEDIN</span>
+                <a href="https://linkedin.com/in/georgchimion" target="_blank">georgchimion</a>
+            </div>
+            <div class="contact__link">
+                <span class="contact__link-label">LOCATION</span>
+                <span>Wynwood, Miami FL</span>
+            </div>
+            <div class="contact__link">
+                <span class="contact__link-label">PORTFOLIO</span>
+                <a href="https://georg.miami" target="_blank">georg.miami</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+     FOOTER
+============================================ -->
+<footer class="footer">
+    <div class="footer__tag">&lt;/body&gt;</div>
+    <div>&copy; 2026 Georg Chimion. Miami, FL. // Built with Claude</div>
+    <div class="footer__tag">&lt;/html&gt;</div>
+</footer>
+
+<!-- ============================================
+     SCRIPTS
+============================================ -->
+<script>
+    // Live clock in nav
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('navTime').textContent = h + ':' + m + ':' + s;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav__links a').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Intersection Observer — fade in products
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.product').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        observer.observe(el);
+    });
+</script>
+
+</body>
+</html>

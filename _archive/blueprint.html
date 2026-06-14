@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georg Chimion — Architectural Blueprint Portfolio</title>
+    <meta name="description" content="AI Automation Specialist portfolio — architectural blueprint edition. Products, systems, and intelligent tools built by Georg Chimion.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* =============================================
+           RESET & BASE
+        ============================================= */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bp-dark: #0d2137;
+            --bp-mid: #1a3a5c;
+            --bp-line: #4a9eed;
+            --bp-line-dim: rgba(74, 158, 237, 0.25);
+            --bp-line-faint: rgba(74, 158, 237, 0.10);
+            --bp-text: #c8dff5;
+            --bp-white: #e8f4ff;
+            --bp-accent: #6ec8ff;
+            --bp-grid-size: 20px;
+            --bp-annotation: #f0c866;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--bp-dark);
+            color: var(--bp-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Blueprint grid */
+            background-image:
+                repeating-linear-gradient(0deg, var(--bp-line-faint) 0 1px, transparent 1px var(--bp-grid-size)),
+                repeating-linear-gradient(90deg, var(--bp-line-faint) 0 1px, transparent 1px var(--bp-grid-size)),
+                repeating-linear-gradient(0deg, var(--bp-line-dim) 0 1px, transparent 1px calc(var(--bp-grid-size) * 5)),
+                repeating-linear-gradient(90deg, var(--bp-line-dim) 0 1px, transparent 1px calc(var(--bp-grid-size) * 5));
+            background-size:
+                var(--bp-grid-size) var(--bp-grid-size),
+                var(--bp-grid-size) var(--bp-grid-size),
+                calc(var(--bp-grid-size) * 5) calc(var(--bp-grid-size) * 5),
+                calc(var(--bp-grid-size) * 5) calc(var(--bp-grid-size) * 5);
+        }
+
+        a { color: var(--bp-accent); text-decoration: none; }
+        a:hover { color: var(--bp-white); text-decoration: underline; }
+
+        /* =============================================
+           UTILITY CLASSES
+        ============================================= */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--bp-line);
+            margin-bottom: 40px;
+        }
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: var(--bp-line);
+        }
+        .section-label::after {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 1px;
+            background: var(--bp-line);
+        }
+
+        /* Dimension line — horizontal */
+        .dim-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--bp-annotation);
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin: 20px 0;
+        }
+        .dim-line::before,
+        .dim-line::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--bp-annotation);
+            position: relative;
+        }
+        .dim-line::before::after,
+        .dim-line::after::before {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 8px;
+            background: var(--bp-annotation);
+            top: -4px;
+        }
+
+        /* End caps for dimension lines */
+        .dim-endcap {
+            position: relative;
+            flex: 1;
+            height: 1px;
+            background: var(--bp-annotation);
+        }
+        .dim-endcap::before,
+        .dim-endcap::after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 10px;
+            background: var(--bp-annotation);
+            top: -5px;
+        }
+        .dim-endcap::before { left: 0; }
+        .dim-endcap::after { right: 0; }
+
+        /* Annotation callout */
+        .annotation {
+            position: relative;
+            display: inline-block;
+            font-size: 10px;
+            color: var(--bp-annotation);
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            border: 1px solid var(--bp-annotation);
+        }
+        .annotation::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 1px;
+            height: 20px;
+            background: var(--bp-annotation);
+        }
+
+        /* =============================================
+           NAV
+        ============================================= */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 12px 40px;
+            background: rgba(13, 33, 55, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--bp-line-dim);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav .logo {
+            font-size: 14px;
+            color: var(--bp-white);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        nav .logo span {
+            color: var(--bp-line);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+        }
+        nav ul li a {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--bp-text);
+            transition: color 0.2s;
+        }
+        nav ul li a:hover {
+            color: var(--bp-white);
+            text-decoration: none;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--bp-line);
+            color: var(--bp-line);
+            padding: 6px 10px;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* =============================================
+           HERO
+        ============================================= */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+        }
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 80px;
+            align-items: center;
+            width: 100%;
+        }
+        .hero-text h1 {
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--bp-white);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: 2px;
+        }
+        .hero-text h1 .thin {
+            color: var(--bp-line);
+            font-weight: 400;
+        }
+        .hero-text .subtitle {
+            font-size: 14px;
+            color: var(--bp-text);
+            margin-top: 24px;
+            letter-spacing: 1px;
+            max-width: 500px;
+        }
+        .hero-text .location {
+            font-size: 11px;
+            color: var(--bp-line);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 16px;
+        }
+
+        /* Crosshair photo */
+        .hero-photo {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            justify-self: center;
+        }
+        .hero-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+            filter: saturate(0.3) brightness(0.9) contrast(1.1);
+            mix-blend-mode: luminosity;
+        }
+        /* Crosshair overlay */
+        .hero-photo::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: -20px; right: -20px;
+            height: 1px;
+            background: var(--bp-line);
+            z-index: 2;
+            opacity: 0.8;
+        }
+        .hero-photo::after {
+            content: '';
+            position: absolute;
+            left: 50%; top: -20px; bottom: -20px;
+            width: 1px;
+            background: var(--bp-line);
+            z-index: 2;
+            opacity: 0.8;
+        }
+        .crosshair-circle {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px; height: 100px;
+            border: 1px solid var(--bp-line);
+            border-radius: 50%;
+            z-index: 2;
+            opacity: 0.6;
+        }
+        .crosshair-circle-sm {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px; height: 40px;
+            border: 1px solid var(--bp-line);
+            border-radius: 50%;
+            z-index: 2;
+            opacity: 0.4;
+        }
+        /* Corner brackets */
+        .photo-bracket {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-color: var(--bp-line);
+            border-style: solid;
+            z-index: 2;
+        }
+        .photo-bracket.tl { top: -8px; left: -8px; border-width: 1px 0 0 1px; }
+        .photo-bracket.tr { top: -8px; right: -8px; border-width: 1px 1px 0 0; }
+        .photo-bracket.bl { bottom: -8px; left: -8px; border-width: 0 0 1px 1px; }
+        .photo-bracket.br { bottom: -8px; right: -8px; border-width: 0 1px 1px 0; }
+        /* Photo annotation */
+        .photo-label {
+            position: absolute;
+            bottom: -36px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            color: var(--bp-annotation);
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+        .photo-label::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            width: 1px;
+            height: 8px;
+            background: var(--bp-annotation);
+        }
+
+        /* Compass rose */
+        .compass {
+            position: absolute;
+            top: 120px;
+            right: 60px;
+            width: 80px;
+            height: 80px;
+            opacity: 0.4;
+        }
+        .compass svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* =============================================
+           STATS BAR
+        ============================================= */
+        .stats-bar {
+            border-top: 1px solid var(--bp-line-dim);
+            border-bottom: 1px solid var(--bp-line-dim);
+            padding: 32px 0;
+            margin: 0;
+        }
+        .stats-inner {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            text-align: center;
+        }
+        .stat-item .stat-num {
+            font-size: 28px;
+            color: var(--bp-white);
+            display: block;
+        }
+        .stat-item .stat-label {
+            font-size: 10px;
+            color: var(--bp-line);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* =============================================
+           FLOOR PLAN — PRODUCTS SECTION
+        ============================================= */
+        .floor-plan-section {
+            padding: 80px 0 40px;
+        }
+        .floor-plan-title {
+            font-size: 24px;
+            color: var(--bp-white);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .floor-plan-desc {
+            font-size: 12px;
+            color: var(--bp-text);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        /* Scale bar */
+        .scale-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 48px;
+            font-size: 10px;
+            color: var(--bp-line);
+            letter-spacing: 2px;
+        }
+        .scale-segments {
+            display: flex;
+            height: 6px;
+        }
+        .scale-segments span {
+            width: 30px;
+            height: 100%;
+        }
+        .scale-segments span:nth-child(odd) { background: var(--bp-line); }
+        .scale-segments span:nth-child(even) { background: transparent; border: 1px solid var(--bp-line); border-left: none; border-right: none; }
+
+        /* Product rooms grid */
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 0;
+        }
+
+        .room {
+            border: 1px solid var(--bp-line-dim);
+            padding: 28px;
+            position: relative;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .room:hover {
+            border-color: var(--bp-line);
+            background: rgba(74, 158, 237, 0.04);
+        }
+
+        /* Room number label */
+        .room-number {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 9px;
+            color: var(--bp-line);
+            opacity: 0.6;
+            letter-spacing: 2px;
+        }
+
+        /* Door notch */
+        .room::before {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 24px;
+            width: 32px;
+            height: 3px;
+            background: var(--bp-dark);
+            border-left: 1px solid var(--bp-line-dim);
+            border-right: 1px solid var(--bp-line-dim);
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        .room-name {
+            font-size: 16px;
+            color: var(--bp-white);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .room-tag {
+            font-size: 9px;
+            padding: 3px 8px;
+            border: 1px solid var(--bp-line);
+            color: var(--bp-line);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .room-desc {
+            font-size: 12px;
+            color: var(--bp-text);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        /* Screenshot thumbnail */
+        .room-screenshot {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border: 1px solid var(--bp-line-dim);
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .room-screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.5) brightness(0.85);
+            transition: filter 0.3s, transform 0.3s;
+        }
+        .room:hover .room-screenshot img {
+            filter: saturate(0.8) brightness(0.95);
+            transform: scale(1.02);
+        }
+        /* Screenshot dimension annotation */
+        .room-screenshot::after {
+            content: attr(data-dim);
+            position: absolute;
+            bottom: 4px;
+            right: 8px;
+            font-size: 9px;
+            color: var(--bp-annotation);
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .room-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .room-tech span {
+            font-size: 9px;
+            padding: 2px 8px;
+            border: 1px solid var(--bp-line-dim);
+            color: var(--bp-text);
+            letter-spacing: 1px;
+        }
+
+        .room-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--bp-accent);
+            border: 1px solid var(--bp-accent);
+            padding: 6px 16px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .room-link:hover {
+            background: var(--bp-accent);
+            color: var(--bp-dark);
+            text-decoration: none;
+        }
+        .room-link .arrow {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        /* No-screenshot placeholder */
+        .room-screenshot.no-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(74, 158, 237, 0.04);
+        }
+        .room-screenshot.no-img span {
+            font-size: 10px;
+            color: var(--bp-line);
+            letter-spacing: 2px;
+        }
+
+        /* =============================================
+           ABOUT SECTION
+        ============================================= */
+        .about-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--bp-line-dim);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        .about-photo {
+            position: relative;
+            width: 180px;
+            height: 220px;
+        }
+        .about-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.3) brightness(0.85);
+        }
+        .about-photo::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border: 1px solid var(--bp-line-dim);
+        }
+        .about-content h2 {
+            font-size: 20px;
+            color: var(--bp-white);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .about-content p {
+            font-size: 13px;
+            color: var(--bp-text);
+            line-height: 1.8;
+            margin-bottom: 16px;
+            max-width: 640px;
+        }
+        .about-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 24px;
+        }
+        .about-skills span {
+            font-size: 10px;
+            padding: 4px 12px;
+            border: 1px solid var(--bp-line-dim);
+            color: var(--bp-text);
+            letter-spacing: 1px;
+        }
+
+        /* =============================================
+           CONTACT / TITLE BLOCK
+        ============================================= */
+        .title-block-section {
+            padding: 60px 0 40px;
+            border-top: 1px solid var(--bp-line-dim);
+        }
+        .title-block-wrapper {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .title-block {
+            border: 2px solid var(--bp-line);
+            width: 100%;
+            max-width: 720px;
+        }
+        .title-block-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid var(--bp-line);
+        }
+        .title-block-row:last-child { border-bottom: none; }
+        .title-block-cell {
+            padding: 12px 20px;
+            border-right: 1px solid var(--bp-line);
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+        .title-block-cell:last-child { border-right: none; }
+        .title-block-cell .tb-label {
+            font-size: 9px;
+            color: var(--bp-line);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .title-block-cell .tb-value {
+            color: var(--bp-white);
+            font-size: 13px;
+        }
+        .title-block-header {
+            border-bottom: 2px solid var(--bp-line);
+            padding: 16px 20px;
+            text-align: center;
+        }
+        .title-block-header .tb-title {
+            font-size: 18px;
+            color: var(--bp-white);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .title-block-header .tb-subtitle {
+            font-size: 10px;
+            color: var(--bp-line);
+            letter-spacing: 3px;
+            margin-top: 4px;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--bp-accent);
+            border: 1px solid var(--bp-line-dim);
+            padding: 8px 16px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .contact-link:hover {
+            border-color: var(--bp-accent);
+            background: rgba(110, 200, 255, 0.06);
+            text-decoration: none;
+        }
+        .contact-link svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--bp-accent);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* =============================================
+           FOOTER
+        ============================================= */
+        footer {
+            border-top: 1px solid var(--bp-line-dim);
+            padding: 24px 0;
+            text-align: center;
+            font-size: 10px;
+            color: var(--bp-line);
+            letter-spacing: 2px;
+        }
+
+        /* =============================================
+           RESPONSIVE
+        ============================================= */
+        @media (max-width: 900px) {
+            .container { padding: 0 20px; }
+            nav { padding: 12px 20px; }
+            nav ul { display: none; }
+            nav ul.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                background: rgba(13, 33, 55, 0.97);
+                padding: 20px;
+                gap: 16px;
+                border-bottom: 1px solid var(--bp-line-dim);
+            }
+            .mobile-toggle { display: block; }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .hero-photo {
+                justify-self: center;
+                width: 200px;
+                height: 200px;
+                order: -1;
+            }
+            .hero-text .subtitle { margin-left: auto; margin-right: auto; }
+
+            .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+            .rooms-grid { grid-template-columns: 1fr; }
+
+            .about-grid { grid-template-columns: 1fr; gap: 32px; }
+            .about-photo { justify-self: center; }
+
+            .title-block-wrapper { justify-content: center; }
+            .title-block-row { grid-template-columns: 1fr; }
+            .title-block-cell { border-right: none; border-bottom: 1px solid var(--bp-line-dim); }
+            .title-block-row:last-child .title-block-cell:last-child { border-bottom: none; }
+
+            .compass { display: none; }
+
+            .contact-links { justify-content: center; }
+        }
+
+        @media (max-width: 500px) {
+            .hero-text h1 { font-size: 28px; }
+            .room { padding: 20px; }
+        }
+
+        /* =============================================
+           ANIMATIONS
+        ============================================= */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Drawing animation for lines */
+        @keyframes drawLine {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="cinematic-v2.html">Cinematic V2</option>
+    <option value="insane.html">Insane</option>
+    <option value="holographic.html">Holographic</option>
+    <option value="terminal.html">Terminal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="blueprint.html" selected>Blueprint</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+<!-- NAV -->
+<nav>
+    <div class="logo"><span>//</span> GEORG.MIAMI</div>
+    <button class="mobile-toggle" onclick="document.querySelector('nav ul').classList.toggle('open')" aria-label="Menu">MENU</button>
+    <ul>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-inner">
+            <div class="hero-text fade-in">
+                <div class="section-label">Sheet 01 of 01</div>
+                <h1>GEORG <span class="thin">CHIMION</span></h1>
+                <p class="subtitle">AI AUTOMATION SPECIALIST &middot; MIAMI. Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</p>
+                <div style="margin-top: 32px;">
+                    <div class="dim-line">
+                        <div class="dim-endcap"></div>
+                        <span>8 LIVE SYSTEMS &middot; 6+ PRODUCTS &middot; CURRENTLY AT PWC</span>
+                        <div class="dim-endcap"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-photo fade-in">
+                <img src="georg-hero.jpeg" alt="Georg Chimion" loading="eager">
+                <div class="crosshair-circle"></div>
+                <div class="crosshair-circle-sm"></div>
+                <div class="photo-bracket tl"></div>
+                <div class="photo-bracket tr"></div>
+                <div class="photo-bracket bl"></div>
+                <div class="photo-bracket br"></div>
+                <div class="photo-label">SUBJECT: G. CHIMION // REF: 001</div>
+            </div>
+        </div>
+    </div>
+    <!-- Compass Rose -->
+    <div class="compass">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="#4a9eed" stroke-width="0.5"/>
+            <circle cx="50" cy="50" r="20" stroke="#4a9eed" stroke-width="0.5"/>
+            <line x1="50" y1="5" x2="50" y2="95" stroke="#4a9eed" stroke-width="0.5"/>
+            <line x1="5" y1="50" x2="95" y2="50" stroke="#4a9eed" stroke-width="0.5"/>
+            <line x1="18" y1="18" x2="82" y2="82" stroke="#4a9eed" stroke-width="0.3"/>
+            <line x1="82" y1="18" x2="18" y2="82" stroke="#4a9eed" stroke-width="0.3"/>
+            <polygon points="50,6 46,18 54,18" fill="#4a9eed"/>
+            <text x="50" y="3" text-anchor="middle" font-size="8" fill="#4a9eed" font-family="Share Tech Mono">N</text>
+            <text x="97" y="53" text-anchor="middle" font-size="7" fill="#4a9eed" font-family="Share Tech Mono">E</text>
+            <text x="50" y="100" text-anchor="middle" font-size="7" fill="#4a9eed" font-family="Share Tech Mono">S</text>
+            <text x="3" y="53" text-anchor="middle" font-size="7" fill="#4a9eed" font-family="Share Tech Mono">W</text>
+        </svg>
+    </div>
+</section>
+
+<!-- STATS BAR -->
+<section class="stats-bar">
+    <div class="container">
+        <div class="stats-inner">
+            <div class="stat-item fade-in">
+                <span class="stat-num">8</span>
+                <span class="stat-label">Live Products</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-num">PwC</span>
+                <span class="stat-label">Current Firm</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-num">AI</span>
+                <span class="stat-label">Core Domain</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-num">MIA</span>
+                <span class="stat-label">Base Location</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCTS / FLOOR PLAN -->
+<section class="floor-plan-section" id="products">
+    <div class="container">
+        <div class="section-label fade-in">Section A // Product Suite</div>
+        <h2 class="floor-plan-title fade-in">From idea to deployment.</h2>
+        <p class="floor-plan-desc fade-in">Each project built end-to-end — from architecture to live demo.</p>
+
+        <!-- Scale bar -->
+        <div class="scale-bar fade-in">
+            <span>SCALE:</span>
+            <div class="scale-segments">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span>1:1 PRODUCTION</span>
+        </div>
+
+        <div class="rooms-grid">
+
+            <!-- Room 1: Vestia -->
+            <div class="room fade-in">
+                <span class="room-number">RM-101</span>
+                <div class="room-header">
+                    <div class="room-name">Vestia</div>
+                    <div class="room-tag">Platform</div>
+                </div>
+                <p class="room-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</p>
+                <div class="room-screenshot" data-dim="1920x1080">
+                    <img src="screenshots/vestia.png" alt="Vestia screenshot" loading="lazy">
+                </div>
+                <div class="room-tech">
+                    <span>React</span>
+                    <span>Node.js</span>
+                    <span>AI</span>
+                </div>
+                <a href="https://vestia.georg.miami" target="_blank" class="room-link">
+                    Enter <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Room 2: Ask Penny -->
+            <div class="room fade-in">
+                <span class="room-number">RM-102</span>
+                <div class="room-header">
+                    <div class="room-name">Ask Penny</div>
+                    <div class="room-tag">Finance AI</div>
+                </div>
+                <p class="room-desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</p>
+                <div class="room-screenshot" data-dim="1920x1080">
+                    <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny screenshot" loading="lazy">
+                </div>
+                <div class="room-tech">
+                    <span>Express</span>
+                    <span>Claude API</span>
+                    <span>PostgreSQL</span>
+                    <span>Tiller</span>
+                </div>
+                <a href="https://penny.georg.miami" target="_blank" class="room-link">
+                    Enter <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Room 3: Agent Factory -->
+            <div class="room fade-in">
+                <span class="room-number">RM-103</span>
+                <div class="room-header">
+                    <div class="room-name">Agent Factory</div>
+                    <div class="room-tag">AI Agents</div>
+                </div>
+                <p class="room-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</p>
+                <div class="room-screenshot" data-dim="1920x1080">
+                    <img src="screenshots/factory.png" alt="Agent Factory screenshot" loading="lazy">
+                </div>
+                <div class="room-tech">
+                    <span>Express</span>
+                    <span>SSE</span>
+                    <span>Claude API</span>
+                    <span>Multi-Agent</span>
+                </div>
+                <a href="https://factory.georg.miami" target="_blank" class="room-link">
+                    Enter <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Room 4: VENUE -->
+            <div class="room fade-in">
+                <span class="room-number">RM-104</span>
+                <div class="room-header">
+                    <div class="room-name">VENUE</div>
+                    <div class="room-tag">Next.js App</div>
+                </div>
+                <p class="room-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</p>
+                <div class="room-screenshot" data-dim="1920x1080">
+                    <img src="screenshots/venue.png" alt="VENUE screenshot" loading="lazy">
+                </div>
+                <div class="room-tech">
+                    <span>Next.js</span>
+                    <span>React</span>
+                    <span>TypeScript</span>
+                </div>
+                <a href="https://venue.georg.miami" target="_blank" class="room-link">
+                    Enter <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Room 5: ReconX -->
+            <div class="room fade-in">
+                <span class="room-number">RM-105</span>
+                <div class="room-header">
+                    <div class="room-name">ReconX</div>
+                    <div class="room-tag">FinOps</div>
+                </div>
+                <p class="room-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</p>
+                <div class="room-screenshot" data-dim="1920x1080">
+                    <img src="screenshots/reconx.png" alt="ReconX screenshot" loading="lazy">
+                </div>
+                <div class="room-tech">
+                    <span>React</span>
+                    <span>TypeScript</span>
+                    <span>AI Matching</span>
+                </div>
+                <a href="https://reconx.georg.miami" target="_blank" class="room-link">
+                    Enter <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Room 6: AI Doc Intelligence -->
+            <div class="room fade-in">
+                <span class="room-number">RM-106</span>
+                <div class="room-header">
+                    <div class="room-name">AI Document Intelligence</div>
+                    <div class="room-tag">Document AI</div>
+                </div>
+                <p class="room-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</p>
+                <div class="room-screenshot" data-dim="1920x1080">
+                    <img src="screenshots/docai.png" alt="AI Doc Intelligence screenshot" loading="lazy">
+                </div>
+                <div class="room-tech">
+                    <span>Claude Vision</span>
+                    <span>OCR</span>
+                    <span>Classification</span>
+                </div>
+                <a href="https://docs.georg.miami" target="_blank" class="room-link">
+                    Enter <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Room 7: ROI Calculator -->
+            <div class="room fade-in">
+                <span class="room-number">RM-107</span>
+                <div class="room-header">
+                    <div class="room-name">ROI Calculator</div>
+                    <div class="room-tag">Tool</div>
+                </div>
+                <p class="room-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</p>
+                <div class="room-screenshot" data-dim="1920x1080">
+                    <img src="screenshots/roi.png" alt="ROI Calculator screenshot" loading="lazy">
+                </div>
+                <div class="room-tech">
+                    <span>JavaScript</span>
+                    <span>Financial Models</span>
+                </div>
+                <a href="https://roi.georg.miami" target="_blank" class="room-link">
+                    Enter <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Room 8: SpaceWalk -->
+            <div class="room fade-in">
+                <span class="room-number">RM-108</span>
+                <div class="room-header">
+                    <div class="room-name">SpaceWalk</div>
+                    <div class="room-tag">Experience</div>
+                </div>
+                <p class="room-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</p>
+                <div class="room-screenshot" data-dim="1920x1080">
+                    <img src="screenshots/spacewalk.png" alt="SpaceWalk screenshot" loading="lazy">
+                </div>
+                <div class="room-tech">
+                    <span>WebGL</span>
+                    <span>3D</span>
+                    <span>Interactive</span>
+                </div>
+                <a href="https://spacewalk.georg.miami" target="_blank" class="room-link">
+                    Enter <span class="arrow">&rarr;</span>
+                </a>
+            </div>
+
+        </div><!-- /.rooms-grid -->
+
+        <!-- Bottom dimension line -->
+        <div style="margin-top: 32px;">
+            <div class="dim-line">
+                <div class="dim-endcap"></div>
+                <span>FULL PRODUCT SUITE // 8 DEPLOYED SYSTEMS</span>
+                <div class="dim-endcap"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+    <div class="container">
+        <div class="section-label fade-in">Section B // Background</div>
+        <div class="about-grid">
+            <div class="about-photo fade-in">
+                <img src="georg.jpeg" alt="Georg Chimion" loading="lazy">
+            </div>
+            <div class="about-content fade-in">
+                <h2>What I bring.</h2>
+                <p><strong>AI Systems</strong> — Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</p>
+                <p><strong>Finance &amp; Risk</strong> — Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</p>
+                <p><strong>Full-Stack</strong> — React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</p>
+                <p><strong>Rapid Build</strong> — From concept to working prototype in days, not months. Fast iteration with real users — six live products already in portfolio.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT / TITLE BLOCK -->
+<section class="title-block-section" id="contact">
+    <div class="container">
+        <div class="section-label fade-in">Section C // Contact</div>
+
+        <div class="contact-links fade-in" style="margin-bottom: 40px;">
+            <a href="mailto:georg.chimion@gmail.com" class="contact-link">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                georg.chimion@gmail.com
+            </a>
+            <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-link">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                GitHub
+            </a>
+            <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-link">
+                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                LinkedIn
+            </a>
+        </div>
+
+        <div class="title-block-wrapper fade-in">
+            <div class="title-block">
+                <div class="title-block-header">
+                    <div class="tb-title">Georg Chimion</div>
+                    <div class="tb-subtitle">AI Automation Specialist // Portfolio Blueprint</div>
+                </div>
+                <div class="title-block-row">
+                    <div class="title-block-cell">
+                        <span class="tb-label">Project</span>
+                        <span class="tb-value">georg.miami ecosystem</span>
+                    </div>
+                    <div class="title-block-cell">
+                        <span class="tb-label">Date</span>
+                        <span class="tb-value">April 2026</span>
+                    </div>
+                </div>
+                <div class="title-block-row">
+                    <div class="title-block-cell">
+                        <span class="tb-label">Location</span>
+                        <span class="tb-value">Wynwood, Miami FL</span>
+                    </div>
+                    <div class="title-block-cell">
+                        <span class="tb-label">Scale</span>
+                        <span class="tb-value">1:1 Production</span>
+                    </div>
+                </div>
+                <div class="title-block-row">
+                    <div class="title-block-cell">
+                        <span class="tb-label">Sheet</span>
+                        <span class="tb-value">01 of 01</span>
+                    </div>
+                    <div class="title-block-cell">
+                        <span class="tb-label">Revision</span>
+                        <span class="tb-value">REV A</span>
+                    </div>
+                </div>
+                <div class="title-block-row">
+                    <div class="title-block-cell">
+                        <span class="tb-label">Drawn By</span>
+                        <span class="tb-value">G. Chimion</span>
+                    </div>
+                    <div class="title-block-cell">
+                        <span class="tb-label">Approved</span>
+                        <span class="tb-value">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        &copy; 2026 Georg Chimion. Miami, FL. // Built with Claude
+    </div>
+</footer>
+
+<!-- SCROLL ANIMATIONS -->
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

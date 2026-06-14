@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — V1 Operator</title>
+<meta name="description" content="AI automation for the enterprise. Finance AI, intelligent products, production-grade systems. Currently at PwC.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2306B6D4'/><text x='16' y='22' font-family='system-ui,sans-serif' font-size='16' font-weight='700' fill='%230C0C0C' text-anchor='middle'>GC</text></svg>">
+<link rel="stylesheet" href="georg-design-system.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+<style>
+/* V1 — THE OPERATOR — editorial polish, tabular, confident */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+nav::before{content:'';position:absolute;inset:0;z-index:-1;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(20px) saturate(1.2)}
+.nav-left{display:flex;align-items:center;gap:16px}
+.monogram{width:34px;height:34px;border-radius:8px;background:var(--accent);color:var(--accent-text);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;letter-spacing:-.02em;position:relative;box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 40%,transparent),0 0 24px color-mix(in srgb,var(--accent) 25%,transparent);text-decoration:none}
+.monogram::after{content:'';position:absolute;bottom:-2px;right:-2px;width:8px;height:8px;background:var(--status-green);border-radius:50%;border:2px solid var(--bg);box-shadow:0 0 8px var(--status-green)}
+.nav-ident{display:flex;flex-direction:column;line-height:1.1}
+.nav-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.nav-role{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--text-3);text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:22px}
+.nav-links a{font-size:13px;color:var(--text-2);font-weight:400;transition:color .2s;text-decoration:none;font-family:'DM Sans',sans-serif}
+.nav-links a:hover{color:var(--text)}
+.theme-toggle{background:none;border:1px solid var(--border);border-radius:var(--r-sm);padding:6px 10px;cursor:pointer;font-size:14px;color:var(--text-2);min-width:38px;min-height:38px;display:flex;align-items:center;justify-content:center}
+.theme-toggle:hover{border-color:var(--border-hover);color:var(--text)}
+.btn-hire{padding:8px 18px;background:var(--accent);color:var(--accent-text);font-size:13px;font-weight:600;border-radius:var(--r-sm);text-decoration:none;font-family:'Space Grotesk',sans-serif;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.btn-hire:hover{background:var(--accent-hover);color:var(--accent-text);transform:translateY(-1px)}
+.btn-hire::after{content:'→';font-weight:400}
+.mobile-menu{display:none;background:none;border:none;color:var(--text);cursor:pointer;padding:8px}
+
+.hero{padding:148px 0 80px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:22px;display:flex;align-items:center;gap:10px;opacity:0}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent)}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--status-green);box-shadow:0 0 8px var(--status-green);animation:pulse-dot 2.4s ease infinite;margin-left:auto;margin-right:6px}
+.hero-eyebrow .avail{color:var(--text-2);font-size:10px;letter-spacing:.12em}
+.hero h1{font-size:clamp(42px,5.6vw,76px);letter-spacing:-.03em;font-weight:700;line-height:1.04;margin-bottom:26px;opacity:0}
+.hero h1 em{font-style:normal;color:var(--accent);font-weight:700;position:relative}
+.hero h1 em::after{content:'';position:absolute;left:0;right:0;bottom:4px;height:2px;background:var(--accent);opacity:.25}
+.hero-sub{font-size:18px;color:var(--text-2);line-height:1.6;max-width:520px;margin-bottom:20px;font-weight:300;opacity:0}
+.hero-sub strong{color:var(--text);font-weight:500}
+.hero-offer{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;margin-bottom:28px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.04em;color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);border-radius:999px;text-decoration:none;transition:all .2s;opacity:0}
+.hero-offer:hover{background:color-mix(in srgb,var(--accent) 14%,transparent);border-color:color-mix(in srgb,var(--accent) 40%,transparent);transform:translateX(2px)}
+.hero-offer .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 45%,transparent);animation:pulseRing 1.8s ease-out infinite}
+.hero-offer .arr{margin-left:4px;transition:transform .15s}
+.hero-offer:hover .arr{transform:translateX(3px)}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 45%,transparent)}70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+
+/* Audit request bar + section */
+.audits-see-all{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--text-2);padding:14px;border:1px dashed var(--border);border-radius:var(--r);text-decoration:none;transition:all .2s}
+.audits-see-all:hover{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+.audits-see-all strong{color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;letter-spacing:-.02em;font-weight:600}
+.audit-request-bar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:28px;padding:30px 34px;background:linear-gradient(120deg,color-mix(in srgb,var(--accent) 8%,transparent),color-mix(in srgb,var(--accent) 3%,transparent));border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);border-radius:var(--r);margin-top:28px}
+.audit-request-bar .r-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,1.8vw,24px);font-weight:700;letter-spacing:-.025em;color:var(--text);line-height:1.2;margin-bottom:6px}
+.audit-request-bar .r-title em{font-style:normal;color:var(--accent)}
+.audit-request-bar .r-sub{font-size:13px;color:var(--text-2);line-height:1.55;max-width:620px}
+.audit-request-bar .r-btn{background:var(--accent);color:var(--accent-text);padding:14px 24px;border-radius:var(--r-sm);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;text-decoration:none;white-space:nowrap;transition:all .2s}
+.audit-request-bar .r-btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+@media (max-width:768px){.audit-request-bar{grid-template-columns:1fr;padding:24px}}
+
+/* Audit request form */
+#audit-request{background:var(--bg-2)}
+.aq-wrap{max-width:760px;margin:0 auto}
+.aq-form{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:40px;margin-top:40px;position:relative}
+.aq-progress{display:flex;align-items:center;gap:8px;margin-bottom:32px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase}
+.aq-dot{width:10px;height:10px;border-radius:50%;background:var(--border-hover);transition:all .3s}
+.aq-dot.on{background:var(--accent);transform:scale(1.15);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent)}
+.aq-dot.done{background:var(--accent);opacity:.5}
+.aq-step-label{margin-left:14px;color:var(--text-2)}
+.aq-step{display:none;animation:aqFade .35s ease}
+.aq-step.active{display:block}
+@keyframes aqFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.aq-step label{display:block;margin-bottom:16px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;color:var(--text-2);letter-spacing:.02em}
+.aq-step input[type="text"],.aq-step input[type="email"],.aq-step textarea{display:block;width:100%;margin-top:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;font-family:'Space Grotesk',sans-serif;font-size:15px;color:var(--text);transition:border-color .2s}
+.aq-step input:focus,.aq-step textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 12%,transparent)}
+.aq-step textarea{resize:vertical;min-height:80px;font-family:'DM Sans',sans-serif}
+.aq-q{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px;letter-spacing:-.01em}
+.aq-sub{font-size:13px;color:var(--text-2);margin-bottom:16px}
+.aq-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.aq-choices-checks{grid-template-columns:1fr}
+@media (max-width:600px){.aq-choices{grid-template-columns:1fr}}
+.aq-radio,.aq-check{display:flex;align-items:center;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:14px;color:var(--text);margin-bottom:0;font-weight:400;transition:all .15s}
+.aq-radio:hover,.aq-check:hover{border-color:var(--border-hover);background:var(--surface-2)}
+.aq-radio input,.aq-check input{margin-right:10px;accent-color:var(--accent)}
+.aq-radio:has(input:checked),.aq-check:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.aq-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.aq-back,.aq-next,.aq-submit{padding:12px 24px;border-radius:var(--r-sm);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border:none;text-decoration:none}
+.aq-back{background:transparent;color:var(--text-2);border:1px solid var(--border)}
+.aq-back:hover{border-color:var(--border-hover);color:var(--text)}
+.aq-next,.aq-submit{background:var(--accent);color:var(--accent-text);margin-left:auto}
+.aq-next:hover,.aq-submit:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.aq-error{color:#EF4444;font-size:13px;padding:10px 14px;background:color-mix(in srgb,#EF4444 10%,transparent);border:1px solid color-mix(in srgb,#EF4444 25%,transparent);border-radius:var(--r-sm);margin-top:16px;font-family:'DM Sans',sans-serif}
+.aq-success{text-align:center;padding:20px 0}
+.aq-check-icon{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:var(--accent);color:var(--accent-text);font-size:36px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px color-mix(in srgb,var(--accent) 15%,transparent)}
+.aq-success-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:8px}
+.aq-success-text{color:var(--text-2);font-size:16px}
+.hero-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 0;margin-bottom:32px;opacity:0}
+.metric{display:flex;flex-direction:column;gap:4px;padding:0 20px;border-right:1px dashed var(--border)}
+.metric:first-child{padding-left:0}
+.metric:last-child{border-right:none}
+.metric-val{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;color:var(--text);line-height:1;font-variant-numeric:tabular-nums}
+.metric-val sup{font-size:14px;color:var(--accent);font-weight:600;margin-left:3px;vertical-align:super}
+.metric-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;opacity:0;align-items:center}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;background:var(--accent);color:var(--accent-text);font-size:14px;font-weight:600;border-radius:var(--r-sm);border:none;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',sans-serif;text-decoration:none}
+.btn-primary:hover{background:var(--accent-hover);color:var(--accent-text);transform:translateY(-1px)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;background:transparent;color:var(--text-2);font-size:14px;font-weight:500;border-radius:var(--r-sm);border:1px solid var(--border);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;text-decoration:none}
+.btn-secondary:hover{border-color:var(--border-hover);color:var(--text)}
+.hero-pgp{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);letter-spacing:.1em;margin-left:auto;padding-left:16px;border-left:1px dashed var(--border);max-width:200px;line-height:1.5}
+.hero-photo-wrap{position:relative;opacity:0}
+.hero-photo{width:100%;max-width:420px;aspect-ratio:4/5;object-fit:cover;border-radius:4px;display:block;box-shadow:14px 14px 0 0 var(--accent),0 8px 32px rgba(0,0,0,.3);position:relative;z-index:2}
+.photo-tag{position:absolute;top:16px;left:16px;background:rgba(12,12,12,.9);color:#F0EDE8;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:5px 9px;border-radius:3px;z-index:3;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.1)}
+.photo-tag .g{color:var(--accent)}
+.photo-caption{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--text-3);display:flex;justify-content:space-between;padding:0 4px;max-width:420px}
+.photo-caption b{color:var(--text-2);font-weight:500}
+
+section{padding:96px 0;position:relative}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:56px;gap:24px;flex-wrap:wrap}
+.sec-head-l{max-width:720px}
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-label::before{content:'';width:20px;height:1px;background:var(--accent)}
+.sec-title{font-size:clamp(30px,3.6vw,46px);letter-spacing:-.03em;font-weight:700;line-height:1.1;margin-bottom:8px}
+.sec-sub{font-size:16px;color:var(--text-2);line-height:1.6;font-weight:300;max-width:560px}
+.sec-counter{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.sec-counter b{color:var(--text);font-weight:500}
+
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.product-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;position:relative;text-decoration:none;color:inherit;display:flex;flex-direction:column}
+.product-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--accent) 30%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 15%,transparent),var(--shadow-lg)}
+.product-card-featured{grid-column:span 2}
+.product-card-featured .product-thumb{aspect-ratio:16/7}
+.product-thumb{width:100%;aspect-ratio:16/10;background:var(--surface-2);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);overflow:hidden;position:relative}
+.product-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;display:block}
+.product-card:hover .product-thumb img{transform:scale(1.04)}
+.thumb-status{position:absolute;top:12px;right:12px;z-index:2;display:flex;align-items:center;gap:6px;padding:4px 9px;background:rgba(12,12,12,.78);border:1px solid rgba(255,255,255,.12);border-radius:100px;backdrop-filter:blur(6px);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;color:rgba(240,237,232,.9);text-transform:uppercase}
+[data-theme=light] .thumb-status{background:rgba(255,255,255,.88);border-color:rgba(0,0,0,.08);color:rgba(0,0,0,.7)}
+.thumb-status .tick{width:5px;height:5px;border-radius:50%;background:var(--status-green);box-shadow:0 0 6px var(--status-green)}
+.thumb-status .tick.lab{background:var(--accent);box-shadow:0 0 6px var(--accent)}
+.product-info{padding:18px 18px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.product-meta{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:2px}
+.product-meta .num{color:var(--accent);font-weight:500}
+.product-meta .sep{color:var(--text-3);opacity:.4}
+.product-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
+.product-desc{font-size:13.5px;color:var(--text-2);line-height:1.55;margin-bottom:8px}
+.product-rail{margin-top:auto;padding-top:12px;border-top:1px dashed var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.product-rail .stack{display:flex;gap:8px;flex-wrap:wrap;min-width:0;overflow:hidden;white-space:nowrap}
+.product-rail .stack span{color:var(--text-2)}
+.product-rail .open{color:var(--accent);font-weight:500;display:inline-flex;align-items:center;gap:4px;flex-shrink:0;opacity:0;transition:opacity .2s}
+.product-rail .open::after{content:'↗'}
+.product-card:hover .product-rail .open{opacity:1}
+
+.lab-cta-bar{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;background:color-mix(in srgb,var(--accent) 6%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 20%,transparent);border-radius:var(--r);margin-top:20px;gap:16px}
+.lab-cta-bar-l{display:flex;align-items:center;gap:18px}
+.lab-cta-bar .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);animation:pulse-dot 2s ease infinite;flex-shrink:0}
+.lab-cta-bar strong{color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:15px;letter-spacing:-.01em;display:block}
+.lab-cta-bar span{font-size:13px;color:var(--text-2);display:block;margin-top:2px}
+
+.expertise-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.expertise-card{padding:28px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:border-color .25s}
+.expertise-card:hover{border-color:var(--border-hover)}
+.expertise-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--accent)}
+.expertise-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);border-radius:8px}
+.expertise-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--text)}
+.expertise-desc{font-size:14px;color:var(--text-2);line-height:1.6;flex:1}
+.expertise-context{font-size:11px;color:var(--text-3);font-family:'JetBrains Mono',monospace;margin-top:4px;padding-top:12px;border-top:1px dashed var(--border);letter-spacing:.08em;text-transform:uppercase}
+
+/* AUDITS */
+.audits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.audit-card{padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;transition:all .25s;position:relative;overflow:hidden}
+.audit-card:hover{border-color:color-mix(in srgb,var(--accent) 30%,transparent);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.audit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.5}
+.audit-meta{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
+.audit-meta .num{color:var(--accent);font-weight:500}
+.audit-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
+.audit-client{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.06em}
+.audit-desc{font-size:13.5px;color:var(--text-2);line-height:1.55;flex:1;margin-top:6px}
+.audit-foot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;margin-top:auto;border-top:1px dashed var(--border);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase}
+.audit-foot .live{color:var(--accent);font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.audit-foot .live::before{content:'●';animation:pulse-dot 2s ease infinite}
+.audit-foot .live::after{content:'↗';margin-left:2px}
+
+.process-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.process-row::before{content:'';position:absolute;top:52px;left:8%;right:8%;height:1px;background:var(--border);z-index:0}
+.process-step{padding:28px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);display:flex;flex-direction:column;gap:10px;margin:0 8px;position:relative;z-index:2}
+.process-step:first-child{margin-left:0}
+.process-step:last-child{margin-right:0}
+.process-dot{position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:14px;height:14px;background:var(--bg);border:2px solid var(--accent);border-radius:50%;z-index:3}
+.process-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);font-weight:500;letter-spacing:.14em;margin-top:8px}
+.process-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--text)}
+.process-desc{font-size:13.5px;color:var(--text-2);line-height:1.6}
+
+.event-card{padding:40px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);display:grid;grid-template-columns:1fr 280px;gap:40px;align-items:start;position:relative;overflow:hidden}
+.event-card::after{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 12%,transparent),transparent 70%);pointer-events:none}
+.event-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:color-mix(in srgb,var(--accent) 8%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:100px;font-size:11px;color:var(--accent);margin-bottom:20px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+.event-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease infinite}
+.event-card h2{font-size:clamp(24px,2.6vw,32px);margin-bottom:14px;letter-spacing:-.02em}
+.event-card>div:first-child>p{font-size:15.5px;color:var(--text-2);line-height:1.65;margin-bottom:24px;max-width:540px}
+.event-meta-row{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.event-meta-item{display:flex;align-items:center;gap:14px;font-size:14px}
+.event-meta-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;min-width:52px}
+.event-meta-value{color:var(--text);font-weight:500}
+.event-topics{padding:22px;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r);position:relative;z-index:1}
+.event-topics-header{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.event-topic{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-2);display:flex;gap:12px;line-height:1.4}
+.event-topic:last-child{border-bottom:none;padding-bottom:0}
+.event-topic-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);min-width:20px;padding-top:2px;letter-spacing:.08em}
+
+.contact-section{position:relative;overflow:hidden}
+.contact-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 10%,transparent),transparent 60%);pointer-events:none;z-index:0}
+.contact-inner{text-align:center;position:relative;z-index:1}
+.contact-photo{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--border),0 0 40px color-mix(in srgb,var(--accent) 25%,transparent);margin:0 auto 28px;display:block}
+.contact-heading{font-size:clamp(36px,4.5vw,56px);letter-spacing:-.03em;font-weight:700;margin-bottom:16px;line-height:1.05}
+.contact-sub{font-size:16px;color:var(--text-2);max-width:500px;margin:0 auto 24px;line-height:1.65;font-weight:300}
+.contact-links-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.contact-link{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:transparent;border:1px solid var(--border);border-radius:var(--r-sm);font-size:12.5px;color:var(--text-2);font-weight:500;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.contact-link:hover{border-color:var(--border-hover);color:var(--text)}
+.contact-link svg{width:13px;height:13px;stroke:currentColor;flex-shrink:0}
+
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:40px;opacity:0;transition:opacity .3s}
+.modal-overlay.active{display:flex;opacity:1}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;max-width:760px;width:100%;max-height:90vh;overflow-y:auto;transform:translateY(24px);transition:transform .35s cubic-bezier(.16,1,.3,1);position:relative}
+.modal-overlay.active .modal{transform:translateY(0)}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--surface-2);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-2);font-size:18px;z-index:10;line-height:1}
+.modal-video{width:100%;aspect-ratio:16/9;background:var(--bg-2);border-radius:16px 16px 0 0;border-bottom:1px solid var(--border);overflow:hidden}
+.modal-video img,.modal-video video{width:100%;height:100%;object-fit:cover;display:block}
+.modal-body{padding:28px;position:relative}
+.modal-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+.modal-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px;color:var(--text)}
+.modal-desc{font-size:15px;color:var(--text-2);line-height:1.65;margin-bottom:20px}
+.modal-tech{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px}
+.tech-pill{padding:4px 10px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);font-size:11px;color:var(--text-3);font-weight:500;font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+.modal-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--accent);color:var(--accent-text);font-size:13px;font-weight:600;border-radius:var(--r-sm);text-decoration:none;font-family:'Space Grotesk',sans-serif;transition:all .2s}
+
+footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
+.footer-line{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:0 40px;flex-wrap:wrap;gap:12px}
+.footer-left{display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--text-3)}
+.footer-right{font-size:10.5px;color:var(--text-3);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .product-card-featured{grid-column:span 2}
+  .audits-grid{grid-template-columns:1fr}
+  .process-row{grid-template-columns:1fr;gap:16px}
+  .process-row::before{display:none}
+  .process-step{margin:0}
+  .event-card{grid-template-columns:1fr}
+}
+@media (max-width:768px){
+  nav{padding:12px 20px}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);padding:16px 20px;gap:18px;flex-direction:column}
+  .nav-links.open{display:flex}
+  .mobile-menu{display:flex;align-items:center;justify-content:center;min-width:40px;min-height:40px}
+  .nav-role{display:none}
+  .hero{padding:120px 0 60px}
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-photo-wrap{order:2;display:flex;justify-content:center}
+  .hero-photo{max-width:300px}
+  .hero-metrics{grid-template-columns:repeat(2,1fr);gap:14px}
+  .metric{padding:10px 12px;border:1px dashed var(--border);border-radius:8px}
+  .metric:last-child{border-right:1px dashed var(--border)}
+  .hero-pgp{display:none}
+  .sec-head{flex-direction:column;align-items:flex-start}
+  .sec-counter{text-align:left}
+  .products-grid{grid-template-columns:1fr}
+  .product-card-featured{grid-column:span 1}
+  .product-card-featured .product-thumb{aspect-ratio:16/10}
+  .expertise-grid{grid-template-columns:1fr}
+  .event-card{padding:24px}
+  .modal-overlay{padding:16px}
+  .footer-line{flex-direction:column;gap:8px}
+}
+
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.35}}
+.gsap-reveal{opacity:1;transform:none}
+.js-ready .gsap-reveal{opacity:0;transform:translateY(30px)}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-left">
+    <a href="#" class="monogram" aria-label="Home">GC</a>
+    <div class="nav-ident">
+      <a href="#" class="nav-name">Georg Chimion</a>
+      <span class="nav-role">AI Automation · Miami</span>
+    </div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#products">Products</a>
+    <a href="#audits">Audits</a>
+    <a href="#how">Work</a>
+    <a href="https://lab.georg.miami" target="_blank">Lab ↗</a>
+    <a href="#contact">About</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <a href="#contact" class="btn-hire">Hire Me</a>
+  </div>
+  <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">
+    <i data-lucide="menu" style="width:20px;height:20px;"></i>
+  </button>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="hero-eyebrow" id="heroEyebrow">
+          AI Automation Specialist · Miami
+          <span class="dot"></span>
+          <span class="avail">Q3 2026 Open</span>
+        </div>
+        <h1 id="heroH1">AI automation<br>for the enterprise.</h1>
+        <p class="hero-sub" id="heroSub">Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</p>
+        <a href="#audit-request" class="hero-offer" id="heroOffer"><span class="pulse"></span>Free growth audit for your business <span class="arr">→</span></a>
+        <div class="hero-metrics" id="heroMetrics">
+          <div class="metric"><span class="metric-val">8<sup>+</sup></span><span class="metric-lbl">Live products</span></div>
+          <div class="metric"><span class="metric-val">3</span><span class="metric-lbl">Client audits</span></div>
+          <div class="metric"><span class="metric-val">4<sup>yr</sup></span><span class="metric-lbl">At PwC</span></div>
+          <div class="metric"><span class="metric-val">24<sup>h</sup></span><span class="metric-lbl">Reply window</span></div>
+        </div>
+        <div class="hero-actions" id="heroCTAs">
+          <a href="#products" class="btn-primary">View Products →</a>
+          <a href="#contact" class="btn-secondary">Get in Touch</a>
+          <span class="hero-pgp">GC · MIAMI<br>v26.4 · EST 2022</span>
+        </div>
+      </div>
+      <div class="hero-photo-wrap" id="heroPhoto">
+        <span class="photo-tag"><span class="g">●</span> PORTRAIT · MMXXVI</span>
+        <img src="georg-hero.jpeg" alt="Georg Chimion — AI Automation Specialist" class="hero-photo">
+        <div class="photo-caption"><span>G. Chimion · Miami FL</span><b>PWC · ANTHROPIC</b></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="products">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-head-l">
+        <div class="sec-label gsap-reveal">// products</div>
+        <h2 class="sec-title gsap-reveal">From idea to deployment.</h2>
+        <p class="sec-sub gsap-reveal">Each project built end-to-end — from architecture to live demo.</p>
+      </div>
+      <div class="sec-counter gsap-reveal"><b>08</b> / 08 SHIPPED</div>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card product-card-featured gsap-reveal" onclick="openModal('vestia')">
+        <div class="product-thumb">
+          <span class="thumb-status"><span class="tick"></span>AI-Powered</span>
+          <img src="screenshots/vestia.png" alt="Vestia — AI Property Management Platform" loading="lazy">
+        </div>
+        <div class="product-info">
+          <div class="product-meta"><span class="num">01</span><span class="sep">/</span><span>PROPTECH · AI</span></div>
+          <div class="product-name">Vestia</div>
+          <div class="product-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</div>
+          <div class="product-rail"><span class="stack"><span>React</span><span>TS</span><span>Tailwind</span></span><span class="open">View demo</span></div>
+        </div>
+      </div>
+
+      <div class="product-card gsap-reveal" onclick="openModal('penny')">
+        <div class="product-thumb"><span class="thumb-status"><span class="tick"></span>AI-Powered</span><img src="screenshots/askpenny-dashboard.png" alt="Ask Penny — AI Finance Dashboard" loading="lazy"></div>
+        <div class="product-info">
+          <div class="product-meta"><span class="num">02</span><span class="sep">/</span><span>FINANCE · AI</span></div>
+          <div class="product-name">Ask Penny</div>
+          <div class="product-desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</div>
+          <div class="product-rail"><span class="stack"><span>Claude</span><span>Node</span><span>Pg</span></span><span class="open">View demo</span></div>
+        </div>
+      </div>
+
+      <div class="product-card gsap-reveal" onclick="openModal('factory')">
+        <div class="product-thumb"><span class="thumb-status"><span class="tick"></span>AI Multi-Agent</span><img src="screenshots/factory.png" alt="Agent Factory — AI Website Builder" loading="lazy"></div>
+        <div class="product-info">
+          <div class="product-meta"><span class="num">03</span><span class="sep">/</span><span>MULTI-AGENT</span></div>
+          <div class="product-name">Agent Factory</div>
+          <div class="product-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</div>
+          <div class="product-rail"><span class="stack"><span>Claude</span><span>SSE</span><span>Express</span></span><span class="open">View demo</span></div>
+        </div>
+      </div>
+
+      <div class="product-card gsap-reveal" onclick="openModal('venue')">
+        <div class="product-thumb"><span class="thumb-status"><span class="tick"></span>Product</span><img src="screenshots/venue.png" alt="VENUE — Private Event Booking" loading="lazy"></div>
+        <div class="product-info">
+          <div class="product-meta"><span class="num">04</span><span class="sep">/</span><span>EVENTS · MIAMI</span></div>
+          <div class="product-name">VENUE</div>
+          <div class="product-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</div>
+          <div class="product-rail"><span class="stack"><span>JS</span><span>UX</span><span>Booking</span></span><span class="open">View demo</span></div>
+        </div>
+      </div>
+
+      <div class="product-card gsap-reveal" onclick="openModal('reconx')">
+        <div class="product-thumb"><span class="thumb-status"><span class="tick"></span>Live</span><img src="screenshots/reconx.png" alt="ReconX — Financial Reconciliation Engine" loading="lazy"></div>
+        <div class="product-info">
+          <div class="product-meta"><span class="num">05</span><span class="sep">/</span><span>FINANCE · RECON</span></div>
+          <div class="product-name">ReconX</div>
+          <div class="product-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</div>
+          <div class="product-rail"><span class="stack"><span>React</span><span>TS</span><span>Charts</span></span><span class="open">View demo</span></div>
+        </div>
+      </div>
+
+      <div class="product-card gsap-reveal" onclick="openModal('onboard')">
+        <div class="product-thumb"><span class="thumb-status"><span class="tick"></span>AI-Powered</span><img src="screenshots/onboard.png" alt="Onboard — AI Employee Onboarding" loading="lazy"></div>
+        <div class="product-info">
+          <div class="product-meta"><span class="num">06</span><span class="sep">/</span><span>HR · TRAINING</span></div>
+          <div class="product-name">Onboard</div>
+          <div class="product-desc">Upload internal docs, get a structured training course with quizzes in 3 minutes. Stop losing new hires to broken onboarding.</div>
+          <div class="product-rail"><span class="stack"><span>Claude</span><span>Quiz</span><span>Score</span></span><span class="open">View demo</span></div>
+        </div>
+      </div>
+
+      <div class="product-card gsap-reveal" onclick="openModal('docs')">
+        <div class="product-thumb"><span class="thumb-status"><span class="tick"></span>AI-Powered</span><img src="screenshots/docai.png" alt="AI Document Intelligence" loading="lazy"></div>
+        <div class="product-info">
+          <div class="product-meta"><span class="num">07</span><span class="sep">/</span><span>DOCS · AI</span></div>
+          <div class="product-name">AI Document Intelligence</div>
+          <div class="product-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</div>
+          <div class="product-rail"><span class="stack"><span>Claude</span><span>Doc</span><span>JSON</span></span><span class="open">View demo</span></div>
+        </div>
+      </div>
+
+      <div class="product-card gsap-reveal" onclick="openModal('roi')">
+        <div class="product-thumb"><span class="thumb-status"><span class="tick"></span>Live</span><img src="screenshots/roi.png" alt="ROI Calculator" loading="lazy"></div>
+        <div class="product-info">
+          <div class="product-meta"><span class="num">08</span><span class="sep">/</span><span>ENTERPRISE</span></div>
+          <div class="product-name">ROI Calculator</div>
+          <div class="product-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</div>
+          <div class="product-rail"><span class="stack"><span>JS</span><span>Calc</span><span>Lead</span></span><span class="open">View demo</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lab-cta-bar gsap-reveal" style="margin-top:24px;">
+      <div class="lab-cta-bar-l">
+        <span class="dot"></span>
+        <div><strong>The Lab</strong><span>Experiments, prototypes, and side projects</span></div>
+      </div>
+      <a href="https://lab.georg.miami" target="_blank" class="btn-primary" style="flex-shrink:0;">Explore →</a>
+    </div>
+  </div>
+</section>
+
+<section id="expertise">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-head-l">
+        <div class="sec-label gsap-reveal">// expertise</div>
+        <h2 class="sec-title gsap-reveal">What I bring.</h2>
+        <p class="sec-sub gsap-reveal">End-to-end — from system design to deployed product.</p>
+      </div>
+      <div class="sec-counter gsap-reveal"><b>04</b> / 04 PILLARS</div>
+    </div>
+    <div class="expertise-grid">
+      <div class="expertise-card gsap-reveal">
+        <div class="expertise-icon"><i data-lucide="cpu" style="width:24px;height:24px;"></i></div>
+        <div class="expertise-title">AI Systems</div>
+        <div class="expertise-desc">Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</div>
+        <div class="expertise-context">Anthropic ecosystem</div>
+      </div>
+      <div class="expertise-card gsap-reveal">
+        <div class="expertise-icon"><i data-lucide="shield-check" style="width:24px;height:24px;"></i></div>
+        <div class="expertise-title">Finance &amp; Risk</div>
+        <div class="expertise-desc">Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</div>
+        <div class="expertise-context">Enterprise-grade accuracy</div>
+      </div>
+      <div class="expertise-card gsap-reveal">
+        <div class="expertise-icon"><i data-lucide="layers" style="width:24px;height:24px;"></i></div>
+        <div class="expertise-title">Full-Stack</div>
+        <div class="expertise-desc">React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</div>
+        <div class="expertise-context">Architecture to deployment</div>
+      </div>
+      <div class="expertise-card gsap-reveal">
+        <div class="expertise-icon"><i data-lucide="zap" style="width:24px;height:24px;"></i></div>
+        <div class="expertise-title">Rapid Build</div>
+        <div class="expertise-desc">From concept to working prototype in days, not months. Fast iteration with real users — six live products already in portfolio.</div>
+        <div class="expertise-context">6 live products shipped</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="audits">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-head-l">
+        <div class="sec-label gsap-reveal">// growth audits</div>
+        <h2 class="sec-title gsap-reveal">Twelve audits. Twelve distribution problems.</h2>
+        <p class="sec-sub gsap-reveal">Research-first audits across ten dimensions — technical, SEO, reviews, social, competitive, founder stories, and AI automation. Each one is a live, branded site.</p>
+      </div>
+      <div class="sec-counter gsap-reveal"><b>12</b> / 12 SHIPPED</div>
+    </div>
+    <div class="audits-grid">
+
+      <a class="audit-card gsap-reveal" href="https://la-piscine.georg.miami/" target="_blank" rel="noopener">
+        <div class="audit-meta"><span class="num">01</span><span>17·IV·26</span></div>
+        <div class="audit-name">La Piscine</div>
+        <div class="audit-client">Restaurant · Miami Beach</div>
+        <div class="audit-desc">Michelin-trained chef serving $5 margaritas. <em>3,484 followers inside a 1,000-unit residential tower.</em></div>
+        <div class="audit-foot"><span>la-piscine.georg.miami</span><span class="live">Live</span></div>
+      </a>
+
+      <a class="audit-card gsap-reveal" href="https://lynx.georg.miami/" target="_blank" rel="noopener">
+        <div class="audit-meta"><span class="num">02</span><span>16·IV·26</span></div>
+        <div class="audit-name">Lynx Health Advisors</div>
+        <div class="audit-client">Concierge medicine · Miami</div>
+        <div class="audit-desc">Elite concierge healthcare, <em>40+ advisory-board specialists</em> across Miami, NYC, LA, London, Zurich.</div>
+        <div class="audit-foot"><span>lynx.georg.miami</span><span class="live">Live</span></div>
+      </a>
+
+      <a class="audit-card gsap-reveal" href="https://rcg.georg.miami/" target="_blank" rel="noopener">
+        <div class="audit-meta"><span class="num">07</span><span>12·IV·26</span></div>
+        <div class="audit-name">Robin Capital Group</div>
+        <div class="audit-client">Boutique RIA · Miami Beach</div>
+        <div class="audit-desc"><em>Live, audited performance with Sharpe ratios and position-level transparency.</em> 18 LinkedIn followers — the substance exists, distribution doesn't.</div>
+        <div class="audit-foot"><span>rcg.georg.miami</span><span class="live">Live</span></div>
+      </a>
+
+      <a class="audit-card gsap-reveal" href="https://dram-finance.georg.miami/" target="_blank" rel="noopener">
+        <div class="audit-meta"><span class="num">03</span><span>13·IV·26</span></div>
+        <div class="audit-name">Dram Finance</div>
+        <div class="audit-client">Fractional whisky investing</div>
+        <div class="audit-desc">A platform that lets you own pieces of rare whisky casks. <em>Friend audit</em> — positioning, trust signals, onboarding friction.</div>
+        <div class="audit-foot"><span>dram-finance.georg.miami</span><span class="live">Live</span></div>
+      </a>
+
+      <a class="audit-card gsap-reveal" href="https://propertyforce.georg.miami/" target="_blank" rel="noopener">
+        <div class="audit-meta"><span class="num">05</span><span>13·IV·26</span></div>
+        <div class="audit-name">PropertyForce</div>
+        <div class="audit-client">Real estate · South Florida</div>
+        <div class="audit-desc">Meridian Trust / Synergy Home Buyers rebuild. <em>Four-person team doing what fifty used to.</em></div>
+        <div class="audit-foot"><span>propertyforce.georg.miami</span><span class="live">Live</span></div>
+      </a>
+
+      <a class="audit-card gsap-reveal" href="https://rbc-datacenter.georg.miami/" target="_blank" rel="noopener">
+        <div class="audit-meta"><span class="num">08</span><span>11·IV·26</span></div>
+        <div class="audit-name">RBC — DC Command Center</div>
+        <div class="audit-client">Datacenter infrastructure · PwC</div>
+        <div class="audit-desc">Infrastructure observability prototype. <em>A command center for the ops floor</em> — live metrics, alert routing, on-call escalation loops.</div>
+        <div class="audit-foot"><span>rbc-datacenter.georg.miami</span><span class="live">Live</span></div>
+      </a>
+
+    </div>
+
+    <a class="audits-see-all gsap-reveal" href="https://audit.georg.miami/"><strong>See all 12 audits →</strong> filter by industry, status, or keyword at audit.georg.miami</a>
+
+    <div class="audit-request-bar gsap-reveal">
+      <div>
+        <div class="r-title">Want a free audit of <em>your</em> business?</div>
+        <div class="r-sub">Same process, same ten dimensions, same depth. Delivered as a live branded site within a week. Limited slots each month.</div>
+      </div>
+      <a class="r-btn" href="#audit-request">Request Free Audit →</a>
+    </div>
+  </div>
+</section>
+
+<section id="audit-request">
+  <div class="container">
+    <div class="aq-wrap">
+      <div class="sec-label gsap-reveal" style="margin-bottom:14px;">// get audited</div>
+      <h2 class="sec-title gsap-reveal" style="margin-bottom:14px;">Get your personalized growth audit.</h2>
+      <p class="sec-sub gsap-reveal">Free. Research-first, same ten dimensions as the audits above — delivered as a live branded site within a week. Tell me about your business.</p>
+
+      <form id="aqForm" class="aq-form gsap-reveal" novalidate>
+        <div class="aq-progress">
+          <span class="aq-dot on" data-dot="1"></span>
+          <span class="aq-dot" data-dot="2"></span>
+          <span class="aq-dot" data-dot="3"></span>
+          <span class="aq-dot" data-dot="4"></span>
+          <span class="aq-step-label" id="aqStepLabel">Step 1 of 4 · You</span>
+        </div>
+
+        <div class="aq-step active" data-step="1">
+          <label>Your name
+            <input type="text" name="name" required autocomplete="name" placeholder="Jane Doe">
+          </label>
+          <label>Work email
+            <input type="email" name="email" required autocomplete="email" placeholder="jane@company.com">
+          </label>
+          <label>Company <span style="color:var(--text-3);font-weight:400">(optional)</span>
+            <input type="text" name="company" autocomplete="organization" placeholder="Acme Inc">
+          </label>
+        </div>
+
+        <div class="aq-step" data-step="2">
+          <div class="aq-q">What does your business do?</div>
+          <div class="aq-sub">Pick the closest match.</div>
+          <div class="aq-choices">
+            <label class="aq-radio"><input type="radio" name="industry" value="SaaS / Software"><span>SaaS / Software</span></label>
+            <label class="aq-radio"><input type="radio" name="industry" value="Finance / Investing"><span>Finance / Investing</span></label>
+            <label class="aq-radio"><input type="radio" name="industry" value="Real Estate"><span>Real Estate</span></label>
+            <label class="aq-radio"><input type="radio" name="industry" value="E-commerce / DTC"><span>E-commerce / DTC</span></label>
+            <label class="aq-radio"><input type="radio" name="industry" value="Agency / Services"><span>Agency / Services</span></label>
+            <label class="aq-radio"><input type="radio" name="industry" value="Healthcare"><span>Healthcare</span></label>
+            <label class="aq-radio"><input type="radio" name="industry" value="Hospitality / F&B"><span>Hospitality / F&amp;B</span></label>
+            <label class="aq-radio"><input type="radio" name="industry" value="Other"><span>Other</span></label>
+          </div>
+        </div>
+
+        <div class="aq-step" data-step="3">
+          <div class="aq-q">What hurts the most right now?</div>
+          <div class="aq-sub">Pick any that apply.</div>
+          <div class="aq-choices aq-choices-checks">
+            <label class="aq-check"><input type="checkbox" name="pain" value="Manual data entry"><span>Manual data entry eating hours</span></label>
+            <label class="aq-check"><input type="checkbox" name="pain" value="Slow customer response"><span>Slow customer response times</span></label>
+            <label class="aq-check"><input type="checkbox" name="pain" value="Fragmented tools"><span>Fragmented tools — data everywhere</span></label>
+            <label class="aq-check"><input type="checkbox" name="pain" value="Unclear metrics"><span>No visibility into what's working</span></label>
+            <label class="aq-check"><input type="checkbox" name="pain" value="Low conversion"><span>Traffic but not conversions</span></label>
+            <label class="aq-check"><input type="checkbox" name="pain" value="Team bandwidth"><span>Team running at capacity</span></label>
+          </div>
+          <label>Anything else — specific problems, what you've tried, links
+            <textarea name="painText" rows="4" placeholder="Optional. The more you write, the better the audit."></textarea>
+          </label>
+        </div>
+
+        <div class="aq-step" data-step="4">
+          <div class="aq-q">Budget for a fix?</div>
+          <div class="aq-sub">Helps me scope the recommendations.</div>
+          <div class="aq-choices">
+            <label class="aq-radio"><input type="radio" name="budget" value="Under $5k"><span>Under $5k</span></label>
+            <label class="aq-radio"><input type="radio" name="budget" value="$5k–$25k"><span>$5k–$25k</span></label>
+            <label class="aq-radio"><input type="radio" name="budget" value="$25k–$100k"><span>$25k–$100k</span></label>
+            <label class="aq-radio"><input type="radio" name="budget" value="$100k+"><span>$100k+</span></label>
+            <label class="aq-radio"><input type="radio" name="budget" value="Not sure"><span>Not sure yet</span></label>
+          </div>
+          <div class="aq-q" style="margin-top:28px">Timeline?</div>
+          <div class="aq-choices">
+            <label class="aq-radio"><input type="radio" name="timeline" value="ASAP"><span>ASAP — this month</span></label>
+            <label class="aq-radio"><input type="radio" name="timeline" value="This quarter"><span>This quarter</span></label>
+            <label class="aq-radio"><input type="radio" name="timeline" value="Next 6 months"><span>Next 6 months</span></label>
+            <label class="aq-radio"><input type="radio" name="timeline" value="Exploring"><span>Just exploring</span></label>
+          </div>
+        </div>
+
+        <div class="aq-error" id="aqError" hidden></div>
+        <div class="aq-nav">
+          <button type="button" class="aq-back" id="aqBack" hidden>← Back</button>
+          <button type="button" class="aq-next" id="aqNext">Next →</button>
+          <button type="submit" class="aq-submit" id="aqSubmit" hidden>Submit audit request</button>
+        </div>
+
+        <div class="aq-success" id="aqSuccess" hidden>
+          <div class="aq-check-icon">✓</div>
+          <div class="aq-success-title">Got it.</div>
+          <div class="aq-success-text">Georg will email you within 48 hours. Watch your inbox.</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-head-l">
+        <div class="sec-label gsap-reveal">// how I work</div>
+        <h2 class="sec-title gsap-reveal">Engagement model.</h2>
+        <p class="sec-sub gsap-reveal">Embedded specialist, not a slide-deck consultant. I join your team and ship.</p>
+      </div>
+      <div class="sec-counter gsap-reveal"><b>03</b> / 03 PHASES</div>
+    </div>
+    <div class="process-row">
+      <div class="process-step gsap-reveal">
+        <span class="process-dot"></span>
+        <div class="process-num">01</div>
+        <div class="process-title">Discovery</div>
+        <div class="process-desc">Understand workflows, pain points, and what "done" looks like. Map the opportunity, identify quick wins, define success criteria. Approximately one week.</div>
+      </div>
+      <div class="process-step gsap-reveal">
+        <span class="process-dot"></span>
+        <div class="process-num">02</div>
+        <div class="process-title">Build &amp; Ship</div>
+        <div class="process-desc">Embedded in your team, building production systems. Weekly stakeholder iterations. Real users, real feedback — no prototypes collecting dust. Two to twelve weeks.</div>
+      </div>
+      <div class="process-step gsap-reveal">
+        <span class="process-dot"></span>
+        <div class="process-num">03</div>
+        <div class="process-title">Handoff</div>
+        <div class="process-desc">Documentation, training, knowledge transfer. Your team owns it. Optional retainer for ongoing support, feature additions, and maintenance.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="event">
+  <div class="container">
+    <div class="event-card gsap-reveal">
+      <div>
+        <div class="event-eyebrow"><span class="dot"></span>Community</div>
+        <h2>Miami AI Community</h2>
+        <p>Organizing hands-on sessions for enterprise teams exploring how AI transforms real workflows. Live demos with Claude Code. No fluff, no hype — just working systems.</p>
+        <div class="event-meta-row">
+          <div class="event-meta-item"><span class="event-meta-label">Where</span><span class="event-meta-value">Wynwood, Miami</span></div>
+          <div class="event-meta-item"><span class="event-meta-label">Format</span><span class="event-meta-value">Live demos &amp; workshops</span></div>
+        </div>
+        <a href="https://miami.georg.miami" target="_blank" class="btn-primary">Join the Community →</a>
+      </div>
+      <div class="event-topics">
+        <div class="event-topics-header">What We'll Cover</div>
+        <div class="event-topic"><span class="event-topic-num">01</span> AI document processing &amp; extraction</div>
+        <div class="event-topic"><span class="event-topic-num">02</span> AI-powered approval workflows</div>
+        <div class="event-topic"><span class="event-topic-num">03</span> Claude Code in enterprise workflows</div>
+        <div class="event-topic"><span class="event-topic-num">04</span> Enterprise AI governance &amp; safety</div>
+        <div class="event-topic"><span class="event-topic-num">05</span> Live build: production AI workflow</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="contact-inner">
+      <img src="georg.jpeg" alt="Georg Chimion" class="contact-photo gsap-reveal" loading="lazy">
+      <div class="sec-label gsap-reveal" style="justify-content:center;">// work with me</div>
+      <h2 class="contact-heading gsap-reveal">Let's work together.</h2>
+      <p class="contact-sub gsap-reveal">Taking on select consulting and contract engagements. If you need AI automation that delivers, let's talk.</p>
+      <div class="contact-links-row gsap-reveal">
+        <a href="mailto:georg.chimion@gmail.com" class="contact-link"><i data-lucide="mail"></i>georg.chimion@gmail.com</a>
+        <a href="https://github.com/georgchimion-oss" target="_blank" class="contact-link" rel="noopener"><i data-lucide="github"></i>GitHub</a>
+        <a href="https://linkedin.com/in/georgchimion" target="_blank" class="contact-link" rel="noopener"><i data-lucide="linkedin"></i>LinkedIn</a>
+        <span class="contact-link" style="cursor:default;"><i data-lucide="map-pin"></i>Wynwood, Miami FL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-line">
+    <div class="footer-left">© 2026 Georg Chimion · Miami, FL</div>
+    <div class="footer-right">V1 · OPERATOR</div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
+    <div class="modal-video" id="modalVideo"></div>
+    <div class="modal-body">
+      <div class="modal-kicker" id="modalKicker">CASE STUDY</div>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-tech" id="modalTech"></div>
+      <a id="modalLink" href="#" target="_blank" rel="noopener" class="modal-cta">Try Live Demo →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+lucide.createIcons();
+
+var products = {
+  vestia:  {img:'screenshots/vestia.png',title:'Vestia — AI Property Management',desc:'Six AI-powered modules purpose-built for South Florida condo associations. Maintenance triage with AI dispatch, SB 4-D compliance tracking, automated rent collection, tenant screening, lease document generation, and vendor bid comparison.',tech:['React','TypeScript','Tailwind CSS','AI-Native','Florida-First'],url:'https://vestia.georg.miami',kicker:'CASE 01 · PROPTECH'},
+  penny:   {img:'screenshots/askpenny.png',video:'videos/askpenny.mp4',title:'Ask Penny — AI Finance Assistant',desc:'Personal finance AI powered by Claude. Connect your bank via Teller.io or Plaid, ask anything about your spending, get smart budgets, morning summaries, and proactive alerts.',tech:['Claude AI','Node.js','PostgreSQL','Express','Teller.io'],url:'https://penny.georg.miami',kicker:'CASE 02 · FINANCE'},
+  factory: {img:'screenshots/factory.png',video:'videos/factory.mp4',title:'Agent Factory — AI Website Builder',desc:'Four autonomous Claude-powered agents — PM, Coder, Reviewer, Deployer — collaborate in a real-time pipeline to build production websites from natural language briefs. Includes spectator mode for live demos.',tech:['Claude AI','Multi-Agent','SSE Streaming','Node.js','Express'],url:'https://factory.georg.miami',kicker:'CASE 03 · MULTI-AGENT'},
+  venue:   {img:'screenshots/venue.png',video:'videos/venue.mp4',title:'VENUE — Private Event Booking',desc:'Premium on-demand private event booking platform. Step-by-step wizard for happy hours, private dinners, DJ lounges, full venue buyouts. Budget tiers, catering, bar packages, and instant quotes.',tech:['JavaScript','UX Design','Booking','Miami'],url:'https://venue.georg.miami',kicker:'CASE 04 · EVENTS'},
+  reconx:  {img:'screenshots/reconx.png',video:'videos/reconx.mp4',title:'ReconX — Financial Reconciliation Engine',desc:'Cloud-native reconciliation platform replacing legacy systems like IntelliMatch. Multi-pass matching engine (exact, tolerance, fuzzy, AI-suggested), nostro balance proof with daily sign-off, exception management with SLA tracking.',tech:['React','TypeScript','Chart.js','Zustand'],url:'https://reconx.georg.miami',kicker:'CASE 05 · RECON'},
+  onboard: {img:'screenshots/onboard.png',title:'Onboard — AI Employee Training',desc:'Upload internal documents and a role description — AI builds a structured training course with modules, lessons, and quizzes in under 3 minutes. New hires get scored, managers see who\'s ready.',tech:['Claude AI','Course Gen','Auto-Quiz','Scoring'],url:'https://onboard.georg.miami',kicker:'CASE 06 · TRAINING'},
+  docs:    {img:'screenshots/docai.png',video:'videos/docai.mp4',title:'AI Document Intelligence',desc:'Upload a PDF, invoice, or receipt — watch AI extract structured data in real-time. Live demo processing documents and turning messy PDFs into clean JSON with field-level confidence scores.',tech:['Claude AI','JavaScript','Document AI','JSON'],url:'https://docs.georg.miami',kicker:'CASE 07 · DOCS'},
+  roi:     {img:'screenshots/roi.png',title:'ROI Calculator — AI Value Estimator',desc:'Interactive single-page tool for enterprise leaders to estimate the ROI of AI automation. Input team size, process volume, and error rates — get projected savings, payback period, and a shareable report.',tech:['JavaScript','Interactive','Enterprise','Lead Gen'],url:'https://roi.georg.miami',kicker:'CASE 08 · ENTERPRISE'}
+};
+
+function openModal(id){
+  var p = products[id]; if(!p) return;
+  var m = document.getElementById('modalVideo');
+  m.innerHTML = p.video ? '<video src="'+p.video+'" autoplay muted loop playsinline></video>' : '<img src="'+p.img+'" alt="'+p.title+'">';
+  document.getElementById('modalKicker').textContent = p.kicker || 'CASE STUDY';
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalTech').innerHTML = p.tech.map(function(t){return '<span class="tech-pill">'+t+'</span>'}).join('');
+  document.getElementById('modalLink').href = p.url;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e){
+  if(e && e.target.id !== 'modalOverlay' && e.type==='click' && e.target.className!=='modal-close') return;
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  var v = document.querySelector('#modalVideo video'); if(v) v.pause();
+}
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+
+// Theme toggle
+var themeBtn = document.getElementById('themeToggle');
+var stored = (function(){ try{return localStorage.getItem('georgTheme')}catch(e){return null} })();
+if(stored === 'light') document.documentElement.setAttribute('data-theme','light');
+themeBtn.textContent = document.documentElement.getAttribute('data-theme')==='light' ? '☀️' : '🌙';
+themeBtn.addEventListener('click', function(){
+  var cur = document.documentElement.getAttribute('data-theme');
+  if(cur === 'light'){ document.documentElement.removeAttribute('data-theme'); themeBtn.textContent = '🌙'; try{localStorage.setItem('georgTheme','dark')}catch(e){} }
+  else { document.documentElement.setAttribute('data-theme','light'); themeBtn.textContent = '☀️'; try{localStorage.setItem('georgTheme','light')}catch(e){} }
+});
+
+// Mobile menu
+var mm = document.getElementById('mobileMenu');
+mm.addEventListener('click', function(){ document.getElementById('navLinks').classList.toggle('open') });
+document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', function(){ document.getElementById('navLinks').classList.remove('open') }) });
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    var t = document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); window.scrollTo({top:t.offsetTop-60,behavior:'smooth'}); }
+  });
+});
+
+// GSAP intro + reveals
+gsap.registerPlugin(ScrollTrigger);
+var tl = gsap.timeline({delay:0.05});
+tl.to('#heroEyebrow',{opacity:1,duration:.5},0.1);
+tl.to('#heroH1',{opacity:1,duration:.6},0.25);
+tl.to('#heroSub',{opacity:1,duration:.5},0.45);
+tl.to('#heroOffer',{opacity:1,duration:.5},0.55);
+tl.to('#heroMetrics',{opacity:1,duration:.5},0.65);
+tl.to('#heroCTAs',{opacity:1,duration:.5},0.8);
+tl.to('#heroPhoto',{opacity:1,y:0,duration:.7},0.4);
+gsap.set('#heroPhoto',{y:20});
+document.querySelectorAll('.gsap-reveal').forEach(function(el){
+  gsap.to(el,{opacity:1,y:0,duration:.6,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+});
+
+/* Audit request — 4-step form */
+(function(){
+  var STEP_LABELS = ['Step 1 of 4 · You', 'Step 2 of 4 · Industry', 'Step 3 of 4 · Pain', 'Step 4 of 4 · Budget'];
+  var form = document.getElementById('aqForm'); if(!form) return;
+  var currentStep = 1, maxStep = 4;
+  var $ = function(s,r){ return (r||form).querySelector(s); };
+  var $$ = function(s,r){ return (r||form).querySelectorAll(s); };
+  var backBtn = $('#aqBack'), nextBtn = $('#aqNext'), submitBtn = $('#aqSubmit');
+  var errorEl = $('#aqError'), stepLabel = $('#aqStepLabel'), successEl = $('#aqSuccess');
+
+  function showStep(n){
+    currentStep = n;
+    $$('.aq-step').forEach(function(el){ el.classList.toggle('active', Number(el.dataset.step) === n); });
+    $$('.aq-dot').forEach(function(d){
+      var i = Number(d.dataset.dot);
+      d.classList.toggle('on', i === n);
+      d.classList.toggle('done', i < n);
+    });
+    stepLabel.textContent = STEP_LABELS[n-1];
+    backBtn.hidden = n === 1;
+    nextBtn.hidden = n === maxStep;
+    submitBtn.hidden = n !== maxStep;
+    errorEl.hidden = true;
+  }
+
+  function validateStep(n){
+    if(n === 1){
+      var name = $('input[name="name"]').value.trim();
+      var email = $('input[name="email"]').value.trim();
+      if(!name){ showError('Add your name.'); return false; }
+      if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ showError('Valid email, please.'); return false; }
+      return true;
+    }
+    if(n === 2){
+      if(!$('input[name="industry"]:checked')){ showError('Pick an industry.'); return false; }
+      return true;
+    }
+    if(n === 3){ return true; } // optional
+    if(n === 4){
+      if(!$('input[name="budget"]:checked')){ showError('Pick a budget range.'); return false; }
+      if(!$('input[name="timeline"]:checked')){ showError('Pick a timeline.'); return false; }
+      return true;
+    }
+    return true;
+  }
+
+  function showError(msg){ errorEl.textContent = msg; errorEl.hidden = false; }
+
+  nextBtn.addEventListener('click', function(){
+    if(!validateStep(currentStep)) return;
+    if(currentStep < maxStep) showStep(currentStep + 1);
+  });
+  backBtn.addEventListener('click', function(){ if(currentStep > 1) showStep(currentStep - 1); });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!validateStep(currentStep)) return;
+    // Local submission — in production this would POST to a backend
+    form.querySelectorAll('.aq-step, .aq-progress, .aq-nav').forEach(function(el){ el.style.display = 'none'; });
+    successEl.hidden = false;
+    try { console.log('audit-request:', new FormData(form)); } catch(e) {}
+  });
+})();
+</script>
+</body>
+</html>

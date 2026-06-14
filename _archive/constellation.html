@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Constellation</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --space:#050714; --space2:#0A0E24; --ink:#E8E8FF; --mid:rgba(232,232,255,0.55); --faint:rgba(232,232,255,0.2);
+  --star:#E8E8FF; --gold:#F5D78E; --aqua:#7EF5E0; --violet:#9D7EF5;
+}
+html,body{background:var(--space);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+body{background:radial-gradient(ellipse at top,#1A1D45 0%,var(--space) 60%)}
+.serif{font-family:'Cormorant Garamond',serif;font-weight:400}
+a{color:inherit;text-decoration:none}
+.back{position:fixed;top:20px;right:20px;z-index:300;font-size:10px;letter-spacing:0.2em;border:1px solid var(--faint);padding:6px 12px;color:var(--mid);background:var(--space)}
+
+/* starfield */
+.sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.bg-star{position:absolute;background:var(--star);border-radius:50%;animation:tw var(--d,3s) ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:0.3}50%{opacity:1}}
+.shoot{position:absolute;width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);top:15%;left:-120px;animation:shoot 6s linear infinite;animation-delay:3s}
+.shoot2{top:45%;animation-delay:0s;animation-duration:8s}
+@keyframes shoot{0%{left:-120px;top:var(--y,15%)}60%,100%{left:110%;top:calc(var(--y,15%) + 40%)}}
+
+/* main star map */
+.map{position:relative;min-height:100vh;padding:80px 40px;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:2}
+.chart-label{font-size:10px;letter-spacing:0.3em;color:var(--gold);margin-bottom:20px;text-transform:uppercase}
+.chart-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(54px,9vw,124px);line-height:1;letter-spacing:-0.02em;font-weight:400;text-align:center;font-style:italic;max-width:14ch}
+.chart-h1 .soft{color:var(--gold)}
+.chart-sub{color:var(--mid);max-width:480px;text-align:center;margin:24px auto 40px;line-height:1.75;font-size:13px}
+
+/* the big canvas with nodes */
+.canvas{position:relative;width:100%;max-width:1100px;aspect-ratio:16/10;margin:20px auto;border:1px solid var(--faint);background:radial-gradient(ellipse at center,rgba(125,88,245,0.08),transparent 60%)}
+.canvas svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.canvas svg.lines line{stroke:rgba(232,232,255,0.25);stroke-width:0.5;stroke-dasharray:3 4;animation:pulse-line 4s ease-in-out infinite}
+.canvas svg.lines line.gold{stroke:rgba(245,215,142,0.5);stroke-width:0.8;animation-duration:3s}
+@keyframes pulse-line{50%{opacity:0.4}}
+.canvas svg.rings circle{fill:none;stroke:rgba(232,232,255,0.08);stroke-width:0.3}
+
+.node{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:3;transition:transform 0.3s}
+.node::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--gold);border-radius:50%;box-shadow:0 0 20px var(--gold),0 0 40px rgba(245,215,142,0.4);transition:all 0.3s}
+.node::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:40px;height:40px;border:1px solid var(--gold);border-radius:50%;opacity:0.2;animation:halo 3s ease-in-out infinite}
+@keyframes halo{0%,100%{transform:translate(-50%,-50%) scale(0.9);opacity:0.25}50%{transform:translate(-50%,-50%) scale(1.4);opacity:0}}
+.node:hover{transform:translate(-50%,-50%) scale(1.3)}
+.node:hover::before{background:var(--aqua);box-shadow:0 0 30px var(--aqua),0 0 60px rgba(126,245,224,0.6)}
+.node.center::before{width:14px;height:14px;background:var(--ink);box-shadow:0 0 30px var(--ink),0 0 60px rgba(232,232,255,0.4)}
+.node.center::after{width:60px;height:60px}
+
+.node-label{position:absolute;left:calc(100% + 14px);top:50%;transform:translateY(-50%);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;white-space:nowrap;color:var(--ink);letter-spacing:-0.01em;transition:all 0.3s}
+.node-label .magnitude{display:block;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:9px;color:var(--gold);letter-spacing:0.2em;margin-top:2px}
+.node:hover .node-label{color:var(--aqua)}
+.node:hover .node-label .magnitude{color:var(--aqua)}
+
+/* portrait in the middle */
+.portrait{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2}
+.portrait-ring{width:180px;height:180px;border-radius:50%;background:conic-gradient(var(--gold),var(--aqua),var(--violet),var(--gold));padding:3px;animation:slowspin 20s linear infinite;filter:blur(0);box-shadow:0 0 80px rgba(245,215,142,0.3)}
+.portrait-ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;filter:grayscale(0.3) contrast(1.05);background:var(--space)}
+@keyframes slowspin{to{transform:rotate(360deg)}}
+.portrait-label{margin-top:12px;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:26px;letter-spacing:-0.01em}
+.portrait-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--gold);margin-top:4px}
+
+/* legend card */
+.legend{position:absolute;bottom:20px;left:20px;border:1px solid var(--faint);background:rgba(10,14,36,0.7);backdrop-filter:blur(8px);padding:16px 20px;font-size:10px;letter-spacing:0.12em;z-index:4}
+.legend h4{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;font-weight:400;margin-bottom:8px;color:var(--gold);letter-spacing:0}
+.legend-row{display:flex;align-items:center;gap:8px;margin:4px 0;color:var(--mid)}
+.legend-row .s{width:8px;height:8px;border-radius:50%}
+.legend-row .s.g{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.legend-row .s.w{background:var(--ink)}
+.legend-row .s.a{background:var(--aqua)}
+
+.coords{position:absolute;top:20px;right:20px;font-size:9px;letter-spacing:0.2em;color:var(--mid);text-align:right;z-index:4}
+
+/* Section 2 — catalog */
+.catalog{max-width:1100px;margin:80px auto 60px;padding:0 40px}
+.cat-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--faint);padding-bottom:12px;margin-bottom:32px}
+.cat-h h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:48px;font-weight:400}
+.cat-h h2 .soft{color:var(--gold)}
+.cat-h .m{font-size:10px;letter-spacing:0.2em;color:var(--mid)}
+
+.cat-row{display:grid;grid-template-columns:80px 60px 1fr 110px 140px 80px;gap:20px;padding:22px 0;border-bottom:1px dashed var(--faint);align-items:center;transition:all 0.2s;cursor:pointer}
+.cat-row:hover{background:linear-gradient(90deg,rgba(245,215,142,0.04),transparent);padding-left:10px}
+.cat-row .hd{font-size:10px;letter-spacing:0.18em;color:var(--mid)}
+.cat-row:first-child{padding-top:0}
+.cat-row .cat-no{font-size:10px;letter-spacing:0.2em;color:var(--gold)}
+.cat-row .cat-mag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:26px;color:var(--ink)}
+.cat-row .cat-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic}
+.cat-row .cat-name small{display:block;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:10px;color:var(--mid);margin-top:4px;letter-spacing:0.1em}
+.cat-row .cat-class{font-size:10px;letter-spacing:0.18em;color:var(--aqua)}
+.cat-row .cat-desc{color:var(--mid);font-size:12px;line-height:1.5}
+.cat-row .cat-go{text-align:right;font-size:10px;letter-spacing:0.18em;color:var(--gold);opacity:0;transform:translateX(-6px);transition:all 0.2s}
+.cat-row:hover .cat-go{opacity:1;transform:translateX(0)}
+
+/* contact / final scope */
+.scope{max-width:1100px;margin:80px auto 40px;padding:60px 40px;border:1px solid var(--faint);background:radial-gradient(ellipse at center,rgba(157,126,245,0.08),transparent 70%);text-align:center;position:relative;overflow:hidden}
+.scope::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='%23F5D78E'%3E%3Ccircle cx='50' cy='60' r='1'/%3E%3Ccircle cx='120' cy='110' r='0.8'/%3E%3Ccircle cx='200' cy='80' r='1.2'/%3E%3Ccircle cx='280' cy='140' r='0.7'/%3E%3Ccircle cx='340' cy='60' r='1'/%3E%3Ccircle cx='80' cy='200' r='0.6'/%3E%3Ccircle cx='180' cy='260' r='1'/%3E%3Ccircle cx:'260' cy='220' r='0.8'/%3E%3Ccircle cx='320' cy='300' r='1'/%3E%3C/g%3E%3C/svg%3E");opacity:0.4;pointer-events:none}
+.scope-label{font-size:10px;letter-spacing:0.3em;color:var(--gold);margin-bottom:14px;position:relative}
+.scope h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(38px,5vw,72px);font-weight:400;letter-spacing:-0.02em;line-height:1.05;max-width:14ch;margin:0 auto;position:relative}
+.scope h2 .soft{color:var(--gold)}
+.scope p{color:var(--mid);max-width:500px;margin:20px auto 32px;line-height:1.75;position:relative;font-size:13px}
+.scope-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
+.scope-btn{padding:13px 24px;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;border:1px solid var(--faint);color:var(--ink);transition:all 0.2s}
+.scope-btn:hover{border-color:var(--gold);color:var(--gold);box-shadow:0 0 20px rgba(245,215,142,0.25)}
+.scope-btn.solid{background:var(--gold);color:var(--space);border-color:var(--gold)}
+.scope-btn.solid:hover{background:var(--aqua);border-color:var(--aqua);color:var(--space)}
+
+footer{padding:30px 40px;border-top:1px solid var(--faint);display:flex;justify-content:space-between;font-size:9px;letter-spacing:0.25em;color:var(--mid)}
+
+@media (max-width:900px){.canvas{aspect-ratio:1;max-width:100%}.portrait-ring{width:120px;height:120px}.node-label{font-size:14px}.cat-row{grid-template-columns:40px 1fr 60px;gap:10px}.cat-row .cat-mag,.cat-row .cat-class,.cat-row .cat-desc,.cat-row .hd.mag,.cat-row .hd.cls,.cat-row .hd.desc{display:none}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<div class="sky" id="sky"></div>
+<div class="shoot"></div>
+<div class="shoot shoot2"></div>
+
+<section class="map">
+  <div class="chart-label">⊹ STELLAR CHART · GC-MIAMI · PLATE 08 ⊹</div>
+  <h1 class="chart-h1">A constellation<br>of <span class="soft">working things.</span></h1>
+  <p class="chart-sub">Each point in the map below is a production AI system I built end-to-end. Hover to identify the star. Click to travel there.</p>
+
+  <div class="canvas" id="canvas">
+    <svg class="rings" viewBox="0 0 100 62" preserveAspectRatio="none">
+      <circle cx="50" cy="31" r="10"/>
+      <circle cx="50" cy="31" r="18"/>
+      <circle cx="50" cy="31" r="26"/>
+      <circle cx="50" cy="31" r="34"/>
+    </svg>
+    <svg class="lines" viewBox="0 0 100 62" preserveAspectRatio="none">
+      <line x1="50" y1="31" x2="25" y2="18" class="gold"/>
+      <line x1="50" y1="31" x2="72" y2="15"/>
+      <line x1="50" y1="31" x2="85" y2="40"/>
+      <line x1="50" y1="31" x2="68" y2="50"/>
+      <line x1="50" y1="31" x2="30" y2="52"/>
+      <line x1="50" y1="31" x2="12" y2="38"/>
+      <line x1="50" y1="31" x2="42" y2="12"/>
+      <line x1="25" y1="18" x2="42" y2="12"/>
+      <line x1="72" y1="15" x2="85" y2="40"/>
+    </svg>
+
+    <div class="portrait">
+      <div class="portrait-ring"><img src="georg-hero.jpeg" alt="Georg"></div>
+      <div class="portrait-label">Georg Chimion</div>
+      <div class="portrait-sub">⊙ OBSERVER · MIAMI</div>
+    </div>
+
+    <a class="node" style="left:25%;top:29%" href="https://vestia.georg.miami"><div class="node-label"><em>Vestia</em><span class="magnitude">MAG 0.8 · LIVE</span></div></a>
+    <a class="node" style="left:72%;top:24%" href="https://penny.georg.miami"><div class="node-label"><em>Ask Penny</em><span class="magnitude">MAG 1.2 · LIVE</span></div></a>
+    <a class="node" style="left:85%;top:64%" href="https://factory.georg.miami"><div class="node-label"><em>Agent Factory</em><span class="magnitude">MAG 1.0 · LIVE</span></div></a>
+    <a class="node" style="left:68%;top:81%" href="https://reconx.georg.miami"><div class="node-label"><em>ReconX</em><span class="magnitude">MAG 1.4 · LIVE</span></div></a>
+    <a class="node" style="left:30%;top:84%" href="https://onboard.georg.miami"><div class="node-label"><em>Onboard</em><span class="magnitude">MAG 1.6 · LIVE</span></div></a>
+    <a class="node" style="left:12%;top:61%" href="https://venue.georg.miami"><div class="node-label"><em>VENUE</em><span class="magnitude">MAG 1.9 · LIVE</span></div></a>
+    <a class="node" style="left:42%;top:20%" href="https://docs.georg.miami"><div class="node-label"><em>Doc Intel</em><span class="magnitude">MAG 2.1 · LIVE</span></div></a>
+
+    <div class="legend">
+      <h4>Chart legend</h4>
+      <div class="legend-row"><span class="s w"></span>OBSERVER (self)</div>
+      <div class="legend-row"><span class="s g"></span>LIVE PRODUCT</div>
+      <div class="legend-row"><span class="s a"></span>IN SCOPE</div>
+    </div>
+    <div class="coords">RA 14h 32m · DEC −25° 46′<br>EPOCH J2026.3</div>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<div class="catalog">
+  <div class="cat-h">
+    <h2>Stellar <span class="soft">catalogue.</span></h2>
+    <div class="m">07 OBJECTS CLASSIFIED</div>
+  </div>
+  <div class="cat-row hd">
+    <span class="hd cat-no">DES.</span><span class="hd mag">MAG</span><span class="hd">NAME / IDENT.</span><span class="hd cls">CLASS</span><span class="hd desc">DESCRIPTION</span><span class="hd">OPEN</span>
+  </div>
+  <a class="cat-row" href="https://vestia.georg.miami"><span class="cat-no">α</span><span class="cat-mag">0.8</span><span class="cat-name">Vestia<small>GC-001 · Sextans AI</small></span><span class="cat-class">LIVE · A0V</span><span class="cat-desc">6-module AI for South FL condo associations.</span><span class="cat-go">OPEN →</span></a>
+  <a class="cat-row" href="https://penny.georg.miami"><span class="cat-no">β</span><span class="cat-mag">1.2</span><span class="cat-name">Ask Penny<small>GC-002 · Fin AI copilot</small></span><span class="cat-class">LIVE · G2V</span><span class="cat-desc">Claude-powered personal finance copilot.</span><span class="cat-go">OPEN →</span></a>
+  <a class="cat-row" href="https://factory.georg.miami"><span class="cat-no">γ</span><span class="cat-mag">1.0</span><span class="cat-name">Agent Factory<small>GC-003 · 4-agent cluster</small></span><span class="cat-class">LIVE · O5V</span><span class="cat-desc">Autonomous agents ship websites from a brief.</span><span class="cat-go">OPEN →</span></a>
+  <a class="cat-row" href="https://reconx.georg.miami"><span class="cat-no">δ</span><span class="cat-mag">1.4</span><span class="cat-name">ReconX<small>GC-004 · Fin-recon binary</small></span><span class="cat-class">LIVE · F5V</span><span class="cat-desc">Cloud-native reconciliation · SLA tracking.</span><span class="cat-go">OPEN →</span></a>
+  <a class="cat-row" href="https://onboard.georg.miami"><span class="cat-no">ε</span><span class="cat-mag">1.6</span><span class="cat-name">Onboard<small>GC-005 · Gen-edu</small></span><span class="cat-class">LIVE · K0V</span><span class="cat-desc">Docs to structured course in 3 minutes.</span><span class="cat-go">OPEN →</span></a>
+  <a class="cat-row" href="https://venue.georg.miami"><span class="cat-no">ζ</span><span class="cat-mag">1.9</span><span class="cat-name">VENUE<small>GC-006 · Booking</small></span><span class="cat-class">LIVE · M2V</span><span class="cat-desc">Private event booking wizard · Miami.</span><span class="cat-go">OPEN →</span></a>
+  <a class="cat-row" href="https://docs.georg.miami"><span class="cat-no">η</span><span class="cat-mag">2.1</span><span class="cat-name">Doc Intel<small>GC-007 · Extract AI</small></span><span class="cat-class">LIVE · B5V</span><span class="cat-desc">PDF → structured JSON · field confidence.</span><span class="cat-go">OPEN →</span></a>
+</div>
+
+<!-- CONTACT -->
+<div class="scope">
+  <div class="scope-label">⊙ AIMING THE SCOPE ⊙</div>
+  <h2>Point your <span class="soft">brief</span> at the sky.</h2>
+  <p>Accepting select engagements Q3 2026. Finance AI, enterprise automation, intelligent products. Response within 24 hours.</p>
+  <div class="scope-row">
+    <a class="scope-btn solid" href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a>
+    <a class="scope-btn" href="https://linkedin.com/in/georgchimion">LINKEDIN</a>
+    <a class="scope-btn" href="https://github.com/georgchimion-oss">GITHUB</a>
+    <a class="scope-btn" href="https://miami.georg.miami">MIAMI AI</a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 G.CHIMION · CHART GC-08</span>
+  <span>ALL COORDINATES APPROXIMATE · WGS-MIAMI</span>
+</footer>
+
+<script>
+const sky=document.getElementById('sky');
+for(let i=0;i<180;i++){const s=document.createElement('div');s.className='bg-star';const sz=Math.random()*2+0.5;s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.opacity=0.4+Math.random()*0.6;s.style.setProperty('--d',(2+Math.random()*4)+'s');s.style.animationDelay=Math.random()*3+'s';sky.appendChild(s)}
+</script>
+</body>
+</html>

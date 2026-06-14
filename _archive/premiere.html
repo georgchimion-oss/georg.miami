@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Premiere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: #000;
+  color: #e8e4de;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ─── FILM GRAIN OVERLAY ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+}
+
+/* ─── LETTERBOX BARS ─── */
+.letterbox-top, .letterbox-bottom {
+  position: fixed;
+  left: 0; right: 0;
+  height: 60px;
+  background: #000;
+  z-index: 9999;
+  pointer-events: none;
+}
+.letterbox-top { top: 0; }
+.letterbox-bottom { bottom: 0; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 60px;
+  left: 0; right: 0;
+  z-index: 1000;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+  font-family: 'Space Grotesk', sans-serif;
+}
+.nav-logo {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #e8e4de;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav-links a {
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #e8e4de99;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: #f0a030; }
+
+/* Experience dropdown */
+.exp-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.exp-dropdown-btn {
+  background: none;
+  border: 1px solid #e8e4de33;
+  color: #e8e4de;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+.exp-dropdown-btn:hover { border-color: #f0a030; color: #f0a030; }
+.exp-dropdown-btn .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #00e5ff;
+  display: inline-block;
+  box-shadow: 0 0 8px #00e5ff88;
+}
+.exp-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: #111;
+  border: 1px solid #e8e4de22;
+  border-radius: 8px;
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s;
+}
+.exp-dropdown:hover .exp-dropdown-menu,
+.exp-dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.exp-dropdown-menu a {
+  display: block;
+  padding: 10px 20px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #e8e4de99;
+  transition: all 0.2s;
+}
+.exp-dropdown-menu a:hover {
+  color: #f0a030;
+  background: #ffffff08;
+}
+.exp-dropdown-menu a.active {
+  color: #00e5ff;
+}
+
+.hire-btn {
+  background: #f0a030;
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.hire-btn:hover { background: #ffc060; transform: scale(1.03); }
+
+/* ─── TITLE CARDS ─── */
+.title-card {
+  height: 36vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 60px 40px;
+  position: relative;
+}
+.title-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #f0a03008 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.title-card h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 300;
+  letter-spacing: 14px;
+  text-transform: uppercase;
+  color: #e8e4de;
+  position: relative;
+}
+.title-card .title-line {
+  width: 60px;
+  height: 2px;
+  background: #f0a030;
+  margin-top: 24px;
+  position: relative;
+}
+
+@keyframes fadeInSlow {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SCENE 1: COLD OPEN ─── */
+.scene-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 120px 60px 120px;
+  overflow: hidden;
+}
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 100%;
+  gap: 80px;
+}
+.hero-text {
+  flex: 1;
+  min-width: 0;
+}
+.hero-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: #e8e4de;
+  border-right: 2px solid #f0a030;
+  animation: blinkCaret 0.8s step-end infinite;
+  display: inline-block;
+}
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blinkCaret {
+  50% { border-color: transparent; }
+}
+.hero-subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 300;
+  color: #e8e4de99;
+  margin-top: 16px;
+  letter-spacing: 2px;
+}
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+}
+.hero-ctas a {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+.cta-primary {
+  background: #f0a030;
+  color: #000;
+}
+.cta-primary:hover { background: #ffc060; }
+.cta-secondary {
+  border: 1px solid #e8e4de44;
+  color: #e8e4de;
+}
+.cta-secondary:hover { border-color: #f0a030; color: #f0a030; }
+
+.hero-photo {
+  flex: 0 0 380px;
+  height: 480px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: kenBurns 20s ease-in-out infinite alternate;
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(80px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes kenBurns {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+/* Waveform */
+.waveform {
+  position: absolute;
+  bottom: 80px;
+  left: 0; right: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  opacity: 0.25;
+}
+.waveform span {
+  display: inline-block;
+  width: 2px;
+  background: #f0a030;
+  border-radius: 1px;
+  animation: waveformPulse 2s ease-in-out infinite;
+}
+@keyframes waveformPulse {
+  0%, 100% { height: 4px; }
+  50% { height: var(--wave-h, 20px); }
+}
+
+/* Page vignette */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
+}
+
+/* ─── SCENE 2: FILMSTRIP ─── */
+.scene-filmstrip {
+  padding: 0 0 80px;
+}
+.filmstrip-container {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.filmstrip-container::-webkit-scrollbar { display: none; }
+.filmstrip-track {
+  display: flex;
+  gap: 36px;
+  padding: 60px 80px;
+  width: max-content;
+}
+/* Film sprocket holes along top and bottom of filmstrip */
+.filmstrip-container::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: repeating-linear-gradient(90deg, transparent 0, transparent 40px, #e8e4de0a 40px, #e8e4de0a 56px, transparent 56px, transparent 80px);
+  z-index: 1;
+  pointer-events: none;
+}
+.film-frame {
+  flex: 0 0 480px;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.film-frame:hover { transform: translateY(-6px) scale(1.02); }
+.frame-img-wrapper {
+  position: relative;
+  width: 480px;
+  height: 320px;
+  border: 2px solid #e8e4de22;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0a0a0a;
+  box-shadow: 0 0 40px rgba(240,160,48,0.04);
+}
+.film-frame:hover .frame-img-wrapper {
+  border-color: #f0a03066;
+  box-shadow: 0 8px 60px rgba(240,160,48,0.1);
+}
+.frame-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  filter: saturate(0.85);
+}
+.film-frame:hover .frame-img-wrapper img {
+  transform: scale(1.05);
+  filter: saturate(1);
+}
+.frame-number {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #e8e4de88;
+  letter-spacing: 1px;
+  background: #000000aa;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.frame-badge {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #000;
+  background: #f0a030;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.frame-info {
+  padding: 16px 4px 0;
+}
+.frame-info h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.frame-info p {
+  font-size: 14px;
+  color: #e8e4de77;
+  font-weight: 300;
+}
+
+/* Film grain overlay on filmstrip */
+.filmstrip-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 100px 100px;
+}
+
+/* ─── SCENE 3: STATS ─── */
+.scene-stats {
+  padding: 40px 60px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  text-align: center;
+}
+.stat-item {
+  position: relative;
+}
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160px;
+  height: 160px;
+  transform: translate(-50%, -55%);
+  background: radial-gradient(circle, #f0a03018 0%, transparent 70%);
+  border-radius: 50%;
+  animation: lensFlare 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes lensFlare {
+  0%, 100% { opacity: 0.3; transform: translate(-50%, -55%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -55%) scale(1.4); }
+}
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(64px, 8vw, 120px);
+  font-weight: 300;
+  color: #e8e4de;
+  line-height: 1;
+  position: relative;
+}
+.stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #e8e4de77;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+/* ─── SCENE 4: DIRECTOR ─── */
+.scene-director {
+  padding: 40px 60px 120px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.director-layout {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+}
+.director-photo {
+  flex: 0 0 40%;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.director-photo img {
+  width: 100%;
+  display: block;
+  filter: contrast(1.1) brightness(0.95);
+}
+.director-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, #000 100%);
+  pointer-events: none;
+}
+.director-text {
+  flex: 1;
+}
+.director-text p {
+  font-size: 18px;
+  line-height: 1.8;
+  font-weight: 300;
+  color: #e8e4debb;
+  margin-bottom: 16px;
+}
+.director-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+.director-tags span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #f0a030;
+  border: 1px solid #f0a03044;
+  padding: 6px 14px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+@keyframes fadeInLine {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SCENE 5: THE PROCESS ─── */
+.scene-process {
+  padding: 0 0 80px;
+}
+.act-section {
+  padding: 80px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.act-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 120%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e8e4de22, transparent);
+}
+.act-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #f0a030;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.act-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.act-desc {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #e8e4de99;
+  font-weight: 300;
+  max-width: 700px;
+}
+
+/* Diagonal wipe decoration */
+.act-section .wipe-line {
+  position: absolute;
+  top: 0;
+  right: -60px;
+  width: 1px;
+  height: 140%;
+  background: linear-gradient(180deg, transparent, #f0a03033, transparent);
+  transform: rotate(15deg);
+  transform-origin: top center;
+}
+
+/* ─── SCENE 6: END CREDITS ─── */
+.scene-credits {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 120px 40px;
+  position: relative;
+  border-top: 1px solid #e8e4de11;
+}
+.scene-credits::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(180deg, #e8e4de22, transparent);
+}
+.credits-content {
+}
+@keyframes creditsScroll {
+  from { opacity: 0; transform: translateY(60px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.credit-line {
+  margin-bottom: 40px;
+}
+.credit-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #e8e4de55;
+  margin-bottom: 8px;
+}
+.credit-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+.credit-links {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  margin: 48px 0;
+}
+.credit-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #e8e4de88;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.credit-links a:hover { color: #f0a030; }
+.production-tag {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #e8e4de44;
+  margin-top: 60px;
+}
+.play-again {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #f0a030;
+  letter-spacing: 2px;
+  margin-top: 40px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  background: none;
+  border: none;
+}
+.play-again:hover { opacity: 0.7; }
+
+/* ─── MOBILE HAMBURGER ─── */
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: #e8e4de;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+}
+@media (max-width: 768px) {
+  .letterbox-top, .letterbox-bottom { height: 30px; }
+  nav { top: 30px; padding: 12px 20px; }
+  .nav-links { display: none; }
+  .nav-links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: #0a0a0a;
+    padding: 20px;
+    gap: 16px;
+    border-bottom: 1px solid #e8e4de11;
+  }
+  .nav-hamburger { display: block; }
+  .scene-hero { padding: 100px 24px; }
+  .hero-content { flex-direction: column; gap: 40px; text-align: center; }
+  .hero-name { font-size: 32px; white-space: normal; border-right: none; animation: fadeInSlow 1.5s ease forwards; width: auto; }
+  .hero-ctas { justify-content: center; flex-wrap: wrap; }
+  .hero-photo { flex: 0 0 auto; width: 100%; height: 320px; }
+
+  /* Filmstrip vertical on mobile */
+  .filmstrip-track {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+  }
+  .film-frame { flex: 0 0 auto; width: 100%; max-width: 360px; }
+  .frame-img-wrapper { width: 100%; height: 240px; }
+
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat-number { font-size: 56px; }
+
+  .director-layout { flex-direction: column; gap: 40px; }
+  .director-photo { flex: 0 0 auto; width: 100%; }
+
+  .act-section { padding: 60px 24px; }
+  .scene-stats { padding: 40px 24px; }
+  .scene-director { padding: 40px 24px 80px; }
+
+  .credit-links { flex-direction: column; align-items: center; gap: 20px; }
+}
+
+/* Utility: visible immediately (intersection observer enhances, not gates) */
+.appear {
+  opacity: 1;
+  transform: none;
+}
+</style>
+</head>
+<body>
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="premiere.html" selected>Premiere</option>
+    <option value="maximal.html">Maximal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+
+
+<!-- LETTERBOX BARS -->
+<div class="letterbox-top"></div>
+<div class="letterbox-bottom"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Georg Chimion</a>
+  <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')" aria-label="Menu">
+    <i data-lucide="menu" style="width:24px;height:24px"></i>
+  </button>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#stats">Numbers</a>
+    <a href="#director">About</a>
+    <a href="#process">Process</a>
+    <a href="#credits">Contact</a>
+    <a href="mailto:georg.chimion@gmail.com" class="hire-btn">Hire Me</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENE 1 — COLD OPEN                        -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="scene-hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-name">AI automation for the enterprise.</h1>
+      <p class="hero-subtitle">AI AUTOMATION SPECIALIST &middot; MIAMI</p>
+      <div class="hero-ctas">
+        <a href="#work" class="cta-primary">View Products</a>
+        <a href="#credits" class="cta-secondary">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="georg-hero.jpeg" alt="Georg Chimion" loading="eager">
+    </div>
+  </div>
+  <!-- Waveform -->
+  <div class="waveform" id="waveform"></div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENE 2 — THE WORK                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="title-card" id="work">
+  <h2>From idea to deployment.</h2>
+  <div class="title-line"></div>
+</div>
+
+<section class="scene-filmstrip">
+  <div class="filmstrip-container" id="filmstrip">
+    <div class="filmstrip-track">
+
+      <a href="https://vestia.georg.miami" target="_blank" class="film-frame">
+        <div class="frame-img-wrapper">
+          <img src="screenshots/vestia.png" alt="Vestia" loading="lazy">
+          <span class="frame-badge">AI-Powered</span>
+        </div>
+        <div class="frame-info">
+          <h3>Vestia</h3>
+          <p>AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</p>
+        </div>
+      </a>
+
+      <a href="https://penny.georg.miami" target="_blank" class="film-frame">
+        <div class="frame-img-wrapper">
+          <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny" loading="lazy">
+          <span class="frame-badge">AI-Powered</span>
+        </div>
+        <div class="frame-info">
+          <h3>Ask Penny</h3>
+          <p>AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</p>
+        </div>
+      </a>
+
+      <a href="https://factory.georg.miami" target="_blank" class="film-frame">
+        <div class="frame-img-wrapper">
+          <img src="screenshots/factory.png" alt="Agent Factory" loading="lazy">
+          <span class="frame-badge">AI Multi-Agent</span>
+        </div>
+        <div class="frame-info">
+          <h3>Agent Factory</h3>
+          <p>4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</p>
+        </div>
+      </a>
+
+      <a href="https://venue.georg.miami" target="_blank" class="film-frame">
+        <div class="frame-img-wrapper">
+          <img src="screenshots/venue.png" alt="VENUE" loading="lazy">
+          <span class="frame-badge">Product</span>
+        </div>
+        <div class="frame-info">
+          <h3>VENUE</h3>
+          <p>Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</p>
+        </div>
+      </a>
+
+      <a href="https://reconx.georg.miami" target="_blank" class="film-frame">
+        <div class="frame-img-wrapper">
+          <img src="screenshots/reconx.png" alt="ReconX" loading="lazy">
+          <span class="frame-badge">Live</span>
+        </div>
+        <div class="frame-info">
+          <h3>ReconX</h3>
+          <p>Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</p>
+        </div>
+      </a>
+
+      <a href="https://docs.georg.miami" target="_blank" class="film-frame">
+        <div class="frame-img-wrapper">
+          <img src="screenshots/docai.png" alt="AI Doc Intelligence" loading="lazy">
+          <span class="frame-badge">AI-Powered</span>
+        </div>
+        <div class="frame-info">
+          <h3>AI Document Intelligence</h3>
+          <p>Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</p>
+        </div>
+      </a>
+
+      <a href="https://roi.georg.miami" target="_blank" class="film-frame">
+        <div class="frame-img-wrapper">
+          <img src="screenshots/roi.png" alt="ROI Calculator" loading="lazy">
+          <span class="frame-badge">Live</span>
+        </div>
+        <div class="frame-info">
+          <h3>ROI Calculator</h3>
+          <p>Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</p>
+        </div>
+      </a>
+
+      <a href="https://spacewalk.georg.miami" target="_blank" class="film-frame">
+        <div class="frame-img-wrapper">
+          <img src="screenshots/spacewalk.png" alt="SpaceWalk" loading="lazy">
+          <span class="frame-badge">AI + 3D</span>
+        </div>
+        <div class="frame-info">
+          <h3>SpaceWalk</h3>
+          <p>Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENE 3 — BY THE NUMBERS                    -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="title-card" id="stats">
+  <h2>What I bring.</h2>
+  <div class="title-line"></div>
+</div>
+
+<section class="scene-stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number" data-target="8">8</div>
+      <div class="stat-label">Live Systems</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">6+</div>
+      <div class="stat-label">Products</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" style="font-size:clamp(28px,4vw,56px);">PwC</div>
+      <div class="stat-label">Currently At</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENE 4 — THE DIRECTOR                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="title-card" id="director">
+  <h2>Expertise</h2>
+  <div class="title-line"></div>
+</div>
+
+<section class="scene-director">
+  <div class="director-layout">
+    <div class="director-photo">
+      <img src="georg.jpeg" alt="Georg Chimion">
+    </div>
+    <div class="director-text">
+      <p><strong>AI Systems</strong> — Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</p>
+      <p><strong>Finance &amp; Risk</strong> — Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</p>
+      <p><strong>Full-Stack</strong> — React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</p>
+      <p><strong>Rapid Build</strong> — From concept to working prototype in days, not months. Fast iteration with real users — six live products already in portfolio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENE 5 — THE PROCESS                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="title-card" id="process">
+  <h2>Engagement model.</h2>
+  <div class="title-line"></div>
+</div>
+
+<section class="scene-process">
+  <div class="act-section">
+    <div class="wipe-line"></div>
+    <div class="act-number">01</div>
+    <h3 class="act-title">Discovery</h3>
+    <p class="act-desc">Understand workflows, pain points, and what 'done' looks like. Map the opportunity, identify quick wins, define success criteria.</p>
+  </div>
+  <div class="act-section">
+    <div class="wipe-line"></div>
+    <div class="act-number">02</div>
+    <h3 class="act-title">Build &amp; Ship</h3>
+    <p class="act-desc">Embedded in your team, building production systems. Weekly stakeholder iterations. Real users, real feedback.</p>
+  </div>
+  <div class="act-section">
+    <div class="wipe-line"></div>
+    <div class="act-number">03</div>
+    <h3 class="act-title">Handoff</h3>
+    <p class="act-desc">Documentation, training, knowledge transfer. Your team owns it. Optional retainer for ongoing support.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENE 6 — END CREDITS                       -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="scene-credits" id="credits">
+  <div class="credits-content">
+    <div class="credit-line">
+      <div class="credit-role">Let's work together.</div>
+      <div class="credit-name" style="font-size:clamp(14px,2vw,20px);font-weight:400;opacity:0.7;">Taking on select consulting and contract engagements. If you need AI automation that delivers, let's talk.</div>
+    </div>
+
+    <div class="credit-links">
+      <a href="mailto:georg.chimion@gmail.com">
+        <i data-lucide="mail" style="width:16px;height:16px"></i>
+        georg.chimion@gmail.com
+      </a>
+      <a href="https://github.com/georgchimion-oss" target="_blank">
+        <i data-lucide="github" style="width:16px;height:16px"></i>
+        georgchimion-oss
+      </a>
+      <a href="https://linkedin.com/in/georgchimion" target="_blank">
+        <i data-lucide="linkedin" style="width:16px;height:16px"></i>
+        georgchimion
+      </a>
+    </div>
+
+    <div class="production-tag">&copy; 2026 Georg Chimion. Miami, FL. &middot; Built with Claude</div>
+  </div>
+</section>
+
+<script>
+// Initialize Lucide icons
+lucide.createIcons();
+
+// Generate waveform bars
+const waveform = document.getElementById('waveform');
+for (let i = 0; i < 120; i++) {
+  const bar = document.createElement('span');
+  const h = 4 + Math.random() * 24;
+  bar.style.setProperty('--wave-h', h + 'px');
+  bar.style.animationDelay = (Math.random() * 2) + 's';
+  waveform.appendChild(bar);
+}
+
+// Horizontal scroll for filmstrip on mouse wheel
+const filmstrip = document.getElementById('filmstrip');
+filmstrip.addEventListener('wheel', (e) => {
+  // Only hijack vertical scroll for horizontal if filmstrip has overflow
+  if (filmstrip.scrollWidth > filmstrip.clientWidth) {
+    e.preventDefault();
+    filmstrip.scrollLeft += e.deltaY * 2;
+  }
+}, { passive: false });
+
+// Counter animation for stats
+function animateCounters() {
+  document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const duration = 2000;
+    const start = performance.now();
+    const suffix = el.textContent.includes('+') ? '+' : '';
+
+    function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Deceleration easing
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(eased * target);
+      el.textContent = current.toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+// Trigger counters when stats section is in view
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounters();
+      statsObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+
+const statsSection = document.querySelector('.scene-stats');
+if (statsSection) statsObserver.observe(statsSection);
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Gallerist</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--wall:#F1EEE7;--wall-2:#E7E1D5;--ink:#1C1917;--mute:#6B6459;--faint:#A39B8A;--line:#C8C0AF}
+html,body{background:var(--wall);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;font-weight:300;line-height:1.6;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'Cormorant Garamond',serif}
+.back{position:fixed;top:18px;right:24px;z-index:100;font-family:'Inter';font-size:10px;letter-spacing:0.22em;padding:8px 14px;background:var(--wall);border:1px solid var(--ink);text-transform:uppercase}
+
+/* Museum header */
+.museum{padding:28px 48px 0;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:18px}
+.museum .house{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:22px;letter-spacing:-0.01em}
+.museum .meta{font-size:10px;letter-spacing:0.28em;color:var(--mute);text-transform:uppercase;display:flex;gap:40px}
+
+/* Title plate */
+.plate{padding:80px 48px 60px;max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1.3fr;gap:60px;align-items:end;border-bottom:1px solid var(--line)}
+.plate-l .ex{font-size:10px;letter-spacing:0.3em;color:var(--mute);text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.plate-l .ex::before{content:'';width:18px;height:1px;background:var(--mute)}
+.plate-l h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(72px,11vw,156px);line-height:0.9;letter-spacing:-0.03em;margin-bottom:8px}
+.plate-l h1 em{font-style:italic}
+.plate-l .dates{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--mute);margin-top:14px}
+.plate-l .room{font-size:10px;letter-spacing:0.28em;color:var(--ink);text-transform:uppercase;margin-top:30px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between}
+
+.plate-r{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:22px;line-height:1.5;color:var(--mute);font-style:italic;max-width:520px;text-wrap:pretty}
+.plate-r::before{content:'';display:block;width:40px;height:1px;background:var(--ink);margin-bottom:18px}
+
+/* Gallery "rooms" */
+.room-sec{padding:80px 48px;border-bottom:1px solid var(--line);max-width:1440px;margin:0 auto}
+.room-head{display:grid;grid-template-columns:auto 1fr;gap:60px;align-items:baseline;margin-bottom:60px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.room-head .rn{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:32px;letter-spacing:-0.01em;white-space:nowrap}
+.room-head .rn span{color:var(--mute);font-style:normal;font-family:'Inter';font-weight:300;font-size:10px;letter-spacing:0.3em;margin-left:20px;text-transform:uppercase}
+.room-head .rt{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--mute);font-style:italic;line-height:1.45;text-wrap:pretty}
+
+/* Portrait — the centerpiece */
+.centerpiece{display:grid;grid-template-columns:1fr 2fr 1fr;gap:60px;align-items:center;margin-bottom:40px}
+.centerpiece .mat{background:var(--wall-2);padding:40px;border:1px solid var(--line);position:relative}
+.centerpiece .mat::before,.centerpiece .mat::after{content:'';position:absolute;width:14px;height:14px;border:1px solid var(--faint)}
+.centerpiece .mat::before{top:14px;left:14px;border-right:0;border-bottom:0}
+.centerpiece .mat::after{bottom:14px;right:14px;border-left:0;border-top:0}
+.centerpiece img{width:100%;display:block;filter:sepia(0.06) contrast(1.05);border:1px solid var(--mute)}
+.centerpiece .side-l,.centerpiece .side-r{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--mute);line-height:1.5}
+.centerpiece .side-l{text-align:right}
+
+/* Object label */
+.label{margin-top:24px;max-width:520px;font-family:'Inter',sans-serif;font-size:11px;color:var(--mute);line-height:1.7;padding:16px 18px;background:var(--wall-2);border:1px solid var(--line)}
+.label .t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--ink);margin-bottom:3px;line-height:1.2}
+.label .d{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.label p{font-size:12px;line-height:1.55}
+
+/* Works list — each product is an artwork */
+.works{display:grid;grid-template-columns:repeat(2,1fr);gap:60px 80px}
+.work{padding-top:24px;border-top:1px solid var(--line)}
+.work-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.work-head .no{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:24px;color:var(--mute)}
+.work-head .ym{font-size:9px;letter-spacing:0.26em;color:var(--faint);text-transform:uppercase}
+.work h3{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:48px;letter-spacing:-0.02em;line-height:1.05;margin-bottom:8px;text-wrap:balance}
+.work h3 em{font-style:italic;font-weight:400}
+.work .medium{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--mute);margin-bottom:18px}
+.work p{font-size:13px;line-height:1.7;color:var(--mute);max-width:480px;margin-bottom:18px}
+.work .foot{display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid var(--line);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mute)}
+.work .foot a{color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.work .foot a::after{content:'→'}
+.work:hover h3{color:var(--ink)}
+.work:hover .foot a{color:var(--ink)}
+
+/* Colophon / contact */
+.colophon{padding:100px 48px;max-width:1100px;margin:0 auto;text-align:center;border-bottom:1px solid var(--line)}
+.colophon .ex{font-size:10px;letter-spacing:0.3em;color:var(--mute);text-transform:uppercase;margin-bottom:22px}
+.colophon h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(42px,6vw,78px);line-height:1;letter-spacing:-0.02em;margin-bottom:16px}
+.colophon h2 em{font-style:italic}
+.colophon .dek{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--mute);max-width:560px;margin:0 auto 40px;line-height:1.5}
+.chans{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:900px;margin:0 auto;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.ch{padding:24px 16px;border-right:1px solid var(--line);text-align:center}
+.ch:last-child{border-right:0}
+.ch .l{font-size:9px;letter-spacing:0.26em;color:var(--mute);text-transform:uppercase;margin-bottom:6px}
+.ch a{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--ink)}
+.ch a:hover{text-decoration:underline;text-underline-offset:4px}
+
+footer{padding:32px 48px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:0.22em;color:var(--mute);text-transform:uppercase}
+footer em{font-family:'Cormorant Garamond',serif;font-style:italic;text-transform:none;font-size:13px;letter-spacing:0}
+
+@media (max-width:1000px){.plate,.centerpiece,.works{grid-template-columns:1fr}.centerpiece .side-l{text-align:left}.chans{grid-template-columns:1fr 1fr}.ch:nth-child(2){border-right:0}.ch{border-bottom:1px solid var(--line)}.museum{flex-direction:column;gap:8px;padding:20px 24px 14px}.plate,.room-sec,.colophon,footer{padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← Gallery</a>
+
+<header class="museum">
+  <div class="house serif">The Chimion Collection</div>
+  <div class="meta">
+    <span>South Florida · Est. MMXXII</span>
+    <span>Room III · Currently Hanging</span>
+    <span>Admission Complimentary</span>
+  </div>
+</header>
+
+<section class="plate">
+  <div class="plate-l">
+    <div class="ex">Permanent Exhibition · 2022 — Present</div>
+    <h1>Works in <em>production.</em></h1>
+    <div class="dates">Georg Chimion · Miami, b. 1991</div>
+    <div class="room">
+      <span>Room I · Portrait</span>
+      <span>Room II · Works</span>
+      <span>Room III · Correspondence</span>
+    </div>
+  </div>
+  <div class="plate-r">
+    An ongoing exhibition of software, released without ceremony over four years. Each piece presented here is in active use — not a study, not a maquette, not a proposal. The collection welcomes commissions, private views, and quiet conversation.
+  </div>
+</section>
+
+<section class="room-sec">
+  <div class="room-head">
+    <div class="rn serif">Room I. <em>Portrait</em> <span>01 · Centerpiece</span></div>
+    <div class="rt">"A maker, photographed in autumn light, two blocks from his studio."</div>
+  </div>
+
+  <div class="centerpiece">
+    <div class="side-l">
+      "The one <br>who prefers <br><em>to ship.</em>"
+    </div>
+    <figure class="mat">
+      <img src="georg-hero.jpeg" alt="Georg Chimion, portrait.">
+    </figure>
+    <div class="side-r">
+      — signed <br>in the lower right, <br>in <em>black and gold.</em>
+    </div>
+  </div>
+
+  <div class="label">
+    <div class="d">Object Label · Wall Text 01</div>
+    <div class="t"><em>Georg Chimion,</em> 2026</div>
+    <p>Oil, silicon, and three years of production commits. Private collection, Miami. Lent for the duration of the exhibition. The sitter asks only to be known by his work — of which the following eleven pieces are presently installed.</p>
+  </div>
+</section>
+
+<section class="room-sec">
+  <div class="room-head">
+    <div class="rn serif">Room II. <em>Works</em> <span>02 · Selected Production, 2022–2026</span></div>
+    <div class="rt">"Six pieces from the collection, each operating under load."</div>
+  </div>
+
+  <div class="works">
+    <a class="work" href="https://vestia.georg.miami">
+      <div class="work-head"><span class="no serif">N°. I</span><span class="ym">2024 — present</span></div>
+      <h3 class="serif"><em>Vestia</em></h3>
+      <div class="medium">Six-module AI platform · property operations</div>
+      <p>A study in restraint: maintenance triage, compliance filings, collections, screening, documents, vendor management — composed for the South Florida condominium association and presented under a single board dashboard.</p>
+      <div class="foot"><span>South Florida · Live</span><a>View →</a></div>
+    </a>
+    <a class="work" href="https://penny.georg.miami">
+      <div class="work-head"><span class="no serif">N°. II</span><span class="ym">2025 — present</span></div>
+      <h3 class="serif">Ask <em>Penny</em></h3>
+      <div class="medium">Claude-powered household copilot · personal finance</div>
+      <p>A conversation with the family bank feed. Morning briefings, smart budgets, gentle alerts. Integrated via Teller; the algorithm knows when the coffee line item is not, in fact, about the coffee.</p>
+      <div class="foot"><span>Web · Live</span><a>View →</a></div>
+    </a>
+    <a class="work" href="https://factory.georg.miami">
+      <div class="work-head"><span class="no serif">N°. III</span><span class="ym">2025 — present</span></div>
+      <h3 class="serif">Agent <em>Factory</em></h3>
+      <div class="medium">Multi-agent system · four autonomous roles</div>
+      <p>A PM, a Coder, a Reviewer, a Deployer — each a Claude instance with its own tools — collaborate to ship a production website from a client brief. The brief is art; the site is craft.</p>
+      <div class="foot"><span>Cloud · Live</span><a>View →</a></div>
+    </a>
+    <a class="work" href="https://reconx.georg.miami">
+      <div class="work-head"><span class="no serif">N°. IV</span><span class="ym">2024 — present</span></div>
+      <h3 class="serif"><em>ReconX</em></h3>
+      <div class="medium">Cloud-native reconciliation engine · financial</div>
+      <p>Multi-pass matching. Exception management. Nostro proof with an SLA timer. Installed quietly beneath a treasury function; you do not notice it until it goes to lunch, and then you do.</p>
+      <div class="foot"><span>Enterprise · Live</span><a>View →</a></div>
+    </a>
+    <a class="work" href="https://onboard.georg.miami">
+      <div class="work-head"><span class="no serif">N°. V</span><span class="ym">2025 — present</span></div>
+      <h3 class="serif"><em>Onboard</em></h3>
+      <div class="medium">Training generation · gen-AI curriculum</div>
+      <p>Feed the piece your internal handbook. Within three minutes it returns a course, complete with assessments. New hires appear at the gallery already scored.</p>
+      <div class="foot"><span>SaaS · Live</span><a>View →</a></div>
+    </a>
+    <a class="work" href="https://venue.georg.miami">
+      <div class="work-head"><span class="no serif">N°. VI</span><span class="ym">2026 — present</span></div>
+      <h3 class="serif"><em>VENUE</em></h3>
+      <div class="medium">Private event booking wizard · hospitality</div>
+      <p>Happy hours, dinners, DJ lounges, full venue buyouts. The intake is gracious; the confirmation is instant. A small piece — and a favorite of the curators.</p>
+      <div class="foot"><span>Miami · Live</span><a>View →</a></div>
+    </a>
+  </div>
+</section>
+
+<section class="colophon" id="hire">
+  <div class="ex">Room III · Correspondence</div>
+  <h2 class="serif">Commissions <em>welcome.</em></h2>
+  <p class="dek">Selected engagements are being accepted for the autumn season. The artist answers correspondence within twenty-four hours on each of the following channels.</p>
+  <div class="chans">
+    <div class="ch"><div class="l">Post</div><a href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a></div>
+    <div class="ch"><div class="l">Professional</div><a href="https://linkedin.com/in/georgchimion">in/georgchimion</a></div>
+    <div class="ch"><div class="l">Source</div><a href="https://github.com/georgchimion-oss">github/georgchimion-oss</a></div>
+    <div class="ch"><div class="l">In Person</div><a href="https://miami.georg.miami">Miami AI · Wynwood</a></div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 The Chimion Collection</span>
+  <em>Set in Cormorant Garamond · Printed in Miami</em>
+  <span>Catalogue N°. IV</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Miami Ledger — Chimion</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--paper:#F5F0E6;--ink:#0E0E0C;--mute:#4A453D;--faint:#8A8276;--rule:#D8D1C2;--accent:#7A1E1E}
+html,body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',serif;font-size:15px;line-height:1.55;min-height:100vh}
+body{background-image:radial-gradient(ellipse at top,rgba(0,0,0,0.03),transparent 60%)}
+a{color:inherit;text-decoration:none}
+.back{position:fixed;top:14px;right:14px;z-index:100;font-family:'Source Serif 4',serif;font-size:11px;letter-spacing:0.18em;border:1px solid var(--ink);padding:5px 10px;background:var(--paper);text-transform:uppercase}
+
+.paper{max-width:1240px;margin:0 auto;padding:28px 36px 60px;position:relative}
+.paper::after{content:'';position:absolute;inset:28px 36px;pointer-events:none;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/></filter><rect width='80' height='80' filter='url(%23n)'/></svg>");opacity:0.6;mix-blend-mode:multiply}
+
+/* Masthead */
+.mast{border-top:3px double var(--ink);border-bottom:3px double var(--ink);padding:10px 0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;margin-bottom:14px}
+.mast-l,.mast-r{font-family:'Source Serif 4',serif;font-style:italic;font-size:12px;color:var(--mute);letter-spacing:0.04em}
+.mast-l{text-align:left}.mast-r{text-align:right}
+.title{font-family:'Old Standard TT',serif;font-weight:700;font-size:clamp(56px,9vw,120px);line-height:0.95;letter-spacing:-0.02em;text-align:center;white-space:nowrap}
+.sub-mast{display:flex;justify-content:space-between;font-family:'Source Serif 4',serif;font-size:11px;font-style:italic;color:var(--mute);border-bottom:1px solid var(--ink);padding-bottom:8px;margin-bottom:24px;letter-spacing:0.02em}
+.sub-mast .vol{font-variant:small-caps;letter-spacing:0.08em}
+
+/* Main layout */
+.front{display:grid;grid-template-columns:2.2fr 1fr;gap:36px;padding-bottom:36px;border-bottom:1px solid var(--rule)}
+
+.lead-article{padding-right:28px;border-right:1px solid var(--rule)}
+.kicker{font-family:'Source Serif 4',serif;font-style:italic;font-size:12px;color:var(--accent);letter-spacing:0.08em;margin-bottom:8px}
+.lead-headline{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(40px,4.5vw,68px);line-height:1;letter-spacing:-0.015em;margin-bottom:12px;text-wrap:balance}
+.deck{font-family:'Source Serif 4',serif;font-style:italic;font-size:18px;line-height:1.45;color:var(--mute);margin-bottom:16px;text-wrap:pretty;max-width:620px}
+.byline{font-family:'Source Serif 4',serif;font-size:11px;font-style:italic;color:var(--mute);padding-top:8px;margin-bottom:20px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding-block:8px}
+.byline strong{font-style:normal;font-weight:600;color:var(--ink);font-variant:small-caps;letter-spacing:0.08em}
+.lead-img{margin:18px 0 8px;position:relative;filter:grayscale(1) contrast(1.08) brightness(0.98);border:1px solid var(--rule)}
+.lead-img img{width:100%;display:block}
+.lead-img .cap{font-family:'Source Serif 4',serif;font-style:italic;font-size:11px;color:var(--mute);padding:6px 2px 0}
+.lead-img .cap b{font-style:normal;font-variant:small-caps;letter-spacing:0.08em;color:var(--ink);font-weight:600}
+
+.body{column-count:2;column-gap:28px;column-rule:1px solid var(--rule);font-size:14.5px;line-height:1.62;text-align:justify;hyphens:auto;margin-top:18px}
+.body p{margin-bottom:10px;text-indent:1.2em}
+.body p:first-of-type{text-indent:0}
+.body p:first-of-type::first-letter{font-family:'Playfair Display',serif;float:left;font-size:62px;font-weight:900;line-height:0.88;padding:4px 10px 0 0;color:var(--ink)}
+.body p:first-of-type::first-line{font-variant:small-caps;letter-spacing:0.06em;font-weight:600}
+.pull{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:22px;line-height:1.35;color:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:14px 0;margin:16px 0;break-inside:avoid;text-align:center;text-wrap:balance}
+.pull::before,.pull::after{content:'';display:block;width:28px;height:1px;background:var(--ink);margin:0 auto}
+.pull::before{margin-bottom:10px}.pull::after{margin-top:10px}
+
+/* Sidebar */
+.rail{display:flex;flex-direction:column;gap:24px}
+.rail-box{border-top:1px solid var(--ink);padding-top:10px}
+.rail-h{font-family:'Source Serif 4',serif;font-variant:small-caps;font-weight:600;font-size:11px;letter-spacing:0.14em;color:var(--accent);border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+.rail .kck{font-family:'Source Serif 4',serif;font-style:italic;font-size:10px;color:var(--mute);margin-bottom:3px}
+.rail h4{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;line-height:1.15;letter-spacing:-0.005em;margin-bottom:6px;text-wrap:balance}
+.rail p{font-size:13px;line-height:1.55;color:var(--mute);margin-bottom:10px}
+.rail .ri{padding-bottom:12px;margin-bottom:12px;border-bottom:1px dotted var(--rule)}
+.rail .ri:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+
+/* Index bar */
+.index-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-block:2px solid var(--ink);padding:10px 0;margin:30px 0 34px}
+.ix{padding:0 14px;border-right:1px solid var(--rule);text-align:center}
+.ix:last-child{border-right:0}
+.ix .n{font-family:'Playfair Display',serif;font-weight:900;font-size:26px;line-height:1}
+.ix .l{font-family:'Source Serif 4',serif;font-style:italic;font-size:10px;color:var(--mute);margin-top:3px;letter-spacing:0.04em}
+
+/* SECTION: Classifieds / products grid */
+.sec-h{display:flex;align-items:baseline;gap:14px;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:22px;margin-top:30px}
+.sec-h h2{font-family:'Playfair Display',serif;font-weight:900;font-size:34px;letter-spacing:-0.015em;line-height:1}
+.sec-h .rule{flex:1;border-top:1px solid var(--ink);margin-bottom:6px}
+.sec-h .tag{font-family:'Source Serif 4',serif;font-style:italic;font-size:11px;color:var(--mute)}
+
+.grid-p{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--ink);background:var(--paper)}
+.gp{padding:20px 22px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);position:relative}
+.gp:nth-child(3n){border-right:0}
+.gp:nth-child(n+4){/* second row */}
+.gp .gk{font-family:'Source Serif 4',serif;font-style:italic;font-size:11px;color:var(--accent);letter-spacing:0.04em;margin-bottom:6px}
+.gp h3{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;letter-spacing:-0.01em;line-height:1.1;margin-bottom:4px;text-wrap:balance}
+.gp .dk{font-family:'Source Serif 4',serif;font-style:italic;font-size:13px;color:var(--mute);margin-bottom:10px;line-height:1.4}
+.gp p{font-size:13px;line-height:1.55;color:var(--ink);margin-bottom:12px}
+.gp .meta{display:flex;justify-content:space-between;font-family:'Source Serif 4',serif;font-size:10px;color:var(--mute);font-variant:small-caps;letter-spacing:0.08em;padding-top:8px;border-top:1px solid var(--rule)}
+.gp:hover{background:rgba(0,0,0,0.015)}
+.gp:hover h3{color:var(--accent)}
+.gp .orn{position:absolute;top:18px;right:18px;font-family:'Old Standard TT',serif;font-size:20px;color:var(--faint)}
+
+/* NOTICE — hiring */
+.notice{margin-top:40px;border:4px double var(--ink);padding:36px 40px;text-align:center;background:var(--paper);position:relative}
+.notice .cor{position:absolute;width:14px;height:14px;border:1px solid var(--ink)}
+.notice .cor.tl{top:10px;left:10px;border-right:0;border-bottom:0}
+.notice .cor.tr{top:10px;right:10px;border-left:0;border-bottom:0}
+.notice .cor.bl{bottom:10px;left:10px;border-right:0;border-top:0}
+.notice .cor.br{bottom:10px;right:10px;border-left:0;border-top:0}
+.notice .ov{font-family:'Source Serif 4',serif;font-variant:small-caps;font-size:12px;letter-spacing:0.22em;color:var(--accent);margin-bottom:8px}
+.notice h2{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(40px,5vw,64px);line-height:0.95;letter-spacing:-0.02em;margin-bottom:6px;text-wrap:balance}
+.notice h2 em{font-style:italic;font-weight:400}
+.notice .dk2{font-family:'Source Serif 4',serif;font-style:italic;font-size:16px;color:var(--mute);max-width:520px;margin:0 auto 24px;line-height:1.5}
+.notice .chans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:720px;margin:0 auto;padding-top:18px;border-top:1px solid var(--ink)}
+.ch{text-align:center}
+.ch .l{font-family:'Source Serif 4',serif;font-variant:small-caps;font-size:10px;color:var(--mute);letter-spacing:0.14em;margin-bottom:3px}
+.ch a{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--ink);display:inline-block;padding-bottom:1px;border-bottom:1px solid var(--ink)}
+.ch a:hover{color:var(--accent);border-color:var(--accent)}
+
+footer{margin-top:40px;padding-top:16px;border-top:3px double var(--ink);display:flex;justify-content:space-between;font-family:'Source Serif 4',serif;font-style:italic;font-size:11px;color:var(--mute)}
+
+@media (max-width:900px){.front{grid-template-columns:1fr}.lead-article{padding-right:0;border-right:0}.body{column-count:1}.index-bar{grid-template-columns:repeat(3,1fr)}.grid-p{grid-template-columns:1fr}.gp{border-right:0}.notice .chans{grid-template-columns:1fr 1fr}.paper{padding:20px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← Gallery</a>
+
+<div class="paper">
+  <div class="mast">
+    <div class="mast-l"><em>South Florida Edition</em><br><em>$3.00 · Complimentary Online</em></div>
+    <h1 class="title">The Miami Ledger</h1>
+    <div class="mast-r"><em>Established MMXXII</em><br><em>Vol. IV · No. 217</em></div>
+  </div>
+  <div class="sub-mast">
+    <span class="vol">"All the automation that's fit to ship."</span>
+    <span>Friday, November 21, 2026</span>
+    <span>Wynwood · Miami · 25.76° N</span>
+  </div>
+
+  <section class="front">
+    <article class="lead-article">
+      <div class="kicker">TECHNOLOGY · AUTOMATION · ENTERPRISE</div>
+      <h2 class="lead-headline">A Quiet Builder in Wynwood Makes a Case for AI That Ships.</h2>
+      <p class="deck">While a thousand pilots stall in committee, Georg Chimion — an automation specialist working out of South Florida — has a simpler promise: eight products live, zero abandoned.</p>
+      <p class="byline">By <strong>The Ledger Staff</strong> · Photographs provided · Filed Q3 2026</p>
+
+      <figure class="lead-img">
+        <img src="georg-hero.jpeg" alt="Georg Chimion at his desk in Wynwood.">
+        <div class="cap"><b>Above.</b> Mr. Chimion, thirty-something, in a studio that doubles as his laboratory. "I care about production. Not proofs of concept."</div>
+      </figure>
+
+      <div class="body">
+        <p>For years, enterprise software promised intelligence and delivered spreadsheets. The quiet revolution happening in Miami's Wynwood district promises something more specific: intelligence that holds up under payroll, under audit, under the kind of Tuesday afternoon where a condo association needs to collect dues and a finance team needs to reconcile ten thousand transactions before the market opens.</p>
+
+        <p>Georg Chimion, an automation specialist currently working with the global consultancy PwC, has built eight such products. They run. They have users. None of them — and this is the line his clients keep returning to — has been quietly sunset after the demo.</p>
+
+        <p class="pull">"A pilot is a design choice. So is production. I pick production."</p>
+
+        <p>His work spans condominium operations, personal finance, event booking, and what he calls "the boring infrastructure AI should have fixed five years ago." A platform named <em>Vestia</em> handles six distinct modules for South Florida property associations — maintenance triage, compliance filings, delinquency collections. <em>Ask Penny</em>, a Claude-powered copilot, reads a family's bank transactions and makes a budget that actually responds when the family overspends.</p>
+
+        <p>The scope is broad enough to raise eyebrows. Asked how a single operator ships this much, Mr. Chimion is direct: "I pick problems I'm going to still be annoyed by in six months. That filters the list."</p>
+
+        <p>He does not write research papers. He does not appear on panels. He does appear, with some regularity, in the commits of repositories quietly running payroll, rent collection, and reconciliation for clients who would prefer not to be named in this publication.</p>
+
+        <p>For an industry that spent 2024 and 2025 learning what "pilot fatigue" meant, the proposition is refreshingly small: call him, describe the bottleneck, get something that works by next quarter.</p>
+      </div>
+    </article>
+
+    <aside class="rail">
+      <div class="rail-box">
+        <div class="rail-h">In This Edition</div>
+        <div class="ri">
+          <div class="kck">Finance</div>
+          <h4>The Ledger Holds: ReconX's Multi-Pass Matching</h4>
+          <p>Why cloud-native reconciliation is finally catching up to thirty-year-old batch systems.</p>
+        </div>
+        <div class="ri">
+          <div class="kck">Property</div>
+          <h4>Six Modules, One Association: Inside Vestia</h4>
+          <p>A field report from three South Florida condo boards running the platform.</p>
+        </div>
+        <div class="ri">
+          <div class="kck">Consumer</div>
+          <h4>Ask Penny Wants To Know About Your Coffee Budget</h4>
+          <p>The household copilot that made "morning briefing" useful again.</p>
+        </div>
+      </div>
+
+      <div class="rail-box">
+        <div class="rail-h">Quotation Of The Week</div>
+        <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:18px;line-height:1.35;color:var(--ink)">&ldquo;If it only works in a slide, it doesn't work.&rdquo;</p>
+        <p style="font-family:'Source Serif 4';font-style:italic;font-size:11px;margin-top:6px">— G. Chimion, overheard at a client standup</p>
+      </div>
+
+      <div class="rail-box">
+        <div class="rail-h">By The Numbers</div>
+        <div class="ri" style="border-bottom:1px dotted var(--rule);padding-bottom:8px">
+          <h4 style="font-size:32px">8</h4>
+          <p>Production systems operating. Zero abandoned.</p>
+        </div>
+        <div class="ri" style="border-bottom:1px dotted var(--rule);padding-bottom:8px">
+          <h4 style="font-size:32px">7</h4>
+          <p>Audits completed this calendar year.</p>
+        </div>
+        <div class="ri">
+          <h4 style="font-size:32px">&lt;24h</h4>
+          <p>Response window for new inquiries.</p>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <div class="index-bar">
+    <div class="ix"><div class="n">I</div><div class="l">Technology</div></div>
+    <div class="ix"><div class="n">II</div><div class="l">Finance</div></div>
+    <div class="ix"><div class="n">III</div><div class="l">Property</div></div>
+    <div class="ix"><div class="n">IV</div><div class="l">Consumer</div></div>
+    <div class="ix"><div class="n">V</div><div class="l">Notices</div></div>
+    <div class="ix"><div class="n">VI</div><div class="l">Correspondence</div></div>
+  </div>
+
+  <div class="sec-h">
+    <h2>Products In Production</h2>
+    <span class="rule"></span>
+    <span class="tag">A field survey — autumn '26</span>
+  </div>
+
+  <div class="grid-p">
+    <a class="gp" href="https://vestia.georg.miami">
+      <span class="orn">❦</span>
+      <div class="gk">Property Operations</div>
+      <h3>Vestia</h3>
+      <div class="dk">A six-module AI platform for the South Florida condominium.</div>
+      <p>Triage, compliance, collections, screening, documents, vendors — operated under a single board dashboard.</p>
+      <div class="meta"><span>Article I</span><span>Live</span></div>
+    </a>
+    <a class="gp" href="https://penny.georg.miami">
+      <span class="orn">❦</span>
+      <div class="gk">Personal Finance</div>
+      <h3>Ask Penny</h3>
+      <div class="dk">The household copilot with a feel for the bank feed.</div>
+      <p>Claude-powered. Reads a family's transactions. Makes a budget that actually answers back.</p>
+      <div class="meta"><span>Article II</span><span>Live</span></div>
+    </a>
+    <a class="gp" href="https://factory.georg.miami">
+      <span class="orn">❦</span>
+      <div class="gk">Multi-Agent Systems</div>
+      <h3>Agent Factory</h3>
+      <div class="dk">Four autonomous agents ship production sites from a brief.</div>
+      <p>PM, Coder, Reviewer, Deployer — each a Claude instance with tools and a clear job.</p>
+      <div class="meta"><span>Article III</span><span>Live</span></div>
+    </a>
+    <a class="gp" href="https://reconx.georg.miami">
+      <span class="orn">❦</span>
+      <div class="gk">Financial Reconciliation</div>
+      <h3>ReconX</h3>
+      <div class="dk">Cloud-native reconciliation, SLA-tracked.</div>
+      <p>Multi-pass matching, exception management, nostro proof. The quiet engine under the treasury.</p>
+      <div class="meta"><span>Article IV</span><span>Live</span></div>
+    </a>
+    <a class="gp" href="https://onboard.georg.miami">
+      <span class="orn">❦</span>
+      <div class="gk">Training Generation</div>
+      <h3>Onboard</h3>
+      <div class="dk">Internal documents to structured course, in three minutes.</div>
+      <p>Upload a handbook. Receive a curriculum with quizzes. Score a cohort by lunch.</p>
+      <div class="meta"><span>Article V</span><span>Live</span></div>
+    </a>
+    <a class="gp" href="https://venue.georg.miami">
+      <span class="orn">❦</span>
+      <div class="gk">Booking &amp; Hospitality</div>
+      <h3>VENUE</h3>
+      <div class="dk">A wizard for private events, Miami-first.</div>
+      <p>Happy hours, dinners, DJ lounges, buyouts. A gracious intake, no endless back-and-forth.</p>
+      <div class="meta"><span>Article VI</span><span>Live</span></div>
+    </a>
+  </div>
+
+  <div class="notice" id="hire">
+    <span class="cor tl"></span><span class="cor tr"></span><span class="cor bl"></span><span class="cor br"></span>
+    <div class="ov">◆ Public Notice · To All Interested Parties ◆</div>
+    <h2>Selected engagements are <em>being accepted</em> for Q3, 2026.</h2>
+    <p class="dk2">Correspondence answered within twenty-four hours. Inquiries regarding finance AI, enterprise automation, and intelligent product development are especially welcome.</p>
+    <div class="chans">
+      <div class="ch"><div class="l">By Letter</div><a href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a></div>
+      <div class="ch"><div class="l">On The Record</div><a href="https://linkedin.com/in/georgchimion">LinkedIn /in/georgchimion</a></div>
+      <div class="ch"><div class="l">For The Record</div><a href="https://github.com/georgchimion-oss">GitHub @georgchimion-oss</a></div>
+      <div class="ch"><div class="l">In Person</div><a href="https://miami.georg.miami">Miami AI · Wynwood</a></div>
+    </div>
+  </div>
+
+  <footer>
+    <span><em>© 2026 The Miami Ledger. Set in Playfair, Old Standard &amp; Source Serif.</em></span>
+    <span><em>— 30 —</em></span>
+  </footer>
+</div>
+</body>
+</html>

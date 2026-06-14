@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Dusk</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --peach:#FFD0B5; --sand:#F5E5D3; --coral:#FF6B5E; --magenta:#E94B8A;
+  --indigo:#2E3582; --plum:#4A1B4A; --ink:#1A1520; --cream:#FFF8EE;
+}
+html,body{background:var(--cream);color:var(--ink);font-family:'Bricolage Grotesque',sans-serif;line-height:1.55;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'DM Serif Display',serif;font-weight:400}
+.mono{font-family:'DM Mono',monospace;letter-spacing:0.08em}
+.back{position:fixed;top:20px;right:20px;z-index:100;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;border:1px solid var(--ink);padding:6px 12px;background:var(--cream)}
+
+/* HERO — dusk gradient sky */
+.hero{position:relative;min-height:100vh;overflow:hidden;background:linear-gradient(180deg,#2E3582 0%,#6B4B8F 30%,#E94B8A 60%,#FF6B5E 80%,#FFD0B5 100%)}
+.sun{position:absolute;left:50%;bottom:22%;transform:translateX(-50%);width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,#FFF5B5 0%,#FFD27A 40%,#FF9F5A 75%,transparent 100%);filter:blur(0.5px);animation:rise 6s ease-out forwards;z-index:1}
+@keyframes rise{from{transform:translate(-50%,60%);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+.sun-rays{position:absolute;left:50%;bottom:22%;transform:translateX(-50%);width:800px;height:800px;background:repeating-conic-gradient(from 0deg,rgba(255,245,181,0.12) 0deg 4deg,transparent 4deg 8deg);border-radius:50%;animation:slowspin 40s linear infinite;z-index:0;pointer-events:none}
+@keyframes slowspin{to{transform:translate(-50%,0) rotate(360deg)}}
+.palm{position:absolute;bottom:0;font-family:'DM Serif Display',serif;color:rgba(26,21,32,0.85);z-index:3;pointer-events:none}
+.palm1{left:4%;bottom:-20px;font-size:340px;line-height:1}
+.palm2{right:6%;bottom:-40px;font-size:280px;line-height:1;transform:scaleX(-1)}
+.stars{position:absolute;inset:0;pointer-events:none;z-index:1}
+.star{position:absolute;width:2px;height:2px;background:white;border-radius:50%;animation:tw 3s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:0.2}50%{opacity:1;transform:scale(1.4)}}
+
+.nav{position:absolute;top:0;left:0;right:0;z-index:10;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;color:var(--cream);mix-blend-mode:difference}
+.nav .logo{font-family:'DM Serif Display',serif;font-style:italic;font-size:22px}
+.nav ul{display:flex;gap:26px;list-style:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase}
+
+.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:40px 40px 8vh;z-index:5;color:var(--cream)}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:18px;opacity:0;animation:up 1.2s 0.5s forwards}
+h1.hero-h1{font-family:'DM Serif Display',serif;font-size:clamp(60px,11vw,180px);line-height:0.88;letter-spacing:-0.03em;font-weight:400;max-width:14ch;opacity:0;animation:up 1.2s 0.8s forwards}
+h1.hero-h1 em{font-style:italic;color:#FFE8B8}
+.hero-foot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;margin-top:50px;padding-top:20px;border-top:1px solid rgba(255,248,238,0.35);opacity:0;animation:up 1.2s 1.1s forwards}
+.hero-foot .k{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.8}
+.hero-foot .v{font-family:'DM Serif Display',serif;font-size:22px;margin-top:4px;font-style:italic}
+@keyframes up{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+/* portrait card floats */
+.portrait{position:absolute;top:18%;right:8%;width:220px;border:8px solid var(--cream);box-shadow:0 30px 60px rgba(0,0,0,0.3);transform:rotate(4deg);z-index:6;animation:float 6s ease-in-out infinite}
+.portrait img{width:100%;display:block;aspect-ratio:3/4;object-fit:cover;filter:saturate(1.2) contrast(1.05)}
+.portrait .cap{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;padding:10px 6px 6px;background:var(--cream);text-align:center}
+@keyframes float{0%,100%{transform:rotate(4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-10px)}}
+
+/* MARQUEE */
+.marq{background:var(--ink);color:var(--sand);padding:22px 0;overflow:hidden;white-space:nowrap;border-block:1px solid var(--ink)}
+.marq-t{display:inline-flex;gap:40px;animation:roll 30s linear infinite;padding-left:40px;font-family:'DM Serif Display',serif;font-size:36px;font-style:italic}
+.marq-t em{font-style:normal;color:var(--coral)}
+.marq-t span.d{display:inline-block;width:14px;height:14px;background:var(--coral);border-radius:50%;margin:0 8px;transform:translateY(-6px)}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+.wrap{max-width:1300px;margin:0 auto;padding:0 40px}
+
+/* ISSUE / TOC */
+.toc{margin:80px 0 60px;display:grid;grid-template-columns:280px 1fr;gap:60px;align-items:start}
+.toc-l{position:sticky;top:20px}
+.issue-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;color:var(--coral);margin-bottom:12px}
+.toc-l h2{font-family:'DM Serif Display',serif;font-style:italic;font-size:60px;line-height:0.95;letter-spacing:-0.02em;font-weight:400}
+.toc-l .sub{margin-top:18px;color:rgba(26,21,32,0.65);font-size:14px;line-height:1.7}
+.toc-list{display:flex;flex-direction:column}
+.toc-row{display:grid;grid-template-columns:60px 1fr 100px 40px;gap:16px;padding:20px 0;border-bottom:1px solid rgba(26,21,32,0.15);align-items:baseline;transition:all 0.25s;color:var(--ink)}
+.toc-row:hover{padding-left:10px;background:linear-gradient(90deg,rgba(255,107,94,0.08),transparent)}
+.toc-row .no{font-family:'DM Mono',monospace;font-size:11px;color:var(--coral);letter-spacing:0.18em}
+.toc-row .tt{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.01em}
+.toc-row .tt em{font-style:italic;color:var(--indigo)}
+.toc-row .tg{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,21,32,0.5)}
+.toc-row .ar{font-family:'DM Serif Display',serif;font-style:italic;font-size:22px;color:var(--coral);text-align:right;transform:translateX(-6px);opacity:0;transition:all 0.25s}
+.toc-row:hover .ar{opacity:1;transform:translateX(0)}
+
+/* FEATURE — pull-quote strip */
+.pull{margin:80px 0;padding:60px 40px;background:var(--coral);color:var(--cream);position:relative;overflow:hidden}
+.pull::before{content:'"';position:absolute;top:-60px;left:20px;font-family:'DM Serif Display',serif;font-size:360px;line-height:1;opacity:0.15}
+.pull blockquote{font-family:'DM Serif Display',serif;font-size:clamp(30px,4vw,56px);line-height:1.12;letter-spacing:-0.02em;max-width:900px;position:relative;z-index:2;font-style:italic}
+.pull cite{display:block;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.25em;margin-top:28px;font-style:normal}
+
+/* FEATURES GRID — magazine spreads */
+.spread{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:40px}
+.card{grid-column:span 4;background:var(--sand);padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:340px;transition:transform 0.3s,box-shadow 0.3s;position:relative;overflow:hidden;border:1px solid rgba(26,21,32,0.12)}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(46,53,130,0.15)}
+.card.big{grid-column:span 8;min-height:420px;background:var(--peach)}
+.card.wide{grid-column:span 6}
+.card-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--coral);text-transform:uppercase;margin-bottom:10px}
+.card h3{font-family:'DM Serif Display',serif;font-size:40px;line-height:1.02;letter-spacing:-0.015em;font-weight:400;margin-bottom:12px}
+.card.big h3{font-size:72px}
+.card h3 em{font-style:italic;color:var(--indigo)}
+.card p{color:rgba(26,21,32,0.7);font-size:13px;line-height:1.6;max-width:420px}
+.card-meta{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;color:rgba(26,21,32,0.5);display:flex;gap:16px;padding-top:16px;border-top:1px solid rgba(26,21,32,0.15);margin-top:16px}
+.read-more{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;margin-top:20px;color:var(--coral)}
+.card .blob{position:absolute;width:140px;height:140px;border-radius:50%;opacity:0.25;filter:blur(30px);pointer-events:none}
+.card .blob.a{background:var(--magenta);top:-30px;right:-30px}
+.card .blob.b{background:var(--indigo);bottom:-30px;left:-30px}
+
+/* ATELIER STRIP */
+.atelier{margin-top:100px;background:var(--indigo);color:var(--cream);padding:60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;overflow:hidden}
+.atelier::before{content:'☼';position:absolute;right:-40px;top:-40px;font-size:300px;color:var(--coral);opacity:0.2}
+.atelier h2{font-family:'DM Serif Display',serif;font-size:72px;letter-spacing:-0.02em;line-height:1;font-weight:400}
+.atelier h2 em{font-style:italic;color:#FFD27A}
+.atelier p{margin-top:20px;font-size:15px;line-height:1.75;opacity:0.85;max-width:440px}
+.atelier .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.atelier .stat{padding:24px;background:rgba(255,248,238,0.08);border:1px solid rgba(255,248,238,0.15)}
+.atelier .stat .k{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;opacity:0.6;text-transform:uppercase}
+.atelier .stat .v{font-family:'DM Serif Display',serif;font-size:54px;margin-top:6px;font-style:italic}
+
+/* SUBSCRIBE / CONTACT */
+.subscribe{margin-top:100px;padding:100px 40px 80px;text-align:center;background:radial-gradient(ellipse at center,var(--peach),var(--sand))}
+.subscribe .kicker{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.3em;color:var(--coral);text-transform:uppercase;margin-bottom:14px}
+.subscribe h2{font-family:'DM Serif Display',serif;font-size:clamp(48px,7vw,108px);line-height:0.95;letter-spacing:-0.025em;font-weight:400;max-width:14ch;margin:0 auto 24px}
+.subscribe h2 em{font-style:italic;color:var(--coral)}
+.subscribe p{max-width:500px;margin:0 auto 36px;color:rgba(26,21,32,0.65);font-size:15px;line-height:1.7}
+.c-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.c-btn{padding:16px 28px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;border:1px solid var(--ink);transition:all 0.2s}
+.c-btn:hover{background:var(--ink);color:var(--cream)}
+.c-btn.solid{background:var(--coral);color:var(--cream);border-color:var(--coral)}
+.c-btn.solid:hover{background:var(--ink);border-color:var(--ink)}
+
+footer{padding:40px;border-top:1px solid rgba(26,21,32,0.15);display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;color:rgba(26,21,32,0.55)}
+
+@media (max-width:900px){.wrap,.nav,.hero-content{padding-left:20px;padding-right:20px}.toc{grid-template-columns:1fr;gap:30px}.card,.card.big,.card.wide{grid-column:span 12}.atelier{grid-template-columns:1fr;padding:40px}.portrait{display:none}.palm1,.palm2{font-size:200px}.nav ul{display:none}.hero-foot{grid-template-columns:1fr;gap:16px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="sun-rays"></div>
+  <div class="sun"></div>
+  <div class="palm palm1">♠</div>
+  <div class="palm palm2">♠</div>
+
+  <nav class="nav">
+    <div class="logo">DUSK — Issue VIII</div>
+    <ul>
+      <li><a href="#toc">Contents</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#hire">Hire</a></li>
+    </ul>
+    <div class="mono" style="font-size:11px;letter-spacing:0.2em">APR 2026</div>
+  </nav>
+
+  <div class="portrait">
+    <img src="georg-hero.jpeg" alt="Georg">
+    <div class="cap">G. CHIMION · COVER</div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">⊹ A MAGAZINE OF AI AT WORK · MIAMI, FL ⊹</div>
+    <h1 class="hero-h1">Sunlit<br>Systems,<br><em>quiet revolutions.</em></h1>
+    <div class="hero-foot">
+      <div><div class="k">Cover Subject</div><div class="v">Georg Chimion</div></div>
+      <div><div class="k">Issue</div><div class="v">VIII · Dusk</div></div>
+      <div><div class="k">Reading Time</div><div class="v">~ 6 minutes</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marq"><div class="marq-t">
+  <em>shipping AI</em><span class="d"></span>
+  <em>finance-native</em><span class="d"></span>
+  <em>Claude, always</em><span class="d"></span>
+  <em>no slide decks</em><span class="d"></span>
+  <em>no dead pilots</em><span class="d"></span>
+  <em>Miami to market</em><span class="d"></span>
+  <em>shipping AI</em><span class="d"></span>
+  <em>finance-native</em><span class="d"></span>
+  <em>Claude, always</em><span class="d"></span>
+  <em>no slide decks</em><span class="d"></span>
+  <em>no dead pilots</em><span class="d"></span>
+  <em>Miami to market</em><span class="d"></span>
+</div></div>
+
+<!-- TOC -->
+<div class="wrap" id="toc">
+<div class="toc">
+  <div class="toc-l">
+    <div class="issue-label">// TABLE OF CONTENTS</div>
+    <h2>Inside this<br>dossier.</h2>
+    <div class="sub">Seven live products, a shipping philosophy, and one open chair at the deal desk.</div>
+  </div>
+  <div class="toc-list">
+    <a class="toc-row" href="#vestia"><span class="no">001</span><span class="tt"><em>Vestia,</em> at the front.</span><span class="tg">FEATURE</span><span class="ar">→</span></a>
+    <a class="toc-row" href="#penny"><span class="no">002</span><span class="tt"><em>Ask Penny,</em> in your pocket.</span><span class="tg">FINANCE</span><span class="ar">→</span></a>
+    <a class="toc-row" href="#factory"><span class="no">003</span><span class="tt"><em>Agent Factory</em> — four agents, one brief.</span><span class="tg">AI</span><span class="ar">→</span></a>
+    <a class="toc-row" href="#reconx"><span class="no">004</span><span class="tt"><em>ReconX</em> — the quiet ledger.</span><span class="tg">FINTECH</span><span class="ar">→</span></a>
+    <a class="toc-row" href="#onboard"><span class="no">005</span><span class="tt"><em>Onboard,</em> in three minutes.</span><span class="tg">GEN</span><span class="ar">→</span></a>
+    <a class="toc-row" href="#atelier"><span class="no">006</span><span class="tt">A profile of <em>the operator.</em></span><span class="tg">INTERVIEW</span><span class="ar">→</span></a>
+    <a class="toc-row" href="#hire"><span class="no">007</span><span class="tt">The <em>deal desk,</em> now open.</span><span class="tg">OPEN CALL</span><span class="ar">→</span></a>
+  </div>
+</div>
+</div>
+
+<!-- PULL QUOTE -->
+<div class="pull">
+  <blockquote>"Systems that survive their first deployment. No slide decks. No pilots that quietly die in staging."</blockquote>
+  <cite>— Working philosophy, Issue VIII</cite>
+</div>
+
+<!-- FEATURES -->
+<div class="wrap" id="features">
+  <div class="issue-label" style="margin-top:80px">// THE FEATURES</div>
+  <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(44px,6vw,80px);letter-spacing:-0.02em;font-weight:400;max-width:14ch;margin:8px 0 40px">Seven products, <em style="color:var(--coral);font-style:italic">all live.</em></h2>
+
+<div class="spread">
+  <a class="card big" href="https://vestia.georg.miami" id="vestia">
+    <div class="blob a"></div><div class="blob b"></div>
+    <div class="card-tag">001 · COVER FEATURE</div>
+    <h3><em>Vestia.</em><br>Property ops, rebuilt.</h3>
+    <p>Six AI-powered modules purpose-built for South Florida condo associations. Maintenance triage, SB 4-D compliance, rent collection, tenant screening, lease document generation, vendor bid comparison.</p>
+    <div class="card-meta"><span>REACT + TS</span><span>AI-NATIVE</span><span>LIVE</span></div>
+    <div class="read-more">read feature →</div>
+  </a>
+  <a class="card" href="https://penny.georg.miami" id="penny">
+    <div class="card-tag">002 · FINANCE</div>
+    <h3>Ask <em>Penny.</em></h3>
+    <p>A Claude-powered finance copilot. Connect your bank. Ask anything.</p>
+    <div class="card-meta"><span>CLAUDE</span><span>NODE</span><span>LIVE</span></div>
+    <div class="read-more">read feature →</div>
+  </a>
+
+  <a class="card wide" href="https://factory.georg.miami" id="factory">
+    <div class="card-tag">003 · MULTI-AGENT</div>
+    <h3>Four agents. <em>One brief.</em></h3>
+    <p>PM, Coder, Reviewer, Deployer — watch them argue, ship, and deploy live sites.</p>
+    <div class="card-meta"><span>CLAUDE</span><span>SSE</span><span>LIVE</span></div>
+    <div class="read-more">read feature →</div>
+  </a>
+  <a class="card" href="https://reconx.georg.miami" id="reconx">
+    <div class="card-tag">004 · FINTECH</div>
+    <h3>ReconX.</h3>
+    <p>Cloud-native reconciliation, exception management, SLA tracking.</p>
+    <div class="card-meta"><span>LIVE</span></div>
+    <div class="read-more">read feature →</div>
+  </a>
+  <a class="card" href="https://onboard.georg.miami" id="onboard">
+    <div class="card-tag">005 · GEN</div>
+    <h3><em>Onboard,</em> in 3 minutes.</h3>
+    <p>Internal docs become a structured course. New hires take it and get scored.</p>
+    <div class="card-meta"><span>LIVE</span></div>
+    <div class="read-more">read feature →</div>
+  </a>
+  <a class="card" href="https://venue.georg.miami">
+    <div class="card-tag">006 · LIFESTYLE</div>
+    <h3><em>VENUE.</em></h3>
+    <p>Premium private event booking for Miami. Instant quotes.</p>
+    <div class="card-meta"><span>LIVE</span></div>
+    <div class="read-more">read feature →</div>
+  </a>
+  <a class="card wide" href="https://docs.georg.miami">
+    <div class="card-tag">007 · DOC AI</div>
+    <h3>Paper, <em>parsed.</em></h3>
+    <p>Upload a PDF, watch AI extract structured data in real-time. Field-level confidence.</p>
+    <div class="card-meta"><span>LIVE</span></div>
+    <div class="read-more">read feature →</div>
+  </a>
+</div>
+</div>
+
+<!-- ATELIER -->
+<div class="wrap"><div class="atelier" id="atelier">
+  <div>
+    <div class="issue-label" style="color:#FFD27A;margin-bottom:16px">// A PROFILE</div>
+    <h2>The <em>operator.</em></h2>
+    <p>Currently at PwC, building finance AI inside one of the largest enterprise practices in the world. Working independently on select engagements. No handoff gaps, no staging graveyard.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="k">Live products</div><div class="v">08</div></div>
+    <div class="stat"><div class="k">Client audits</div><div class="v">07</div></div>
+    <div class="stat"><div class="k">Desk</div><div class="v" style="font-size:30px">Miami</div></div>
+    <div class="stat"><div class="k">Available</div><div class="v" style="font-size:30px">Q3 '26</div></div>
+  </div>
+</div></div>
+
+<!-- SUBSCRIBE -->
+<section class="subscribe" id="hire">
+  <div class="kicker">⊹ THE DEAL DESK IS OPEN ⊹</div>
+  <h2>Write the <em>next feature</em> with me.</h2>
+  <p>Taking select engagements Q3 2026 and beyond. Finance AI, enterprise automation, intelligent products. Response within 24 hours.</p>
+  <div class="c-row">
+    <a class="c-btn solid" href="mailto:georg.chimion@gmail.com">Email Georg</a>
+    <a class="c-btn" href="https://linkedin.com/in/georgchimion">LinkedIn</a>
+    <a class="c-btn" href="https://github.com/georgchimion-oss">GitHub</a>
+    <a class="c-btn" href="https://miami.georg.miami">Miami AI</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 DUSK · ISSUE VIII</span>
+  <span>MIAMI, FL · PRINTED LIGHT</span>
+</footer>
+
+<script>
+const s=document.getElementById('stars');
+for(let i=0;i<70;i++){const e=document.createElement('div');e.className='star';e.style.left=Math.random()*100+'%';e.style.top=Math.random()*60+'%';e.style.animationDelay=Math.random()*3+'s';s.appendChild(e)}
+</script>
+</body>
+</html>

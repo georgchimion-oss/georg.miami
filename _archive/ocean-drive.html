@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OCEAN DRIVE — Georg Chimion</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#1a0b2e;color:#fff;min-height:100vh;font-family:'VT323',monospace;overflow:hidden}
+a{color:inherit;text-decoration:none}
+
+.back{position:fixed;top:12px;right:12px;z-index:1000;font-family:'Press Start 2P';font-size:9px;letter-spacing:0.1em;border:2px solid #ffb4e0;padding:8px 12px;background:#1a0b2e;color:#ffb4e0;image-rendering:pixelated}
+.back:hover{background:#ffb4e0;color:#1a0b2e}
+
+/* Full viewport canvas */
+#stage{position:fixed;inset:0;width:100vw;height:100vh;image-rendering:pixelated;image-rendering:crisp-edges;background:#1a0b2e;display:block}
+
+/* CRT scanlines overlay */
+.crt{position:fixed;inset:0;pointer-events:none;z-index:5;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.15) 0 2px,transparent 2px 4px);mix-blend-mode:multiply}
+.crt::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.4) 100%);pointer-events:none}
+
+/* Title card / intro */
+.title{position:fixed;top:24px;left:24px;z-index:20;font-family:'Press Start 2P';color:#fff;text-shadow:3px 3px 0 #ff2d95,6px 6px 0 #1a0b2e}
+.title .k{font-size:10px;letter-spacing:0.2em;color:#ffb4e0;margin-bottom:10px;text-shadow:2px 2px 0 #1a0b2e}
+.title h1{font-size:22px;line-height:1.3;letter-spacing:0.04em}
+.title h1 span{display:block;color:#ffea00;margin-top:6px;font-size:16px;text-shadow:2px 2px 0 #ff2d95,4px 4px 0 #1a0b2e}
+
+/* HUD */
+.hud{position:fixed;bottom:16px;left:16px;right:16px;z-index:20;display:flex;justify-content:space-between;align-items:end;font-family:'Press Start 2P';font-size:9px;letter-spacing:0.08em;color:#fff;pointer-events:none}
+.hud .box{background:rgba(26,11,46,0.85);border:2px solid #ffb4e0;padding:8px 12px;text-shadow:1px 1px 0 #000}
+.hud .box b{color:#ffea00}
+.hud .score{color:#ffea00}
+.hud .ctrl{pointer-events:auto}
+.hud .ctrl button{background:#ff2d95;border:2px solid #ffb4e0;color:#fff;font-family:inherit;font-size:9px;padding:6px 10px;cursor:pointer;text-shadow:1px 1px 0 #000;margin-left:6px}
+.hud .ctrl button:hover{background:#ffea00;color:#1a0b2e;text-shadow:none}
+
+/* Location caption — shows when passing landmarks */
+.caption{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:20;font-family:'Press Start 2P';font-size:12px;color:#ffea00;background:rgba(26,11,46,0.92);border:3px solid #ffea00;padding:14px 20px;letter-spacing:0.1em;text-shadow:2px 2px 0 #000;opacity:0;transition:opacity 0.4s;pointer-events:none;box-shadow:6px 6px 0 rgba(255,45,149,0.6)}
+.caption.on{opacity:1}
+.caption small{display:block;font-size:8px;color:#ffb4e0;margin-top:6px;letter-spacing:0.15em}
+
+/* Dialog card overlay when pressing space near a product */
+.card{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:30;font-family:'Press Start 2P';background:#1a0b2e;border:4px solid #ffea00;padding:20px 24px;color:#fff;max-width:420px;display:none;box-shadow:8px 8px 0 #ff2d95}
+.card.on{display:block}
+.card .k{font-size:9px;color:#ff2d95;letter-spacing:0.2em;margin-bottom:10px}
+.card h2{font-size:16px;color:#ffea00;margin-bottom:10px;line-height:1.3;text-shadow:2px 2px 0 #ff2d95}
+.card p{font-family:'VT323',monospace;font-size:18px;line-height:1.4;color:#fff;margin-bottom:14px;letter-spacing:0.02em}
+.card .actions{display:flex;gap:10px;font-size:9px}
+.card .actions a,.card .actions button{flex:1;padding:10px;background:#ff2d95;color:#fff;border:2px solid #ffb4e0;text-align:center;cursor:pointer;font-family:inherit;text-shadow:1px 1px 0 #000}
+.card .actions a:hover{background:#ffea00;color:#1a0b2e;text-shadow:none}
+.card .actions .close{background:#1a0b2e}
+
+/* Press Start prompt */
+.prompt{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:20;font-family:'Press Start 2P';font-size:10px;color:#ffea00;text-shadow:2px 2px 0 #1a0b2e;animation:blink 1s steps(2) infinite;pointer-events:none}
+@keyframes blink{50%{opacity:0}}
+
+@media (max-width:700px){
+  .title h1{font-size:14px}
+  .title h1 span{font-size:10px}
+  .hud{font-size:7px}
+  .hud .box{padding:6px 8px}
+}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<canvas id="stage"></canvas>
+<div class="crt"></div>
+
+<div class="title">
+  <div class="k">◆ 1986 · MIAMI · MEMORY MODE ◆</div>
+  <h1>OCEAN DRIVE<span>A WALK WITH GEORG</span></h1>
+</div>
+
+<div class="caption" id="cap"><span id="capText">OCEAN DRIVE</span><small id="capSub">MILE 0</small></div>
+
+<div class="prompt" id="prompt">▲ APPROACH A HOTEL · PRESS [SPACE] ▲</div>
+
+<div class="hud">
+  <div class="box">PRODUCTS <span class="score"><b id="visited">0</b>/6</span></div>
+  <div class="box ctrl">
+    <span>SPEED</span>
+    <button id="slow">−</button>
+    <button id="fast">+</button>
+    <button id="pause">‖</button>
+  </div>
+  <div class="box">DISTANCE <b id="dist">0000</b>M</div>
+</div>
+
+<div class="card" id="card">
+  <div class="k" id="cardK">LAUNCH 01</div>
+  <h2 id="cardTitle">VESTIA</h2>
+  <p id="cardDesc">Six-module AI platform for South Florida condos.</p>
+  <div class="actions">
+    <a id="cardLink" href="#" target="_blank">VISIT →</a>
+    <button class="close" onclick="closeCard()">CLOSE [X]</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// OCEAN DRIVE — pixel-art parallax walk
+// ============================================================
+
+const canvas = document.getElementById('stage');
+const ctx = canvas.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+// Virtual pixel resolution — scene renders to this, then scales to viewport
+const VW = 480, VH = 270;
+
+// Offscreen render target (keeps pixel aesthetic crisp regardless of viewport)
+const buf = document.createElement('canvas');
+buf.width = VW; buf.height = VH;
+const bctx = buf.getContext('2d');
+bctx.imageSmoothingEnabled = false;
+
+function resize(){
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = innerWidth * dpr;
+  canvas.height = innerHeight * dpr;
+  canvas.style.width = innerWidth + 'px';
+  canvas.style.height = innerHeight + 'px';
+  ctx.imageSmoothingEnabled = false;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+resize();
+addEventListener('resize', resize);
+
+// ============================================================
+// PALETTE — 80s Miami dusk
+// ============================================================
+const P = {
+  skyTop: '#2d1b5e',
+  skyMid: '#ff5b8c',
+  skyLow: '#ffaa55',
+  skyHaze: '#ffd4a3',
+  sun: '#ffea00',
+  sunRim: '#ff2d95',
+  ocean: '#0a4d6b',
+  oceanHi: '#5bdef0',
+  sand: '#f5d58a',
+  sandShade: '#d4a75b',
+  palm: '#1a5c3e',
+  palmHi: '#2d9960',
+  trunk: '#3a2817',
+  trunkHi: '#6b4a2e',
+  boardwalk: '#8b5a2e',
+  boardwalkDark: '#5c3a1e',
+  deco1: '#ffb4e0', // pink
+  deco2: '#a3e6ff', // mint cyan
+  deco3: '#ffea00', // yellow
+  deco4: '#c8a3ff', // lavender
+  deco5: '#ffd4a3', // peach
+  window: '#2d1b5e',
+  windowLit: '#ffea00',
+  windowLit2: '#ff5b8c',
+  neon1: '#ff2d95',
+  neon2: '#00f0ff',
+  neon3: '#ffea00',
+  road: '#3a2847',
+  roadLine: '#ffea00',
+  person1: '#ff2d95', // swimsuit
+  person2: '#00f0ff',
+  person3: '#ffea00',
+  skin: '#f5c49a',
+  skinDark: '#c98a5f',
+  hair: '#2d1b1b',
+  ball: '#f5f5f5',
+  net: '#f5f5f5',
+  pole: '#3a2817',
+  gull: '#ffffff',
+  gullShade: '#c8c8d8',
+  star: '#ffffff'
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let worldX = 0;          // how far we've walked
+let speed = 0.7;          // base speed (px/frame in virtual space)
+let speedMult = 1;
+let paused = false;
+let frame = 0;
+let gullPhase = 0;
+let visited = new Set();
+let currentLandmark = null;
+let lastCaptionZone = null;
+
+// ============================================================
+// LANDMARKS — deco hotels with product billboards
+// spaced out along the worldX axis
+// ============================================================
+const SEGMENT = 600; // virtual px between hotels
+const LANDMARKS = [
+  { x: 0,         name: 'OCEAN DRIVE',    sub: 'MILE 0',         color: P.deco1, product: null },
+  { x: SEGMENT*1, name: 'THE VESTIA',     sub: 'PROPERTY OPS',   color: P.deco2, product: { id:'vestia',  num:'LAUNCH 01', title:'VESTIA',  desc:'Six-module AI for South Florida condos. Triage, compliance, collections, screening, docs, vendors.', url:'https://vestia.georg.miami' }},
+  { x: SEGMENT*2, name: 'HOTEL PENNY',    sub: 'FINANCE AI',     color: P.deco3, product: { id:'penny',   num:'LAUNCH 02', title:'ASK PENNY', desc:'Claude-powered household copilot. Morning brief on the family bank feed. Smart budgets. Gentle alerts.', url:'https://penny.georg.miami' }},
+  { x: SEGMENT*3, name: 'THE FACTORY',    sub: 'MULTI-AGENT',    color: P.deco4, product: { id:'factory', num:'LAUNCH 03', title:'AGENT FACTORY', desc:'Four autonomous agents — PM, Coder, Reviewer, Deployer — collaborate to ship full production sites from a brief.', url:'https://factory.georg.miami' }},
+  { x: SEGMENT*4, name: 'RECONX ARMS',    sub: 'TREASURY',       color: P.deco5, product: { id:'reconx',  num:'LAUNCH 04', title:'RECONX',  desc:'Cloud-native reconciliation. Multi-pass matching. Exceptions, nostro proof, SLA tracking.', url:'https://reconx.georg.miami' }},
+  { x: SEGMENT*5, name: 'ONBOARD INN',    sub: 'TRAINING',       color: P.deco1, product: { id:'onboard', num:'LAUNCH 05', title:'ONBOARD', desc:'Upload the handbook. Get a full course with quizzes in three minutes. Score the cohort.', url:'https://onboard.georg.miami' }},
+  { x: SEGMENT*6, name: 'THE VENUE',      sub: 'HOSPITALITY',    color: P.deco2, product: { id:'venue',   num:'LAUNCH 06', title:'VENUE',   desc:'Private event booking for Miami. Happy hours, dinners, DJ lounges, full buyouts.', url:'https://venue.georg.miami' }},
+  { x: SEGMENT*7, name: 'HIRE GEORG',     sub: 'Q3 · MMXXVI',    color: P.deco3, product: { id:'hire',    num:'FINALE',    title:'NOW HIRING: YOU', desc:'Q3 2026 engagements accepting. Reply within 24h. georg.chimion@gmail.com', url:'mailto:georg.chimion@gmail.com' }}
+];
+const WORLD_LENGTH = SEGMENT * 8;
+
+// ============================================================
+// DRAWING PRIMITIVES (pixel-style fills)
+// ============================================================
+function px(x,y,c){ bctx.fillStyle=c; bctx.fillRect(Math.floor(x),Math.floor(y),1,1); }
+function rect(x,y,w,h,c){ bctx.fillStyle=c; bctx.fillRect(Math.floor(x),Math.floor(y),Math.ceil(w),Math.ceil(h)); }
+
+// ============================================================
+// SKY — gradient stripes + stars + sun
+// ============================================================
+function drawSky(){
+  // Gradient in horizontal stripes (pixel-art style)
+  const stops = [
+    [0, P.skyTop], [35, P.skyTop],
+    [36, '#4a2570'], [60, '#4a2570'],
+    [61, '#a8408a'], [85, '#a8408a'],
+    [86, P.skyMid], [115, P.skyMid],
+    [116, '#ff7b66'], [145, '#ff7b66'],
+    [146, P.skyLow], [170, P.skyLow],
+    [171, P.skyHaze], [180, P.skyHaze]
+  ];
+  for(let i=0;i<stops.length-1;i+=2){
+    const [y1,c] = stops[i];
+    const [y2] = stops[i+1];
+    rect(0, y1, VW, y2-y1+1, c);
+  }
+  // Stars (parallax very slow, only upper sky)
+  const starOffset = -worldX * 0.05;
+  bctx.fillStyle = P.star;
+  for(let i=0;i<40;i++){
+    const sx = ((i * 137 + starOffset) % VW + VW) % VW;
+    const sy = 5 + (i * 7) % 50;
+    if(Math.random()<0.98) bctx.fillRect(Math.floor(sx), sy, 1, 1);
+  }
+  // Sun — sits at a fixed world position, drifts slowly
+  const sunX = VW * 0.72 - worldX * 0.02;
+  const sunY = 120;
+  const sunWrapped = ((sunX % (VW*3)) + VW*3) % (VW*3) - VW;
+  for(let i=0;i<6;i++){
+    rect(sunWrapped - 28 + i*8, sunY + 32, 4, 20, i<3?P.sun:P.sunRim);
+    rect(sunWrapped - 28 + i*8, sunY + 56, 4, 8, P.sunRim);
+  }
+  // Sun disc
+  bctx.fillStyle = P.sun;
+  const cx = sunWrapped, cy = sunY;
+  for(let y=-18;y<=18;y++){
+    const w = Math.floor(Math.sqrt(Math.max(0, 324 - y*y)));
+    rect(cx - w, cy + y, w*2, 1, y<-6 ? P.sun : y<6 ? '#ffc947' : P.sunRim);
+  }
+  // Horizon shimmer
+  bctx.fillStyle = 'rgba(255,234,0,0.3)';
+}
+
+// ============================================================
+// OCEAN + BEACH (mid-back)
+// ============================================================
+function drawOcean(){
+  // Ocean band
+  rect(0, 150, VW, 20, P.ocean);
+  // Wave highlights (animated)
+  const waveOff = frame * 0.3;
+  for(let x=0;x<VW;x+=8){
+    const y = 152 + Math.floor(Math.sin((x + waveOff)*0.15)*1);
+    rect(x, y, 4, 1, P.oceanHi);
+  }
+  for(let x=4;x<VW;x+=12){
+    const y = 158 + Math.floor(Math.sin((x + waveOff*0.7)*0.2)*1);
+    rect(x, y, 3, 1, P.oceanHi);
+  }
+  // Sand
+  rect(0, 170, VW, 20, P.sand);
+  // Sand shading
+  for(let x=0;x<VW;x++){
+    if((x + Math.floor(worldX*0.4)) % 7 === 0) rect(x, 180 + (x%3), 1, 1, P.sandShade);
+  }
+}
+
+// ============================================================
+// VOLLEYBALL COURT — with players animating
+// Players continuously "volley" the ball in a cycle
+// Courts are placed along the world — parallax at mid speed
+// ============================================================
+function drawCourt(screenX, baseY){
+  // Sand court outline (slightly lighter sand)
+  rect(screenX - 30, baseY + 10, 60, 14, '#ffe5a8');
+  // Net poles
+  rect(screenX - 1, baseY - 4, 2, 18, P.pole);
+  // Net (mesh pattern)
+  for(let x=-1;x<2;x++) for(let y=-4;y<8;y+=2) rect(screenX + x, baseY + y, 1, 1, P.net);
+  // Net top+bottom band
+  rect(screenX - 1, baseY - 4, 2, 1, P.net);
+  rect(screenX - 1, baseY + 7, 2, 1, P.net);
+
+  // Two players — one on each side, animating bump cycle
+  // cycle: 0..120 frames; ball arcs between them
+  const cycle = (frame % 120) / 120;  // 0..1
+  // Ball position: parabola from left player up-and-over to right, then back
+  let bx, by;
+  if(cycle < 0.5){
+    const t = cycle / 0.5; // 0..1 left→right
+    bx = screenX - 10 + t * 20;
+    by = baseY + 8 - Math.sin(t*Math.PI) * 16;
+  } else {
+    const t = (cycle - 0.5) / 0.5;
+    bx = screenX + 10 - t * 20;
+    by = baseY + 8 - Math.sin(t*Math.PI) * 16;
+  }
+
+  // Left player — arms up on left half of cycle
+  const leftHit = cycle > 0.4 && cycle < 0.55;
+  drawPlayer(screenX - 14, baseY + 2, P.person1, leftHit);
+  // Right player — arms up on right half
+  const rightHit = cycle > 0.9 || cycle < 0.05;
+  drawPlayer(screenX + 14, baseY + 2, P.person2, rightHit, true);
+
+  // Ball (small circle, white with a shadow dot)
+  rect(bx - 1, by - 1, 3, 3, P.ball);
+  px(bx, by, '#ddd');
+}
+
+function drawPlayer(x, y, color, armsUp, flipped=false){
+  // y is the ground position (feet). Height 10px.
+  // Head
+  rect(x - 1, y - 10, 3, 3, P.skin);
+  px(x, y - 10, P.hair); // hair cap
+  rect(x - 1, y - 11, 3, 1, P.hair);
+  // Body
+  rect(x - 1, y - 7, 3, 4, color);
+  // Legs (alternate slightly w/ cycle for bounce)
+  const bounce = Math.floor(Math.sin(frame*0.2) * 1);
+  rect(x - 1, y - 3, 1, 3 - Math.abs(bounce), P.skin);
+  rect(x + 1, y - 3, 1, 3 + Math.abs(bounce)-1, P.skin);
+  // Arms
+  if(armsUp){
+    rect(x - 2, y - 10, 1, 3, P.skin);
+    rect(x + 2, y - 10, 1, 3, P.skin);
+  } else {
+    rect(x - 2, y - 7, 1, 3, P.skin);
+    rect(x + 2, y - 7, 1, 3, P.skin);
+  }
+}
+
+// Courts positioned at half-segment intervals in world space
+function drawCourts(){
+  const courtBaseY = 178;
+  const parallax = 0.6;
+  // Draw courts that fall within view
+  const firstIdx = Math.floor((worldX * parallax - 100) / SEGMENT * 2);
+  const lastIdx = firstIdx + 4;
+  for(let i=firstIdx;i<=lastIdx;i++){
+    if(i < 0) continue;
+    const courtWorldX = i * (SEGMENT / 2) + 200;
+    const screenX = courtWorldX - worldX * parallax;
+    if(screenX > -40 && screenX < VW + 40){
+      drawCourt(screenX, courtBaseY);
+    }
+  }
+}
+
+// ============================================================
+// SEAGULLS — foreground specks, slow drift
+// ============================================================
+function drawGulls(){
+  gullPhase += 0.03;
+  for(let i=0;i<5;i++){
+    const gx = (VW + 20 - ((frame*0.4 + i*120) % (VW+40)));
+    const gy = 40 + i*12 + Math.sin(gullPhase + i)*3;
+    const wing = Math.floor(Math.sin(gullPhase*3 + i)*1);
+    // Body
+    px(gx, gy, P.gull);
+    // Wings (M shape)
+    if(wing >= 0){
+      px(gx-1, gy-1, P.gull);
+      px(gx+1, gy-1, P.gull);
+      px(gx-2, gy, P.gullShade);
+      px(gx+2, gy, P.gullShade);
+    } else {
+      px(gx-1, gy+1, P.gull);
+      px(gx+1, gy+1, P.gull);
+    }
+  }
+}
+
+// ============================================================
+// PALM TREES — parallax layers
+// ============================================================
+function drawPalm(x, groundY, scale=1){
+  const w = Math.max(1, Math.floor(2*scale));
+  const trunkH = Math.floor(28*scale);
+  // Trunk (with segments)
+  for(let i=0;i<trunkH;i++){
+    const ty = groundY - i;
+    const shade = (i % 4 === 0) ? P.trunkHi : P.trunk;
+    rect(x - Math.floor(w/2), ty, w, 1, shade);
+    // slight curve
+    if(i > 10 && scale >= 1) rect(x + Math.floor((i-10)/6), ty, 1, 1, shade);
+  }
+  const topX = x + (scale >= 1 ? Math.floor((trunkH-10)/6) : 0);
+  const topY = groundY - trunkH;
+  // Fronds — six drooping leaves
+  const fronds = [
+    [-8, -1, -5, 3], [-10, 1, -4, 5], [-6, 4, -2, 7],
+    [8, -1, 5, 3],   [10, 1, 4, 5],   [6, 4, 2, 7],
+    [0, -6, 0, -1],  [-3, -5, -1, -1],[3, -5, 1, -1]
+  ];
+  for(const [ox,oy,ix,iy] of fronds){
+    const steps = 5;
+    for(let s=0;s<=steps;s++){
+      const t = s/steps;
+      const fx = Math.round(topX + ox*t*scale);
+      const fy = Math.round(topY + oy*t*scale);
+      rect(fx, fy, Math.max(1,Math.floor(scale)), Math.max(1,Math.floor(scale)), s<steps/2?P.palmHi:P.palm);
+    }
+  }
+  // Coconuts
+  if(scale >= 1){
+    rect(topX-1, topY+1, 1, 1, '#3a2817');
+    rect(topX+1, topY+2, 1, 1, '#3a2817');
+  }
+}
+
+function drawPalms(){
+  // Far layer — slow parallax, small
+  const farP = 0.3;
+  const farSpacing = 80;
+  const farFirst = Math.floor((worldX*farP)/farSpacing) - 1;
+  for(let i=farFirst; i<farFirst+10; i++){
+    const wx = i*farSpacing + 30;
+    const sx = wx - worldX*farP;
+    if(sx > -20 && sx < VW+20) drawPalm(sx, 168, 0.7);
+  }
+  // Near layer — faster parallax, big, on boardwalk
+  const nearP = 1.0;
+  const nearSpacing = 140;
+  const nearFirst = Math.floor((worldX*nearP)/nearSpacing) - 1;
+  for(let i=nearFirst; i<nearFirst+6; i++){
+    const wx = i*nearSpacing + 60;
+    const sx = wx - worldX*nearP;
+    if(sx > -30 && sx < VW+30) drawPalm(sx, 222, 1.3);
+  }
+}
+
+// ============================================================
+// DECO HOTELS — pastel, windowed, with product billboard
+// Each hotel is one of a few silhouettes, tinted to its deco color.
+// Hotels live in the mid layer. Billboard shows product name.
+// ============================================================
+function drawHotel(screenX, groundY, landmark){
+  const variant = LANDMARKS.indexOf(landmark) % 3;
+  const baseColor = landmark.color;
+
+  if(variant === 0){
+    // Classic deco: symmetrical 3-tier wedding cake
+    const w = 88, h = 80;
+    const x = screenX - w/2;
+    const y = groundY - h;
+    // Main body
+    rect(x, y+20, w, h-20, baseColor);
+    // Top tiers
+    rect(x+8, y+8, w-16, 14, baseColor);
+    rect(x+20, y, w-40, 10, baseColor);
+    // Stripes (deco bands)
+    rect(x, y+26, w, 2, '#fff');
+    rect(x, y+h-14, w, 2, '#fff');
+    // Windows grid
+    for(let r=0;r<4;r++) for(let c=0;c<5;c++){
+      const wx = x + 8 + c*14, wy = y + 32 + r*10;
+      const lit = (Math.floor(frame/30) + r*5 + c) % 7 < 2;
+      rect(wx, wy, 6, 5, lit ? P.windowLit : P.window);
+    }
+    // Door
+    rect(x + w/2 - 5, y + h - 12, 10, 12, P.neon1);
+    rect(x + w/2 - 4, y + h - 11, 8, 10, '#2d1b5e');
+    // Vertical neon strip
+    rect(x - 2, y + 10, 2, h - 10, P.neon1);
+    rect(x + w, y + 10, 2, h - 10, P.neon1);
+    // Roof ornament
+    rect(x + w/2 - 1, y - 8, 2, 8, P.neon2);
+    rect(x + w/2 - 3, y - 10, 6, 2, P.neon2);
+  } else if(variant === 1){
+    // Stepped zigzag art-deco
+    const w = 80, h = 84;
+    const x = screenX - w/2;
+    const y = groundY - h;
+    rect(x, y+30, w, h-30, baseColor);
+    rect(x+6, y+18, w-12, 14, baseColor);
+    rect(x+14, y+6, w-28, 14, baseColor);
+    rect(x+24, y, w-48, 8, baseColor);
+    // Sunburst lines
+    rect(x, y+22, w, 1, '#fff');
+    rect(x+6, y+14, w-12, 1, '#fff');
+    // Porthole windows
+    for(let r=0;r<3;r++) for(let c=0;c<4;c++){
+      const wx = x + 10 + c*15, wy = y + 40 + r*10;
+      const lit = (Math.floor(frame/45) + r*2 + c) % 5 < 2;
+      rect(wx, wy, 5, 5, lit ? P.windowLit2 : P.window);
+      px(wx, wy, '#fff');
+      px(wx+4, wy, '#fff');
+    }
+    // Awning
+    rect(x + w/2 - 14, y + h - 18, 28, 4, P.neon2);
+    rect(x + w/2 - 7, y + h - 14, 14, 14, '#2d1b5e');
+  } else {
+    // Curved corner streamline
+    const w = 76, h = 76;
+    const x = screenX - w/2;
+    const y = groundY - h;
+    rect(x+4, y+12, w-8, h-12, baseColor);
+    rect(x, y+20, 4, h-20, baseColor);
+    rect(x+w-4, y+20, 4, h-20, baseColor);
+    rect(x+12, y, w-24, 14, baseColor);
+    // Horizontal bands (streamline)
+    for(let i=0;i<3;i++) rect(x+4, y+22+i*6, w-8, 1, '#fff');
+    // Square windows
+    for(let r=0;r<3;r++) for(let c=0;c<4;c++){
+      const wx = x + 10 + c*14, wy = y + 44 + r*8;
+      const lit = (Math.floor(frame/30) + r + c*3) % 6 < 2;
+      rect(wx, wy, 4, 4, lit ? P.windowLit : P.window);
+    }
+    // Marquee
+    rect(x + w/2 - 12, y + h - 16, 24, 5, P.neon3);
+    rect(x + w/2 - 5, y + h - 11, 10, 11, '#2d1b5e');
+  }
+
+  // BILLBOARD — product name hovers above hotel
+  if(landmark.product){
+    const bx = screenX - 44, by = groundY - 98;
+    // Billboard frame
+    rect(bx, by, 88, 14, '#1a0b2e');
+    rect(bx-1, by-1, 90, 1, P.neon1);
+    rect(bx-1, by+14, 90, 1, P.neon1);
+    rect(bx-1, by, 1, 14, P.neon1);
+    rect(bx+88, by, 1, 14, P.neon1);
+    // Text (tiny bitmap)
+    drawText(bx + 44 - measureText(landmark.product.title)/2, by + 4, landmark.product.title, P.neon3);
+    // Legs
+    rect(bx+8, by+14, 2, 6, '#3a2817');
+    rect(bx+78, by+14, 2, 6, '#3a2817');
+  }
+
+  // Hotel name sign over door
+  drawText(screenX - measureText(landmark.name)/2, groundY - 8, landmark.name, '#fff');
+}
+
+// ============================================================
+// TINY BITMAP FONT — 3x5 for signs
+// ============================================================
+const FONT = {
+  ' ':[0,0,0,0,0], 'A':[0b010,0b101,0b111,0b101,0b101], 'B':[0b110,0b101,0b110,0b101,0b110],
+  'C':[0b011,0b100,0b100,0b100,0b011], 'D':[0b110,0b101,0b101,0b101,0b110],
+  'E':[0b111,0b100,0b110,0b100,0b111], 'F':[0b111,0b100,0b110,0b100,0b100],
+  'G':[0b011,0b100,0b101,0b101,0b011], 'H':[0b101,0b101,0b111,0b101,0b101],
+  'I':[0b111,0b010,0b010,0b010,0b111], 'J':[0b001,0b001,0b001,0b101,0b010],
+  'K':[0b101,0b110,0b100,0b110,0b101], 'L':[0b100,0b100,0b100,0b100,0b111],
+  'M':[0b101,0b111,0b111,0b101,0b101], 'N':[0b101,0b111,0b111,0b111,0b101],
+  'O':[0b010,0b101,0b101,0b101,0b010], 'P':[0b110,0b101,0b110,0b100,0b100],
+  'Q':[0b010,0b101,0b101,0b111,0b011], 'R':[0b110,0b101,0b110,0b101,0b101],
+  'S':[0b011,0b100,0b010,0b001,0b110], 'T':[0b111,0b010,0b010,0b010,0b010],
+  'U':[0b101,0b101,0b101,0b101,0b011], 'V':[0b101,0b101,0b101,0b101,0b010],
+  'W':[0b101,0b101,0b101,0b111,0b101], 'X':[0b101,0b101,0b010,0b101,0b101],
+  'Y':[0b101,0b101,0b010,0b010,0b010], 'Z':[0b111,0b001,0b010,0b100,0b111],
+  '0':[0b010,0b101,0b101,0b101,0b010], '1':[0b010,0b110,0b010,0b010,0b111],
+  '.':[0,0,0,0,0b010], '-':[0,0,0b111,0,0], "'":[0b010,0b010,0,0,0]
+};
+function measureText(s){ return s.length*4; }
+function drawText(x,y,text,color){
+  bctx.fillStyle = color;
+  const up = text.toUpperCase();
+  for(let i=0;i<up.length;i++){
+    const ch = up[i];
+    const bmp = FONT[ch] || FONT[' '];
+    const cx = Math.floor(x + i*4);
+    for(let r=0;r<5;r++) for(let c=0;c<3;c++){
+      if(bmp[r] & (1<<(2-c))) bctx.fillRect(cx+c, Math.floor(y)+r, 1, 1);
+    }
+  }
+}
+
+// ============================================================
+// BOARDWALK / ROAD — foreground
+// ============================================================
+function drawBoardwalk(){
+  // Boardwalk planks
+  rect(0, 220, VW, 50, P.boardwalk);
+  rect(0, 218, VW, 2, P.boardwalkDark);
+  // Plank lines (scroll)
+  const plankW = 16;
+  const off = Math.floor(worldX) % plankW;
+  for(let x=-off; x<VW; x+=plankW){
+    rect(x, 220, 1, 50, P.boardwalkDark);
+  }
+  // Horizontal band (nails)
+  for(let x=-off; x<VW; x+=plankW){
+    px(x+4, 240, P.trunk);
+    px(x+12, 245, P.trunk);
+  }
+  // Road curb
+  rect(0, 215, VW, 1, P.neon1);
+  // Grass tufts
+  for(let i=0;i<20;i++){
+    const gx = (((i*37 - worldX) % VW) + VW) % VW;
+    rect(gx, 217, 1, 1, P.palmHi);
+    rect(gx+1, 217, 1, 1, P.palm);
+  }
+}
+
+// ============================================================
+// GEORG — the walker in the foreground
+// Pixel character, 12px wide × 24px tall
+// Walk cycle: 4 frames, legs swapping
+// ============================================================
+function drawGeorg(){
+  const cx = Math.floor(VW * 0.35);
+  const baseY = 240;
+  const walkFrame = Math.floor(frame / 6) % 4;
+  // Bobbing
+  const bob = walkFrame === 0 || walkFrame === 2 ? 0 : -1;
+  const y = baseY + bob;
+
+  // Shadow
+  rect(cx - 5, baseY + 2, 12, 1, 'rgba(0,0,0,0.4)');
+  bctx.fillStyle = 'rgba(0,0,0,0.3)';
+  bctx.fillRect(cx - 4, baseY + 2, 10, 1);
+
+  // Legs (walk cycle)
+  const legs = [
+    [[0,0,2,6],[3,0,2,6]],       // frame 0 — feet together
+    [[-1,0,2,5],[4,2,2,4]],      // frame 1 — left fwd
+    [[0,0,2,6],[3,0,2,6]],       // frame 2 — feet together
+    [[4,0,2,5],[-1,2,2,4]]       // frame 3 — right fwd
+  ][walkFrame];
+  bctx.fillStyle = '#2a4a8a'; // dark shorts
+  rect(cx - 3 + legs[0][0], y - 6 + legs[0][1], legs[0][2], legs[0][3], '#f5c49a'); // left leg skin
+  rect(cx - 3 + legs[1][0], y - 6 + legs[1][1], legs[1][2], legs[1][3], '#f5c49a'); // right leg skin
+  // Shorts over upper leg portion
+  rect(cx - 3, y - 8, 6, 4, '#2a4a8a');
+
+  // Body (Hawaiian shirt — pink/teal stripes)
+  rect(cx - 4, y - 16, 8, 8, '#ffb4e0');
+  rect(cx - 4, y - 15, 8, 1, '#00f0ff');
+  rect(cx - 4, y - 13, 8, 1, '#00f0ff');
+  rect(cx - 4, y - 11, 8, 1, '#00f0ff');
+  rect(cx - 4, y - 9, 8, 1, '#ff2d95');
+  // Arms
+  const armSwing = [0, -1, 0, 1][walkFrame];
+  rect(cx - 5, y - 15 + armSwing, 1, 6, '#ffb4e0'); // shirt sleeve
+  rect(cx + 4, y - 15 - armSwing, 1, 6, '#ffb4e0');
+  rect(cx - 5, y - 10 + armSwing, 1, 3, P.skin); // hand
+  rect(cx + 4, y - 10 - armSwing, 1, 3, P.skin);
+
+  // Head
+  rect(cx - 3, y - 24, 6, 7, P.skin);
+  // Hair (short dark)
+  rect(cx - 3, y - 24, 6, 2, '#2d1b1b');
+  rect(cx - 3, y - 22, 1, 1, '#2d1b1b');
+  rect(cx + 2, y - 22, 1, 1, '#2d1b1b');
+  // Sunglasses
+  rect(cx - 3, y - 21, 6, 2, '#1a0b2e');
+  px(cx - 2, y - 20, '#00f0ff'); // glint
+  // Mouth (grin)
+  px(cx - 1, y - 18, '#5a3030');
+  px(cx, y - 18, '#5a3030');
+  // Ear + side
+  px(cx - 3, y - 20, P.skinDark);
+
+  // Boombox he carries (every 4 frames becomes stylish)
+  rect(cx + 5, y - 8, 5, 4, '#1a0b2e');
+  px(cx + 6, y - 7, '#ff2d95');
+  px(cx + 8, y - 7, '#ff2d95');
+  rect(cx + 5, y - 4, 5, 1, '#3a2847');
+  // Music notes floating from boombox
+  if(!paused){
+    const noteT = (frame / 8) % 8;
+    const nx = cx + 10 + Math.floor(noteT*1.5);
+    const ny = y - 14 - Math.floor(noteT*1.5);
+    const noteAlpha = 1 - noteT/8;
+    if(noteAlpha > 0){
+      bctx.fillStyle = '#ffea00';
+      rect(nx, ny, 1, 3, '#ffea00');
+      rect(nx+1, ny+2, 2, 1, '#ffea00');
+      px(nx, ny-1, '#ffea00');
+    }
+  }
+}
+
+// ============================================================
+// LANDMARKS / HOTELS — draw those in view
+// Hotels sit at 1.0 parallax (move with walking 1:1) against boardwalk
+// ============================================================
+function drawLandmarks(){
+  for(const L of LANDMARKS){
+    const sx = L.x - worldX + VW * 0.5;
+    if(sx > -80 && sx < VW + 80){
+      drawHotel(sx, 220, L);
+    }
+  }
+}
+
+// ============================================================
+// CAPTION + PROXIMITY CHECK
+// ============================================================
+function updateCaption(){
+  // Find nearest landmark
+  let nearest = null, minD = Infinity;
+  for(const L of LANDMARKS){
+    const d = Math.abs(L.x - worldX);
+    if(d < minD){ minD = d; nearest = L; }
+  }
+  const cap = document.getElementById('cap');
+  const capText = document.getElementById('capText');
+  const capSub = document.getElementById('capSub');
+  if(nearest && minD < 120){
+    if(lastCaptionZone !== nearest.name){
+      capText.textContent = nearest.name;
+      capSub.textContent = nearest.sub;
+      cap.classList.add('on');
+      lastCaptionZone = nearest.name;
+    }
+    currentLandmark = nearest.product ? nearest : null;
+    if(currentLandmark) document.getElementById('prompt').style.display = 'block';
+    else document.getElementById('prompt').style.display = 'none';
+  } else {
+    cap.classList.remove('on');
+    currentLandmark = null;
+    document.getElementById('prompt').style.display = 'none';
+    if(minD > 200) lastCaptionZone = null;
+  }
+}
+
+// ============================================================
+// CARD OVERLAY
+// ============================================================
+function openCard(L){
+  const p = L.product;
+  document.getElementById('cardK').textContent = p.num;
+  document.getElementById('cardTitle').textContent = p.title;
+  document.getElementById('cardDesc').textContent = p.desc;
+  const link = document.getElementById('cardLink');
+  link.href = p.url;
+  link.textContent = p.id === 'hire' ? 'EMAIL →' : 'VISIT →';
+  document.getElementById('card').classList.add('on');
+  if(!visited.has(p.id)){
+    visited.add(p.id);
+    if(p.id !== 'hire') document.getElementById('visited').textContent = String(visited.size).padStart(1,'0');
+  }
+  paused = true;
+}
+function closeCard(){
+  document.getElementById('card').classList.remove('on');
+  paused = false;
+}
+window.closeCard = closeCard;
+
+// ============================================================
+// MAIN LOOP
+// ============================================================
+function tick(){
+  if(!paused){
+    worldX += speed * speedMult;
+    if(worldX > WORLD_LENGTH) worldX = 0; // loop
+  }
+  frame++;
+
+  // 1) Sky + ocean + distant palms
+  drawSky();
+  drawOcean();
+  drawGulls();
+  drawCourts();
+
+  // 2) Hotels (mid)
+  drawLandmarks();
+
+  // 3) Near palms (between hotels and walker)
+  drawPalms();
+
+  // 4) Boardwalk + Georg (foreground)
+  drawBoardwalk();
+  drawGeorg();
+
+  // Scale and blit
+  const viewW = canvas.clientWidth, viewH = canvas.clientHeight;
+  const scale = Math.min(viewW / VW, viewH / VH);
+  const dstW = VW * scale, dstH = VH * scale;
+  const dx = (viewW - dstW) / 2, dy = (viewH - dstH) / 2;
+  ctx.fillStyle = '#1a0b2e';
+  ctx.fillRect(0, 0, viewW, viewH);
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(buf, 0, 0, VW, VH, dx, dy, dstW, dstH);
+
+  // HUD numbers
+  document.getElementById('dist').textContent = String(Math.floor(worldX)).padStart(4,'0');
+
+  updateCaption();
+
+  requestAnimationFrame(tick);
+}
+tick();
+
+// ============================================================
+// CONTROLS
+// ============================================================
+document.getElementById('slow').onclick = ()=> speedMult = Math.max(0.25, speedMult - 0.25);
+document.getElementById('fast').onclick = ()=> speedMult = Math.min(4, speedMult + 0.5);
+document.getElementById('pause').onclick = ()=> paused = !paused;
+
+addEventListener('keydown', e => {
+  if(e.code === 'Space'){
+    e.preventDefault();
+    if(document.getElementById('card').classList.contains('on')){
+      closeCard();
+    } else if(currentLandmark){
+      openCard(currentLandmark);
+    }
+  }
+  if(e.key === 'Escape') closeCard();
+  if(e.key === 'ArrowRight') speedMult = Math.min(4, speedMult + 0.25);
+  if(e.key === 'ArrowLeft') speedMult = Math.max(0.25, speedMult - 0.25);
+});
+
+// Click on canvas near prompt → open card
+canvas.addEventListener('click', ()=>{
+  if(currentLandmark) openCard(currentLandmark);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Letterpress</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Text:ital@0;1&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--paper:#EEE8DA;--paper-2:#E4DCC8;--ink:#171614;--blind:#C2B696;--deboss:rgba(23,22,20,0.12);--mute:#5A5346;--faint:#8B8270;--red:#6B1A1A}
+html,body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.7;min-height:100vh}
+/* Paper texture */
+body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");background-blend-mode:multiply}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'DM Serif Display',serif;font-weight:400}
+.serif-ital{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400}
+.back{position:fixed;top:16px;right:18px;z-index:100;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.22em;padding:6px 12px;background:var(--paper);color:var(--ink);border:1px solid var(--ink);text-transform:uppercase}
+
+/* Embossing helpers */
+.emboss{text-shadow:0 1px 0 rgba(255,255,255,0.5),0 -1px 1px rgba(0,0,0,0.1)}
+.deboss{text-shadow:inset 0 1px 0 rgba(0,0,0,0.2);color:var(--ink);filter:drop-shadow(0 1px 0 rgba(255,255,255,0.3))}
+
+/* Header */
+.card-shell{max-width:1100px;margin:40px auto;padding:0 24px}
+.envelope{background:var(--paper);padding:50px 60px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.15),0 1px 0 rgba(255,255,255,0.4) inset;border:1px solid rgba(0,0,0,0.08)}
+.envelope::before{content:'';position:absolute;inset:16px;border:1px solid var(--blind);pointer-events:none}
+.envelope::after{content:'';position:absolute;inset:22px;border:1px solid rgba(194,182,150,0.5);pointer-events:none}
+
+/* Stamp / mark */
+.stamp{position:absolute;top:32px;right:32px;width:90px;height:90px;border:3px solid var(--red);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-8deg);color:var(--red);opacity:0.78;mix-blend-mode:multiply;z-index:3}
+.stamp .t{font-family:'DM Serif Display',serif;font-size:14px;letter-spacing:0.08em;text-align:center;line-height:1}
+.stamp .d{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.15em;margin-top:4px}
+.stamp::before{content:'';position:absolute;inset:5px;border:1px dashed var(--red);border-radius:50%}
+
+/* Top: sender & recipient */
+.head{display:grid;grid-template-columns:auto 1fr auto;gap:30px;align-items:start;padding-bottom:30px;border-bottom:1px solid var(--blind);margin-bottom:40px}
+.monogram{font-family:'DM Serif Display',serif;font-size:68px;line-height:0.9;letter-spacing:-0.02em;color:var(--ink);padding:14px 22px;border:2px solid var(--ink);position:relative}
+.monogram::before{content:'';position:absolute;inset:5px;border:1px solid var(--ink)}
+.monogram span{position:relative}
+.head .ctr{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mute);display:flex;flex-direction:column;gap:2px;padding-top:14px}
+.head .ctr .big{font-family:'DM Serif Display',serif;font-style:italic;font-size:22px;letter-spacing:0.01em;color:var(--ink);text-transform:none;margin-bottom:6px}
+.head .ctr .tiny{font-size:9px;letter-spacing:0.3em;color:var(--faint)}
+.head .rt{text-align:right;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mute);line-height:1.8}
+.head .rt b{color:var(--ink);font-weight:500}
+
+/* Main composition — letter */
+.letter{display:grid;grid-template-columns:1.25fr 1fr;gap:60px;padding-block:10px}
+.letter-l{padding-right:30px}
+.salutation{font-family:'DM Serif Display',serif;font-style:italic;font-size:26px;color:var(--mute);margin-bottom:16px;letter-spacing:0.01em}
+.letter-l h1{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(52px,7vw,92px);line-height:0.95;letter-spacing:-0.01em;margin-bottom:20px;text-wrap:balance}
+.letter-l h1 em{font-style:italic;color:var(--red)}
+.body-t{font-family:'IBM Plex Mono',monospace;font-size:14px;line-height:1.85;color:var(--ink);max-width:520px;margin-bottom:26px;text-wrap:pretty}
+.body-t p{margin-bottom:14px}
+.body-t p:first-child::first-line{font-variant:small-caps;letter-spacing:0.05em;color:var(--mute)}
+.sig{font-family:'DM Serif Display',serif;font-style:italic;font-size:32px;color:var(--ink);margin-top:28px;letter-spacing:-0.01em}
+.sig-under{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--mute);text-transform:uppercase;margin-top:6px;padding-top:10px;border-top:1px solid var(--blind);max-width:300px}
+
+.letter-r{display:flex;flex-direction:column;gap:24px;align-items:center;padding:30px;background:rgba(194,182,150,0.14);border:1px solid var(--blind);position:relative}
+.letter-r::before{content:'';position:absolute;inset:8px;border:1px dashed rgba(194,182,150,0.7);pointer-events:none}
+.seal{position:relative;width:100%;max-width:280px;aspect-ratio:1;overflow:hidden;border:4px double var(--ink);padding:4px;background:var(--paper)}
+.seal img{width:100%;height:100%;display:block;filter:grayscale(1) contrast(1.1) brightness(0.95) sepia(0.12)}
+.card-label{font-family:'DM Serif Display',serif;font-style:italic;font-size:16px;color:var(--ink);text-align:center;line-height:1.4}
+.card-label b{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.28em;color:var(--mute);text-transform:uppercase;display:block;margin-top:4px;font-weight:500;font-style:normal}
+
+/* Register of goods */
+.register{margin-top:50px;padding:36px 40px;border:3px double var(--ink);background:var(--paper-2);position:relative}
+.register::before{content:'';position:absolute;inset:6px;border:1px solid var(--blind);pointer-events:none}
+.register .rh{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;border-bottom:1px solid var(--ink);margin-bottom:20px}
+.register .rh h2{font-family:'DM Serif Display',serif;font-weight:400;font-size:30px;letter-spacing:0.01em}
+.register .rh h2 em{font-style:italic;color:var(--red)}
+.register .rh .on{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.2em;color:var(--mute);text-transform:uppercase}
+.register table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:13px}
+.register td{padding:14px 10px;border-bottom:1px solid var(--blind);vertical-align:top}
+.register tr:last-child td{border-bottom:0}
+.register .rno{width:52px;font-family:'DM Serif Display',serif;font-style:italic;font-size:20px;color:var(--mute);padding-right:0}
+.register .rt{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;color:var(--ink);padding-right:20px;white-space:nowrap}
+.register .rt em{font-style:italic;color:var(--red)}
+.register .rd{color:var(--mute);font-size:12px;line-height:1.55;padding-right:20px}
+.register .rp{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.18em;color:var(--ink);text-transform:uppercase;white-space:nowrap;text-align:right}
+.register .rp::after{content:' →';color:var(--red)}
+.register tr:hover{background:rgba(23,22,20,0.03)}
+.register tr:hover .rp{color:var(--red)}
+
+/* RSVP card */
+.rsvp{margin-top:50px;padding:40px;border:3px double var(--ink);text-align:center;background:var(--paper)}
+.rsvp::before{content:'';position:absolute;inset:6px;border:1px solid var(--blind)}
+.rsvp-h{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.rsvp h2{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(40px,5.5vw,70px);line-height:0.95;letter-spacing:-0.01em;margin-bottom:12px;text-wrap:balance}
+.rsvp h2 em{font-style:italic}
+.rsvp .req{font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:var(--mute);margin-bottom:30px;max-width:460px;margin-inline:auto}
+.chans{display:grid;grid-template-columns:repeat(2,1fr);gap:0;max-width:640px;margin:0 auto;border:1px solid var(--ink);background:var(--paper)}
+.ch{padding:16px 22px;border-right:1px solid var(--blind);border-bottom:1px solid var(--blind);text-align:left;display:flex;justify-content:space-between;align-items:center;transition:background 0.2s}
+.ch:nth-child(2n){border-right:0}
+.ch:nth-last-child(-n+2){border-bottom:0}
+.ch:hover{background:rgba(107,26,26,0.06)}
+.ch .l{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--red);margin-bottom:3px}
+.ch .v{font-family:'DM Serif Display',serif;font-size:15px;color:var(--ink)}
+.ch .ar{color:var(--red);font-family:'DM Serif Display';font-size:20px}
+
+/* Footer — bottom colophon */
+.colophon{margin-top:30px;padding-top:18px;border-top:1px solid var(--blind);display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.26em;color:var(--faint);text-transform:uppercase}
+
+@media (max-width:900px){.letter{grid-template-columns:1fr}.head{grid-template-columns:1fr;text-align:center}.head .rt{text-align:center}.envelope{padding:30px 20px}.chans{grid-template-columns:1fr}.ch{border-right:0!important}.stamp{top:16px;right:16px;width:70px;height:70px}.register td.rno,.register td.rp{display:none}.register td.rt{font-size:18px;white-space:normal}.card-shell{margin:20px auto;padding:0 12px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← Gallery</a>
+
+<div class="card-shell">
+<article class="envelope">
+
+  <div class="stamp">
+    <div class="t">ON<br>PRESS</div>
+    <div class="d">MIAMI · 26</div>
+  </div>
+
+  <header class="head">
+    <div class="monogram"><span>G·C</span></div>
+    <div class="ctr">
+      <span class="big serif-ital">Georg Chimion</span>
+      <span>— Automation in Private Practice —</span>
+      <span class="tiny">◆ Wynwood · South Florida · Since MMXXII ◆</span>
+    </div>
+    <div class="rt">
+      <b>Letterhead Nº IV</b><br>
+      Established<br>
+      Miami — Florida<br>
+      <span style="color:var(--red)">◆ Accepting Q3</span>
+    </div>
+  </header>
+
+  <div class="letter">
+    <div class="letter-l">
+      <div class="salutation">Dear colleague,—</div>
+      <h1 class="serif">The <em>house</em><br>is open.</h1>
+      <div class="body-t">
+        <p>Kindly find enclosed a register of works presently in production, each installed and attended to from a small office in Wynwood. The practice confines itself to enterprise automation and intelligent software — with a particular fondness for finance, property, and the operational problems that nobody else has wished to pick up.</p>
+        <p>Where a pilot has been asked for, a product has been delivered. Where discretion has been preferred, it has been kept. Eight installations are presently in daily use; none has been quietly removed.</p>
+        <p>Should you wish to speak, the back of this card lists the channels by which correspondence is answered — in every case within a day.</p>
+      </div>
+      <div class="sig serif-ital">Georg Chimion,</div>
+      <div class="sig-under">Principal · Chimion &amp; Co. · South Florida</div>
+    </div>
+    <div class="letter-r">
+      <figure class="seal">
+        <img src="georg-hero.jpeg" alt="The author, in likeness.">
+      </figure>
+      <div class="card-label">
+        <em>A likeness of the author,</em><br>in the <em>ninth</em> season.
+        <b>Enclosure · Plate I</b>
+      </div>
+    </div>
+  </div>
+
+  <section class="register">
+    <div class="rh">
+      <h2 class="serif">Register of <em>present</em> works</h2>
+      <span class="on">Revised · Q3 MMXXVI · Six entries</span>
+    </div>
+    <table>
+      <tr class="row"><td class="rno">I.</td><td class="rt serif">Vestia <em>&amp; Co.</em></td><td class="rd">Six-module platform for the South Florida condominium association — maintenance, compliance, collections, screening, documents, vendors.</td><td class="rp"><a href="https://vestia.georg.miami">Installed</a></td></tr>
+      <tr><td class="rno">II.</td><td class="rt serif">Ask <em>Penny</em></td><td class="rd">Household financial copilot — a morning note on the family's ledger, answered in conversation, never in nag.</td><td class="rp"><a href="https://penny.georg.miami">Installed</a></td></tr>
+      <tr><td class="rno">III.</td><td class="rt serif">Agent <em>Factory</em></td><td class="rd">A brigade of four autonomous agents — manager, coder, reviewer, deployer — composed to ship production sites from a brief.</td><td class="rp"><a href="https://factory.georg.miami">Installed</a></td></tr>
+      <tr><td class="rno">IV.</td><td class="rt serif">ReconX</td><td class="rd">Cloud-native reconciliation. Multi-pass matching, exceptions, nostro proof beneath the treasury floorboards.</td><td class="rp"><a href="https://reconx.georg.miami">Installed</a></td></tr>
+      <tr><td class="rno">V.</td><td class="rt serif">Onboard <em>&amp; Co.</em></td><td class="rd">Generated curriculum. Submit the handbook, receive the course. New hires arrive already scored.</td><td class="rp"><a href="https://onboard.georg.miami">Installed</a></td></tr>
+      <tr><td class="rno">VI.</td><td class="rt serif">VENUE</td><td class="rd">Private event booking — happy hours, dinners, DJ lounges, the full buyout. A gracious intake and an evening attended to.</td><td class="rp"><a href="https://venue.georg.miami">Installed</a></td></tr>
+    </table>
+  </section>
+
+  <section class="rsvp" id="hire" style="position:relative">
+    <div class="rsvp-h">◆ R · S · V · P ◆</div>
+    <h2 class="serif">Your reply is <em>requested.</em></h2>
+    <p class="req">Selected engagements are being accepted for Q3, MMXXVI — at a pace that permits care. Correspondence is answered within a day on each of the following channels.</p>
+    <div class="chans">
+      <a class="ch" href="mailto:georg.chimion@gmail.com"><span><div class="l">By Letter</div><div class="v">georg.chimion@gmail.com</div></span><span class="ar">→</span></a>
+      <a class="ch" href="https://linkedin.com/in/georgchimion"><span><div class="l">Professionally</div><div class="v">in/georgchimion</div></span><span class="ar">→</span></a>
+      <a class="ch" href="https://github.com/georgchimion-oss"><span><div class="l">At the Source</div><div class="v">@georgchimion-oss</div></span><span class="ar">→</span></a>
+      <a class="ch" href="https://miami.georg.miami"><span><div class="l">In Person</div><div class="v">Miami AI · Wynwood</div></span><span class="ar">→</span></a>
+    </div>
+  </section>
+
+  <div class="colophon">
+    <span>© MMXXVI · G·C Letterpress</span>
+    <span>Set in DM Serif &amp; IBM Plex · Printed on cotton</span>
+    <span>Plate IV · Edition I</span>
+  </div>
+</article>
+</div>
+</body>
+</html>

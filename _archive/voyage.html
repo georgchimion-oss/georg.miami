@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — Voyage</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sea:#D4C79A; --sea2:#C8BA85; --land:#A89668; --dark:#3A3320;
+  --ink:#1F1A0E; --rule:rgba(31,26,14,0.3); --mid:rgba(31,26,14,0.6); --faint:rgba(31,26,14,0.35);
+  --gold:#A06020; --red:#B13A1F; --compass:#3A3320;
+}
+html,body{background:var(--sea);color:var(--ink);font-family:'Fraunces',serif;line-height:1.6;min-height:100vh;overflow-x:hidden}
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace;letter-spacing:0.12em}
+.frame{max-width:1400px;margin:0 auto;padding:40px}
+.frame-border{border:2px solid var(--ink);padding:40px;position:relative;background:var(--sea);box-shadow:0 20px 60px rgba(58,51,32,0.25)}
+.frame-border::before,.frame-border::after{content:'';position:absolute;width:40px;height:40px;border:2px solid var(--ink)}
+.frame-border::before{top:-8px;left:-8px;border-right:none;border-bottom:none}
+.frame-border::after{bottom:-8px;right:-8px;border-left:none;border-top:none}
+.top{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--rule);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mid)}
+.masthead{text-align:center;padding:30px 0 24px;border-bottom:2px double var(--ink)}
+.masthead .sub{font-size:12px;letter-spacing:0.4em;color:var(--mid);margin-bottom:12px;font-family:'JetBrains Mono',monospace}
+h1{font-weight:700;font-style:italic;font-size:clamp(60px,10vw,140px);line-height:0.9;letter-spacing:-0.025em}
+h1 .small{font-style:normal;font-size:0.55em;color:var(--gold);display:block;letter-spacing:0.04em;margin-top:8px}
+.ms-note{font-size:13px;letter-spacing:0.2em;color:var(--mid);margin-top:16px;font-family:'JetBrains Mono',monospace}
+
+.map-wrap{position:relative;margin:40px 0;border:1px solid var(--ink);background:var(--sea2);aspect-ratio:16/9;overflow:hidden}
+.map-wrap svg{position:absolute;inset:0;width:100%;height:100%}
+.landmass{fill:var(--land);stroke:var(--ink);stroke-width:1.5}
+.island{fill:var(--land);stroke:var(--ink);stroke-width:1}
+.route{fill:none;stroke:var(--red);stroke-width:1.5;stroke-dasharray:6 4;animation:dash 30s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-300}}
+.wave{fill:none;stroke:var(--mid);stroke-width:0.5;opacity:0.4}
+.compass{position:absolute;top:24px;right:24px;width:90px;height:90px;animation:slowspin 60s linear infinite}
+@keyframes slowspin{to{transform:rotate(360deg)}}
+.landmark{position:absolute;transform:translate(-50%,-100%);cursor:pointer;text-align:center}
+.landmark .pin{font-size:26px;line-height:1;color:var(--red);text-shadow:0 2px 0 var(--ink);transition:transform 0.2s}
+.landmark:hover .pin{transform:scale(1.2)}
+.landmark .lbl{font-weight:700;font-style:italic;font-size:14px;letter-spacing:-0.01em;color:var(--ink);background:var(--sea);padding:1px 6px;margin-top:2px;white-space:nowrap;box-shadow:1px 1px 0 var(--ink)}
+.landmark .sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--mid);letter-spacing:0.12em;margin-top:2px}
+
+.cartouche{position:absolute;background:var(--sea);border:2px solid var(--ink);padding:16px 20px;box-shadow:6px 6px 0 var(--ink)}
+.cart-port{bottom:24px;left:24px;max-width:280px}
+.cart-port h3{font-weight:700;font-style:italic;font-size:20px;margin-bottom:4px}
+.cart-port .loc{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--mid);margin-bottom:8px}
+.cart-port img{width:100%;aspect-ratio:1;object-fit:cover;filter:sepia(0.6) contrast(1.1);border:1px solid var(--ink);margin-bottom:8px}
+.cart-port p{font-size:12px;line-height:1.55;color:var(--mid)}
+
+.legend{position:absolute;top:24px;left:24px;background:var(--sea);border:2px solid var(--ink);padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;box-shadow:4px 4px 0 var(--ink)}
+.legend .l-title{font-weight:700;margin-bottom:8px;font-family:'Fraunces',serif;font-style:italic;font-size:14px;letter-spacing:-0.01em}
+.legend .l-row{display:flex;align-items:center;gap:8px;margin:3px 0}
+.legend .m{color:var(--red);font-size:14px}
+
+.passage{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:48px 0}
+.passage-l h2{font-weight:700;font-style:italic;font-size:44px;letter-spacing:-0.02em;margin-bottom:16px;line-height:1.05}
+.passage-l h2 .rh{color:var(--red)}
+.passage-l p{color:var(--mid);font-size:15px;line-height:1.7;margin-bottom:14px}
+.passage-l .initial{font-weight:700;font-style:italic;font-size:72px;float:left;line-height:0.8;padding:6px 10px 0 0;color:var(--red)}
+
+.log{border:1px solid var(--ink);background:var(--sea2)}
+.log-head{padding:12px 16px;border-bottom:1px solid var(--ink);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;display:flex;justify-content:space-between}
+.log-row{display:grid;grid-template-columns:60px 1fr 80px;padding:12px 16px;gap:12px;border-bottom:1px dashed var(--rule);align-items:center;font-size:12px}
+.log-row:last-child{border-bottom:none}
+.log-row .dt{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:0.12em}
+.log-row .ev{font-style:italic;font-size:14px}
+.log-row .st{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;text-align:right;color:var(--gold)}
+
+.ports{margin-top:48px}
+.ports h2{font-weight:700;font-style:italic;font-size:44px;letter-spacing:-0.02em;margin-bottom:8px;text-align:center}
+.ports .sub{text-align:center;color:var(--mid);font-size:13px;margin-bottom:32px;font-family:'JetBrains Mono',monospace;letter-spacing:0.18em}
+.ports-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.port{border:1.5px solid var(--ink);padding:22px;background:var(--sea);position:relative;transition:transform 0.25s,box-shadow 0.25s}
+.port:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ink)}
+.port .pn{position:absolute;top:10px;right:14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.18em}
+.port h3{font-weight:700;font-style:italic;font-size:26px;letter-spacing:-0.015em;margin-bottom:4px;line-height:1.05}
+.port .tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.port p{font-size:13px;color:var(--mid);line-height:1.55;margin-bottom:14px}
+.port .ink-line{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;padding-top:10px;border-top:1px solid var(--rule);letter-spacing:0.1em}
+
+.signpost{margin:48px 0;text-align:center;padding:48px 32px;border:2px solid var(--ink);background:var(--sea2);position:relative}
+.signpost h2{font-weight:700;font-style:italic;font-size:clamp(38px,5vw,64px);letter-spacing:-0.02em;margin-bottom:18px;line-height:1.05}
+.signpost h2 .rh{color:var(--red)}
+.signpost p{color:var(--mid);font-size:14px;max-width:540px;margin:0 auto 28px;line-height:1.7}
+.harbors{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:800px;margin:0 auto}
+.hb{padding:14px 16px;border:1px solid var(--ink);background:var(--sea);text-align:left;transition:all 0.2s}
+.hb:hover{background:var(--ink);color:var(--sea)}
+.hb .k{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--mid);margin-bottom:4px;text-transform:uppercase}
+.hb:hover .k{color:var(--sea)}
+.hb .v{font-weight:700;font-style:italic;font-size:15px}
+
+footer{margin-top:32px;padding-top:20px;border-top:1px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:0.14em;display:flex;justify-content:space-between}
+.back{position:fixed;top:20px;right:20px;z-index:10;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;border:1.5px solid var(--ink);padding:6px 12px;background:var(--sea)}
+@media (max-width:900px){.frame,.frame-border{padding:16px}.passage,.ports-grid,.harbors{grid-template-columns:1fr}.legend,.cart-port,.compass{display:none}.map-wrap{aspect-ratio:4/3}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← GALLERY</a>
+
+<div class="frame">
+<div class="frame-border">
+
+<div class="top">
+  <span>Chart No. 2026 · Miami Atlantic</span>
+  <span>Atlas of AI Operations · Vol. I</span>
+</div>
+
+<div class="masthead">
+  <div class="sub">⊹ NEW WORLD CHART ⊹</div>
+  <h1>Voyage<br><span class="small">of Georg Chimion · AI Operator at Large</span></h1>
+  <div class="ms-note">— DEPARTING MIAMI · Q3 2026 · ALL PORTS WELCOME —</div>
+</div>
+
+<!-- MAP -->
+<div class="map-wrap">
+  <svg viewBox="0 0 1600 900" preserveAspectRatio="none">
+    <!-- Wavy water lines -->
+    <g>
+      <path class="wave" d="M 0 150 Q 100 130 200 150 T 400 150 T 600 150 T 800 150 T 1000 150 T 1200 150 T 1400 150 T 1600 150"/>
+      <path class="wave" d="M 0 260 Q 100 240 200 260 T 400 260 T 600 260 T 800 260 T 1000 260 T 1200 260 T 1400 260 T 1600 260"/>
+      <path class="wave" d="M 0 730 Q 100 710 200 730 T 400 730 T 600 730 T 800 730 T 1000 730 T 1200 730 T 1400 730 T 1600 730"/>
+      <path class="wave" d="M 0 820 Q 100 800 200 820 T 400 820 T 600 820 T 800 820 T 1000 820 T 1200 820 T 1400 820 T 1600 820"/>
+    </g>
+    <!-- Main landmass — harbor of Miami -->
+    <path class="landmass" d="M 150 650 Q 200 580 280 600 Q 360 540 450 580 Q 530 540 620 590 Q 700 620 680 690 Q 720 760 640 820 Q 500 870 380 830 Q 260 860 180 800 Q 120 740 150 650 Z"/>
+    <!-- Islands -->
+    <path class="island" d="M 900 350 Q 970 320 1020 360 Q 1050 410 1010 450 Q 950 470 900 430 Q 870 390 900 350 Z"/>
+    <path class="island" d="M 1200 500 Q 1270 470 1340 500 Q 1380 550 1350 610 Q 1280 640 1210 610 Q 1160 560 1200 500 Z"/>
+    <path class="island" d="M 1100 150 Q 1160 130 1200 160 Q 1220 200 1190 230 Q 1130 250 1090 220 Q 1070 180 1100 150 Z"/>
+    <path class="island" d="M 780 180 Q 820 160 860 180 Q 880 210 850 240 Q 810 250 780 230 Q 760 205 780 180 Z"/>
+    <path class="island" d="M 600 300 Q 640 280 680 300 Q 700 330 680 360 Q 640 375 610 360 Q 590 335 600 300 Z"/>
+    <!-- Route — dashed from Miami outward -->
+    <path class="route" d="M 420 680 C 550 500, 700 400, 830 400 C 960 400, 1040 300, 1150 200 M 830 400 C 900 500, 1100 560, 1260 560"/>
+  </svg>
+
+  <!-- Compass rose -->
+  <svg class="compass" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="none" stroke="#3A3320" stroke-width="1.5"/>
+    <circle cx="50" cy="50" r="30" fill="none" stroke="#3A3320" stroke-width="0.8"/>
+    <g fill="#3A3320">
+      <polygon points="50,6 54,50 50,44 46,50"/>
+      <polygon points="50,94 54,50 50,56 46,50" opacity="0.4"/>
+      <polygon points="6,50 50,54 44,50 50,46" opacity="0.4"/>
+      <polygon points="94,50 50,54 56,50 50,46" opacity="0.4"/>
+    </g>
+    <text x="50" y="20" text-anchor="middle" font-family="Fraunces" font-size="10" fill="#3A3320" font-weight="700">N</text>
+    <text x="50" y="88" text-anchor="middle" font-family="Fraunces" font-size="9" fill="#3A3320">S</text>
+    <text x="12" y="54" text-anchor="middle" font-family="Fraunces" font-size="9" fill="#3A3320">W</text>
+    <text x="88" y="54" text-anchor="middle" font-family="Fraunces" font-size="9" fill="#3A3320">E</text>
+  </svg>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="l-title">Legend</div>
+    <div class="l-row"><span class="m">✦</span><span>Live product</span></div>
+    <div class="l-row"><span class="m">♣</span><span>Client audit</span></div>
+    <div class="l-row"><span class="m">✪</span><span>Home port</span></div>
+    <div class="l-row"><span class="m" style="color:#B13A1F">╌╌</span><span>Charted route</span></div>
+  </div>
+
+  <!-- Landmarks / pins -->
+  <div class="landmark" style="top:80%;left:26%"><div class="pin">✪</div><div class="lbl">Miami</div><div class="sub">HOME PORT</div></div>
+  <a class="landmark" style="top:48%;left:60%" href="https://vestia.georg.miami"><div class="pin">✦</div><div class="lbl">Vestia</div><div class="sub">PROP OPS</div></a>
+  <a class="landmark" style="top:28%;left:73%" href="https://penny.georg.miami"><div class="pin">✦</div><div class="lbl">Ask Penny</div><div class="sub">FIN AI</div></a>
+  <a class="landmark" style="top:65%;left:83%" href="https://factory.georg.miami"><div class="pin">✦</div><div class="lbl">Factory</div><div class="sub">AGENTS</div></a>
+  <a class="landmark" style="top:25%;left:50%" href="https://reconx.georg.miami"><div class="pin">✦</div><div class="lbl">ReconX</div><div class="sub">FIN RECON</div></a>
+  <a class="landmark" style="top:42%;left:40%" href="https://onboard.georg.miami"><div class="pin">✦</div><div class="lbl">Onboard</div><div class="sub">DOC→COURSE</div></a>
+  <a class="landmark" style="top:22%;left:22%" href="https://venue.georg.miami"><div class="pin">♣</div><div class="lbl">VENUE</div><div class="sub">BOOKINGS</div></a>
+
+  <!-- Cartouche: the explorer -->
+  <div class="cartouche cart-port">
+    <h3>The Operator</h3>
+    <div class="loc">MIAMI · DEPT OF AI</div>
+    <img src="georg-hero.jpeg" alt="Georg">
+    <p>Georg Chimion — architect and captain of these works. Now accepting new passages, Q3 2026.</p>
+  </div>
+</div>
+
+<!-- Opening passage -->
+<div class="passage">
+  <div class="passage-l">
+    <h2>An <span class="rh">Atlas</span> of<br>working AI.</h2>
+    <p><span class="initial">B</span>ack in Miami — having charted seven live products and seven client audits — the Operator sets out again for the 2026 season. These waters favour finance AI, enterprise automation, and the kind of intelligent products that survive their first deployment.</p>
+    <p>The marked routes show where work has gone before. The dashed lines show where it goes next. Press any landmark on the chart to make port.</p>
+  </div>
+  <div class="log">
+    <div class="log-head"><span>Ship's Log</span><span>2026</span></div>
+    <div class="log-row"><span class="dt">Q1</span><span class="ev">Vestia — six modules shipped</span><span class="st">LIVE</span></div>
+    <div class="log-row"><span class="dt">Q1</span><span class="ev">Agent Factory — 4 agents online</span><span class="st">LIVE</span></div>
+    <div class="log-row"><span class="dt">Q2</span><span class="ev">ReconX — reconciliation engine</span><span class="st">LIVE</span></div>
+    <div class="log-row"><span class="dt">Q2</span><span class="ev">Ask Penny — bank integration complete</span><span class="st">LIVE</span></div>
+    <div class="log-row"><span class="dt">Q2</span><span class="ev">Onboard — docs→course in 3min</span><span class="st">LIVE</span></div>
+    <div class="log-row"><span class="dt">Q3</span><span class="ev">Accepting new engagements…</span><span class="st">OPEN</span></div>
+  </div>
+</div>
+
+<!-- Ports of call -->
+<div class="ports">
+  <h2>Ports of Call</h2>
+  <div class="sub">⊹ TAP ANY PORT TO MAKE LANDFALL ⊹</div>
+  <div class="ports-grid">
+    <a class="port" href="https://vestia.georg.miami">
+      <div class="pn">001</div><h3>Vestia</h3><div class="tag">PROPERTY OPS</div>
+      <p>Six-module AI platform for South Florida condo associations.</p>
+      <div class="ink-line"><span>LIVE</span><span>vestia →</span></div>
+    </a>
+    <a class="port" href="https://penny.georg.miami">
+      <div class="pn">002</div><h3>Ask Penny</h3><div class="tag">FINANCE AI</div>
+      <p>Claude-powered personal finance copilot with bank integration.</p>
+      <div class="ink-line"><span>LIVE</span><span>penny →</span></div>
+    </a>
+    <a class="port" href="https://factory.georg.miami">
+      <div class="pn">003</div><h3>Agent Factory</h3><div class="tag">MULTI-AGENT</div>
+      <p>Four autonomous Claude agents build sites from a brief.</p>
+      <div class="ink-line"><span>LIVE</span><span>factory →</span></div>
+    </a>
+    <a class="port" href="https://reconx.georg.miami">
+      <div class="pn">004</div><h3>ReconX</h3><div class="tag">RECONCILIATION</div>
+      <p>Cloud-native reconciliation with SLA tracking and nostro proof.</p>
+      <div class="ink-line"><span>LIVE</span><span>reconx →</span></div>
+    </a>
+    <a class="port" href="https://onboard.georg.miami">
+      <div class="pn">005</div><h3>Onboard</h3><div class="tag">DOC → COURSE</div>
+      <p>Internal documents become a structured course in three minutes.</p>
+      <div class="ink-line"><span>LIVE</span><span>onboard →</span></div>
+    </a>
+    <a class="port" href="https://venue.georg.miami">
+      <div class="pn">006</div><h3>VENUE</h3><div class="tag">BOOKINGS</div>
+      <p>Private event booking wizard purpose-built for Miami.</p>
+      <div class="ink-line"><span>LIVE</span><span>venue →</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- Signpost / contact -->
+<div class="signpost">
+  <h2>Book <span class="rh">passage</span> for 2026.</h2>
+  <p>Select engagements, finance AI and intelligent products. Send a signal — response within 24 hours.</p>
+  <div class="harbors">
+    <a class="hb" href="mailto:georg.chimion@gmail.com"><div class="k">Email</div><div class="v">georg.chimion</div></a>
+    <a class="hb" href="https://linkedin.com/in/georgchimion"><div class="k">LinkedIn</div><div class="v">in/georgchimion</div></a>
+    <a class="hb" href="https://github.com/georgchimion-oss"><div class="k">GitHub</div><div class="v">@georgchimion-oss</div></a>
+    <a class="hb" href="https://miami.georg.miami"><div class="k">Community</div><div class="v">Miami AI</div></a>
+  </div>
+</div>
+
+<footer>
+  <span>ATLAS OF AI OPERATIONS · VOL I · © 2026 GEORG CHIMION</span>
+  <span>HERE BE SHIPPED PRODUCTS</span>
+</footer>
+
+</div>
+</div>
+</body>
+</html>

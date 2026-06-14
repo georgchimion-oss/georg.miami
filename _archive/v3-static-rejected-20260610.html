@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion · AI Automation for the Enterprise</title>
+<meta name="description" content="AI automation specialist in Miami. Production AI systems for finance and regulated industries. Currently at PwC. 15 live products, 12 client audits.">
+<meta property="og:title" content="Georg Chimion · AI Automation for the Enterprise">
+<meta property="og:description" content="Production AI systems for finance and regulated industries. 15 live products, all clickable.">
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FBF9F5'/%3E%3Cpath d='M4 4h7M4 4v7M28 28h-7M28 28v-7' stroke='%230E7490' stroke-width='2.5' fill='none'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='monospace' font-size='13' font-weight='700' fill='%2316181A'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,450;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --paper:#FBF9F5;
+  --paper-2:#FFFEFB;
+  --ink:#16181A;
+  --ink-2:rgba(22,24,26,0.68);
+  --ink-3:rgba(22,24,26,0.46);
+  --text-3:rgba(22,24,26,0.46); /* alias used by ported form markup */
+  --hair:rgba(22,24,26,0.10);
+  --hair-2:rgba(22,24,26,0.20);
+  --teal:#0E7490;
+  --teal-hover:#155E75;
+  --teal-wash:rgba(14,116,144,0.06);
+  --copper:#8A6131;
+  --warm:rgba(138,97,49,0.05);
+  --rust:#A8442E;
+  --display:'Space Grotesk',sans-serif;
+  --body:'DM Sans',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+/* ============ BASE ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* grain overlay */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:0.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+img,svg,video{max-width:100%;display:block}
+a{color:var(--teal);text-decoration:none;transition:color .18s ease}
+a:hover{color:var(--teal-hover)}
+::selection{background:rgba(14,116,144,0.18)}
+.container{max-width:1240px;margin-inline:auto;padding-inline:clamp(20px,5vw,56px)}
+.mono{font-family:var(--mono)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:12px 18px;z-index:10000;font-family:var(--mono);font-size:13px}
+.skip-link:focus{left:0}
+section{border-top:1px solid var(--hair);scroll-margin-top:76px}
+.sec-pad{padding-block:clamp(88px,12vh,150px)}
+.sec-head{margin-bottom:clamp(48px,7vh,84px)}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);display:flex;align-items:center;gap:16px;
+  margin-bottom:22px;
+}
+.kicker .kn{color:var(--copper)}
+.kicker::after{content:"";flex:1;height:1px;background:var(--hair);max-width:220px}
+.sec-title{
+  font-family:var(--display);font-weight:600;letter-spacing:-0.025em;line-height:1.04;
+  font-size:clamp(2.1rem,4.6vw,3.6rem);max-width:18ch;
+}
+.sec-sub{margin-top:18px;color:var(--ink-2);max-width:54ch;font-size:clamp(1rem,1.4vw,1.125rem)}
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:9500;
+  background:rgba(251,249,245,0.82);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hair);
+}
+.nav-inner{
+  max-width:1240px;margin-inline:auto;padding-inline:clamp(20px,5vw,56px);
+  display:flex;align-items:center;justify-content:space-between;height:64px;
+}
+.nav-name{
+  font-family:var(--display);font-weight:600;font-size:15.5px;letter-spacing:-0.01em;
+  color:var(--ink);display:flex;align-items:center;min-height:44px;
+}
+.nav-name:hover{color:var(--teal)}
+.nav-links{display:flex;gap:clamp(14px,2.6vw,34px)}
+.nav-links a{
+  font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-2);
+  display:flex;align-items:baseline;gap:5px;min-height:44px;align-items:center;
+}
+.nav-links a:hover{color:var(--teal)}
+.nav-links .nn{font-size:9.5px;color:var(--copper);transform:translateY(-4px)}
+/* ============ CORNER BRACKETS ============ */
+.frame{position:relative;padding:16px}
+.frame::before,.frame::after,
+.frame>.fc::before,.frame>.fc::after{
+  content:"";position:absolute;width:24px;height:24px;
+  border:1.5px solid var(--ink);z-index:2;
+}
+.frame::before{top:0;left:0;border-right:none;border-bottom:none}
+.frame::after{bottom:0;right:0;border-left:none;border-top:none}
+.frame>.fc::before{top:0;right:0;border-left:none;border-bottom:none}
+.frame>.fc::after{bottom:0;left:0;border-right:none;border-top:none}
+.frame img,.frame video{width:100%;height:auto}
+/* ============ HERO ============ */
+.hero{padding-top:64px;min-height:100svh;display:flex;flex-direction:column;border-top:none}
+.hero-main{
+  flex:1;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);
+  gap:clamp(40px,6vw,90px);align-items:center;
+  padding-block:clamp(48px,8vh,100px);
+}
+.hero-kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:28px;
+  display:flex;align-items:center;gap:14px;
+}
+.hero-kicker .kn{color:var(--copper)}
+.hero-kicker::before{content:"";width:34px;height:1px;background:var(--ink)}
+.hero h1{
+  font-family:var(--display);font-weight:600;letter-spacing:-0.032em;line-height:0.98;
+  font-size:clamp(2.9rem,7vw,5.6rem);
+}
+.hero h1 .t{color:var(--teal)}
+.hero-sub{margin-top:26px;color:var(--ink-2);font-size:clamp(1.04rem,1.5vw,1.2rem);max-width:46ch;font-weight:450}
+.hero-ctas{margin-top:40px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+  font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  padding:16px 28px;min-height:48px;border:1px solid var(--ink);
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+.btn-solid{background:var(--ink);color:var(--paper)}
+.btn-solid:hover{background:var(--teal-hover);border-color:var(--teal-hover);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.hero-portrait{position:relative}
+.hero-portrait .frame img{filter:saturate(0.92) contrast(1.02)}
+.portrait-caption{
+  margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between;
+}
+.portrait-caption .kn{color:var(--copper)}
+/* cred strip */
+.cred{
+  border-top:1px solid var(--hair);
+  display:grid;grid-template-columns:repeat(5,1fr);
+}
+.cred-item{
+  padding:26px 22px 30px 0;border-right:1px solid var(--hair);
+  margin-right:22px;display:flex;flex-direction:column;gap:7px;
+}
+.cred-item:last-child{border-right:none;margin-right:0}
+.cred-k{
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.cred-v{font-size:14.5px;color:var(--ink);font-weight:450;line-height:1.45}
+.cred-v .num{font-family:var(--mono);font-weight:500;color:var(--copper);font-size:15px}
+/* ============ FLAGSHIPS ============ */
+.flagship{
+  min-height:92svh;display:flex;align-items:center;
+  padding-block:clamp(72px,9vh,120px);
+  border-top:1px solid var(--hair);
+}
+.flag-grid{
+  display:grid;grid-template-columns:minmax(0,11fr) minmax(0,9fr);
+  gap:clamp(40px,6vw,96px);align-items:center;width:100%;
+}
+.flagship.flip .flag-media{order:-1}
+.flag-counter{
+  font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.12em;
+  color:var(--ink-3);display:flex;align-items:center;gap:16px;margin-bottom:24px;
+}
+.flag-counter .kn{color:var(--copper);font-size:15px}
+.flag-counter::after{content:"";flex:1;height:1px;background:var(--hair);max-width:180px}
+.flag-title{
+  font-family:var(--display);font-weight:600;letter-spacing:-0.028em;line-height:1.02;
+  font-size:clamp(2rem,4vw,3.2rem);margin-bottom:18px;
+}
+.flag-narrative{color:var(--ink-2);max-width:52ch;font-size:clamp(1rem,1.3vw,1.1rem)}
+.flag-diagram{margin-block:clamp(28px,4vh,44px);padding:clamp(18px,2.5vw,28px) 0;border-block:1px solid var(--hair)}
+.flag-metrics{
+  list-style:none;display:flex;flex-wrap:wrap;gap:0;margin-bottom:30px;
+}
+.flag-metrics li{
+  display:flex;flex-direction:column;gap:5px;
+  padding:4px 26px 4px 0;margin-right:26px;border-right:1px solid var(--hair);
+}
+.flag-metrics li:last-child{border-right:none;margin-right:0;padding-right:0}
+.m-label{
+  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.m-value{font-family:var(--mono);font-size:13.5px;font-weight:500;color:var(--copper)}
+.flag-link{
+  font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--teal);display:inline-flex;align-items:center;min-height:44px;
+  border-bottom:1.5px solid transparent;transition:border-color .18s ease,color .18s ease;
+}
+.flag-link:hover{color:var(--teal-hover);border-bottom-color:var(--teal-hover)}
+.flag-link + .flag-link{margin-left:28px}
+/* ============ DIAGRAMS ============ */
+.dg{width:100%;height:auto;display:block;overflow:visible}
+.dg .d{stroke:var(--teal);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.dg .dd{stroke:var(--teal);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-dasharray:3 6;vector-effect:non-scaling-stroke}
+.dg text{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.07em;fill:var(--ink-2)}
+.dg .dc{fill:var(--copper);font-size:10px;letter-spacing:.12em}
+.dg .dl{fill:var(--ink-3);font-size:9.5px}
+/* ============ INDEX TABLE ============ */
+.index-block{padding-block:clamp(72px,10vh,130px);border-top:1px solid var(--hair)}
+.index-wrap{position:relative}
+.index-table{width:100%;border-collapse:collapse}
+.index-table th{
+  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);text-align:left;
+  padding:0 18px 14px 0;border-bottom:1px solid var(--hair-2);
+}
+.index-table td{
+  padding:20px 18px 20px 0;border-bottom:1px solid var(--hair);vertical-align:middle;
+}
+.index-table tbody tr{cursor:pointer;transition:background .18s ease}
+.index-table tbody tr:hover{background:var(--warm)}
+td.i-no{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--copper);width:56px;white-space:nowrap}
+td.i-name{font-family:var(--display);font-weight:600;font-size:17.5px;letter-spacing:-0.01em;white-space:nowrap;width:1%;padding-right:36px}
+td.i-desc{color:var(--ink-2);font-size:14.5px;max-width:56ch}
+td.i-link{text-align:right;white-space:nowrap;width:1%;padding-right:0}
+td.i-link a{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;
+}
+.index-thumb{
+  position:absolute;right:0;width:300px;border:1px solid var(--hair-2);
+  background:var(--paper-2);box-shadow:0 18px 50px rgba(22,24,26,0.14);
+  opacity:0;transform:translateY(-50%) rotate(0.6deg) scale(0.97);
+  transition:opacity .22s ease,transform .3s cubic-bezier(.2,.8,.2,1),top .3s cubic-bezier(.2,.8,.2,1);
+  pointer-events:none;z-index:5;
+}
+.index-thumb.on{opacity:1;transform:translateY(-50%) rotate(0.6deg) scale(1)}
+@media(max-width:980px){.index-thumb{display:none}}
+/* ============ AUDITS ============ */
+.audit-steps{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--hair-2);margin-top:clamp(40px,6vh,64px)}
+.audit-step{padding:30px 28px 36px 0;border-right:1px solid var(--hair);margin-right:28px}
+.audit-step:last-child{border-right:none;margin-right:0;padding-right:0}
+.audit-step .as-no{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--copper);letter-spacing:.12em;margin-bottom:14px}
+.audit-step h4{font-family:var(--display);font-weight:600;font-size:18.5px;letter-spacing:-0.015em;margin-bottom:8px}
+.audit-step p{color:var(--ink-2);font-size:14.5px}
+/* dial */
+.dial-wrap{max-width:380px;margin-inline:auto}
+.dial{width:100%;height:auto}
+.dial-track{fill:none;stroke:var(--hair);stroke-width:1.5}
+.dial-arc{fill:none;stroke:var(--teal);stroke-width:4;stroke-linecap:round}
+.dial-ticks line{stroke:var(--hair-2);stroke-width:1}
+.dial-num{font-family:var(--display);font-weight:600;font-size:52px;fill:var(--copper);letter-spacing:-0.02em}
+.dial-sub{font-family:var(--mono);font-size:11px;letter-spacing:.14em;fill:var(--ink-3)}
+.dial-caption{
+  margin-top:6px;padding-bottom:6px;text-align:center;font-size:10px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+}
+.dial-foot{margin-top:18px;text-align:center;color:var(--ink-2);font-size:14px;max-width:34ch;margin-inline:auto}
+/* ============ AUDIT FORM (ported aqForm, ledger restyle) ============ */
+.aq-wrap{max-width:760px;margin-top:clamp(56px,8vh,90px)}
+.aq-head-kicker{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:16px}
+.aq-head-kicker .kn{color:var(--copper)}
+.aq-title{font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-0.022em;margin-bottom:12px}
+.aq-lede{color:var(--ink-2);font-size:15.5px;max-width:54ch;margin-bottom:34px}
+.aq-form{
+  background:var(--paper-2);border:1px solid var(--hair-2);
+  padding:clamp(26px,4vw,46px);position:relative;
+}
+.aq-progress{display:flex;align-items:center;gap:10px;margin-bottom:34px}
+.aq-dot{width:9px;height:9px;border:1.5px solid var(--hair-2);border-radius:50%;transition:background .2s,border-color .2s}
+.aq-dot.on{background:var(--teal);border-color:var(--teal)}
+.aq-dot.done{background:var(--copper);border-color:var(--copper)}
+.aq-step-label{
+  margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+}
+.aq-step{display:none}
+.aq-step.active{display:block;animation:aqFade .35s ease}
+@keyframes aqFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.aq-step>label{display:block;margin-bottom:20px;font-size:14px;font-weight:450;color:var(--ink-2)}
+.aq-form input[type="text"],.aq-form input[type="email"],.aq-form textarea{
+  display:block;width:100%;margin-top:8px;padding:13px 15px;
+  font-family:var(--body);font-size:16px;color:var(--ink);
+  background:#fff;border:1px solid var(--hair-2);border-radius:0;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+.aq-form input:focus,.aq-form textarea:focus{
+  outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-wash);
+}
+.aq-form ::placeholder{color:var(--ink-3)}
+.aq-q{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-0.015em;margin-bottom:4px}
+.aq-sub{color:var(--ink-3);font-size:13.5px;margin-bottom:18px}
+.aq-choices{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.aq-radio,.aq-check{
+  display:flex;align-items:center;gap:11px;
+  border:1px solid var(--hair);background:#fff;
+  padding:13px 15px;min-height:48px;cursor:pointer;
+  font-size:14.5px;color:var(--ink);
+  transition:border-color .18s ease,background .18s ease;
+}
+.aq-radio:hover,.aq-check:hover{border-color:var(--teal)}
+.aq-radio:has(input:checked),.aq-check:has(input:checked){border-color:var(--teal);background:var(--teal-wash)}
+.aq-form input[type="radio"],.aq-form input[type="checkbox"]{accent-color:var(--teal);width:15px;height:15px;flex:none}
+.aq-textarea-wrap{display:block;margin-top:18px;font-size:14px;font-weight:450;color:var(--ink-2)}
+.aq-error{
+  color:var(--rust);font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;margin-top:16px;
+}
+.aq-nav{display:flex;gap:12px;margin-top:30px}
+.aq-nav button{
+  font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  padding:14px 24px;min-height:48px;cursor:pointer;border-radius:0;
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+.aq-back{background:transparent;color:var(--ink-2);border:1px solid var(--hair-2)}
+.aq-back:hover{color:var(--ink);border-color:var(--ink)}
+.aq-next,.aq-submit{background:var(--ink);color:var(--paper);border:1px solid var(--ink);margin-left:auto}
+.aq-next:hover,.aq-submit:hover{background:var(--teal-hover);border-color:var(--teal-hover);color:#fff}
+.aq-nav button:disabled{opacity:.4;cursor:not-allowed}
+.aq-success{text-align:center;padding:40px 20px;animation:aqFade .4s ease}
+.aq-check-icon{
+  width:64px;height:64px;margin:0 auto 20px;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:32px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.aq-success-title{font-family:var(--display);font-size:26px;font-weight:600;letter-spacing:-0.02em;margin-bottom:8px}
+.aq-success-text{color:var(--ink-2);font-size:15.5px}
+/* ============ APPROACH ============ */
+.approach-list{list-style:none;border-top:1px solid var(--hair-2);counter-reset:cap}
+.approach-list li{
+  display:grid;grid-template-columns:70px minmax(0,5fr) minmax(0,6fr);
+  gap:clamp(16px,3vw,40px);align-items:baseline;
+  padding-block:26px;border-bottom:1px solid var(--hair);
+}
+.ap-no{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--copper);letter-spacing:.1em}
+.ap-what{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,1.8vw,1.35rem);letter-spacing:-0.015em}
+.ap-how{color:var(--ink-2);font-size:14.5px}
+.approach-note{
+  margin-top:36px;font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;color:var(--ink-2);
+  display:flex;align-items:center;gap:14px;
+}
+.approach-note::before{content:"";width:34px;height:1px;background:var(--copper)}
+/* ============ CONTACT / FOOTER ============ */
+.contact-big{
+  font-family:var(--display);font-weight:600;letter-spacing:-0.03em;line-height:1.02;
+  font-size:clamp(2.6rem,7vw,5.2rem);color:var(--ink);display:inline-block;margin-top:8px;
+}
+.contact-big .arrow{color:var(--teal);transition:transform .25s ease;display:inline-block}
+.contact-big:hover{color:var(--teal-hover)}
+.contact-big:hover .arrow{transform:translateX(10px)}
+.contact-email{
+  margin-top:26px;font-family:var(--mono);font-size:13.5px;letter-spacing:.04em;color:var(--ink-2);
+}
+.contact-email a{color:var(--teal);border-bottom:1px solid var(--hair-2)}
+.contact-alt{margin-top:10px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink-3)}
+footer{border-top:1px solid var(--hair);padding-block:26px}
+.foot-inner{
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+}
+/* ============ RESPONSIVE ============ */
+@media(max-width:980px){
+  .hero-main{grid-template-columns:1fr;gap:48px}
+  .hero-portrait{max-width:440px}
+  .flag-grid{grid-template-columns:1fr;gap:44px}
+  .flagship.flip .flag-media{order:0}
+  .flagship{min-height:0}
+  .cred{grid-template-columns:repeat(2,1fr)}
+  .cred-item:nth-child(2n){border-right:none}
+  .cred-item:last-child{grid-column:1/-1;border-right:none}
+  .audit-steps{grid-template-columns:1fr}
+  .audit-step{border-right:none;margin-right:0;padding:24px 0;border-bottom:1px solid var(--hair)}
+  .audit-step:last-child{border-bottom:none}
+  .approach-list li{grid-template-columns:48px 1fr;gap:14px}
+  .ap-how{grid-column:2}
+}
+@media(max-width:760px){
+  .index-table thead{display:none}
+  .index-table,.index-table tbody,.index-table tr,.index-table td{display:block}
+  .index-table tbody tr{
+    display:grid;grid-template-columns:48px 1fr auto;align-items:baseline;
+    padding-block:18px;border-bottom:1px solid var(--hair);
+  }
+  .index-table td{border-bottom:none;padding:0}
+  td.i-name{white-space:normal;width:auto;padding-right:12px}
+  td.i-desc{grid-column:2/-1;margin-top:6px;font-size:13.5px}
+  td.i-link{text-align:left;grid-column:2/-1}
+  .aq-choices{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .nav-name{font-size:0}
+  .nav-name::before{content:"GC";font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.1em}
+  .nav-links{gap:12px}
+  .nav-links a{font-size:10px;letter-spacing:.04em}
+  .nav-links .nn{display:none}
+  .flag-metrics li{padding-right:16px;margin-right:16px}
+}
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#work">Skip to work</a>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="nav-name" href="#top">Georg Chimion</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#work">Work <sup class="nn">01</sup></a>
+      <a href="#audits">Audits <sup class="nn">02</sup></a>
+      <a href="#approach">Approach <sup class="nn">03</sup></a>
+      <a href="#contact">Contact <sup class="nn">04</sup></a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="container hero-main">
+    <div class="hero-copy">
+      <p class="hero-kicker" data-hero>Georg Chimion <span class="kn">/</span> Miami, FL <span class="kn">/</span> AI Engineer</p>
+      <h1 data-hero>AI automation<br>for the <span class="t">enterprise</span>.</h1>
+      <p class="hero-sub" data-hero>Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</p>
+      <div class="hero-ctas" data-hero>
+        <a class="btn btn-solid" href="mailto:georg.chimion@gmail.com?subject=Working%20with%20Georg">Book 20 minutes</a>
+        <a class="btn btn-ghost" href="#work">See the work &darr;</a>
+      </div>
+    </div>
+    <div class="hero-portrait" data-hero>
+      <div class="frame"><span class="fc" aria-hidden="true"></span>
+        <img src="https://georg.miami/georg-hero.jpeg" alt="Georg Chimion" width="900" height="1200" fetchpriority="high" decoding="async">
+      </div>
+      <div class="portrait-caption"><span>Fig. <span class="kn">00</span> &middot; The operator</span><span>25&deg;46'N 80&deg;11'W</span></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="cred" data-reveal>
+      <div class="cred-item"><span class="cred-k">PwC, today</span><span class="cred-v">AI systems in production</span></div>
+      <div class="cred-item"><span class="cred-k">Banking + risk</span><span class="cred-v">Reconciliation, fraud, compliance</span></div>
+      <div class="cred-item"><span class="cred-k">AI products</span><span class="cred-v"><span class="num" data-count="15">15</span> live, all clickable</span></div>
+      <div class="cred-item"><span class="cred-k">Client audits</span><span class="cred-v"><span class="num" data-count="12">12</span> delivered as live branded sites</span></div>
+      <div class="cred-item"><span class="cred-k">Claude</span><span class="cred-v">Multi-agent, on real data</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 WORK ============ -->
+<section id="work">
+  <div class="container sec-pad" style="padding-bottom:0">
+    <div class="sec-head">
+      <p class="kicker"><span class="kn">01</span> Work / The ledger</p>
+      <h2 class="sec-title" data-reveal>Five systems, end to end.</h2>
+      <p class="sec-sub" data-reveal>Each one designed, built, and deployed on my own infrastructure. Open them. Click around. Nothing here is a mockup.</p>
+    </div>
+  </div>
+
+  <!-- 1/5 ASK PENNY -->
+  <div class="container">
+    <article class="flagship" id="f-penny">
+      <div class="flag-grid">
+        <div class="flag-text">
+          <p class="flag-counter"><span class="kn">1</span> / 5 &middot; Ask Penny</p>
+          <h3 class="flag-title" data-reveal>Ask your bank account a question. Get a straight answer.</h3>
+          <p class="flag-narrative" data-reveal>Claude connected to a real bank account through Teller or Plaid. Ask about your money in plain English and it answers from live transactions. No mock data anywhere in the loop.</p>
+          <figure class="flag-diagram" aria-label="Ask Penny system diagram: bank API to transaction store to Claude tool-calling to conversational answers">
+            <svg class="dg" viewBox="0 0 680 200" role="img">
+              <text class="dl" x="435" y="18" text-anchor="middle">PLAIN-ENGLISH QUESTION</text>
+              <path class="dd" d="M435 28 V52"/>
+              <path class="d" d="M430 47 L435 54 L440 47"/>
+              <rect class="d" x="4" y="62" width="106" height="44" rx="3"/>
+              <text x="57" y="88" text-anchor="middle">BANK API</text>
+              <line class="d" x1="110" y1="84" x2="160" y2="84"/>
+              <path class="d" d="M153 79 L161 84 L153 89"/>
+              <rect class="d" x="164" y="62" width="136" height="44" rx="3"/>
+              <text x="232" y="88" text-anchor="middle">TXN STORE</text>
+              <line class="d" x1="300" y1="84" x2="350" y2="84"/>
+              <path class="d" d="M343 79 L351 84 L343 89"/>
+              <rect class="d" x="354" y="62" width="162" height="44" rx="3"/>
+              <text x="435" y="88" text-anchor="middle">CLAUDE + TOOLS</text>
+              <line class="d" x1="516" y1="84" x2="566" y2="84"/>
+              <path class="d" d="M559 79 L567 84 L559 89"/>
+              <rect class="d" x="570" y="62" width="106" height="44" rx="3"/>
+              <text x="623" y="88" text-anchor="middle">ANSWER</text>
+              <path class="d" d="M400 106 V146 H240 V112"/>
+              <path class="d" d="M235 119 L240 111 L245 119"/>
+              <text class="dl" x="320" y="162" text-anchor="middle">TOOL CALLS, LIVE BALANCES</text>
+              <text class="dc" x="57" y="130" text-anchor="middle">TELLER / PLAID</text>
+            </svg>
+          </figure>
+          <ul class="flag-metrics" data-reveal>
+            <li><span class="m-label">Bank feed</span><span class="m-value">Teller / Plaid</span></li>
+            <li><span class="m-label">Engine</span><span class="m-value">Claude tool-calling</span></li>
+            <li><span class="m-label">Data</span><span class="m-value">Live transactions</span></li>
+          </ul>
+          <a class="flag-link" href="https://askpenny.georg.miami" target="_blank" rel="noopener">Open live -&gt;</a>
+        </div>
+        <div class="flag-media" data-reveal>
+          <div class="frame"><span class="fc" aria-hidden="true"></span>
+            <video data-autoplay muted loop playsinline preload="none" poster="https://georg.miami/screenshots/penny.png" aria-label="Ask Penny demo video">
+              <source src="https://georg.miami/videos/askpenny.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- 2/5 AGENT FACTORY -->
+  <div class="container">
+    <article class="flagship flip" id="f-factory">
+      <div class="flag-grid">
+        <div class="flag-text">
+          <p class="flag-counter"><span class="kn">2</span> / 5 &middot; Agent Factory</p>
+          <h3 class="flag-title" data-reveal>Four agents. One brief. A production site, live.</h3>
+          <p class="flag-narrative" data-reveal>Four Claude agents plan, build, review, and deploy a production website from one brief. Watch them work the queue in real time, brief to live URL in under five minutes.</p>
+          <figure class="flag-diagram" aria-label="Agent Factory system diagram: brief to planner to builder to reviewer to deployer to live URL">
+            <svg class="dg" viewBox="0 0 680 190" role="img">
+              <rect class="d" x="2" y="58" width="64" height="44" rx="3"/>
+              <text x="34" y="84" text-anchor="middle">BRIEF</text>
+              <line class="d" x1="66" y1="80" x2="96" y2="80"/>
+              <path class="d" d="M90 75 L97 80 L90 85"/>
+              <rect class="d" x="100" y="58" width="88" height="44" rx="3"/>
+              <text x="144" y="84" text-anchor="middle">PLANNER</text>
+              <line class="d" x1="188" y1="80" x2="218" y2="80"/>
+              <path class="d" d="M212 75 L219 80 L212 85"/>
+              <rect class="d" x="222" y="58" width="88" height="44" rx="3"/>
+              <text x="266" y="84" text-anchor="middle">BUILDER</text>
+              <line class="d" x1="310" y1="80" x2="340" y2="80"/>
+              <path class="d" d="M334 75 L341 80 L334 85"/>
+              <rect class="d" x="344" y="58" width="92" height="44" rx="3"/>
+              <text x="390" y="84" text-anchor="middle">REVIEWER</text>
+              <line class="d" x1="436" y1="80" x2="466" y2="80"/>
+              <path class="d" d="M460 75 L467 80 L460 85"/>
+              <rect class="d" x="470" y="58" width="92" height="44" rx="3"/>
+              <text x="516" y="84" text-anchor="middle">DEPLOYER</text>
+              <line class="d" x1="562" y1="80" x2="592" y2="80"/>
+              <path class="d" d="M586 75 L593 80 L586 85"/>
+              <rect class="d" x="596" y="58" width="82" height="44" rx="3"/>
+              <text x="637" y="84" text-anchor="middle">LIVE URL</text>
+              <path class="dd" d="M390 102 V134 H266 V108"/>
+              <path class="d" d="M261 115 L266 107 L271 115"/>
+              <text class="dl" x="328" y="150" text-anchor="middle">REVISE LOOP</text>
+              <text class="dc" x="340" y="178" text-anchor="middle">BRIEF TO LIVE URL: UNDER 5 MINUTES</text>
+            </svg>
+          </figure>
+          <ul class="flag-metrics" data-reveal>
+            <li><span class="m-label">Agents</span><span class="m-value">4</span></li>
+            <li><span class="m-label">Brief to live</span><span class="m-value">Under 5 min</span></li>
+            <li><span class="m-label">Queue</span><span class="m-value">Watch in real time</span></li>
+          </ul>
+          <a class="flag-link" href="https://factory.georg.miami" target="_blank" rel="noopener">Open live -&gt;</a>
+        </div>
+        <div class="flag-media" data-reveal>
+          <div class="frame"><span class="fc" aria-hidden="true"></span>
+            <video data-autoplay muted loop playsinline preload="none" poster="https://georg.miami/screenshots/factory.png" aria-label="Agent Factory demo video">
+              <source src="https://georg.miami/videos/factory.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+<!--PART4-->
+</body>
+</html>

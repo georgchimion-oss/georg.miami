@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>georgOS - Georg Chimion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=SF+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --glass-bg:rgba(30,30,30,0.72);
+  --glass-border:rgba(255,255,255,0.12);
+  --glass-highlight:rgba(255,255,255,0.06);
+  --accent:#007AFF;
+  --accent-hover:#0A84FF;
+  --red:#FF5F57;--yellow:#FEBC2E;--green:#28C840;
+  --text:#f5f5f7;--text-secondary:rgba(255,255,255,0.55);
+  --font:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',Roboto,sans-serif;
+  --mono:'SF Mono','Fira Code','Cascadia Code',monospace;
+  --dock-size:58px;
+  --menubar-h:28px;
+}
+html,body{height:100%;overflow:hidden;font-family:var(--font);color:var(--text);user-select:none;-webkit-user-select:none}
+
+/* ── WALLPAPER ── */
+#desktop{
+  position:fixed;inset:0;
+  background:url('https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=1920&q=80') center/cover no-repeat;
+}
+#desktop::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.05) 40%,rgba(0,0,0,0.25) 100%);
+}
+
+/* ── MENU BAR ── */
+#menubar{
+  position:fixed;top:0;left:0;right:0;height:var(--menubar-h);z-index:10000;
+  background:rgba(20,20,20,0.82);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:space-between;padding:0 12px;
+  font-size:13px;font-weight:500;
+}
+.menu-left{display:flex;align-items:center;gap:18px}
+.menu-left .apple{font-size:16px;opacity:0.9}
+.menu-left span{opacity:0.85;cursor:default;transition:opacity 0.15s}
+.menu-left span:first-child{font-weight:700;opacity:1}
+.menu-left span:hover{opacity:1}
+.menu-right{display:flex;align-items:center;gap:16px;font-size:12px;opacity:0.75}
+#clock{font-variant-numeric:tabular-nums}
+
+/* ── DOCK ── */
+#dock-wrapper{
+  position:fixed;bottom:6px;left:50%;transform:translateX(-50%);z-index:9999;
+  padding:4px 8px;
+  background:rgba(30,30,30,0.55);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.15);border-radius:18px;
+}
+#dock{display:flex;align-items:flex-end;gap:4px;height:var(--dock-size)}
+.dock-item{
+  width:var(--dock-size);height:var(--dock-size);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;
+}
+.dock-item:hover{transform:scale(1.35) translateY(-12px)}
+.dock-item:hover .dock-tooltip{opacity:1;transform:translateY(-8px)}
+.dock-icon{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.15);
+  transition:box-shadow 0.2s;
+}
+.dock-item:hover .dock-icon{box-shadow:0 4px 20px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.2)}
+.dock-dot{
+  width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.7);
+  margin-top:3px;opacity:0;transition:opacity 0.2s;
+}
+.dock-dot.active{opacity:1}
+.dock-tooltip{
+  position:absolute;top:-34px;
+  background:rgba(30,30,30,0.9);border:1px solid rgba(255,255,255,0.12);
+  padding:3px 10px;border-radius:5px;font-size:11px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity 0.15s,transform 0.15s;
+}
+.dock-separator{width:1px;height:36px;background:rgba(255,255,255,0.12);margin:0 4px;align-self:center}
+
+/* ── WINDOWS ── */
+.window{
+  position:absolute;
+  min-width:380px;min-height:260px;
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,0.45),0 0 0 0.5px rgba(255,255,255,0.1);
+  display:flex;flex-direction:column;
+  transition:box-shadow 0.2s;
+  animation:windowOpen 0.35s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes windowOpen{
+  from{opacity:0;transform:scale(0.88)}
+  to{opacity:1;transform:scale(1)}
+}
+.window.focused{box-shadow:0 28px 90px rgba(0,0,0,0.55),0 0 0 0.5px rgba(255,255,255,0.12);z-index:100}
+.window.minimized{
+  transform:scale(0.1) translateY(600px)!important;opacity:0!important;
+  pointer-events:none;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.3s;
+}
+
+.titlebar{
+  height:38px;
+  background:rgba(38,38,38,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  display:flex;align-items:center;padding:0 14px;
+  cursor:default;flex-shrink:0;
+}
+.traffic-lights{display:flex;gap:7px;margin-right:12px}
+.tl{width:12px;height:12px;border-radius:50%;cursor:pointer;position:relative;transition:filter 0.15s}
+.tl-close{background:var(--red)}
+.tl-minimize{background:var(--yellow)}
+.tl-maximize{background:var(--green)}
+.tl:hover{filter:brightness(1.15)}
+.tl::after{
+  content:'';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:9px;opacity:0;transition:opacity 0.1s;color:rgba(0,0,0,0.6);font-weight:700;
+}
+.titlebar:hover .tl-close::after{content:'\00d7';opacity:1;line-height:12px;text-align:center}
+.titlebar:hover .tl-minimize::after{content:'\2013';opacity:1;line-height:11px;text-align:center}
+.titlebar:hover .tl-maximize::after{content:'\002B';opacity:1;line-height:12px;text-align:center;font-size:11px}
+.titlebar-text{
+  flex:1;text-align:center;font-size:13px;font-weight:500;
+  opacity:0.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.titlebar-icon{margin-right:6px;font-size:14px}
+
+.window-body{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  background:rgba(28,28,30,0.96);
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.15) transparent;
+}
+.window-body::-webkit-scrollbar{width:6px}
+.window-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px}
+
+/* ── PRODUCT WINDOWS ── */
+.product-window .window-body{padding:0}
+.product-hero{
+  width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.product-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.product-hero .overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px;
+  background:linear-gradient(transparent,rgba(0,0,0,0.7));
+}
+.product-info{padding:20px}
+.product-info h2{font-size:20px;font-weight:600;margin-bottom:6px}
+.product-info p{font-size:13px;line-height:1.6;color:var(--text-secondary);margin-bottom:16px}
+.product-info .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.product-info .tag{
+  padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;
+  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);
+}
+.btn-visit{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 18px;border-radius:8px;border:none;
+  background:var(--accent);color:#fff;font-size:13px;font-weight:600;
+  cursor:pointer;transition:background 0.15s,transform 0.1s;text-decoration:none;
+}
+.btn-visit:hover{background:var(--accent-hover);transform:scale(1.03)}
+
+/* ── ABOUT WINDOW ── */
+.about-content{padding:30px;text-align:center}
+.about-avatar{
+  width:100px;height:100px;border-radius:50%;object-fit:cover;
+  border:3px solid rgba(255,255,255,0.15);margin-bottom:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+.about-name{font-size:22px;font-weight:700;margin-bottom:2px}
+.about-title{font-size:13px;color:var(--text-secondary);margin-bottom:20px}
+.about-specs{text-align:left;margin:0 auto;max-width:300px}
+.about-row{
+  display:flex;justify-content:space-between;padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);font-size:12px;
+}
+.about-row .label{color:var(--text-secondary)}
+.about-row .value{font-weight:500}
+.about-links{display:flex;justify-content:center;gap:12px;margin-top:20px}
+.about-links a{
+  padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;
+  background:rgba(255,255,255,0.08);color:var(--text);text-decoration:none;
+  transition:background 0.15s;display:flex;align-items:center;gap:5px;
+}
+.about-links a:hover{background:rgba(255,255,255,0.14)}
+
+/* ── TERMINAL WINDOW ── */
+.terminal-body{
+  padding:16px;font-family:var(--mono);font-size:12px;line-height:1.7;
+  background:#1a1a1a!important;color:#33ff33;
+}
+.terminal-body .prompt{color:#00bfff}
+.terminal-body .comment{color:#666}
+.terminal-body .output{color:#ccc}
+.terminal-body .highlight{color:#ff6ac1}
+.terminal-body .cursor{
+  display:inline-block;width:8px;height:14px;background:#33ff33;
+  animation:blink 1s step-end infinite;vertical-align:text-bottom;margin-left:2px;
+}
+@keyframes blink{50%{opacity:0}}
+
+/* ── FINDER WINDOW ── */
+.finder-sidebar{
+  width:180px;background:rgba(38,38,40,0.95);border-right:1px solid rgba(255,255,255,0.06);
+  padding:10px 0;flex-shrink:0;overflow-y:auto;
+}
+.finder-sidebar .section-label{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;
+  color:var(--text-secondary);padding:8px 14px 4px;
+}
+.finder-sidebar .item{
+  padding:5px 14px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:7px;
+  transition:background 0.1s;border-radius:0;
+}
+.finder-sidebar .item:hover{background:rgba(255,255,255,0.06)}
+.finder-sidebar .item.active{background:var(--accent);border-radius:5px;margin:0 6px}
+.finder-files{flex:1;padding:16px;overflow-y:auto}
+.finder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:12px}
+.finder-file{
+  display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;
+  border-radius:8px;cursor:pointer;transition:background 0.15s;text-align:center;
+}
+.finder-file:hover{background:rgba(255,255,255,0.06)}
+.finder-file .icon{font-size:36px}
+.finder-file .name{font-size:10px;line-height:1.3;color:var(--text-secondary);word-break:break-word}
+
+/* ── DESKTOP ICONS ── */
+.desktop-icons{
+  position:fixed;top:calc(var(--menubar-h) + 12px);right:16px;z-index:1;
+  display:flex;flex-direction:column;gap:8px;
+}
+.desktop-icon{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:8px;border-radius:8px;cursor:pointer;width:80px;text-align:center;
+  transition:background 0.15s;
+}
+.desktop-icon:hover{background:rgba(255,255,255,0.1)}
+.desktop-icon .ico{font-size:40px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.desktop-icon .lbl{font-size:10px;text-shadow:0 1px 3px rgba(0,0,0,0.6)}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  html,body{overflow:auto;height:auto}
+  #desktop{position:fixed;inset:0}
+  #dock-wrapper{display:none!important}
+  #menubar{display:none!important}
+  .desktop-icons{display:none!important}
+  #spotlight-overlay{display:none!important}
+  .mobile-notice{
+    display:block!important;
+    text-align:center;padding:60px 16px 12px;
+    font-size:11px;color:rgba(255,255,255,0.45);font-family:var(--mono);
+    letter-spacing:0.5px;
+  }
+  #windows-container{
+    position:relative!important;
+    top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+    overflow:visible!important;
+    z-index:10;
+    padding:0 8px 24px;
+  }
+  .window{
+    position:relative!important;
+    left:auto!important;top:auto!important;
+    width:100%!important;
+    min-width:unset!important;
+    max-height:none!important;
+    height:auto!important;
+    margin:0 0 12px 0;
+    border-radius:10px;
+    animation:none;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3),0 0 0 0.5px rgba(255,255,255,0.1);
+  }
+  .window.minimized{
+    transform:none!important;opacity:1!important;pointer-events:auto;
+  }
+  .window-body{
+    max-height:50vh;
+    overflow-y:auto;
+  }
+  .titlebar{cursor:default}
+  .traffic-lights{display:none}
+  .finder-sidebar{display:none}
+  .product-hero{aspect-ratio:16/10}
+  .notification{display:none!important}
+}
+
+/* ── NOTIFICATION ── */
+.notification{
+  position:fixed;top:calc(var(--menubar-h) + 10px);right:16px;z-index:99999;
+  background:rgba(44,44,46,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.1);border-radius:14px;
+  padding:14px 18px;min-width:300px;max-width:360px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.4);
+  animation:notifIn 0.4s cubic-bezier(0.16,1,0.3,1);
+  display:flex;align-items:flex-start;gap:12px;
+}
+@keyframes notifIn{from{opacity:0;transform:translateY(-20px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.notification .notif-icon{font-size:28px;flex-shrink:0}
+.notification .notif-text h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.notification .notif-text p{font-size:12px;color:var(--text-secondary);line-height:1.4}
+
+/* ── SPOTLIGHT ── */
+#spotlight-overlay{
+  position:fixed;inset:0;z-index:99998;
+  background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:none;align-items:flex-start;justify-content:center;padding-top:18vh;
+}
+#spotlight-overlay.show{display:flex}
+#spotlight{
+  width:580px;max-width:90vw;
+  background:rgba(38,38,40,0.95);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
+  border:1px solid rgba(255,255,255,0.12);border-radius:14px;
+  overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+#spotlight input{
+  width:100%;padding:14px 18px;border:none;background:transparent;
+  font-size:18px;font-weight:300;color:var(--text);outline:none;
+  font-family:var(--font);
+}
+#spotlight input::placeholder{color:rgba(255,255,255,0.3)}
+#spotlight-results{max-height:300px;overflow-y:auto}
+.spotlight-item{
+  padding:10px 18px;display:flex;align-items:center;gap:10px;cursor:pointer;
+  transition:background 0.1s;font-size:13px;
+}
+.spotlight-item:hover,.spotlight-item.selected{background:var(--accent)}
+.spotlight-item .s-icon{font-size:20px;width:28px;text-align:center}
+.spotlight-item .s-label{flex:1}
+.spotlight-item .s-type{font-size:11px;color:var(--text-secondary)}
+</style>
+</head>
+<body>
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="premiere.html">Premiere</option>
+    <option value="maximal.html">Maximal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html">Cyberpunk</option>
+    <option value="desktop.html" selected>Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+
+
+<!-- MENU BAR -->
+<div id="menubar">
+  <div class="menu-left">
+    <span class="apple">&#63743;</span>
+    <span style="font-weight:700">Georg</span>
+    <span>File</span><span>Edit</span><span>View</span><span>Help</span>
+  </div>
+  <div class="menu-right">
+    <span>&#9636;</span>
+    <span>&#9889;</span>
+    <span>Wi-Fi</span>
+    <span id="clock"></span>
+  </div>
+</div>
+
+<!-- DESKTOP -->
+<div id="desktop"></div>
+
+<!-- DESKTOP ICONS -->
+<div class="desktop-icons">
+  <div class="desktop-icon" onclick="openWindow('about')"><div class="ico">&#128100;</div><div class="lbl">About Georg</div></div>
+  <div class="desktop-icon" onclick="openWindow('finder')"><div class="ico">&#128193;</div><div class="lbl">Projects</div></div>
+  <div class="desktop-icon" onclick="openWindow('terminal')"><div class="ico">&#128187;</div><div class="lbl">Terminal</div></div>
+</div>
+
+<!-- MOBILE NOTICE -->
+<div class="mobile-notice" style="display:none;">Best experienced on desktop</div>
+
+<!-- WINDOWS CONTAINER -->
+<div id="windows-container"></div>
+
+<!-- SPOTLIGHT -->
+<div id="spotlight-overlay" onclick="closeSpotlight(event)">
+  <div id="spotlight">
+    <input type="text" id="spotlight-input" placeholder="Spotlight Search" oninput="filterSpotlight(this.value)">
+    <div id="spotlight-results"></div>
+  </div>
+</div>
+
+<!-- DOCK -->
+<div id="dock-wrapper">
+  <div id="dock"></div>
+</div>
+
+<script>
+// ── DATA ──
+const products = [
+  {id:'vestia',name:'Vestia',icon:'&#127968;',color:'linear-gradient(135deg,#667eea,#764ba2)',url:'https://vestia.georg.miami',img:'screenshots/vestia.png',
+   desc:'AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.',tags:['AI-Powered','PropTech','Full-Stack']},
+  {id:'askpenny',name:'Ask Penny',icon:'&#128176;',color:'linear-gradient(135deg,#f093fb,#f5576c)',url:'https://penny.georg.miami',img:'screenshots/askpenny-dashboard.png',
+   desc:'AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.',tags:['AI-Powered','Finance','Claude']},
+  {id:'factory',name:'Agent Factory',icon:'&#9881;',color:'linear-gradient(135deg,#4facfe,#00f2fe)',url:'https://factory.georg.miami',img:'screenshots/factory.png',
+   desc:'4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.',tags:['AI Multi-Agent','Automation']},
+  {id:'venue',name:'VENUE',icon:'&#127914;',color:'linear-gradient(135deg,#fa709a,#fee140)',url:'https://venue.georg.miami',img:'screenshots/venue.png',
+   desc:'Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.',tags:['Product','Events','Booking']},
+  {id:'reconx',name:'ReconX',icon:'&#128270;',color:'linear-gradient(135deg,#a8edea,#fed6e3)',url:'https://reconx.georg.miami',img:'screenshots/reconx.png',
+   desc:'Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.',tags:['Live','Finance','Reconciliation']},
+  {id:'docai',name:'AI Document Intelligence',icon:'&#128196;',color:'linear-gradient(135deg,#fbc2eb,#a6c1ee)',url:'https://docs.georg.miami',img:'screenshots/docai.png',
+   desc:'Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.',tags:['AI-Powered','Documents']},
+  {id:'roi',name:'ROI Calculator',icon:'&#128202;',color:'linear-gradient(135deg,#84fab0,#8fd3f4)',url:'https://roi.georg.miami',img:'screenshots/roi.png',
+   desc:'Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.',tags:['Live','Enterprise','ROI']},
+  {id:'spacewalk',name:'SpaceWalk',icon:'&#128640;',color:'linear-gradient(135deg,#a18cd1,#fbc2eb)',url:'https://spacewalk.georg.miami',img:'screenshots/spacewalk.png',
+   desc:'Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.',tags:['AI + 3D','Real Estate']},
+];
+
+const allApps = [
+  ...products.map(p=>({id:p.id,name:p.name,icon:p.icon,type:'App'})),
+  {id:'about',name:'About Georg',icon:'&#128100;',type:'System'},
+  {id:'finder',name:'Finder',icon:'&#128193;',type:'System'},
+  {id:'terminal',name:'Terminal',icon:'&#128187;',type:'System'},
+];
+
+// ── STATE ──
+let windowZ = 10;
+const openWindows = {};
+const windowPositions = {};
+let offsetIdx = 0;
+
+// ── CLOCK ──
+function updateClock(){
+  const d=new Date();
+  const day=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  const time=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  document.getElementById('clock').textContent=`${day}  ${time}`;
+}
+updateClock();setInterval(updateClock,10000);
+
+// ── DOCK ──
+function buildDock(){
+  const dock=document.getElementById('dock');
+  const sysApps=[
+    {id:'finder',name:'Finder',icon:'&#128193;',color:'linear-gradient(135deg,#5B9BD5,#2E75B6)'},
+    {id:'terminal',name:'Terminal',icon:'&#128187;',color:'linear-gradient(135deg,#1a1a1a,#333)'},
+    {id:'about',name:'About Georg',icon:'&#128100;',color:'linear-gradient(135deg,#8E8E93,#636366)'},
+  ];
+  sysApps.forEach(a=>{
+    dock.innerHTML+=`
+      <div class="dock-item" onclick="openWindow('${a.id}')">
+        <div class="dock-tooltip">${a.name}</div>
+        <div class="dock-icon" style="background:${a.color}">${a.icon}</div>
+        <div class="dock-dot" id="dot-${a.id}"></div>
+      </div>`;
+  });
+  dock.innerHTML+='<div class="dock-separator"></div>';
+  products.forEach(p=>{
+    dock.innerHTML+=`
+      <div class="dock-item" onclick="openWindow('${p.id}')">
+        <div class="dock-tooltip">${p.name}</div>
+        <div class="dock-icon" style="background:${p.color}">${p.icon}</div>
+        <div class="dock-dot" id="dot-${p.id}"></div>
+      </div>`;
+  });
+}
+buildDock();
+
+// ── WINDOW CREATION ──
+function getWindowPos(w,h){
+  const vw=window.innerWidth, vh=window.innerHeight;
+  const base={x:Math.max(60, (vw-w)/2 - 100), y:Math.max(50, (vh-h)/2 - 100)};
+  const off = (offsetIdx % 8) * 28;
+  offsetIdx++;
+  return {x: Math.min(base.x+off, vw-w-20), y: Math.min(base.y+off, vh-h-80)};
+}
+
+function openWindow(id){
+  if(openWindows[id]){
+    const el=openWindows[id];
+    if(el.classList.contains('minimized')){el.classList.remove('minimized')}
+    focusWindow(el);
+    return;
+  }
+  let html='',ww=640,wh=480,title='',titleIcon='';
+
+  const prod=products.find(p=>p.id===id);
+  if(prod){
+    title=prod.name;titleIcon=prod.icon;
+    ww=580;wh=520;
+    html=`<div class="product-window"><div class="window-body">
+      ${prod.img?`<div class="product-hero"><img src="${prod.img}" alt="${prod.name}" onerror="this.parentElement.style.background='${prod.color}';this.remove()"><div class="overlay"></div></div>`:`<div class="product-hero" style="background:${prod.color};display:flex;align-items:center;justify-content:center;font-size:64px">${prod.icon}</div>`}
+      <div class="product-info">
+        <h2>${prod.name}</h2>
+        <p>${prod.desc}</p>
+        <div class="tags">${prod.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        <a href="${prod.url}" target="_blank" class="btn-visit">&#127760; Visit ${prod.name} &rarr;</a>
+      </div>
+    </div></div>`;
+  } else if(id==='about'){
+    title='About This Mac Georg';titleIcon='&#128100;';ww=420;wh=520;
+    html=`<div class="window-body"><div class="about-content">
+      <img src="georg.jpeg" class="about-avatar" alt="Georg" onerror="this.style.background='#444';this.alt='G'">
+      <div class="about-name">Georg Chimion</div>
+      <div class="about-title">AI Automation Specialist</div>
+      <div style="font-size:11px;color:var(--text-secondary);margin-bottom:18px">georgOS Version 2026.4</div>
+      <div class="about-specs">
+        <div class="about-row"><span class="label">Location</span><span class="value">&#127796; Wynwood, Miami FL</span></div>
+        <div class="about-row"><span class="label">Processor</span><span class="value">Creative AI Core</span></div>
+        <div class="about-row"><span class="label">Memory</span><span class="value">8 Products Shipped</span></div>
+        <div class="about-row"><span class="label">Stack</span><span class="value">React, Python, AI/ML</span></div>
+        <div class="about-row"><span class="label">Uptime</span><span class="value">Always On &#9889;</span></div>
+        <div class="about-row"><span class="label">Email</span><span class="value">georg.chimion@gmail.com</span></div>
+      </div>
+      <div class="about-links">
+        <a href="https://github.com/georgchimion-oss" target="_blank">&#128025; GitHub</a>
+        <a href="https://linkedin.com/in/georgchimion" target="_blank">&#128101; LinkedIn</a>
+        <a href="mailto:georg.chimion@gmail.com">&#9993; Email</a>
+      </div>
+    </div></div>`;
+  } else if(id==='terminal'){
+    title='Terminal';titleIcon='&#128187;';ww=600;wh=420;
+    html=`<div class="window-body terminal-body">
+<span class="comment"># georgOS Terminal v2026.4</span>
+<br><span class="comment"># Last login: ${new Date().toDateString()}</span>
+<br><br><span class="prompt">georg@miami ~$</span> neofetch
+<br><br><span class="output">  &nbsp; &#9608;&#9608;&#9608;&#9608;&#9608;    <span class="highlight">georg@miami</span></span>
+<br><span class="output">  &#9608;&#9608;   &#9608;&#9608;   ---------------</span>
+<br><span class="output">  &#9608;&#9608;        OS: georgOS 2026.4 (Miami Edition)</span>
+<br><span class="output">  &#9608;&#9608;  &#9608;&#9608;&#9608;   Host: Wynwood, Miami FL</span>
+<br><span class="output">  &#9608;&#9608;   &#9608;&#9608;   Kernel: Creative-AI-Core</span>
+<br><span class="output">  &nbsp; &#9608;&#9608;&#9608;&#9608;&#9608;    Uptime: Always</span>
+<br><span class="output">                 Packages: 8 (shipped)</span>
+<br><span class="output">                 Shell: react/python/ai</span>
+<br><span class="output">                 Resolution: Pixel Perfect</span>
+<br><span class="output">                 Theme: Dark Miami [&#9608;<span style="color:#007AFF">&#9608;</span><span style="color:#FF6AC1">&#9608;</span><span style="color:#33FF33">&#9608;</span><span style="color:#FEBC2E">&#9608;</span>]</span>
+<br><br><span class="prompt">georg@miami ~$</span> ls ~/products/
+<br><br><span class="output">  vestia/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ask-penny/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;agent-factory/</span>
+<br><span class="output">  venue/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reconx/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ai-doc-intel/</span>
+<br><span class="output">  roi-calc/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spacewalk/</span>
+<br><br><span class="prompt">georg@miami ~$</span> echo "Let's build something amazing."
+<br><span class="output">Let's build something amazing.</span>
+<br><br><span class="prompt">georg@miami ~$</span> <span class="cursor"></span>
+</div>`;
+  } else if(id==='finder'){
+    title='Finder';titleIcon='&#128193;';ww=700;wh=440;
+    html=`<div class="window-body" style="display:flex;padding:0">
+      <div class="finder-sidebar">
+        <div class="section-label">Favorites</div>
+        <div class="item active">&#128187; Products</div>
+        <div class="item" onclick="openWindow('about')">&#128100; About</div>
+        <div class="item" onclick="openWindow('terminal')">&#9000; Terminal</div>
+        <div class="section-label">Locations</div>
+        <div class="item">&#127968; Home</div>
+        <div class="item">&#9729; Cloud</div>
+        <div class="section-label">Tags</div>
+        <div class="item"><span style="color:var(--red)">&#9679;</span> AI</div>
+        <div class="item"><span style="color:var(--accent)">&#9679;</span> Fintech</div>
+        <div class="item"><span style="color:var(--green)">&#9679;</span> Shipped</div>
+      </div>
+      <div class="finder-files">
+        <div style="font-size:11px;color:var(--text-secondary);margin-bottom:12px;padding:0 4px">8 items &mdash; ~/Products/</div>
+        <div class="finder-grid">
+          ${products.map(p=>`<div class="finder-file" onclick="openWindow('${p.id}')"><div class="icon">${p.icon}</div><div class="name">${p.name}</div></div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const pos=getWindowPos(ww,wh);
+  const win=document.createElement('div');
+  win.className='window';
+  win.id='win-'+id;
+  win.style.cssText=`width:${ww}px;height:${wh}px;left:${pos.x}px;top:${pos.y}px;z-index:${++windowZ}`;
+  win.innerHTML=`
+    <div class="titlebar" onmousedown="startDrag(event,'${id}')">
+      <div class="traffic-lights">
+        <div class="tl tl-close" onclick="closeWindow('${id}')"></div>
+        <div class="tl tl-minimize" onclick="minimizeWindow('${id}')"></div>
+        <div class="tl tl-maximize" onclick="maximizeWindow('${id}')"></div>
+      </div>
+      <span class="titlebar-icon">${titleIcon}</span>
+      <span class="titlebar-text">${title}</span>
+    </div>
+    ${html}`;
+  win.addEventListener('mousedown',()=>focusWindow(win));
+  document.getElementById('windows-container').appendChild(win);
+  openWindows[id]=win;
+  const dot=document.getElementById('dot-'+id);
+  if(dot)dot.classList.add('active');
+  focusWindow(win);
+}
+
+function focusWindow(el){
+  document.querySelectorAll('.window').forEach(w=>w.classList.remove('focused'));
+  el.classList.add('focused');
+  el.style.zIndex=++windowZ;
+}
+
+function closeWindow(id){
+  const el=openWindows[id];
+  if(!el)return;
+  el.style.transition='transform 0.3s cubic-bezier(0.4,0,1,1),opacity 0.2s';
+  el.style.transform='scale(0.7)';el.style.opacity='0';
+  setTimeout(()=>{el.remove();delete openWindows[id]},300);
+  const dot=document.getElementById('dot-'+id);
+  if(dot)dot.classList.remove('active');
+}
+
+function minimizeWindow(id){
+  const el=openWindows[id];
+  if(el)el.classList.toggle('minimized');
+}
+
+function maximizeWindow(id){
+  const el=openWindows[id];
+  if(!el)return;
+  if(el.dataset.maximized==='true'){
+    const p=windowPositions[id]||{};
+    el.style.left=p.left||'60px';el.style.top=p.top||'50px';
+    el.style.width=p.width||'640px';el.style.height=p.height||'480px';
+    el.style.borderRadius='12px';
+    el.dataset.maximized='false';
+  } else {
+    windowPositions[id]={left:el.style.left,top:el.style.top,width:el.style.width,height:el.style.height};
+    el.style.transition='all 0.25s cubic-bezier(0.16,1,0.3,1)';
+    el.style.left='0';el.style.top='var(--menubar-h)';
+    el.style.width='100vw';el.style.height=`calc(100vh - var(--menubar-h) - 78px)`;
+    el.style.borderRadius='0';
+    el.dataset.maximized='true';
+    setTimeout(()=>{el.style.transition=''},260);
+  }
+}
+
+// ── DRAGGING ──
+let dragState=null;
+function startDrag(e,id){
+  if(e.target.classList.contains('tl'))return;
+  const el=openWindows[id];
+  if(!el||window.innerWidth<=768)return;
+  el.style.transition='none';
+  dragState={el,id,startX:e.clientX,startY:e.clientY,
+    origX:parseInt(el.style.left),origY:parseInt(el.style.top)};
+  focusWindow(el);
+  e.preventDefault();
+}
+document.addEventListener('mousemove',e=>{
+  if(!dragState)return;
+  const dx=e.clientX-dragState.startX, dy=e.clientY-dragState.startY;
+  dragState.el.style.left=(dragState.origX+dx)+'px';
+  dragState.el.style.top=Math.max(28,dragState.origY+dy)+'px';
+});
+document.addEventListener('mouseup',()=>{dragState=null});
+
+// ── SPOTLIGHT ──
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key===' '){
+    e.preventDefault();
+    const ol=document.getElementById('spotlight-overlay');
+    ol.classList.toggle('show');
+    if(ol.classList.contains('show')){
+      document.getElementById('spotlight-input').value='';
+      document.getElementById('spotlight-input').focus();
+      filterSpotlight('');
+    }
+  }
+  if(e.key==='Escape'){document.getElementById('spotlight-overlay').classList.remove('show')}
+});
+function closeSpotlight(e){if(e.target.id==='spotlight-overlay')e.target.classList.remove('show')}
+function filterSpotlight(q){
+  const res=document.getElementById('spotlight-results');
+  const items=allApps.filter(a=>a.name.toLowerCase().includes(q.toLowerCase()));
+  res.innerHTML=items.map(a=>`
+    <div class="spotlight-item" onclick="openWindow('${a.id}');document.getElementById('spotlight-overlay').classList.remove('show')">
+      <span class="s-icon">${a.icon}</span>
+      <span class="s-label">${a.name}</span>
+      <span class="s-type">${a.type}</span>
+    </div>`).join('');
+}
+
+// ── BOOT SEQUENCE ──
+window.addEventListener('load',()=>{
+  // notification
+  const notif=document.createElement('div');
+  notif.className='notification';
+  notif.innerHTML=`<div class="notif-icon">&#128075;</div><div class="notif-text"><h4>Welcome to georgOS</h4><p>Click apps in the dock or press <strong>Cmd+Space</strong> to search. Have fun exploring!</p></div>`;
+  document.body.appendChild(notif);
+  setTimeout(()=>{notif.style.transition='opacity 0.4s,transform 0.4s';notif.style.opacity='0';notif.style.transform='translateY(-10px)';setTimeout(()=>notif.remove(),400)},5000);
+
+  // auto-open windows
+  if(window.innerWidth<=768){
+    // Mobile: open all windows as stacked cards
+    setTimeout(()=>{
+      openWindow('about');
+      products.forEach((p,i)=>openWindow(p.id));
+      openWindow('terminal');
+    },300);
+  } else {
+    setTimeout(()=>openWindow('about'),600);
+    setTimeout(()=>openWindow('terminal'),900);
+  }
+});
+
+// ── TOUCH DRAGGING ──
+document.addEventListener('touchstart',e=>{
+  const tb=e.target.closest('.titlebar');
+  if(!tb||e.target.classList.contains('tl')||window.innerWidth<=768)return;
+  const win=tb.closest('.window');
+  if(!win)return;
+  const id=win.id.replace('win-','');
+  const touch=e.touches[0];
+  win.style.transition='none';
+  dragState={el:win,id,startX:touch.clientX,startY:touch.clientY,
+    origX:parseInt(win.style.left),origY:parseInt(win.style.top)};
+  focusWindow(win);
+},{passive:true});
+document.addEventListener('touchmove',e=>{
+  if(!dragState)return;
+  const t=e.touches[0];
+  const dx=t.clientX-dragState.startX, dy=t.clientY-dragState.startY;
+  dragState.el.style.left=(dragState.origX+dx)+'px';
+  dragState.el.style.top=Math.max(28,dragState.origY+dy)+'px';
+},{passive:true});
+document.addEventListener('touchend',()=>{dragState=null});
+</script>
+</body>
+</html>

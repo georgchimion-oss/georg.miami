@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georg Chimion — A Monograph</title>
+<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--page:#FAF6EE;--page-2:#F2ECDF;--ink:#1B1A17;--mute:#5E584C;--faint:#9E9685;--rule:#D4CBB8;--mark:#8A2E1F}
+html,body{background:#2A251E;color:var(--ink);font-family:'EB Garamond',serif;font-size:17px;line-height:1.7;min-height:100vh;padding:40px 20px}
+a{color:inherit;text-decoration:none}
+.sans{font-family:'Inter',sans-serif;font-weight:400}
+.back{position:fixed;top:16px;right:20px;z-index:100;font-family:'Inter';font-size:10px;letter-spacing:0.22em;padding:7px 12px;background:var(--page);color:var(--ink);border:1px solid var(--ink);text-transform:uppercase}
+
+/* BOOK shell */
+.book{max-width:980px;margin:0 auto;background:var(--page);box-shadow:0 20px 60px rgba(0,0,0,0.4),inset 0 0 80px rgba(139,108,48,0.06);border:1px solid rgba(0,0,0,0.15);position:relative}
+.book::before{content:'';position:absolute;left:0;top:0;bottom:0;width:10px;background:linear-gradient(90deg,rgba(0,0,0,0.25),transparent);pointer-events:none;z-index:2}
+
+/* folio meta */
+.page{padding:80px 90px;border-bottom:1px solid var(--rule);position:relative;min-height:100vh;display:flex;flex-direction:column}
+.folio{position:absolute;bottom:28px;left:0;right:0;padding:0 90px;display:flex;justify-content:space-between;font-family:'EB Garamond',serif;font-style:italic;font-size:12px;color:var(--mute)}
+.folio .n{font-variant:small-caps;letter-spacing:0.1em;font-style:normal}
+
+/* Title page */
+.title-pg{text-align:center;justify-content:center;min-height:auto;padding-block:120px}
+.title-pg .crest{font-family:'EB Garamond',serif;font-size:28px;color:var(--mute);margin-bottom:60px}
+.title-pg h1{font-family:'EB Garamond',serif;font-weight:500;font-size:clamp(52px,8vw,92px);letter-spacing:-0.02em;line-height:0.95;margin-bottom:14px;text-wrap:balance}
+.title-pg h1 em{font-style:italic;font-weight:400}
+.title-pg .rule{width:80px;height:1px;background:var(--ink);margin:22px auto}
+.title-pg .sub{font-family:'EB Garamond',serif;font-style:italic;font-size:22px;color:var(--mute);margin-bottom:80px;text-wrap:balance;max-width:560px;margin-inline:auto}
+.title-pg .imprint{font-family:'EB Garamond',serif;font-variant:small-caps;letter-spacing:0.18em;font-size:13px;color:var(--ink);margin-top:80px}
+.title-pg .imprint em{font-variant:normal;font-style:italic;letter-spacing:0;display:block;margin-top:8px;color:var(--mute);font-size:14px}
+.title-pg::after{content:'❧';position:absolute;bottom:90px;left:50%;transform:translateX(-50%);font-size:24px;color:var(--mute)}
+
+/* Frontispiece */
+.frontis{padding:80px 90px;display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;min-height:auto}
+.frontis .plate{padding:40px;background:var(--page-2);display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid var(--rule)}
+.frontis .plate img{width:100%;max-width:360px;filter:grayscale(1) contrast(1.08) sepia(0.1);border:1px solid var(--ink)}
+.frontis .plate .cap{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--mute);margin-top:14px;text-align:center}
+.frontis .plate .cap b{font-style:normal;font-variant:small-caps;letter-spacing:0.1em;color:var(--ink);font-weight:500}
+.frontis .op{padding:40px;display:flex;flex-direction:column;justify-content:center;gap:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:18px;color:var(--mute);line-height:1.55}
+.frontis .op p{text-indent:0}
+.frontis .op .sig{font-style:normal;font-variant:small-caps;letter-spacing:0.14em;font-size:13px;color:var(--ink);margin-top:20px}
+
+/* Contents page */
+.toc{padding:80px 90px}
+.toc-h{font-family:'EB Garamond',serif;font-style:italic;font-weight:500;font-size:44px;letter-spacing:-0.01em;margin-bottom:6px}
+.toc .sub{font-family:'EB Garamond',serif;font-style:italic;font-size:15px;color:var(--mute);margin-bottom:40px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.toc ol{list-style:none}
+.toc li{display:grid;grid-template-columns:40px 1fr auto;gap:14px;padding:10px 0;align-items:baseline;border-bottom:1px dotted var(--rule);font-size:18px}
+.toc li .rn{font-variant:small-caps;letter-spacing:0.1em;color:var(--mute);font-size:13px}
+.toc li .tt em{font-style:italic;color:var(--mute)}
+.toc li .pg{font-family:'EB Garamond',serif;font-variant:small-caps;letter-spacing:0.1em;color:var(--mute);font-size:13px}
+
+/* Chapter opener */
+.chap-open{padding:120px 90px 80px;text-align:center}
+.chap-open .n{font-family:'EB Garamond',serif;font-variant:small-caps;letter-spacing:0.28em;font-size:13px;color:var(--mark);margin-bottom:24px}
+.chap-open h2{font-family:'EB Garamond',serif;font-weight:500;font-size:clamp(44px,6vw,72px);letter-spacing:-0.015em;line-height:1;margin-bottom:18px;text-wrap:balance}
+.chap-open h2 em{font-style:italic;font-weight:400}
+.chap-open .epigraph{font-family:'EB Garamond',serif;font-style:italic;font-size:17px;color:var(--mute);max-width:440px;margin:40px auto 0;line-height:1.5;padding-top:24px;border-top:1px solid var(--ink);text-wrap:pretty}
+.chap-open .epigraph::before{content:'';display:block;width:40px;height:1px;background:var(--ink);margin:0 auto 24px;position:relative;top:-25px}
+.chap-open .src{margin-top:14px;font-style:normal;font-variant:small-caps;letter-spacing:0.12em;font-size:11px;color:var(--mute)}
+
+/* Body — works as prose */
+.work-pg{padding:80px 90px}
+.work-pg h3{font-family:'EB Garamond',serif;font-weight:500;font-size:40px;letter-spacing:-0.015em;line-height:1.05;margin-bottom:4px;text-wrap:balance}
+.work-pg h3 em{font-style:italic;font-weight:400}
+.work-pg .chapter{font-family:'EB Garamond',serif;font-variant:small-caps;letter-spacing:0.24em;font-size:11px;color:var(--mark);margin-bottom:8px}
+.work-pg .sub{font-family:'EB Garamond',serif;font-style:italic;font-size:17px;color:var(--mute);margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.work-pg .body{column-count:2;column-gap:36px;text-align:justify;hyphens:auto}
+.work-pg .body p{margin-bottom:10px;text-indent:1.2em;font-size:16px;line-height:1.7}
+.work-pg .body p:first-of-type{text-indent:0}
+.work-pg .body p:first-of-type::first-letter{font-family:'EB Garamond',serif;font-weight:500;float:left;font-size:54px;line-height:0.9;padding:4px 10px 0 0}
+.work-pg .body p:first-of-type::first-line{font-variant:small-caps;letter-spacing:0.06em}
+.work-pg .marg{margin-top:30px;padding-top:14px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:baseline;font-family:'EB Garamond',serif;font-variant:small-caps;letter-spacing:0.1em;font-size:12px;color:var(--mute)}
+.work-pg .marg .go{color:var(--mark);font-variant:normal;font-style:italic;letter-spacing:0}
+
+/* Colophon — back matter */
+.colophon-pg{padding:100px 90px;text-align:center;background:var(--page-2)}
+.colophon-pg .orn{font-size:24px;color:var(--mute);margin-bottom:26px}
+.colophon-pg h2{font-family:'EB Garamond',serif;font-weight:500;font-size:44px;letter-spacing:-0.01em;margin-bottom:6px}
+.colophon-pg h2 em{font-style:italic;font-weight:400}
+.colophon-pg .sub{font-family:'EB Garamond',serif;font-style:italic;font-size:17px;color:var(--mute);max-width:480px;margin:0 auto 34px;line-height:1.5}
+.chans{display:grid;grid-template-columns:repeat(2,1fr);gap:0;max-width:640px;margin:0 auto;border:1px solid var(--ink)}
+.ch{padding:18px 20px;text-align:left;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.ch:nth-child(2),.ch:nth-child(4){border-right:0}
+.ch:nth-last-child(-n+2){border-bottom:0}
+.ch .l{font-family:'EB Garamond',serif;font-variant:small-caps;letter-spacing:0.14em;font-size:11px;color:var(--mute);margin-bottom:4px}
+.ch a{font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:var(--ink)}
+.ch a:hover{color:var(--mark)}
+.colophon-pg .fine{font-family:'EB Garamond',serif;font-style:italic;font-size:12px;color:var(--mute);margin-top:60px;padding-top:20px;border-top:1px solid var(--rule);max-width:560px;margin-inline:auto;line-height:1.6}
+
+@media (max-width:900px){.page,.title-pg,.frontis,.toc,.chap-open,.work-pg,.colophon-pg{padding:48px 28px}.frontis{grid-template-columns:1fr}.frontis .plate{border-right:0;border-bottom:1px solid var(--rule)}.work-pg .body{column-count:1}.chans{grid-template-columns:1fr}.ch{border-right:0!important}.folio{padding:0 28px}}
+</style>
+</head>
+<body>
+<a href="design-gallery.html" class="back">← Gallery</a>
+
+<div class="book">
+
+<section class="page title-pg">
+  <div class="crest">❦</div>
+  <h1>Georg <em>Chimion</em></h1>
+  <div class="rule"></div>
+  <div class="sub">A monograph, in six works, <br>on the practice of shipping.</div>
+  <div class="imprint">
+    Volume IV
+    <em>Wynwood Editions · Miami · MMXXVI</em>
+  </div>
+  <div class="folio"><span class="n">i</span><span><em>Title</em></span><span><em>Chimion · Monograph</em></span></div>
+</section>
+
+<section class="page frontis">
+  <figure class="plate">
+    <img src="georg-hero.jpeg" alt="Frontispiece — Georg Chimion.">
+    <div class="cap"><b>Frontispiece.</b> <em>The author, photographed in Wynwood,</em> MMXXVI.</div>
+  </figure>
+  <div class="op">
+    <p>"I have come to believe that the <em>difference between a pilot and a product</em> is whether anyone is still using it on a Tuesday."</p>
+    <p>"This monograph collects the author's present body of shipped work — with supporting notes, correspondence, and a permissive invitation to write."</p>
+    <div class="sig">— The Editors</div>
+  </div>
+  <div class="folio"><span class="n">ii</span><span><em>Frontispiece</em></span><span><em>Chimion · Monograph</em></span></div>
+</section>
+
+<section class="page toc">
+  <div class="toc-h">Contents</div>
+  <div class="sub">In six chapters, with a note, an epigraph, and an invitation.</div>
+  <ol>
+    <li><span class="rn">I.</span><span class="tt">Vestia — <em>the six-module platform</em></span><span class="pg">p. 12</span></li>
+    <li><span class="rn">II.</span><span class="tt">Ask Penny — <em>a copilot for the household</em></span><span class="pg">p. 28</span></li>
+    <li><span class="rn">III.</span><span class="tt">Agent Factory — <em>on multi-agent delegation</em></span><span class="pg">p. 44</span></li>
+    <li><span class="rn">IV.</span><span class="tt">ReconX — <em>the ledger, reconciled</em></span><span class="pg">p. 62</span></li>
+    <li><span class="rn">V.</span><span class="tt">Onboard — <em>a three-minute curriculum</em></span><span class="pg">p. 80</span></li>
+    <li><span class="rn">VI.</span><span class="tt">VENUE — <em>the art of the private evening</em></span><span class="pg">p. 96</span></li>
+    <li><span class="rn">⁂</span><span class="tt">Colophon — <em>correspondence and thanks</em></span><span class="pg">p. 114</span></li>
+  </ol>
+  <div class="folio"><span class="n">iii</span><span><em>Contents</em></span><span><em>Chimion · Monograph</em></span></div>
+</section>
+
+<section class="page chap-open">
+  <div class="n">Part the First</div>
+  <h2>Works in <em>Production.</em></h2>
+  <div class="epigraph">"The elegance of a shipped system is not in what it does on paper. It is in whether it holds, quietly, on the next Tuesday, and the next, and the one after that."
+    <div class="src">— G. C., unpublished notes</div>
+  </div>
+  <div class="folio"><span class="n">11</span><span><em>Part I · Opener</em></span><span><em>Chimion · Monograph</em></span></div>
+</section>
+
+<a href="https://vestia.georg.miami"><section class="page work-pg">
+  <div class="chapter">Chapter I</div>
+  <h3><em>Vestia,</em> or the six-module platform.</h3>
+  <div class="sub">A study in property operations, begun 2024 — installed across South Florida.</div>
+  <div class="body">
+    <p>Every condominium association, by the third month of its existence, discovers the same six problems in approximately the same order: something needs fixing, somebody has not paid, a document is missing, a tenant has appeared without warning, a vendor has sent an invoice that nobody can read, and the board meets on Tuesday.</p>
+    <p>Vestia, composed over the course of two years for a consortium of South Florida properties, addresses these six problems in their natural sequence. A triage module reads maintenance requests and routes them by urgency. A compliance module watches the calendar and files what must be filed. A collections module writes the letters that must be written, though more politely than the properties had written them before.</p>
+    <p>There is a fourth module, for screening, and a fifth, for documents, and a sixth, for vendors. Each is composed to a single design principle: the board should leave the Tuesday meeting having done less work, not more.</p>
+    <p>This is not the ordinary fate of software in this sector. The ordinary fate involves a six-month sales cycle, a nine-month implementation, and a twenty-minute quiet funeral. Vestia, in its current form, runs the operations of several associations who have asked not to be named — a courtesy the monograph is happy to extend.</p>
+  </div>
+  <div class="marg"><span>See also: Chap. IV — <em>ReconX</em></span><span class="go">Open the platform →</span></div>
+  <div class="folio"><span class="n">12</span><span><em>I · Vestia</em></span><span><em>Chimion · Monograph</em></span></div>
+</section></a>
+
+<a href="https://penny.georg.miami"><section class="page work-pg">
+  <div class="chapter">Chapter II</div>
+  <h3>Ask <em>Penny,</em> or the household copilot.</h3>
+  <div class="sub">A personal-finance study, begun 2025 — composed in conversation with Claude and Teller.</div>
+  <div class="body">
+    <p>The household budget, considered honestly, is not a spreadsheet. It is a quiet argument between what the family means to do and what the family has, in fact, just done at the grocery store. Ask Penny was composed to sit in the middle of this argument without taking a side — an amiable intermediary who reads the bank feed and offers, each morning, a brief account.</p>
+    <p>The piece reads the day's transactions, arranges them, notes the unusual, remembers the regular, and writes — in a short paragraph — what has changed since yesterday. It does not shout. It does not pester. It does, on occasion, ask whether the coffee line item is really about the coffee, which the family is welcome to ignore.</p>
+    <p>The composition uses a modern language model as its narrator and an open banking integration as its ear. It is the plainest of all the works in this volume and, perhaps for that reason, the one the author's family uses most.</p>
+    <p>A companion note, on the matter of not nagging, appears in the appendix.</p>
+  </div>
+  <div class="marg"><span>See also: Appendix A — <em>On not nagging</em></span><span class="go">Open the copilot →</span></div>
+  <div class="folio"><span class="n">28</span><span><em>II · Ask Penny</em></span><span><em>Chimion · Monograph</em></span></div>
+</section></a>
+
+<a href="https://factory.georg.miami"><section class="page work-pg">
+  <div class="chapter">Chapter III</div>
+  <h3>Agent <em>Factory,</em> on delegation.</h3>
+  <div class="sub">A study in multi-agent systems, composed 2025 — for the production of websites from a brief.</div>
+  <div class="body">
+    <p>The question the piece addresses is an old one in this sector: what can be delegated? The composition answers in four parts — a Project Manager, a Coder, a Reviewer, and a Deployer — each an autonomous instance of Claude, each with its own tools and its own shorter temper about its narrow job.</p>
+    <p>The four agents take a single-paragraph brief and deliver, without further human supervision, a production website. They quarrel with each other in a log file, which the author has permitted to remain visible in the interest of craft.</p>
+    <p>The piece is, among other things, an argument for division of labor: no single model, presently, does all four jobs with equal grace. Four models, each confined to one, do.</p>
+  </div>
+  <div class="marg"><span>See also: Chap. V — <em>Onboard</em></span><span class="go">Open the factory →</span></div>
+  <div class="folio"><span class="n">44</span><span><em>III · Agent Factory</em></span><span><em>Chimion · Monograph</em></span></div>
+</section></a>
+
+<a href="https://reconx.georg.miami"><section class="page work-pg">
+  <div class="chapter">Chapter IV</div>
+  <h3><em>ReconX,</em> the ledger reconciled.</h3>
+  <div class="sub">A financial composition, begun 2024 — installed beneath treasury functions.</div>
+  <div class="body">
+    <p>There is a room in every bank where reconciliation is performed, and it is usually the room where the lights have been on for some time. ReconX was composed for this room. It performs a multi-pass match against the day's transactions, raises exceptions to the level required, and produces a nostro proof against a service-level timer.</p>
+    <p>The installation is, in every case so far, a quiet one. The piece does its work beneath the floorboards. One notices it, much as one notices a reliable furnace, only in its absence.</p>
+  </div>
+  <div class="marg"><span>See also: Chap. I — <em>Vestia</em></span><span class="go">Open the engine →</span></div>
+  <div class="folio"><span class="n">62</span><span><em>IV · ReconX</em></span><span><em>Chimion · Monograph</em></span></div>
+</section></a>
+
+<section class="page colophon-pg" id="hire">
+  <div class="orn">❧</div>
+  <h2>A note on <em>correspondence.</em></h2>
+  <div class="sub">Commissions are welcomed for the coming season. The author replies to each letter within a day.</div>
+  <div class="chans">
+    <div class="ch"><div class="l">By post</div><a href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a></div>
+    <div class="ch"><div class="l">Professionally</div><a href="https://linkedin.com/in/georgchimion">LinkedIn · /in/georgchimion</a></div>
+    <div class="ch"><div class="l">At the source</div><a href="https://github.com/georgchimion-oss">GitHub · @georgchimion-oss</a></div>
+    <div class="ch"><div class="l">In person</div><a href="https://miami.georg.miami">Miami AI · Wynwood</a></div>
+  </div>
+  <p class="fine"><em>Composed in EB Garamond by the author, in Miami, in the fourth quarter of MMXXVI. Set at the Wynwood Editions office, and published complimentary in this first digital edition. All eleven pieces continue in production at the time of printing.</em></p>
+  <div class="folio"><span class="n">114</span><span><em>Colophon</em></span><span><em>Chimion · Monograph</em></span></div>
+</section>
+
+</div>
+
+</body>
+</html>

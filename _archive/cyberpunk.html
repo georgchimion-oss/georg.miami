@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEORG CHIMION // CYBERPUNK PORTFOLIO</title>
+    <meta name="description" content="Georg Chimion — AI Automation Specialist. Cyberpunk portfolio.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* =============================================
+           RESET & BASE
+        ============================================= */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --neon-pink: #ff0066;
+            --neon-yellow: #ffe100;
+            --bg-dark: #0d0d0d;
+            --bg-card: #111111;
+            --bg-card-hover: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-muted: #888;
+            --border-circuit: #ff006644;
+            --warning-yellow: #ffe100;
+            --warning-black: #0d0d0d;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* =============================================
+           KATAKANA FLOATING BACKGROUND
+        ============================================= */
+        .katakana-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            opacity: 0.06;
+        }
+
+        .katakana-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 18px;
+            color: var(--neon-pink);
+            writing-mode: vertical-rl;
+            animation: katakana-fall linear infinite;
+            white-space: nowrap;
+            letter-spacing: 8px;
+        }
+
+        .katakana-column:nth-child(1) { left: 5%; animation-duration: 25s; animation-delay: 0s; }
+        .katakana-column:nth-child(2) { left: 15%; animation-duration: 30s; animation-delay: 3s; color: var(--neon-yellow); }
+        .katakana-column:nth-child(3) { left: 25%; animation-duration: 22s; animation-delay: 7s; }
+        .katakana-column:nth-child(4) { left: 38%; animation-duration: 28s; animation-delay: 2s; color: var(--neon-yellow); }
+        .katakana-column:nth-child(5) { left: 50%; animation-duration: 35s; animation-delay: 5s; }
+        .katakana-column:nth-child(6) { left: 62%; animation-duration: 20s; animation-delay: 10s; color: var(--neon-yellow); }
+        .katakana-column:nth-child(7) { left: 75%; animation-duration: 27s; animation-delay: 1s; }
+        .katakana-column:nth-child(8) { left: 88%; animation-duration: 32s; animation-delay: 8s; color: var(--neon-yellow); }
+        .katakana-column:nth-child(9) { left: 95%; animation-duration: 24s; animation-delay: 4s; }
+
+        @keyframes katakana-fall {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(200vh); }
+        }
+
+        /* =============================================
+           NEON TEXT EFFECTS
+        ============================================= */
+        .neon-pink {
+            color: var(--neon-pink);
+            text-shadow:
+                0 0 7px var(--neon-pink),
+                0 0 10px var(--neon-pink),
+                0 0 21px var(--neon-pink),
+                0 0 42px var(--neon-pink),
+                0 0 82px var(--neon-pink);
+        }
+
+        .neon-yellow {
+            color: var(--neon-yellow);
+            text-shadow:
+                0 0 7px var(--neon-yellow),
+                0 0 10px var(--neon-yellow),
+                0 0 21px var(--neon-yellow),
+                0 0 42px #ffaa0088,
+                0 0 82px #ffaa0044;
+        }
+
+        .neon-pink-subtle {
+            color: var(--neon-pink);
+            text-shadow:
+                0 0 5px var(--neon-pink),
+                0 0 10px var(--neon-pink);
+        }
+
+        /* =============================================
+           GLITCH EFFECT
+        ============================================= */
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+        }
+
+        .glitch::before {
+            color: #0ff;
+            z-index: -1;
+            animation: glitch-shift-1 3s infinite linear alternate-reverse;
+            clip-path: inset(20% 0 60% 0);
+        }
+
+        .glitch::after {
+            color: var(--neon-pink);
+            z-index: -1;
+            animation: glitch-shift-2 2.5s infinite linear alternate-reverse;
+            clip-path: inset(60% 0 10% 0);
+        }
+
+        @keyframes glitch-shift-1 {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 2px); }
+            40% { transform: translate(3px, -1px); }
+            60% { transform: translate(-1px, 3px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-shift-2 {
+            0% { transform: translate(0); }
+            25% { transform: translate(2px, -3px); }
+            50% { transform: translate(-3px, 1px); }
+            75% { transform: translate(1px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* =============================================
+           WARNING STRIPE
+        ============================================= */
+        .warning-stripe {
+            width: 100%;
+            height: 6px;
+            background: repeating-linear-gradient(
+                -45deg,
+                var(--warning-yellow),
+                var(--warning-yellow) 10px,
+                var(--warning-black) 10px,
+                var(--warning-black) 20px
+            );
+        }
+
+        .warning-stripe-thick {
+            height: 10px;
+        }
+
+        /* =============================================
+           DIAGONAL SECTIONS
+        ============================================= */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 5%;
+        }
+
+        .section--clipped {
+            clip-path: polygon(0 4%, 100% 0, 100% 96%, 0 100%);
+            padding: 140px 5% 140px;
+        }
+
+        .section--clipped-alt {
+            clip-path: polygon(0 0, 100% 4%, 100% 100%, 0 96%);
+            padding: 140px 5% 140px;
+        }
+
+        .section--dark { background: var(--bg-dark); }
+        .section--darker { background: #080808; }
+        .section--accent { background: #0a0a0a; }
+
+        /* =============================================
+           NAV
+        ============================================= */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 0;
+            background: rgba(13, 13, 13, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 0, 102, 0.15);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+        }
+
+        .nav-logo span:first-child { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
+        .nav-logo span:last-child { color: var(--neon-yellow); text-shadow: 0 0 10px var(--neon-yellow); }
+
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-pink);
+            text-shadow: 0 0 8px var(--neon-pink);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 1px;
+            background: var(--neon-pink);
+            box-shadow: 0 0 6px var(--neon-pink);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-hamburger span {
+            width: 24px; height: 2px;
+            background: var(--neon-pink);
+            transition: all 0.3s;
+        }
+
+        /* =============================================
+           HERO
+        ============================================= */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(0.45) saturate(0.4) contrast(1.1);
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(13,13,13,0.7) 0%, rgba(13,13,13,0.2) 40%, rgba(13,13,13,0.9) 100%),
+                linear-gradient(90deg, rgba(255,0,102,0.08) 0%, transparent 50%);
+        }
+
+        .hero-scanlines {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.15) 2px,
+                rgba(0,0,0,0.15) 4px
+            );
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--neon-yellow);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-shadow: 0 0 8px var(--neon-yellow);
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.8rem, 7vw, 6rem);
+            letter-spacing: 4px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+        }
+
+        .hero-subtitle strong {
+            color: var(--neon-pink);
+            font-weight: 600;
+            text-shadow: 0 0 6px rgba(255,0,102,0.4);
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-cyber {
+            display: inline-block;
+            padding: 14px 36px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+            transition: all 0.3s;
+        }
+
+        .btn-cyber--pink {
+            background: var(--neon-pink);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255,0,102,0.4);
+        }
+
+        .btn-cyber--pink:hover {
+            box-shadow: 0 0 40px rgba(255,0,102,0.6), inset 0 0 20px rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-cyber--outline {
+            background: transparent;
+            color: var(--neon-yellow);
+            border: 2px solid var(--neon-yellow);
+            box-shadow: 0 0 15px rgba(255,225,0,0.2);
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+        }
+
+        .btn-cyber--outline:hover {
+            background: rgba(255,225,0,0.1);
+            box-shadow: 0 0 30px rgba(255,225,0,0.3);
+            transform: translateY(-2px);
+        }
+
+        .hero-location {
+            margin-top: 30px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+        }
+
+        .hero-location .blink {
+            animation: blink 1.2s step-end infinite;
+            color: var(--neon-pink);
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* =============================================
+           STATS BAR
+        ============================================= */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 1200px;
+            margin: -60px auto 0;
+            position: relative;
+            z-index: 10;
+            background: var(--bg-card);
+            border: 1px solid var(--neon-pink);
+            box-shadow: 0 0 30px rgba(255,0,102,0.15);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 32px 20px;
+            border-right: 1px solid rgba(255,0,102,0.2);
+            position: relative;
+        }
+
+        .stat-item:last-child { border-right: none; }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* =============================================
+           SECTION HEADERS
+        ============================================= */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            transform: skewX(-3deg);
+        }
+
+        .section-header h2::before {
+            content: '// ';
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        .section-header .section-sub {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            margin-top: 12px;
+            text-transform: uppercase;
+        }
+
+        /* =============================================
+           PRODUCT DATA CARDS
+        ============================================= */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .data-card {
+            background: var(--bg-card);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+            border: 1px solid rgba(255,0,102,0.15);
+        }
+
+        /* Circuit-trace animated border */
+        .data-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px dashed rgba(255,0,102,0.25);
+            pointer-events: none;
+            animation: circuit-trace 4s linear infinite;
+        }
+
+        @keyframes circuit-trace {
+            0% { border-color: rgba(255,0,102,0.15); }
+            50% { border-color: rgba(255,0,102,0.5); }
+            100% { border-color: rgba(255,0,102,0.15); }
+        }
+
+        /* HUD corners */
+        .data-card::after {
+            content: '';
+            position: absolute;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            pointer-events: none;
+            border: none;
+            background:
+                linear-gradient(var(--neon-pink), var(--neon-pink)) top left,
+                linear-gradient(var(--neon-pink), var(--neon-pink)) top left,
+                linear-gradient(var(--neon-pink), var(--neon-pink)) top right,
+                linear-gradient(var(--neon-pink), var(--neon-pink)) top right,
+                linear-gradient(var(--neon-pink), var(--neon-pink)) bottom left,
+                linear-gradient(var(--neon-pink), var(--neon-pink)) bottom left,
+                linear-gradient(var(--neon-pink), var(--neon-pink)) bottom right,
+                linear-gradient(var(--neon-pink), var(--neon-pink)) bottom right;
+            background-size:
+                20px 1px, 1px 20px,
+                20px 1px, 1px 20px,
+                20px 1px, 1px 20px,
+                20px 1px, 1px 20px;
+            background-repeat: no-repeat;
+            background-position:
+                top left, top left,
+                top right, top right,
+                bottom left, bottom left,
+                bottom right, bottom right;
+            opacity: 0.5;
+            transition: opacity 0.4s;
+        }
+
+        .data-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 40px rgba(255,0,102,0.15);
+        }
+
+        .data-card:hover::after { opacity: 1; }
+
+        .card-screenshot {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-screenshot img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            filter: saturate(0.7) brightness(0.9);
+            transition: all 0.5s;
+        }
+
+        .data-card:hover .card-screenshot img {
+            filter: saturate(1) brightness(1);
+            transform: scale(1.03);
+        }
+
+        .card-screenshot::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, var(--bg-card));
+        }
+
+        .card-status {
+            position: absolute;
+            top: 12px; right: 12px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .card-status--live {
+            background: var(--neon-pink);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(255,0,102,0.5);
+        }
+
+        .card-status--beta {
+            background: var(--neon-yellow);
+            color: #000;
+            box-shadow: 0 0 12px rgba(255,225,0,0.5);
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .card-body h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .card-body .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .card-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .card-tech span {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255,225,0,0.3);
+            color: var(--neon-yellow);
+            text-transform: uppercase;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--neon-pink);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .card-link:hover {
+            text-shadow: 0 0 10px var(--neon-pink);
+            gap: 14px;
+        }
+
+        .card-link::after {
+            content: '>';
+            transition: transform 0.3s;
+        }
+
+        .card-link:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* =============================================
+           EXPERTISE SECTION
+        ============================================= */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .expertise-item {
+            padding: 28px;
+            border: 1px solid rgba(255,0,102,0.15);
+            background: rgba(17,17,17,0.8);
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .expertise-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink);
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .expertise-item:hover::before { opacity: 1; }
+
+        .expertise-item:hover {
+            background: rgba(255,0,102,0.03);
+            border-color: rgba(255,0,102,0.3);
+        }
+
+        .expertise-item h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--neon-yellow);
+            margin-bottom: 10px;
+            text-shadow: 0 0 6px rgba(255,225,0,0.3);
+        }
+
+        .expertise-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* =============================================
+           CONTACT SECTION
+        ============================================= */
+        .contact-layout {
+            display: flex;
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .contact-photo {
+            flex-shrink: 0;
+            width: 220px;
+            height: 220px;
+            position: relative;
+        }
+
+        .contact-photo img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: saturate(0.6) contrast(1.1);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+        }
+
+        .contact-photo::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-yellow));
+            z-index: -1;
+        }
+
+        .contact-info { flex: 1; }
+
+        .contact-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+        }
+
+        .contact-role {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--neon-yellow);
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            text-shadow: 0 0 6px rgba(255,225,0,0.3);
+        }
+
+        .contact-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .contact-links a {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-links a:hover {
+            color: var(--neon-pink);
+            text-shadow: 0 0 8px rgba(255,0,102,0.4);
+            transform: translateX(6px);
+        }
+
+        .contact-links .link-label {
+            color: var(--text-muted);
+            min-width: 90px;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+
+        /* =============================================
+           FOOTER
+        ============================================= */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer span { color: var(--neon-pink); }
+
+        /* =============================================
+           SCROLLBAR
+        ============================================= */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-pink); box-shadow: 0 0 6px var(--neon-pink); }
+
+        /* =============================================
+           RESPONSIVE
+        ============================================= */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: rgba(13,13,13,0.97);
+                padding: 20px 40px;
+                gap: 16px;
+                border-bottom: 1px solid var(--neon-pink);
+            }
+            .nav-hamburger { display: flex; }
+            .nav-inner { padding: 12px 20px; }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+                margin: -40px 16px 0;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                padding: 0 10px;
+            }
+
+            .contact-layout {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+                padding: 0 20px;
+            }
+
+            .contact-links { align-items: center; }
+
+            .section { padding: 80px 4%; }
+            .section--clipped, .section--clipped-alt {
+                clip-path: polygon(0 2%, 100% 0, 100% 98%, 0 100%);
+                padding: 100px 4%;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .stat-number { font-size: 1.8rem; }
+            .hero h1 { letter-spacing: 1px; }
+            .expertise-grid { grid-template-columns: 1fr; }
+        }
+
+        /* =============================================
+           ANIMATIONS
+        ============================================= */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Pulse for live indicators */
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .pulse-dot {
+            display: inline-block;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #0f0;
+            margin-right: 6px;
+            animation: pulse-dot 1.5s infinite;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<!-- Design Variations Switcher -->
+<div style="position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;">Design</span>
+  <select onchange="if(this.value)window.location=this.value" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 8px;font-size:11px;font-family:monospace;cursor:pointer;">
+    <option value="index.html">Default</option>
+    <option value="cinematic.html">Cinematic</option>
+    <option value="premiere.html">Premiere</option>
+    <option value="maximal.html">Maximal</option>
+    <option value="synthwave.html">Synthwave</option>
+    <option value="cyberpunk.html" selected>Cyberpunk</option>
+    <option value="desktop.html">Desktop OS</option>
+    <option value="brutalist.html">Brutalist</option>
+    <option value="gaming.html">Gaming</option>
+    <option value="noir.html">Noir</option>
+    <option value="neon.html">Neon</option>
+  </select>
+</div>
+
+
+
+<!-- Katakana Background -->
+<div class="katakana-bg" aria-hidden="true">
+    <div class="katakana-column">アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン</div>
+    <div class="katakana-column">ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポ</div>
+    <div class="katakana-column">システムオンラインデータリンクプロトコルアクティブ</div>
+    <div class="katakana-column">ニューロリンクジャックインサイバースペースネットランナー</div>
+    <div class="katakana-column">アクセスポイントファイアウォールバイパスエンクリプション</div>
+    <div class="katakana-column">コマンドラインインターフェースプログラムコードデバッグ</div>
+    <div class="katakana-column">テクノロジーイノベーションオートメーションシステム</div>
+    <div class="katakana-column">マトリックスバーチャルリアリティデジタルフロンティア</div>
+    <div class="katakana-column">プロセッサメモリストレージネットワークセキュリティ</div>
+</div>
+
+<!-- Nav -->
+<nav>
+    <div class="warning-stripe"></div>
+    <div class="nav-inner">
+        <div class="nav-logo">
+            <span>GEORG</span><span>.MIAMI</span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#products">Products</a></li>
+            <li><a href="#expertise">Expertise</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-hamburger" id="navHamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-bg">
+        <img src="georg-hero.jpeg" alt="Georg Chimion" loading="eager">
+    </div>
+    <div class="hero-scanlines"></div>
+    <div class="hero-content">
+        <div class="hero-tag">// SYSTEM ONLINE</div>
+        <h1>
+            <span class="glitch neon-pink" data-text="GEORG">GEORG</span><br>
+            <span class="glitch neon-yellow" data-text="CHIMION">CHIMION</span>
+        </h1>
+        <p class="hero-subtitle">
+            <strong>AI AUTOMATION SPECIALIST &middot; MIAMI</strong> &mdash; AI automation for the enterprise.
+        </p>
+        <div class="hero-cta">
+            <a href="#products" class="btn-cyber btn-cyber--pink">View Products</a>
+            <a href="#contact" class="btn-cyber btn-cyber--outline">Get in Touch</a>
+        </div>
+        <div class="hero-location">
+            <span class="blink">&#9608;</span> Wynwood, Miami FL &mdash; Currently at PwC
+        </div>
+    </div>
+</section>
+
+<!-- Stats Bar -->
+<div class="stats-bar fade-up">
+    <div class="stat-item">
+        <span class="stat-number neon-pink">8</span>
+        <span class="stat-label">Live Systems</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number neon-yellow">6+</span>
+        <span class="stat-label">Products</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number neon-pink">PwC</span>
+        <span class="stat-label">Currently At</span>
+    </div>
+</div>
+
+<!-- Products -->
+<section class="section section--dark" id="products">
+    <div class="section-header fade-up">
+        <h2 class="neon-pink-subtle">From idea to deployment.</h2>
+        <div class="section-sub">Each project built end-to-end &mdash; from architecture to live demo.</div>
+    </div>
+    <div class="warning-stripe warning-stripe-thick" style="max-width:1400px;margin:0 auto 40px;"></div>
+    <div class="products-grid">
+
+        <!-- Vestia -->
+        <div class="data-card fade-up">
+            <div class="card-screenshot">
+                <img src="screenshots/vestia.png" alt="Vestia" loading="lazy">
+                <span class="card-status card-status--live"><span class="pulse-dot"></span>LIVE</span>
+            </div>
+            <div class="card-body">
+                <h3 class="neon-pink-subtle">Vestia</h3>
+                <p class="card-desc">AI property management for South Florida condos. Six modules: triage, compliance, collections, screening, docs, vendors.</p>
+                <div class="card-tech">
+                    <span>React</span><span>Node.js</span><span>Claude AI</span><span>PostgreSQL</span>
+                </div>
+                <a href="https://vestia.georg.miami" target="_blank" class="card-link">Launch</a>
+            </div>
+        </div>
+
+        <!-- Ask Penny -->
+        <div class="data-card fade-up">
+            <div class="card-screenshot">
+                <img src="screenshots/askpenny-dashboard.png" alt="Ask Penny" loading="lazy">
+                <span class="card-status card-status--live"><span class="pulse-dot"></span>LIVE</span>
+            </div>
+            <div class="card-body">
+                <h3 class="neon-pink-subtle">Ask Penny</h3>
+                <p class="card-desc">AI finance assistant powered by Claude. Connect your bank, track spending, budgets, and smart insights.</p>
+                <div class="card-tech">
+                    <span>Express</span><span>Claude AI</span><span>Tiller</span><span>PostgreSQL</span>
+                </div>
+                <a href="https://penny.georg.miami" target="_blank" class="card-link">Launch</a>
+            </div>
+        </div>
+
+        <!-- Agent Factory -->
+        <div class="data-card fade-up">
+            <div class="card-screenshot">
+                <img src="screenshots/factory.png" alt="Agent Factory" loading="lazy">
+                <span class="card-status card-status--live"><span class="pulse-dot"></span>LIVE</span>
+            </div>
+            <div class="card-body">
+                <h3 class="neon-pink-subtle">Agent Factory</h3>
+                <p class="card-desc">4 autonomous AI agents collaborate to build production websites from a brief. Watch them work in real-time.</p>
+                <div class="card-tech">
+                    <span>Node.js</span><span>SSE</span><span>Claude AI</span><span>Multi-Agent</span>
+                </div>
+                <a href="https://factory.georg.miami" target="_blank" class="card-link">Launch</a>
+            </div>
+        </div>
+
+        <!-- VENUE -->
+        <div class="data-card fade-up">
+            <div class="card-screenshot">
+                <img src="screenshots/venue.png" alt="VENUE" loading="lazy">
+                <span class="card-status card-status--live"><span class="pulse-dot"></span>LIVE</span>
+            </div>
+            <div class="card-body">
+                <h3 class="neon-pink-subtle">VENUE</h3>
+                <p class="card-desc">Premium private event booking. Wizard for happy hours, dinners, DJ lounges, full buyouts.</p>
+                <div class="card-tech">
+                    <span>Next.js</span><span>React</span><span>AI Search</span><span>SSR</span>
+                </div>
+                <a href="https://venue.georg.miami" target="_blank" class="card-link">Launch</a>
+            </div>
+        </div>
+
+        <!-- ReconX -->
+        <div class="data-card fade-up">
+            <div class="card-screenshot">
+                <img src="screenshots/reconx.png" alt="ReconX" loading="lazy">
+                <span class="card-status card-status--live"><span class="pulse-dot"></span>LIVE</span>
+            </div>
+            <div class="card-body">
+                <h3 class="neon-pink-subtle">ReconX</h3>
+                <p class="card-desc">Cloud-native reconciliation. Multi-pass matching, exception management, SLA tracking.</p>
+                <div class="card-tech">
+                    <span>React</span><span>TypeScript</span><span>Matching Engine</span><span>Audit</span>
+                </div>
+                <a href="https://reconx.georg.miami" target="_blank" class="card-link">Launch</a>
+            </div>
+        </div>
+
+        <!-- AI Doc Intelligence -->
+        <div class="data-card fade-up">
+            <div class="card-screenshot">
+                <img src="screenshots/docai.png" alt="AI Doc Intelligence" loading="lazy">
+                <span class="card-status card-status--live"><span class="pulse-dot"></span>LIVE</span>
+            </div>
+            <div class="card-body">
+                <h3 class="neon-pink-subtle">AI Document Intelligence</h3>
+                <p class="card-desc">Upload a PDF, watch AI extract structured data in real-time. Field-level confidence scores.</p>
+                <div class="card-tech">
+                    <span>Claude AI</span><span>OCR</span><span>NLP</span><span>Classification</span>
+                </div>
+                <a href="https://docs.georg.miami" target="_blank" class="card-link">Launch</a>
+            </div>
+        </div>
+
+        <!-- ROI Calculator -->
+        <div class="data-card fade-up">
+            <div class="card-screenshot">
+                <img src="screenshots/roi.png" alt="ROI Calculator" loading="lazy">
+                <span class="card-status card-status--live"><span class="pulse-dot"></span>LIVE</span>
+            </div>
+            <div class="card-body">
+                <h3 class="neon-pink-subtle">ROI Calculator</h3>
+                <p class="card-desc">Interactive tool for enterprise leaders to estimate ROI of AI automation initiatives.</p>
+                <div class="card-tech">
+                    <span>Vanilla JS</span><span>Analytics</span><span>Financial Modeling</span>
+                </div>
+                <a href="https://roi.georg.miami" target="_blank" class="card-link">Launch</a>
+            </div>
+        </div>
+
+        <!-- SpaceWalk -->
+        <div class="data-card fade-up">
+            <div class="card-screenshot">
+                <img src="screenshots/spacewalk.png" alt="SpaceWalk" loading="lazy">
+                <span class="card-status card-status--live"><span class="pulse-dot"></span>LIVE</span>
+            </div>
+            <div class="card-body">
+                <h3 class="neon-yellow">SpaceWalk</h3>
+                <p class="card-desc">Turn floor plan blueprints into interactive 3D walkthroughs for real estate and venue visualization.</p>
+                <div class="card-tech">
+                    <span>WebGL</span><span>3D</span><span>Real-time Data</span><span>Immersive</span>
+                </div>
+                <a href="https://spacewalk.georg.miami" target="_blank" class="card-link">Launch</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Expertise -->
+<section class="section section--clipped section--darker" id="expertise">
+    <div class="section-header fade-up">
+        <h2 class="neon-yellow">What I bring.</h2>
+        <div class="section-sub">End-to-end &mdash; from system design to deployed product.</div>
+    </div>
+    <div class="expertise-grid">
+        <div class="expertise-item fade-up">
+            <h4>AI Systems</h4>
+            <p>Claude API, multi-agent orchestration, document intelligence, and AI-powered workflow automation built for production environments.</p>
+        </div>
+        <div class="expertise-item fade-up">
+            <h4>Finance &amp; Risk</h4>
+            <p>Reconciliation engines, insider threat detection, fraud scoring, compliance automation, and exception management with SLA tracking.</p>
+        </div>
+        <div class="expertise-item fade-up">
+            <h4>Full-Stack</h4>
+            <p>React, TypeScript, Node.js, PostgreSQL, cloud infrastructure. Architecture to deployment — end-to-end ownership with no handoff gaps.</p>
+        </div>
+        <div class="expertise-item fade-up">
+            <h4>Rapid Build</h4>
+            <p>From concept to working prototype in days, not months. Fast iteration with real users — six live products already in portfolio.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section class="section section--dark" id="contact">
+    <div class="section-header fade-up">
+        <h2 class="neon-pink-subtle">Let's work together.</h2>
+        <div class="section-sub">Taking on select consulting and contract engagements.</div>
+    </div>
+    <div class="warning-stripe" style="max-width:1000px;margin:0 auto 40px;"></div>
+    <div class="contact-layout fade-up">
+        <div class="contact-photo">
+            <img src="georg.jpeg" alt="Georg Chimion">
+        </div>
+        <div class="contact-info">
+            <h3 class="neon-pink-subtle">Georg Chimion</h3>
+            <div class="contact-role">AI Automation Specialist // PwC</div>
+            <ul class="contact-links">
+                <li>
+                    <a href="mailto:georg.chimion@gmail.com">
+                        <span class="link-label">Email</span>
+                        georg.chimion@gmail.com
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/georgchimion-oss" target="_blank">
+                        <span class="link-label">GitHub</span>
+                        georgchimion-oss
+                    </a>
+                </li>
+                <li>
+                    <a href="https://linkedin.com/in/georgchimion" target="_blank">
+                        <span class="link-label">LinkedIn</span>
+                        georgchimion
+                    </a>
+                </li>
+                <li>
+                    <a href="https://georg.miami" target="_blank">
+                        <span class="link-label">Location</span>
+                        Wynwood, Miami FL
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div class="warning-stripe warning-stripe-thick"></div>
+
+<!-- Footer -->
+<footer>
+    <span>&copy; 2026 Georg Chimion. Miami, FL.</span> &mdash; <span>Built with Claude</span>
+</footer>
+
+<!-- Scroll Animation Script -->
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Close mobile nav on link click
+    document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('open');
+        });
+    });
+</script>
+
+</body>
+</html>
