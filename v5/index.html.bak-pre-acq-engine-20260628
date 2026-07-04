@@ -5,65 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Georg Chimion · AI automation for the enterprise</title>
 <meta name="description" content="Georg Chimion builds production AI systems for finance and regulated industries. 15 live AI products, 12 client audits, multi-agent Claude systems on real data. Miami.">
-<link rel="canonical" href="https://georg.miami/">
-<!-- Social preview card so the link looks professional when shared (LinkedIn, email, Slack) -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://georg.miami/">
-<meta property="og:title" content="Georg Chimion · AI automation for the enterprise">
-<meta property="og:description" content="Production AI systems for finance and regulated industries. 15 live AI products, 12 client audits, multi-agent Claude systems on real data. Miami.">
-<meta property="og:image" content="https://georg.miami/georg-hero.jpeg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Georg Chimion · AI automation for the enterprise">
-<meta name="twitter:description" content="Production AI systems for finance and regulated industries. 15 live AI products, 12 client audits, multi-agent Claude systems on real data. Miami.">
-<meta name="twitter:image" content="https://georg.miami/georg-hero.jpeg">
-<!-- Structured data: lets Google + AI search (ChatGPT, Perplexity, Claude) understand who Georg is, what he does, and where. Drives rich results + AI citations. -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": "https://georg.miami/#georg",
-      "name": "Georg Chimion",
-      "jobTitle": "AI Automation Consultant",
-      "url": "https://georg.miami/",
-      "image": "https://georg.miami/georg-hero.jpeg",
-      "description": "Georg Chimion builds production AI systems for finance and regulated industries: reconciliation, fraud, compliance, and document processing, plus live AI products and growth audits.",
-      "knowsAbout": ["AI automation", "Finance AI", "Compliance automation", "Document processing", "Multi-agent systems", "Claude", "Fraud detection", "Reconciliation", "Power Platform"],
-      "address": { "@type": "PostalAddress", "addressLocality": "Miami", "addressRegion": "FL", "addressCountry": "US" },
-      "worksFor": { "@type": "Organization", "name": "PwC" }
-    },
-    {
-      "@type": "ProfessionalService",
-      "@id": "https://georg.miami/#service",
-      "name": "Georg Chimion AI Automation",
-      "url": "https://georg.miami/",
-      "image": "https://georg.miami/georg-hero.jpeg",
-      "description": "AI automation for finance and regulated industries in Miami: document processing, reconciliation, fraud and compliance systems, multi-agent Claude products, and growth audits delivered as live branded sites.",
-      "areaServed": [{ "@type": "City", "name": "Miami" }, { "@type": "AdministrativeArea", "name": "Florida" }, { "@type": "Country", "name": "United States" }],
-      "serviceType": ["AI automation", "Finance AI", "Compliance automation", "Document intelligence", "AI product development", "Digital growth audit"],
-      "provider": { "@id": "https://georg.miami/#georg" },
-      "founder": { "@id": "https://georg.miami/#georg" }
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://georg.miami/#faq",
-      "mainEntity": [
-        { "@type": "Question", "name": "What does Georg Chimion do?", "acceptedAnswer": { "@type": "Answer", "text": "Georg builds production AI automation for finance and regulated industries. That means reconciliation, fraud and compliance systems, document processing, and multi-agent products built on Claude, running on real data, not slideware." } },
-        { "@type": "Question", "name": "Do you build AI automation for finance companies in Miami?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Georg is based in Miami and works with finance, banking, and other regulated businesses to automate manual, high-volume work like reconciliation, document review, and compliance reporting." } },
-        { "@type": "Question", "name": "Can you automate document processing and compliance with AI?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. A common starting point is extracting structured data from documents like invoices, statements, and policies, flagging exceptions, then layering compliance and audit trails on top so a regulated team can trust the output." } },
-        { "@type": "Question", "name": "How fast can you ship a working AI prototype?", "acceptedAnswer": { "@type": "Answer", "text": "Usually days, not months. Georg ships a live, clickable prototype on real or realistic data so you can judge the result before committing to a full build." } },
-        { "@type": "Question", "name": "What is a growth audit?", "acceptedAnswer": { "@type": "Answer", "text": "A free, research-first assessment of a business across ten dimensions including security, SEO, performance, content, branding, and AI readiness, delivered as a live branded site within about a week. It shows the gaps; the fixes are the work." } },
-        { "@type": "Question", "name": "How do I work with Georg?", "acceptedAnswer": { "@type": "Answer", "text": "Start with twenty minutes. Bring a problem, leave with a plan, and often a working prototype a few days later. Use the contact form on georg.miami or request a free growth audit." } }
-      ]
-    }
-  ]
-}
-</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23E8604C' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    v5 LIVING STORY · warm gallery register
@@ -81,7 +26,7 @@
   --peach-2:#FFDDC2;
   --line:rgba(32,27,23,.13);
   --line-soft:rgba(32,27,23,.07);
-  --serif:'Playfair Display',Georgia,serif;
+  --serif:'Fraunces',Georgia,serif;
   --sans:'DM Sans',-apple-system,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
   --shadow-warm:0 18px 50px -18px rgba(120,60,40,.22);
@@ -513,19 +458,6 @@ button{font:inherit;cursor:pointer}
 .contact-h em{font-style:italic;color:var(--coral)}
 .contact-sub{color:var(--ink-2);max-width:480px;margin:0 auto 38px}
 .contact-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;align-items:center;margin-bottom:26px}
-.ct-form{max-width:560px;margin:0 auto 22px;text-align:left;border:1.5px solid var(--line);border-radius:22px;padding:clamp(22px,3.5vw,36px);background:#FFFEFB;box-shadow:var(--shadow-warm)}
-.ct-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:560px){.ct-row{grid-template-columns:1fr}}
-.ct-form label{display:block;margin-bottom:16px;font-weight:500;font-size:15px;color:var(--ink)}
-.ct-form input[type=text],.ct-form input[type=email],.ct-form textarea{display:block;width:100%;margin-top:8px;padding:13px 16px;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;transition:border-color .25s,box-shadow .25s}
-.ct-form input:focus,.ct-form textarea:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 4px rgba(232,96,76,.12)}
-.ct-form textarea{resize:vertical;min-height:84px}
-.ct-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:4px}
-.ct-submit{background:var(--coral);color:#FFF8F2;border:none;border-radius:999px;min-height:48px;padding:12px 28px;font-weight:500;font-size:15.5px;cursor:pointer;box-shadow:0 10px 24px -10px rgba(232,96,76,.5);transition:background .25s,transform .2s}
-.ct-submit:hover{background:var(--coral-deep);transform:translateY(-2px)}
-.ct-submit:disabled{opacity:.6;transform:none;cursor:default}
-.ct-error{margin-top:16px;padding:12px 16px;border-radius:12px;background:#FDEDE9;color:var(--coral-deep);font-size:14.5px;border:1px solid rgba(232,96,76,.3)}
-.ct-success{max-width:560px;margin:0 auto 22px;text-align:center;padding:30px 14px;border:1.5px solid var(--line);border-radius:22px;background:#FFFEFB;box-shadow:var(--shadow-warm)}
 .flourish{width:160px;margin:44px auto 0;display:block}
 .flourish path{fill:none;stroke:var(--coral);stroke-width:2;stroke-linecap:round}
 .footer{
@@ -570,7 +502,7 @@ button{font:inherit;cursor:pointer}
         </div>
       </div>
     </nav>
-    <a class="btn btn-coral magnetic" href="#contact">Book 20 minutes</a>
+    <a class="btn btn-coral magnetic" href="mailto:georg.chimion@gmail.com?subject=Working%20with%20Georg">Book 20 minutes</a>
   </div>
 </header>
 
@@ -593,9 +525,9 @@ button{font:inherit;cursor:pointer}
         <span class="hw"><span class="hw-in">the</span></span>
         <span class="hw"><span class="hw-in"><em>enterprise.</em></span></span>
       </h1>
-      <p class="hero-sub" id="heroSub">Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. 15 live products, 12 client audits. Miami, currently at PwC.</p>
+      <p class="hero-sub" id="heroSub">Enterprise automation, finance AI, and intelligent products. Helping companies reduce operational costs with AI that actually works. Currently at PwC.</p>
       <div class="hero-cta" id="heroCta">
-        <a class="btn btn-coral magnetic" href="#getaudited">Get your free audit <span class="arr">&rarr;</span></a>
+        <a class="btn btn-coral magnetic" href="mailto:georg.chimion@gmail.com?subject=Working%20with%20Georg">Book 20 minutes <span class="arr">&rarr;</span></a>
         <a class="btn btn-ghost magnetic" href="#work">See the work</a>
       </div>
     </div>
@@ -1232,7 +1164,7 @@ button{font:inherit;cursor:pointer}
         <span class="idx-desc">Bilingual (FR/EN) Claude intake agent for French founders setting up US entities.</span>
         <span class="idx-go">visit &rarr;</span>
       </a>
-      <a class="idx-row" data-reveal href="https://callflow.georg.miami" data-img="https://georg.miami/screenshots/callflow-ai.png?v=l2">
+      <a class="idx-row" data-reveal href="https://jordan.georg.miami" data-img="https://georg.miami/screenshots/jordan.png?v=l2">
         <span class="idx-num">11</span><span class="idx-name">CallFlow</span>
         <span class="idx-desc">Voice AI for inbound real-estate calls. Streams audio to Claude, captures structured property data live.</span>
         <span class="idx-go">visit &rarr;</span>
@@ -1262,11 +1194,6 @@ button{font:inherit;cursor:pointer}
         <span class="idx-desc">Hands-on sessions for enterprise teams exploring real AI workflows. Live demos with Claude, hosted in Wynwood.</span>
         <span class="idx-go">visit &rarr;</span>
       </a>
-      <a class="idx-row" data-reveal href="https://roi.georg.miami">
-        <span class="idx-num">17</span><span class="idx-name">ROI Calculator</span>
-        <span class="idx-desc">Free tool: estimate what AI automation could save your team in time, money, and errors. Get a tailored plan back.</span>
-        <span class="idx-go">try it &rarr;</span>
-      </a>
     </div>
   </div>
 </section>
@@ -1295,7 +1222,7 @@ button{font:inherit;cursor:pointer}
         </div>
         <div class="fl-links">
           <a class="btn btn-coral magnetic" href="#getaudited">Request an audit <span class="arr">&rarr;</span></a>
-          <a class="u-link mono" style="font-size:13px" href="#contact">Book 20 minutes</a>
+          <a class="u-link mono" style="font-size:13px" href="mailto:georg.chimion@gmail.com?subject=Working%20with%20Georg">Book 20 minutes</a>
         </div>
       </div>
       <div class="fl-stage dial-wrap">
@@ -1508,35 +1435,15 @@ button{font:inherit;cursor:pointer}
     <div class="tag" data-reveal><span class="pulse-dot"></span>contact</div>
     <h2 class="contact-h" data-reveal>Let's <em>talk.</em></h2>
     <p class="contact-sub" data-reveal>Twenty minutes. Bring a problem, leave with a plan, and usually a working prototype a few days later.</p>
-    <form id="ctForm" class="ct-form" data-reveal novalidate>
-      <div class="ct-row">
-        <label>Your name
-          <input type="text" name="name" required autocomplete="name" placeholder="Jane Doe">
-        </label>
-        <label>Work email
-          <input type="email" name="email" required autocomplete="email" placeholder="jane@company.com">
-        </label>
-      </div>
-      <label>What are you working on?
-        <textarea name="message" rows="3" placeholder="A sentence or two about the problem you want solved."></textarea>
-      </label>
-      <div class="ct-actions">
-        <button type="submit" class="ct-submit" id="ctSubmit">Send it <span class="arr">&rarr;</span></button>
-        <a class="u-link" href="mailto:georg.chimion@gmail.com">or just email me</a>
-      </div>
-      <div class="ct-error" id="ctError" hidden></div>
-    </form>
-    <div class="ct-success" id="ctSuccess" hidden>
-      <div class="aq-check-icon">&#10003;</div>
-      <div class="aq-success-title">Got it.</div>
-      <div class="aq-success-text">Your message is in. Georg replies within 24 hours, usually sooner.</div>
+    <div class="contact-cta" data-reveal>
+      <a class="btn btn-coral magnetic" href="mailto:georg.chimion@gmail.com?subject=Working%20with%20Georg">Book 20 minutes <span class="arr">&rarr;</span></a>
+      <a class="u-link" href="mailto:georg.chimion@gmail.com">georg.chimion@gmail.com</a>
     </div>
     <svg class="flourish" viewBox="0 0 160 40" aria-hidden="true">
       <path id="flourishPath" d="M6 24 C 30 8, 44 34, 66 22 C 88 10, 96 32, 118 22 C 132 16, 144 20, 154 16"/>
     </svg>
-    <div class="footer wrap" style="flex-wrap:wrap;gap:8px 18px">
+    <div class="footer wrap">
       <span>Built by hand. Deployed on my own infra.</span>
-      <span><a class="u-link" href="/ai-automation-for-finance-teams-miami/">AI automation for finance teams</a> &middot; <a class="u-link" href="/compliance-automation-consultant/">Compliance automation</a></span>
       <span>georg chimion · miami · &copy; 2026</span>
     </div>
   </div>
@@ -2004,44 +1911,6 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     showStep(1);
-})();
-</script>
-<script>
-/* Contact form: real lead capture -> api.georg.miami/ops/contact -> Slack + on-page confirmation. */
-(function () {
-  var form = document.getElementById('ctForm');
-  if (!form) return;
-  var errEl = document.getElementById('ctError');
-  var okEl = document.getElementById('ctSuccess');
-  var btn = document.getElementById('ctSubmit');
-  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    errEl.hidden = true;
-    var name = form.elements['name'].value.trim();
-    var email = form.elements['email'].value.trim();
-    var message = form.elements['message'].value.trim();
-    if (!name || !email) { errEl.textContent = 'Your name and email, please.'; errEl.hidden = false; return; }
-    if (!emailRe.test(email)) { errEl.textContent = 'That email address looks off.'; errEl.hidden = false; return; }
-    var label = btn.innerHTML;
-    btn.disabled = true; btn.textContent = 'Sending…';
-    fetch('https://api.georg.miami/ops/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, email: email, message: message, page: location.pathname }),
-    }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, data: j }; });
-    }).then(function (res) {
-      if (!res.ok) throw new Error((res.data && res.data.error) || 'Submission failed');
-      form.style.display = 'none';
-      okEl.hidden = false;
-      okEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }).catch(function () {
-      btn.disabled = false; btn.innerHTML = label;
-      errEl.textContent = 'Something went wrong. Email georg.chimion@gmail.com instead.';
-      errEl.hidden = false;
-    });
-  });
 })();
 </script>
 </body>
