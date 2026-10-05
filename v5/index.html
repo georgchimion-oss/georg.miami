@@ -2044,5 +2044,31 @@ window.addEventListener('DOMContentLoaded', function () {
   });
 })();
 </script>
+<!-- georg analytics beacon: pageview + cta_click -> api.georg.miami/ops/track (restored 2026-08-08) -->
+<script>
+(function(){
+  var SLUG = 'apex';
+  var vid, owner = false;
+  try {
+    vid = localStorage.getItem('gv');
+    if (!vid) { vid = (window.crypto && crypto.randomUUID && crypto.randomUUID()) || (String(Date.now()) + Math.random().toString(36).slice(2)); localStorage.setItem('gv', vid); }
+    var q = new URLSearchParams(location.search);
+    if (q.get('iam') === 'georg') localStorage.setItem('go', '1');
+    owner = localStorage.getItem('go') === '1';
+  } catch (e) { if (!vid) vid = String(Date.now()) + Math.random().toString(36).slice(2); }
+  function track(event) {
+    try {
+      fetch('https://api.georg.miami/ops/track', { method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: location.hostname + location.pathname, ref: document.referrer || null, vid: vid, owner: owner, slug: SLUG, event: event || 'pageview', ts: Date.now() }) }).catch(function(){});
+    } catch (e) {}
+  }
+  track('pageview');
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t && t.closest && t.closest('.btn, .aq-submit, .nav-cta')) track('cta_click');
+  }, true);
+})();
+</script>
 </body>
 </html>
