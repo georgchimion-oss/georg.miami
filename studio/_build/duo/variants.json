@@ -1,0 +1,18 @@
+{
+ "a": {
+  "endpoint": "fal-ai/kling-video/v2.6/pro/image-to-video",
+  "prompt": "The small white robot standing on the man's shoulder waves hello with its raised hand and bobs gently. The man keeps his warm smile and gives a small friendly nod. His face stays exactly the same. Subtle, natural motion. Static locked-off camera. The flat green background stays perfectly uniform and still."
+ },
+ "b": {
+  "endpoint": "fal-ai/kling-video/v2.6/pro/image-to-video",
+  "prompt": "The man holds still with the same warm smile, blinking naturally and breathing softly. The small white robot standing on his shoulder waves hello and its glowing eyes blink. Static locked-off camera. The flat green background stays perfectly uniform and still."
+ },
+ "c": {
+  "endpoint": "fal-ai/kling-video/v2.6/pro/image-to-video",
+  "prompt": "The small white robot standing on the man's shoulder waves at the camera, then turns its head toward the man. The man glances at the robot and smiles. Same face, subtle natural motion. Static locked-off camera. The flat green background stays perfectly uniform and still."
+ },
+ "d": {
+  "endpoint": "fal-ai/kling-video/v2.1/pro/image-to-video",
+  "prompt": "The small white robot standing on the man's shoulder waves hello with its raised hand and bobs gently. The man keeps his warm smile and gives a small friendly nod. His face stays exactly the same. Subtle, natural motion. Static locked-off camera. The flat green background stays perfectly uniform and still."
+ }
+}
