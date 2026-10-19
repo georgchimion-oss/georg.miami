@@ -2,33 +2,36 @@
 /* Import this file in every sub-site: <link rel="stylesheet" href="georg-design-system.css"> */
 
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* Reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
-/* Dark mode (default) — warm neutral palette */
+/* SUPERSEDED 2026-10-19: the canonical brand is the live v5 "Living Story" token set
+   (light + coral), inlined per site. The live sites do NOT import this shared file; it
+   is kept for reference and now defaults to light + coral so it can never seed a dark build. */
+/* Light + coral (default) */
 :root {
-    --bg: #0C0C0C;
-    --bg-2: #111111;
-    --surface: #141414;
-    --surface-2: #1C1C1C;
-    --border: rgba(255,255,255,0.08);
-    --border-hover: rgba(255,255,255,0.14);
-    --text: #F0EDE8;
-    --text-2: rgba(240,237,232,0.55);
-    --text-3: rgba(240,237,232,0.30);
-    --accent: #06B6D4;
-    --accent-hover: #22D3EE;
-    --accent-glow: rgba(6,182,212,0.10);
-    --accent-text: #0C0C0C;
+    --bg: #FFFCF7;
+    --bg-2: #FFF7EF;
+    --surface: #FFFFFF;
+    --surface-2: #FBEAE4;
+    --border: rgba(32,27,23,0.13);
+    --border-hover: rgba(32,27,23,0.22);
+    --text: #201B17;
+    --text-2: #5D5349;
+    --text-3: #94887B;
+    --accent: #E8604C;
+    --accent-hover: #CF4733;
+    --accent-glow: rgba(232,96,76,0.12);
+    --accent-text: #FFFFFF;
     --status-green: #10B981;
     --status-green-glow: rgba(16,185,129,0.10);
     --r: 12px;
     --r-sm: 6px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.3);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+    --shadow: 0 1px 3px rgba(120,60,40,0.10);
+    --shadow-lg: 0 18px 50px -18px rgba(120,60,40,0.22);
     /* Spacing scale */
     --space-xs: 8px;
     --space-sm: 12px;
@@ -50,9 +53,9 @@ html { scroll-behavior: smooth; }
     --text: #1A1A1A;
     --text-2: rgba(0,0,0,0.50);
     --text-3: rgba(0,0,0,0.30);
-    --accent: #0891B2;
-    --accent-hover: #0E7490;
-    --accent-glow: rgba(8,145,178,0.08);
+    --accent: #E8604C;
+    --accent-hover: #CF4733;
+    --accent-glow: rgba(232,96,76,0.12);
     --accent-text: #FFFFFF;
     --status-green: #059669;
     --status-green-glow: rgba(5,150,105,0.08);
@@ -75,7 +78,7 @@ a:hover { color: var(--accent-hover); }
 
 /* Typography */
 h1, h2, h3, h4 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Playfair Display', Georgia, serif;
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.2;
